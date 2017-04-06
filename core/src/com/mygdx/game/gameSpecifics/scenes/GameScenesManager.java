@@ -1,8 +1,8 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
-import com.mygdx.game.RenderComponents;
 import com.mygdx.game.scenes.BaseScene;
 import com.mygdx.game.scenes.BaseScenesManager;
+import com.mygdx.game.scenes.RenderComponents;
 
 public class GameScenesManager extends BaseScenesManager {
 

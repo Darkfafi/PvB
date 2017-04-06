@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gameSpecifics.scenes.GameScenesManager;
 import com.mygdx.game.scenes.BaseScenesManager;
+import com.mygdx.game.scenes.RenderComponents;
 
 public class MyGdxGame extends ApplicationAdapter {
 	
