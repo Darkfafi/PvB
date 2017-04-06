@@ -10,8 +10,9 @@ import com.mygdx.game.gameSpecifics.scenes.GameScenesManager;
 import com.mygdx.game.scenes.BaseScenesManager;
 import com.mygdx.game.scenes.RenderComponents;
 
-public class MyGdxGame extends ApplicationAdapter {
-	
+public class MyGdxGame extends ApplicationAdapter 
+{	
+	// Game Settings
 	public static final String TITLE = "Archery Game";
 	
 	public static final int WIDTH = 800;
@@ -20,10 +21,12 @@ public class MyGdxGame extends ApplicationAdapter {
 	public static final int FRAME_RATE = 60;
 	public static final int FRAME_STEP = 1 / FRAME_RATE;
 	
-	private float _timeAfterLastRender = 0;
+	// Scene Handing
 	
+	private float _timeAfterLastRender = 0;
 	private BaseScenesManager _scenesManager;
 	
+	// Rendering
 	private RenderComponents _renderComponents;
 	
 	private SpriteBatch _batch;
@@ -31,7 +34,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private OrthographicCamera _hudCam; 
 	
 	@Override
-	public void create () {
+	public void create () 
+	{
 		_batch = new SpriteBatch();
 		_mainCam = new OrthographicCamera();
 		_hudCam = new OrthographicCamera();
@@ -40,7 +44,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
+	public void render () 
+	{
 		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
@@ -52,6 +57,5 @@ public class MyGdxGame extends ApplicationAdapter {
 			_scenesManager.update(FRAME_STEP);
 			_scenesManager.render();
 		}
-		
 	}
 }

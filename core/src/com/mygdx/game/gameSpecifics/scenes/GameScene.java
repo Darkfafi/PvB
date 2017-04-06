@@ -2,6 +2,11 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.mygdx.game.scenes.BaseScene;
 
+/**
+ * This scene is the main game scene. 
+ * This will spawn and set the world for the game related classes.
+ * @author Ramses Di Perna
+ */
 public class GameScene extends BaseScene {
 
 	@Override

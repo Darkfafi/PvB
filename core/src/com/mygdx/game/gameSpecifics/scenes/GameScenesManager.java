@@ -4,6 +4,11 @@ import com.mygdx.game.scenes.BaseScene;
 import com.mygdx.game.scenes.BaseScenesManager;
 import com.mygdx.game.scenes.RenderComponents;
 
+/**
+ * This class is the definer for the game specific scenes.
+ * It contains the scenes which are able to be switched to and will set the first scene.
+ * @author Ramses Di Perna
+ */
 public class GameScenesManager extends BaseScenesManager {
 
 	public static final int MENU_SCENE = 0;

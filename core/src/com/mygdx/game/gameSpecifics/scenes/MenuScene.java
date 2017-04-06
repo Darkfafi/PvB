@@ -2,6 +2,11 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.mygdx.game.scenes.BaseScene;
 
+/**
+ * This scene is the main menu scene. 
+ * This will spawn and set the world for the menu related classes.
+ * @author Ramses Di Perna
+ */
 public class MenuScene extends BaseScene {
 
 	@Override
