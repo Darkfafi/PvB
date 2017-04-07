@@ -1,5 +1,6 @@
 package com.mygdx.game.events;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -41,7 +42,12 @@ public class EventQueueRoom
 				currentItem = items.get(i);
 				if(currentItem.getType() == event.getType())
 				{
-					currentItem.getMethodData().getMethod().invoke(currentItem.getMethodData().getMethodHolder(), event);
+					try {
+						currentItem.getMethodData().getMethod().invoke(currentItem.getMethodData().getMethodHolder(), event);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}

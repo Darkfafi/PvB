@@ -1,6 +1,6 @@
 package com.mygdx.game.events;
 
-import com.badlogic.gdx.utils.reflect.Method;
+import java.lang.reflect.Method;
 
 /**
  * This class contains all the data about the methods which should be triggered by events
@@ -13,9 +13,10 @@ public class EventMethodData
 	public EventDispatcher ObjectAddedTo;
 	
 	private Method _method;
-	private EventDispatcher _holder;
 	
-	public EventMethodData(Method method, EventDispatcher holderMethod) 
+	private Object _holder;
+	
+	public EventMethodData(Method method, Object holderMethod) 
 	{
 		_method = method;
 		_holder = holderMethod;
@@ -32,9 +33,9 @@ public class EventMethodData
 	
 	/**
 	 * The Class which holds the method which should be triggered by the linked event.
-	 * @return EventDispatcher in EventMethodData
+	 * @return Object as method holder in EventMethodData
 	 */
-	public EventDispatcher getMethodHolder()
+	public Object getMethodHolder()
 	{
 		return _holder;
 	}

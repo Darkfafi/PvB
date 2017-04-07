@@ -1,5 +1,6 @@
 package com.mygdx.game.events;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -11,8 +12,10 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
  */
 public abstract class EventDispatcher 
 {
+	/**
+	 * Added EventListeners to this dispatcher. 
+	 */
 	private ArrayList<ListenerItem> _allListeners = new ArrayList<ListenerItem>();
-	private ArrayList<ListenerItem> _allListenersListeningTo = new ArrayList<ListenerItem>();
 	
 	/**
 	 * Adds an event listener to this EventDispatcher.
@@ -25,7 +28,6 @@ public abstract class EventDispatcher
 		methodData.ObjectAddedTo = this;
 		ListenerItem item = new ListenerItem(type, methodData);
 		_allListeners.add(item);
-		methodData.getMethodHolder()._allListenersListeningTo.add(item);
 	}
 	
 	/**
@@ -60,7 +62,6 @@ public abstract class EventDispatcher
 				if(currentItem.getType().equals(type) && currentItem.getMethodData().getMethod().equals(methodData.getMethod()))
 				{
 					_allListeners.remove(currentItem);
-					methodData.getMethodHolder()._allListenersListeningTo.remove(currentItem);
 					break;
 				}
 			}
@@ -97,6 +98,41 @@ public abstract class EventDispatcher
 	}
 	
 	/**
+	 * Gives the EventMethodData needed for the 'addEventListener' and 'removeEventListener' methods.
+	 * @param eventMethodName is the name of the method in this class which should be converted to an EventMethodData
+	 * @return the EventMethodData for the given method 
+	 */
+	public <T extends Event> EventMethodData getEventMethodData(String eventMethodName)
+	{
+		return getEventMethodData(eventMethodName, this.getClass());
+	}
+	
+	/**
+	 * Gives the EventMethodData needed for the 'addEventListener' and 'removeEventListener' methods.
+	 * @param eventMethodName is the name of the method in the classEventMethodHolder which should be converted to an EventMethodData
+	 * @param classEventMethodHolder the class which contains the method.
+	 * @return the EventMethodData for the given method 
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static EventMethodData getEventMethodData(String eventMethodName, Object classEventMethodHolder)
+	{
+		Method mthd = null;
+		Class currentClass = classEventMethodHolder.getClass();
+		while(currentClass != Object.class && mthd == null)
+		{
+			try {
+				mthd = currentClass.getDeclaredMethod(eventMethodName, Event.class);
+			} catch (NoSuchMethodException | SecurityException e) {
+				// TODO Auto-generated catch block
+				currentClass = currentClass.getSuperclass();
+				e.printStackTrace();
+			}
+		}
+		mthd.setAccessible(true);
+		return new EventMethodData(mthd, classEventMethodHolder);
+	}
+	
+	/**
 	 * Destroys all the listeners which where added to this EventDispatcher
 	 */
 	public void destroyAllListeners()
@@ -104,24 +140,6 @@ public abstract class EventDispatcher
 		for(int i = _allListeners.size() - 1; i >= 0; i--)
 		{
 			this.removeEventListener(_allListeners.get(i).getType(), _allListeners.get(i).getMethodData());
-		}
-	}
-	
-	/**
-	 * Destroys all listeners which this EventDispatcher has added to other EventDispatchers.
-	 */
-	public void destroyAllListenersAdded()
-	{
-		ListenerItem currentItem;
-		EventDispatcher objectAddedTo;
-		if(_allListenersListeningTo.size() > 0)
-		{
-			for(int i = _allListenersListeningTo.size() -1; i >= 0; i--)
-			{
-				currentItem = _allListenersListeningTo.get(i);
-				objectAddedTo = currentItem.getMethodData().ObjectAddedTo;
-				objectAddedTo.removeEventListener(currentItem.getType(),currentItem.getMethodData());
-			}
 		}
 	}
 }
