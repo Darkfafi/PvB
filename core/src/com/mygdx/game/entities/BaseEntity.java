@@ -2,6 +2,7 @@ package com.mygdx.game.entities;
 
 import java.util.ArrayList;
 
+import com.mygdx.game.entities.components.TransformComponent;
 import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
 
@@ -18,11 +19,23 @@ public abstract class BaseEntity extends EventDispatcher
 	
 	private boolean _isDestroyed = false;
 	
+	private TransformComponent _transformComponent;
+	
 	public BaseEntity()
 	{
 		EntitySystem.getInstance(); // To create an instance of the EntitySystem if not already active.
 		GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, this));
+		_transformComponent = this.addComponent(TransformComponent.class);
 		awake();
+	}
+	
+	/**
+	 * Returns the automatically TransformComponent of the Entity
+	 * @return The default TransformComponent.
+	 */
+	public TransformComponent getTransformComponent()
+	{
+		return _transformComponent;
 	}
 	
 	/**
@@ -160,8 +173,10 @@ public abstract class BaseEntity extends EventDispatcher
 			{
 				removeComponent(_components.get(i));
 			}
+			
 			_isDestroyed = true;
 			destroyed();
+			_transformComponent = null;
 		}
 		else
 		{

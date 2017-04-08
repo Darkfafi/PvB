@@ -3,9 +3,12 @@ package com.mygdx.game.entities;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.entities.components.RenderComponent;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
+import com.mygdx.game.scenes.RenderComponents;
 
 /**
  * This is a singleton class which handles all the entity handling.
@@ -60,6 +63,30 @@ public class EntitySystem
 			if(!_destroyStackQueue.isEmpty())
 				_destroyStack.push(_destroyStackQueue.pop());
 		}
+	}
+	
+	/**
+	 * MUST BE CALLED TO RENDER ALL ENTITIES
+	 * Renders all the entities with the 'RenderComponent' which are active.
+	 * @param gameRenderComponents which are used to render the entity
+	 */
+	public void renderEntities(RenderComponents gameRenderComponents)
+	{
+		RenderComponent rc = null;
+		BaseEntity ce = null;
+		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
+		sb.begin();
+		for(int i = _allEntities.size() - 1; i >= 0; i--)
+		{
+			ce = _allEntities.get(i);
+			rc = ce.getComponent(RenderComponent.class);
+			
+			if(rc == null) { continue; }
+			
+			sb.draw(rc.getCurrentTexture(), ce.getTransformComponent().getPositionX(), ce.getTransformComponent().getPositionY());
+			
+		}
+		sb.end();
 	}
 	
 	/**

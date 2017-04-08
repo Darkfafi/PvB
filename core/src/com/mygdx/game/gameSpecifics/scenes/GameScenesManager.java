@@ -1,5 +1,6 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
+import com.mygdx.game.entities.EntitySystem;
 import com.mygdx.game.scenes.BaseScene;
 import com.mygdx.game.scenes.BaseScenesManager;
 import com.mygdx.game.scenes.RenderComponents;
@@ -25,6 +26,19 @@ public class GameScenesManager extends BaseScenesManager {
 		if(sceneId == GAME_SCENE){return new GameScene();}
 		
 		return null;
+	}
+	
+	@Override
+	public void update(float dt)
+	{
+		super.update(dt);
+		EntitySystem.getInstance().updateEntities(dt);
+	}
+	
+	@Override
+	public void render()
+	{
+		EntitySystem.getInstance().renderEntities(this.getRenderComponents());
 	}
 
 }

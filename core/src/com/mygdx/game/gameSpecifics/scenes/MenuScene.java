@@ -1,5 +1,6 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
+import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -30,7 +31,8 @@ public class MenuScene extends BaseScene {
 	@Override
 	protected void created() {
 		// TODO Auto-generated method stub
-
+		Enemy enemy = new Enemy();
+		
 	}
 
 }
