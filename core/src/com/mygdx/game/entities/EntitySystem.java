@@ -8,6 +8,7 @@ import com.mygdx.game.entities.components.RenderComponent;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
+import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.scenes.RenderComponents;
 
 /**
@@ -17,7 +18,7 @@ import com.mygdx.game.scenes.RenderComponents;
  * @author Ramses Di Perna
  *
  */
-public class EntitySystem 
+public class EntitySystem implements IEventReceiver
 {
 	private static EntitySystem _instance;
 	
@@ -40,7 +41,7 @@ public class EntitySystem
 	
 	public EntitySystem()
 	{
-		GlobalDispatcher.getInstance().addEventListener(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, EventDispatcher.getEventMethodData("onEntityCreatedEvent", this));
+		GlobalDispatcher.getInstance().addEventListener(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, this);
 	}
 	
 	/**
@@ -109,6 +110,14 @@ public class EntitySystem
 			_destroyStackQueue.add(entity);
 	}
 	
+	@Override
+	public void onReceiveEvent(Event event) {
+		if(event.getType() == EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED)
+		{
+			onEntityCreatedEvent(event);	
+		}
+	}
+	
 	/**
 	 * Does the real destruction of the entity
 	 * @param entity to destroy
@@ -124,7 +133,6 @@ public class EntitySystem
 	 * Adds the entity which has fired the event to the entity list.
 	 * @param e is the event which was caught.
 	 */
-	@SuppressWarnings("unused")
 	private void onEntityCreatedEvent(Event e)
 	{
 		EntityEvent event = (EntityEvent)e;

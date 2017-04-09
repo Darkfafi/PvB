@@ -10,21 +10,21 @@ public class ListenerItem
 {
 
 	private String _type;
-	private EventMethodData _methodData;
+	private IEventReceiver _listener;
 	
-	public ListenerItem(String type, EventMethodData methodData) 
+	public ListenerItem(String type, IEventReceiver listener) 
 	{
 		_type = type;
-		_methodData = methodData;
+		_listener = listener;
 	}
 	
 	/**
-	 * Returns the EventMethodData linked to the ListenerItem
-	 * @return EventMethodData of ListenerItem
+	 * Returns the listener linked to the ListenerItem
+	 * @return IEventReceiver of ListenerItem
 	 */
-	public EventMethodData getMethodData()
+	public IEventReceiver getListener()
 	{
-		return _methodData;
+		return _listener;
 	}
 	
 	/**

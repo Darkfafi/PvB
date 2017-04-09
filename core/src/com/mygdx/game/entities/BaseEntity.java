@@ -25,7 +25,7 @@ public abstract class BaseEntity extends EventDispatcher
 	{
 		EntitySystem.getInstance(); // To create an instance of the EntitySystem if not already active.
 		GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, this));
-		_transformComponent = this.addComponent(TransformComponent.class);
+		_transformComponent = this.addComponent(new TransformComponent());
 		awake();
 	}
 	
@@ -43,20 +43,11 @@ public abstract class BaseEntity extends EventDispatcher
 	 * @param classType of component to create and add.
 	 * @return the instance of the created component.
 	 */
-	public <T extends BaseEntityComponent> T addComponent(Class<T> classType)
+	public <T extends BaseEntityComponent> T addComponent(T instanceComponent)
 	{
-		T component = null;
-		try {
-			component = classType.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		_components.add(component);
-		component.initialize(this);
-		return component;
+		_components.add(instanceComponent);
+		instanceComponent.initialize(this);
+		return instanceComponent;
 	}
 	
 	/**
@@ -69,7 +60,7 @@ public abstract class BaseEntity extends EventDispatcher
 	{
 		for(int i = 0; i < _components.size(); i++)
 		{
-			if(_components.get(i).getClass().isAssignableFrom(classType))
+			if(_components.get(i).getClass() == classType)
 			{
 				return (T)_components.get(i);
 			}

@@ -1,6 +1,4 @@
 package com.mygdx.game.events;
-
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -21,12 +19,11 @@ public abstract class EventDispatcher
 	 * Adds an event listener to this EventDispatcher.
 	 * NOTE: You must call the method 'removeEventListener' to remove the listen from the EventDispatcher
 	 * @param type of message to listen to.
-	 * @param methodData containing the listener and the method to trigger on receiving the event.
+	 * @param listeningClass is the one which should be triggered on the event.
 	 */
-	public void addEventListener(String type, EventMethodData methodData)
+	public void addEventListener(String type, IEventReceiver listeningClass)
 	{
-		methodData.ObjectAddedTo = this;
-		ListenerItem item = new ListenerItem(type, methodData);
+		ListenerItem item = new ListenerItem(type, listeningClass);
 		_allListeners.add(item);
 	}
 	
@@ -49,9 +46,9 @@ public abstract class EventDispatcher
 	/**
 	 * Removes the event which the was being listened to by the caller.
 	 * @param type of message to remove the listener from
-	 * @param methodData containing the listener and method to remove from the event listening link.
+	 * @param listener is the given class at the listening request which should be triggered on the event.
 	 */
-	public void removeEventListener(String type, EventMethodData methodData)
+	public void removeEventListener(String type, IEventReceiver listener)
 	{
 		ListenerItem currentItem;
 		if(_allListeners.size() > 0)
@@ -59,7 +56,7 @@ public abstract class EventDispatcher
 			for(int i = 0; i < _allListeners.size(); i++)
 			{
 				currentItem = _allListeners.get(i);
-				if(currentItem.getType().equals(type) && currentItem.getMethodData().getMethod().equals(methodData.getMethod()))
+				if(currentItem.getType().equals(type) && currentItem.getListener() == listener)
 				{
 					_allListeners.remove(currentItem);
 					break;
@@ -98,48 +95,13 @@ public abstract class EventDispatcher
 	}
 	
 	/**
-	 * Gives the EventMethodData needed for the 'addEventListener' and 'removeEventListener' methods.
-	 * @param eventMethodName is the name of the method in this class which should be converted to an EventMethodData
-	 * @return the EventMethodData for the given method 
-	 */
-	public <T extends Event> EventMethodData getEventMethodData(String eventMethodName)
-	{
-		return getEventMethodData(eventMethodName, this.getClass());
-	}
-	
-	/**
-	 * Gives the EventMethodData needed for the 'addEventListener' and 'removeEventListener' methods.
-	 * @param eventMethodName is the name of the method in the classEventMethodHolder which should be converted to an EventMethodData
-	 * @param classEventMethodHolder the class which contains the method.
-	 * @return the EventMethodData for the given method 
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static EventMethodData getEventMethodData(String eventMethodName, Object classEventMethodHolder)
-	{
-		Method mthd = null;
-		Class currentClass = classEventMethodHolder.getClass();
-		while(currentClass != Object.class && mthd == null)
-		{
-			try {
-				mthd = currentClass.getDeclaredMethod(eventMethodName, Event.class);
-			} catch (NoSuchMethodException | SecurityException e) {
-				// TODO Auto-generated catch block
-				currentClass = currentClass.getSuperclass();
-				e.printStackTrace();
-			}
-		}
-		mthd.setAccessible(true);
-		return new EventMethodData(mthd, classEventMethodHolder);
-	}
-	
-	/**
 	 * Destroys all the listeners which where added to this EventDispatcher
 	 */
 	public void destroyAllListeners()
 	{
 		for(int i = _allListeners.size() - 1; i >= 0; i--)
 		{
-			this.removeEventListener(_allListeners.get(i).getType(), _allListeners.get(i).getMethodData());
+			this.removeEventListener(_allListeners.get(i).getType(), _allListeners.get(i).getListener());
 		}
 	}
 }

@@ -32,23 +32,13 @@ public class EventQueueRoom
 	 */
 	private static void callMethodsInListOfEvent(ArrayList<ListenerItem> listToLoop, Event event) throws ReflectionException
 	{
-		ListenerItem currentItem;
 		ArrayList<ListenerItem> items = listToLoop;
 		
 		if(items.size() > 0)
 		{
 			for(int i = 0; i < items.size(); i++)
 			{
-				currentItem = items.get(i);
-				if(currentItem.getType() == event.getType())
-				{
-					try {
-						currentItem.getMethodData().getMethod().invoke(currentItem.getMethodData().getMethodHolder(), event);
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				items.get(i).getListener().onReceiveEvent(event);
 			}
 		}
 	}

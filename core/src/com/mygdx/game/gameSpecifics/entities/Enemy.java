@@ -12,7 +12,7 @@ public class Enemy extends BaseEntity
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(RenderComponent.class).setCurrentTexture(MyGdxGame.Resources.getTexture("testImage"));
+		this.addComponent(new RenderComponent()).setCurrentTexture(MyGdxGame.Resources.getTexture("testImage"));
 	}
 
 	@Override
