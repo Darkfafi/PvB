@@ -5,11 +5,13 @@ import java.util.Collection;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.entities.components.RenderComponent;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.Rendering.RenderComponent;
+import com.mygdx.game.entities.components.Rendering.RenderInfo;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
-import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.scenes.RenderComponents;
 
 /**
@@ -75,17 +77,40 @@ public class EntitySystem implements IEventReceiver
 	public void renderEntities(RenderComponents gameRenderComponents)
 	{
 		RenderComponent rc = null;
+		RenderInfo ri = null;
 		BaseEntity ce = null;
 		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
+		sb.setProjectionMatrix(gameRenderComponents.getMainCamera().combined);
 		sb.begin();
 		for(int i = _allEntities.size() - 1; i >= 0; i--)
 		{
 			ce = _allEntities.get(i);
 			rc = ce.getComponent(RenderComponent.class);
+			if(rc == null) 
+			{ 
+				rc = ce.getComponent(AnimationComponent.class);
+				if(rc == null){ continue; }
+			}
 			
-			if(rc == null) { continue; }
+			ri = rc.getRenderInfo();
 			
-			sb.draw(rc.getCurrentTexture(), ce.getTransformComponent().getPositionX(), ce.getTransformComponent().getPositionY());
+			sb.draw(
+					ri.getTextureToDraw(),
+					ce.getTransformComponent().getPositionX() - (rc.getRealWidth()),  /* x the x-coordinate in screen space                                            */
+					ce.getTransformComponent().getPositionY() - (rc.getRealHeight()),  /* y the y-coordinate in screen space                                            */
+				    ri.getCutWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    ri.getCutHeight() * (1 -rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    ri.getCutWidth(),           			 	/* width the width in pixels                                                     */
+				    ri.getCutHeight(),				     	    /* height the height in pixels                                                   */
+				    ce.getTransformComponent().getScaleX(),     /* scaleX the scale of the rectangle around originX/originY in x                 */
+				    ce.getTransformComponent().getScaleY(),     /* scaleY the scale of the rectangle around originX/originY in y                 */
+				    360 - ce.getTransformComponent().getRotation(),   /* rotation the angle of counter clockwise rotation of the rectangle around originX/originY               */
+				    ri.getStartX(),      						/* srcX the x-coordinate in texel space                                          */
+				    ri.getStartY(),      						/* srcY the y-coordinate in texel space 										 */
+				    ri.getCutWidth(),   						/* srcWidth the source with in texels                                            */
+				    ri.getCutHeight(), 							/* srcHeight the source height in texels                                         */
+				    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
+				    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
 			
 		}
 		sb.end();

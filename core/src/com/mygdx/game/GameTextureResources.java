@@ -10,5 +10,6 @@ public class GameTextureResources extends BaseTextureResources
 	{
 		// TODO Auto-generated method stub
 		this.loadResource("testImage", "badlogic.jpg");
+		this.loadResource("cat", "catIdle.png", "catIdleData.xml");
 	}
 }

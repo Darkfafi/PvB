@@ -1,10 +1,19 @@
 package com.mygdx.game.resources;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
+import com.mygdx.game.entities.components.Rendering.FrameInfo;
+import com.mygdx.game.entities.components.Rendering.RenderInfo;
 
 /**
  * This class can be inherited to load in textures from the folders and link them to keys.
@@ -13,14 +22,14 @@ import com.badlogic.gdx.graphics.Texture;
  */
 public abstract class BaseTextureResources 
 {	
-	private HashMap<String, Texture> _texturesUnderKeys = new HashMap<String, Texture>();
+	private HashMap<String, RenderInfo> _texturesUnderKeys = new HashMap<String, RenderInfo>();
 	
 	/**
 	 * Gets a texture by its key which is was given in the 'loadTextureResources' method
 	 * @param key linked to texture
 	 * @return texture linked to the given key
 	 */
-	public Texture getTexture(String key)
+	public RenderInfo getRenderInfo(String key)
 	{
 		return _texturesUnderKeys.get(key);
 	}
@@ -30,7 +39,7 @@ public abstract class BaseTextureResources
 	 */
 	public void disposeAllTextures()
 	{
-		for(Map.Entry<String, Texture> entry : _texturesUnderKeys.entrySet())
+		for(Map.Entry<String, RenderInfo> entry : _texturesUnderKeys.entrySet())
 		{
 			disposeTexture(entry.getValue());
 		}
@@ -42,7 +51,7 @@ public abstract class BaseTextureResources
 	 */
 	public void disposeTexture(String key)
 	{
-		Texture texture = _texturesUnderKeys.get(key);
+		RenderInfo texture = _texturesUnderKeys.get(key);
 		disposeTexture(texture);	
 	}
 	
@@ -60,18 +69,54 @@ public abstract class BaseTextureResources
 	protected void loadResource(String key, String path)
 	{
 		Texture texture = new Texture(Gdx.files.internal(path));
-		_texturesUnderKeys.put(key, texture);
+		_texturesUnderKeys.put(key, new RenderInfo(texture));
+	}
+	
+	protected void loadResource(String key, String pathSheet, String pathXml)
+	{
+		XmlReader reader = new XmlReader();
+		Texture texture = new Texture(Gdx.files.internal(pathSheet));
+		RenderInfo renderInfo = null;
+		Element xmlFile;
+		try {
+			xmlFile = reader.parse(Gdx.files.internal(pathXml));
+			Array<Element> allFrames = xmlFile.getChildrenByName("frame");
+			
+			FrameInfo currentFrameInfo;
+			FrameInfo[] frameInfos = new FrameInfo[allFrames.size];
+			
+			for(int i = 0; i < allFrames.size; i++)
+			{
+				Element frame = allFrames.get(i);
+					
+				int xCut = Integer.parseInt(frame.getChildByName("xPos").getText());
+				int yCut = Integer.parseInt(frame.getChildByName("yPos").getText());
+				int widthCut = Integer.parseInt(frame.getChildByName("width").getText());
+				int heightCut = Integer.parseInt(frame.getChildByName("height").getText());
+					
+				currentFrameInfo = new FrameInfo(xCut, yCut, widthCut, heightCut);
+					
+				frameInfos[i] = currentFrameInfo;
+				
+			}
+			
+			renderInfo = new RenderInfo(texture, frameInfos);
+			_texturesUnderKeys.put(key, renderInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Internally disposes the texture it is given. Does nothing if the given texture has a value of 'null'
 	 * @param texture to dispose. Does nothing with 'null'
 	 */
-	private void disposeTexture(Texture texture)
+	private void disposeTexture(RenderInfo texture)
 	{
 		if(texture != null)
 		{
-			texture.dispose();
+			texture.getTextureToDraw().dispose();
 		}
 	}
 }

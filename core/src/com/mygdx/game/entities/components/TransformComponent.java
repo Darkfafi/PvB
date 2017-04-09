@@ -11,9 +11,9 @@ import com.mygdx.game.entities.BaseEntityComponent;
  */
 public class TransformComponent extends BaseEntityComponent 
 {	
-	private Vector2 _position = new Vector2();
+	private Vector2 _position = new Vector2(0, 0);
 	private float _rotation = 0;
-	private Vector2 _scale = new Vector2();
+	private Vector2 _scale = new Vector2(1, 1);
 	
 	/**
 	 * Returns the X position of the entity.
@@ -59,11 +59,24 @@ public class TransformComponent extends BaseEntityComponent
 		return _scale.y;
 	}
 	
+	/**
+	 * Moves the entity with the given delta amount
+	 * @param deltaToPosition to add to the current position
+	 */
 	public void translatePosition(Vector2 deltaToPosition)
 	{
 		deltaToPosition.x += _position.x;
 		deltaToPosition.y += _position.y;
 		setPosition(deltaToPosition);
+	}
+	
+	/**
+	 * Rotates the entity with the given delta amount
+	 * @param deltaRotation to add to the current rotation
+	 */
+	public void translateRotation(float deltaRotation)
+	{
+		setRotation(_rotation + deltaRotation);
 	}
 	
 	/**

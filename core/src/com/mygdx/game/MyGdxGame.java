@@ -40,7 +40,9 @@ public class MyGdxGame extends ApplicationAdapter
 		Resources.loadTextureResources();
 		_batch = new SpriteBatch();
 		_mainCam = new OrthographicCamera();
+		_mainCam.setToOrtho(false, WIDTH, HEIGHT);
 		_hudCam = new OrthographicCamera();
+		_hudCam.setToOrtho(false, WIDTH, HEIGHT);
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
 		_scenesManager = new GameScenesManager(_renderComponents);
 	}
@@ -50,13 +52,13 @@ public class MyGdxGame extends ApplicationAdapter
 	{
 		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
 		_timeAfterLastRender += Gdx.graphics.getDeltaTime();
 		
 		if(_timeAfterLastRender >= FRAME_STEP)
 		{
 			_timeAfterLastRender -= FRAME_STEP;
 			_scenesManager.update(FRAME_STEP);
+			_renderComponents.update(FRAME_STEP);
 			_scenesManager.render();
 		}
 	}

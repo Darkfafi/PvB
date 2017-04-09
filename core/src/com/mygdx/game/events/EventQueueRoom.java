@@ -1,6 +1,5 @@
 package com.mygdx.game.events;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.reflect.ReflectionException;

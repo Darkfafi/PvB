@@ -46,4 +46,10 @@ public class RenderComponents {
 	{
 		return _spriteBatch;
 	}
+
+	public void update(float deltaTime) 
+	{
+		_mainCam.update();
+		_hudCam.update();
+	}
 }

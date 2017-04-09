@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.components;
+package com.mygdx.game.entities.components.Rendering;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -12,8 +12,10 @@ import com.mygdx.game.entities.BaseEntityComponent;
  */
 public class RenderComponent extends BaseEntityComponent 
 {
-	private Texture _currentTexture = null;
+	private RenderInfo _renderInfo = new RenderInfo();
 	private Vector2 _pivot = new Vector2(0.5f, 0.5f);
+	private boolean _flipX = false;
+	private boolean _flipY = false;
 	
 	/**
 	 * Gets the width of the texture * the scaleX of the entity
@@ -21,7 +23,7 @@ public class RenderComponent extends BaseEntityComponent
 	 */
 	public float getRealWidth()
 	{
-		return this.getParentOfComponent().getTransformComponent().getScaleX() * _currentTexture.getWidth();
+		return this.getParentOfComponent().getTransformComponent().getScaleX() * (float)_renderInfo.getCutWidth();
 	}
 	
 	/**
@@ -30,7 +32,7 @@ public class RenderComponent extends BaseEntityComponent
 	 */
 	public float getRealHeight()
 	{
-		return this.getParentOfComponent().getTransformComponent().getScaleY() * _currentTexture.getHeight();
+		return this.getParentOfComponent().getTransformComponent().getScaleY() * (float)_renderInfo.getCutHeight();
 	}
 	
 	/**
@@ -52,12 +54,33 @@ public class RenderComponent extends BaseEntityComponent
 	}
 	
 	/**
+	 * Sets the pivot point to the new value.
+	 * X = 0 being the far left side and 1 being the far right side of the image.
+	 * Y = 0 being the bottom and 1 being the top of the image
+	 * @param newPivotValue
+	 */
+	public void setPivot(Vector2 newPivotValue)
+	{
+		_pivot = newPivotValue;
+	}
+	
+	public RenderInfo getRenderInfo()
+	{
+		return _renderInfo;
+	}
+	
+	public void setRenderInfo(RenderInfo info)
+	{
+		_renderInfo = info;
+	}
+	
+	/**
 	 * Gets the current texture being rendered.
 	 * @return The texture currently displayed on screen.
 	 */
 	public Texture getCurrentTexture()
 	{
-		return _currentTexture;
+		return _renderInfo.getTextureToDraw();
 	}
 	
 	/**
@@ -66,7 +89,43 @@ public class RenderComponent extends BaseEntityComponent
 	 */
 	public void setCurrentTexture(Texture texture)
 	{
-		_currentTexture = texture;
+		_renderInfo = new RenderInfo(texture);
+	}
+	
+	/**
+	 * Returns whether the image is flipped Horizontally
+	 * @return true indicates it flips else it does not
+	 */
+	public boolean getFlipX()
+	{
+		return _flipX;
+	}
+	
+	/**
+	 * Returns whether the image is flipped Vertically
+	 * @return true indicates it flips else it does not
+	 */
+	public boolean getFlipY()
+	{
+		return _flipY;
+	}
+
+	/**
+	 * Sets whether the image should flip horizontally 
+	 * @param flipX true indicates it flips else it does not
+	 */
+	public void setFlipX(boolean flipX)
+	{
+		_flipX = flipX;
+	}
+	
+	/**
+	 * Sets whether the image should flip vertically 
+	 * @param flipY true indicates it flips else it does not
+	 */
+	public void setFlipY(boolean flipY)
+	{
+		_flipY = flipY;
 	}
 	
 	@Override
