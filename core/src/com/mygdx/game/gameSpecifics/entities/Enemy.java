@@ -3,6 +3,7 @@ package com.mygdx.game.gameSpecifics.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
+import com.mygdx.game.entities.EntitySystem;
 import com.mygdx.game.entities.components.RenderComponent;
 
 public class Enemy extends BaseEntity 
@@ -18,9 +19,9 @@ public class Enemy extends BaseEntity
 	@Override
 	protected void updated(float dt) {
 		// TODO Auto-generated method stub
-		this.getTransformComponent().translatePosition(new Vector2(1, 0));
+		this.getTransformComponent().translatePosition(new Vector2(1, 0));		
 		_time += dt;
-		System.out.println(_time);
+		System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
 		if(_time > 2f)
 		{
 			this.destroy();

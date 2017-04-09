@@ -1,14 +1,15 @@
 package com.mygdx.game.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.entities.components.RenderComponent;
 import com.mygdx.game.events.Event;
-import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
+import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.scenes.RenderComponents;
 
 /**
@@ -116,6 +117,78 @@ public class EntitySystem implements IEventReceiver
 		{
 			onEntityCreatedEvent(event);	
 		}
+	}
+	
+	// Getting entities
+	/**
+	 * Returns the first entity active with the given tag
+	 * @param tag which the entity must have
+	 * @return the entity with the given tag
+	 */
+	public BaseEntity getEntityByTag(String tag)
+	{
+		for(int i = 0; i < _allEntities.size(); i++)
+		{
+			if(_allEntities.get(i).hasTag(tag))
+				return _allEntities.get(i);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns all entities active with the given tag
+	 * @param tag which all the returning entities must have
+	 * @return all the entities with the given tag
+	 */
+	public BaseEntity[] getEntitiesByTag(String tag)
+	{
+		Collection<BaseEntity> entities = new ArrayList<BaseEntity>();
+		
+		for(int i = 0; i < _allEntities.size(); i++)
+		{
+			if(_allEntities.get(i).hasTag(tag))
+				entities.add(_allEntities.get(i));
+		}
+		
+		return (BaseEntity[]) entities.toArray();
+	}
+	
+	/**
+	 * Returns an entity of the given class. (Does not count for extending the given class)
+	 * WARNING: This method looks at the direct class! So everything which inherits the given class is not returned! 
+	 * @param directClass which the entity is to return.
+	 * @return the entity which is of the same class given. 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends BaseEntity> T getEntityByClass(Class<T> directClass)
+	{
+		for(int i = 0; i < _allEntities.size(); i++)
+		{
+			if(_allEntities.get(i).getClass() == directClass)
+				return (T) _allEntities.get(i);
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Returns all entities of the given class. (Does not count for extending the given class)
+	 * WARNING: This method looks at the direct class! So everything which inherits the given class is not returned! 
+	 * @param directClass which all the entities are to return.
+	 * @return the entities which are of the same class given. 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends BaseEntity> Collection<T> getEntitiesByClass(Class<T> directClass)
+	{
+		Collection<T > entities = new ArrayList<T>();
+		for(int i = 0; i < _allEntities.size(); i++)
+		{
+			if(_allEntities.get(i).getClass() == directClass)
+				entities.add((T) _allEntities.get(i));
+		}
+		
+		return entities;
 	}
 	
 	/**
