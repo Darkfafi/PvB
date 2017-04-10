@@ -34,6 +34,8 @@ public class MyGdxGame extends ApplicationAdapter
 	private OrthographicCamera _mainCam;
 	private OrthographicCamera _hudCam; 
 	
+	private boolean c = true;
+	
 	@Override
 	public void create () 
 	{
@@ -45,18 +47,20 @@ public class MyGdxGame extends ApplicationAdapter
 		_hudCam.setToOrtho(false, WIDTH, HEIGHT);
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
 		_scenesManager = new GameScenesManager(_renderComponents);
+
+		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override
 	public void render () 
 	{
-		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		_timeAfterLastRender += Gdx.graphics.getDeltaTime();
 		
-		if(_timeAfterLastRender >= FRAME_STEP)
+		while(_timeAfterLastRender >= FRAME_STEP)
 		{
 			_timeAfterLastRender -= FRAME_STEP;
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			_scenesManager.update(FRAME_STEP);
 			_renderComponents.update(FRAME_STEP);
 			_scenesManager.render();

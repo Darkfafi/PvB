@@ -1,7 +1,9 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
+import com.mygdx.game.gameSpecifics.entities.Enemy2;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -32,8 +34,8 @@ public class MenuScene extends BaseScene {
 	protected void created() {
 		// TODO Auto-generated method stub
 		Enemy enemy = new Enemy();
-		Enemy enemy2 = new Enemy();
-		enemy2.getTransformComponent().translatePosition(new Vector2(0, 10));
+		Enemy2 enemy2 = new Enemy2();
+		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2 ,0));
 		
 	}
 

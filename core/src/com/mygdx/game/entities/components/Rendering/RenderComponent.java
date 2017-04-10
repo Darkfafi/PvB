@@ -10,12 +10,38 @@ import com.mygdx.game.entities.BaseEntityComponent;
  * @author Ramses Di Perna
  *
  */
-public class RenderComponent extends BaseEntityComponent 
+public class RenderComponent extends BaseEntityComponent implements Comparable<RenderComponent>
 {
 	private RenderInfo _renderInfo = new RenderInfo();
 	private Vector2 _pivot = new Vector2(0.5f, 0.5f);
 	private boolean _flipX = false;
 	private boolean _flipY = false;
+	private int _sortingLayer = 0;
+	
+	public RenderComponent(RenderInfo startRenderInfo)
+	{
+		this.setRenderInfo(startRenderInfo);
+	}
+	
+	/**
+	 * The sorting layer indicates the render layer of the entity.
+	 * The higher the value, the more priority the entity has. (0 will be rendered under 1 and so on)
+	 * @return The sorting layer of the entity
+	 */
+	public int getSortingLayer()
+	{
+		return _sortingLayer;
+	}
+	
+	/**
+	 * The sorting layer indicates the render layer of the entity.
+	 * The higher the value, the more priority the entity has. (0 will be rendered under 1 and so on)
+	 * @param sortingLayer is the new layer sorting value for the entity
+	 */
+	public void setSortingLayer(int sortingLayer)
+	{
+		_sortingLayer = sortingLayer;
+	}
 	
 	/**
 	 * Gets the width of the texture * the scaleX of the entity
@@ -71,6 +97,9 @@ public class RenderComponent extends BaseEntityComponent
 	
 	public void setRenderInfo(RenderInfo info)
 	{
+		if(_renderInfo != null)
+			_renderInfo.clean();
+		
 		_renderInfo = info;
 	}
 	
@@ -127,6 +156,20 @@ public class RenderComponent extends BaseEntityComponent
 	{
 		_flipY = flipY;
 	}
+
+	// Overriding the compare method to sort the layer
+	public int compare(RenderComponent d, RenderComponent d1)
+	{
+	  return d.getSortingLayer() - d1.getSortingLayer();
+	}
+	
+
+	// Overriding the compareTo method to sort the layer
+	@Override
+	public int compareTo(RenderComponent comp) 
+	{
+		return _sortingLayer - comp.getSortingLayer();
+	}
 	
 	@Override
 	public void awake() 
@@ -145,7 +188,6 @@ public class RenderComponent extends BaseEntityComponent
 	protected void destroyed() 
 	{
 		// TODO Auto-generated method stub
-
+		_renderInfo.clean();
 	}
-
 }

@@ -43,6 +43,11 @@ public class RenderInfo
 		_frameInfos = frames;
 	}
 	
+	public FrameInfo[] getAllFrameInfos()
+	{
+		return _frameInfos;
+	}
+	
 	/**
 	 * Returns the amount of frame info classes this render info contains.
 	 * @return The amount of frame infos 
@@ -112,5 +117,18 @@ public class RenderInfo
 	public int getCutHeight()
 	{
 		return _frameInfos[_currentFrameInfo].getCutHeight();
+	}
+	
+	/**
+	 * Cleans the data in the RenderInfo Class.
+	 */
+	public void clean()
+	{
+		if(_textureToDraw != null)
+		{
+			_textureToDraw.dispose();
+			_textureToDraw = null;
+		}
+		_frameInfos = null;
 	}
 }

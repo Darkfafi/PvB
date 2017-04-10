@@ -2,13 +2,11 @@ package com.mygdx.game.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
 import com.mygdx.game.entities.components.Rendering.RenderInfo;
@@ -58,7 +56,6 @@ public class EntitySystem implements IEventReceiver
 	public void updateEntities(float dt)
 	{
 		if(_allEntities.size() == 0){return;}
-		
 		while(!_destroyStack.isEmpty())
 			internalDestroyEntity(_destroyStack.peek());
 		
@@ -79,22 +76,17 @@ public class EntitySystem implements IEventReceiver
 	 */
 	public void renderEntities(RenderComponents gameRenderComponents)
 	{
+		ArrayList<RenderComponent> rcs = (ArrayList<RenderComponent>) getSortedRenderElements();
 		RenderComponent rc = null;
 		RenderInfo ri = null;
 		BaseEntity ce = null;
 		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
 		sb.setProjectionMatrix(gameRenderComponents.getMainCamera().combined);
 		sb.begin();
-		for(int i = _allEntities.size() - 1; i >= 0; i--)
+		for(int i = 0; i < rcs.size(); i++)
 		{
-			ce = _allEntities.get(i);
-			rc = ce.getComponent(RenderComponent.class);
-			if(rc == null) 
-			{ 
-				rc = ce.getComponent(AnimationComponent.class);
-				if(rc == null){ continue; }
-			}
-			
+			rc = rcs.get(i);
+			ce = rc.getParentOfComponent();
 			ri = rc.getRenderInfo();
 			
 			sb.draw(
@@ -102,7 +94,7 @@ public class EntitySystem implements IEventReceiver
 					ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
 					ce.getTransformComponent().getPositionY() - rc.getRealHeight() * rc.getPivotY(),  	/* y the y-coordinate in screen space                                            */
 				    rc.getRealWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
-				    rc.getRealHeight() * (1 - rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    rc.getRealHeight() * (rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
 				    rc.getRealWidth(),           			 	/* width the width in pixels                                                     */
 				    rc.getRealHeight(),				     	    /* height the height in pixels                                                   */
 				    1,     /* scaleX the scale of the rectangle around originX/originY in x                 */
@@ -238,7 +230,30 @@ public class EntitySystem implements IEventReceiver
 	{
 		EntityEvent event = (EntityEvent)e;
 		registerEntity(event.getEntity());
-		GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EntityGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, event.getEntity()));
+	}
+	
+	/**
+	 * Gets the RenderComponent for all entities and sorts them on layer
+	 * @return Layer sorted list of RenderComponent elements for each active entity 
+	 */
+	private Collection<RenderComponent> getSortedRenderElements()
+	{
+		List<RenderComponent> rcs = new ArrayList<RenderComponent>();
+		BaseEntity ce;
+		RenderComponent rc;
+		for(int i = 0; i < _allEntities.size(); i++)
+		{
+			ce = _allEntities.get(i);
+			rc = ce.getComponent(RenderComponent.class);
+			if(rc == null) 
+			{ 
+				rc = ce.getComponent(AnimationComponent.class);
+				if(rc == null){ continue; }
+				rcs.add(rc);
+			}
+		}
+		Collections.sort(rcs);
+		return rcs;
 	}
 	
 	/**

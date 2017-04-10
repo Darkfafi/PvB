@@ -12,20 +12,20 @@ public class Enemy extends BaseEntity
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new AnimationComponent()).setRenderInfo(MyGdxGame.Resources.getRenderInfo("cat"));
-		this.getTransformComponent().setScale(new Vector2(0.5f, 0.5f));
+		this.addComponent(new AnimationComponent(MyGdxGame.Resources.getRenderInfo("knight"), true));
+		this.getTransformComponent().setScale(new Vector2(0.7f, 0.7f));
+		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f));
+		this.getComponent(AnimationComponent.class).setSortingLayer(1);
 	}
-
+	
 	@Override
 	protected void updated(float dt) {
 		// TODO Auto-generated method stub
-		this.getTransformComponent().translatePosition(new Vector2(1, 0));
-		this.getTransformComponent().translateRotation(10);
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
 		if(_time > 2f)
 		{
-			this.destroy();
+			//this.destroy();
 		}
 	}
 
