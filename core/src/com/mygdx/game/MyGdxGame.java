@@ -20,7 +20,8 @@ public class MyGdxGame extends ApplicationAdapter
 	public static final int FRAME_RATE = 60;
 	public static final float FRAME_STEP = 1f / FRAME_RATE;
 	
-	public static final GameTextureResources Resources = new GameTextureResources();
+	private static GameTextureResources _textureResources = new GameTextureResources();
+	private static GameAudioResources _audioResources = new GameAudioResources();
 	
 	// Scene Handing
 	
@@ -34,12 +35,22 @@ public class MyGdxGame extends ApplicationAdapter
 	private OrthographicCamera _mainCam;
 	private OrthographicCamera _hudCam; 
 	
-	private boolean c = true;
+	public static GameTextureResources getTextureResources()
+	{
+		return _textureResources;
+	}
+	
+	public static GameAudioResources getAudioResources()
+	{
+		return _audioResources;
+	}
 	
 	@Override
 	public void create () 
 	{
-		Resources.loadTextureResources();
+		getTextureResources().load();
+		getAudioResources().load();
+		
 		_batch = new SpriteBatch();
 		_mainCam = new OrthographicCamera();
 		_mainCam.setToOrtho(false, WIDTH, HEIGHT);
@@ -49,7 +60,6 @@ public class MyGdxGame extends ApplicationAdapter
 		_scenesManager = new GameScenesManager(_renderComponents);
 
 		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override
@@ -65,5 +75,12 @@ public class MyGdxGame extends ApplicationAdapter
 			_renderComponents.update(FRAME_STEP);
 			_scenesManager.render();
 		}
+	}
+	
+	@Override
+	public void dispose()
+	{
+		getTextureResources().clean();
+		getAudioResources().clean();
 	}
 }

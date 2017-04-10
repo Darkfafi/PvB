@@ -6,7 +6,7 @@ public class GameTextureResources extends BaseTextureResources
 {
 
 	@Override
-	public void loadTextureResources() 
+	public void load() 
 	{
 		// TODO Auto-generated method stub
 		this.loadResource("testImage", "badlogic.jpg");

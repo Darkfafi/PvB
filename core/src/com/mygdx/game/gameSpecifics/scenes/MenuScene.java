@@ -36,7 +36,7 @@ public class MenuScene extends BaseScene {
 		Enemy enemy = new Enemy();
 		Enemy2 enemy2 = new Enemy2();
 		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2 ,0));
-		
+		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 	}
 
 }

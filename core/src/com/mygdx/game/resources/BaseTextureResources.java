@@ -1,11 +1,8 @@
 package com.mygdx.game.resources;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +17,7 @@ import com.mygdx.game.entities.components.Rendering.RenderInfo;
  * These textures can also be disposed with this class.
  * @author Ramses Di Perna
  */
-public abstract class BaseTextureResources 
+public abstract class BaseTextureResources extends BaseResource
 {	
 	private HashMap<String, RenderInfo> _texturesUnderKeys = new HashMap<String, RenderInfo>();
 	
@@ -55,11 +52,13 @@ public abstract class BaseTextureResources
 		disposeTexture(texture);	
 	}
 	
-	/**
-	 * This class will be where the textures will be loaded by the extending class.
-	 * The extending class must call the 'loadResource' method for each texture to load.
-	 */
-	public abstract void loadTextureResources();
+	@Override
+	public void clean()
+	{
+		disposeAllTextures();
+		_texturesUnderKeys.clear();
+		_texturesUnderKeys = null;
+	}
 	
 	/**
 	 * Loads a texture at given path into data and links it with the given key
