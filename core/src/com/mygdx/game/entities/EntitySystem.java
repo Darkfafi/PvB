@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
@@ -96,14 +99,14 @@ public class EntitySystem implements IEventReceiver
 			
 			sb.draw(
 					ri.getTextureToDraw(),
-					ce.getTransformComponent().getPositionX() - (rc.getRealWidth()),  /* x the x-coordinate in screen space                                            */
-					ce.getTransformComponent().getPositionY() - (rc.getRealHeight()),  /* y the y-coordinate in screen space                                            */
-				    ri.getCutWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
-				    ri.getCutHeight() * (1 -rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
-				    ri.getCutWidth(),           			 	/* width the width in pixels                                                     */
-				    ri.getCutHeight(),				     	    /* height the height in pixels                                                   */
-				    ce.getTransformComponent().getScaleX(),     /* scaleX the scale of the rectangle around originX/originY in x                 */
-				    ce.getTransformComponent().getScaleY(),     /* scaleY the scale of the rectangle around originX/originY in y                 */
+					ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
+					ce.getTransformComponent().getPositionY() - rc.getRealHeight() * rc.getPivotY(),  	/* y the y-coordinate in screen space                                            */
+				    rc.getRealWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    rc.getRealHeight() * (1 - rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    rc.getRealWidth(),           			 	/* width the width in pixels                                                     */
+				    rc.getRealHeight(),				     	    /* height the height in pixels                                                   */
+				    1,     /* scaleX the scale of the rectangle around originX/originY in x                 */
+				    1,     /* scaleY the scale of the rectangle around originX/originY in y                 */
 				    360 - ce.getTransformComponent().getRotation(),   /* rotation the angle of counter clockwise rotation of the rectangle around originX/originY               */
 				    ri.getStartX(),      						/* srcX the x-coordinate in texel space                                          */
 				    ri.getStartY(),      						/* srcY the y-coordinate in texel space 										 */
