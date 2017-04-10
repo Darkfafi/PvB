@@ -187,7 +187,6 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	protected void destroyed() 
 	{
-		// TODO Auto-generated method stub
-		_renderInfo.clean();
+		
 	}
 }
