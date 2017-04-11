@@ -14,8 +14,8 @@ public class MyGdxGame extends ApplicationAdapter
 	// Game Settings
 	public static final String TITLE = "Archery Game";
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 480;
+	public static final int HEIGHT = 800;
 	
 	public static final int FRAME_RATE = 60;
 	public static final float FRAME_STEP = 1f / FRAME_RATE;
@@ -24,7 +24,6 @@ public class MyGdxGame extends ApplicationAdapter
 	private static GameAudioResources _audioResources = new GameAudioResources();
 	
 	// Scene Handing
-	
 	private float _timeAfterLastRender = 0;
 	private BaseScenesManager _scenesManager;
 	
