@@ -1,8 +1,8 @@
 package com.mygdx.game.resources;
 
 /**
- * 
- * @author Darkfafi
+ * This base class contains all the basics a Resource class has to have.
+ * @author Ramses Di Perna
  *
  */
 public abstract class BaseResource 
