@@ -112,6 +112,17 @@ public class EntitySystem implements IEventReceiver
 	}
 	
 	/**
+	 * Destroys all currently active entities.
+	 */
+	public void destroyAllEntities()
+	{
+		for(int i = _allEntities.size() - 1; i >= 0; i--)
+		{
+			this.destroyEntity(_allEntities.get(i));
+		}
+	}
+	
+	/**
 	 * Checks of the entity is ready for destruction next frame.
 	 * @param entity to check if its ready for destruction next frame.
 	 * @return whether the entity is in the destroyStack.

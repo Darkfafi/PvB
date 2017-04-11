@@ -2,6 +2,8 @@ package com.mygdx.game.scenes;
 
 import java.util.Stack;
 
+import com.mygdx.game.entities.EntitySystem;
+
 /**
  * The BaseScenesManager is the system which controls the switching of scenes.
  * This class must be inherited to specify the scenes which are able to be switched to.
@@ -49,6 +51,7 @@ public abstract class BaseScenesManager
 	public void setScene(int sceneId)
 	{
 		popScene();
+		EntitySystem.getInstance().destroyAllEntities();
 		pushScene(sceneId);
 	}
 	
