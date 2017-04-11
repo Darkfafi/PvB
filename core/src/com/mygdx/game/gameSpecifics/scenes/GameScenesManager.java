@@ -38,6 +38,7 @@ public class GameScenesManager extends BaseScenesManager {
 	@Override
 	public void render()
 	{
+		super.render();
 		EntitySystem.getInstance().renderEntities(this.getRenderComponents());
 	}
 
