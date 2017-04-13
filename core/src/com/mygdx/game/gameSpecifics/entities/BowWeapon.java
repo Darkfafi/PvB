@@ -1,6 +1,5 @@
 package com.mygdx.game.gameSpecifics.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
@@ -19,12 +18,11 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		Draw  		// Preparing and Doing the Shoot method
 	}
 	
-	public static final float MAX_DRAW_LENGTH = 2f;
+	public static final float MAX_DRAW_LENGTH = 250f;
 	
 	private BowStage _currentBowStage = BowStage.Idle; 	// The current stage of the bow
 	private float _drawStrength = 0f;					// The draw strength to release the arrow with
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
-	
 	private int _pointerControllingTouch = -1;
 	
 	@Override
@@ -40,9 +38,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	protected void awake() 
 	{
 		// TODO Auto-generated method stub
-		RenderInfo ri = MyGdxGame.getTextureResources().getRenderInfo("testImage");
-		this.addComponent(new AnimationComponent(ri, true, false));
-		this.getTransformComponent().setScale(new Vector2(1.1f, 0.2f));
+		RenderInfo ri = MyGdxGame.getTextureResources().getRenderInfo("fakeBow");
+		this.addComponent(new AnimationComponent(ri, false, false));
+		this.getTransformComponent().setScale(new Vector2(1.1f, 0.3f));
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 	}
 
@@ -81,20 +79,42 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * Fires the projectile from the bow with a
+	 */
 	private void shoot() 
 	{
 		// Shoot Mechanic
 		_currentBowStage = BowStage.Idle;
 		_pointerControllingTouch = -1;
+		this.getComponent(AnimationComponent.class).getRenderInfo().setCurrentFrameInfo(0); // Reset bow
 	}
 	
 	private void drawMechanic(int posX, int posY) 
 	{
 		Vector2 currentTouchLocation = new Vector2(posX, posY);
-		this._drawStrength = currentTouchLocation.sub(_targetLocation).len() / MAX_DRAW_LENGTH;
-		// TODO: MAYBE: Change projectile current location for matching animation. Check by current frame (Current frame determines location in method)
+		_drawStrength = currentTouchLocation.sub(_targetLocation).len() / MAX_DRAW_LENGTH;
+		_drawStrength *= -(Math.abs(currentTouchLocation.y) / currentTouchLocation.y);  
+		
+		if(_drawStrength > 1)
+		{
+			_drawStrength = 1;
+		}
+		else if(_drawStrength < 0)
+		{
+			_drawStrength = 0;
+		}
+		
+		AnimationComponent ac = this.getComponent(AnimationComponent.class);
+		ac.getRenderInfo().setCurrentFrameInfo((int)((ac.getRenderInfo().getFramesLength() - 1) * _drawStrength));
+		handleProjectilePlacement();
 	}
 
+
+	private void handleProjectilePlacement() 
+	{
+		
+	}
 
 	private void selectTarget(int posX, int posY) 
 	{

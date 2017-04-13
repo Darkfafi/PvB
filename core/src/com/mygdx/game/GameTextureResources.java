@@ -12,6 +12,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource("testImage", "badlogic.jpg");
 		this.loadResource("cat", "catIdle.png", "catIdleData.xml");		
 		this.loadResource("knight", "sprites.png", "sprites.xml");
+		this.loadResource("fakeBow","placeholders/fakeBow.png", "placeholders/fakeBow.xml");
 
 	}
 }
