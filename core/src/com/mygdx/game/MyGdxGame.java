@@ -8,6 +8,7 @@ import com.mygdx.game.gameSpecifics.scenes.GameScenesManager;
 import com.mygdx.game.scenes.BaseScenesManager;
 import com.mygdx.game.scenes.GameCamera;
 import com.mygdx.game.scenes.RenderComponents;
+import com.mygdx.game.touchinput.TouchInputHandler;
 
 public class MyGdxGame extends ApplicationAdapter 
 {	
@@ -51,6 +52,8 @@ public class MyGdxGame extends ApplicationAdapter
 		getTextureResources().load();
 		getAudioResources().load();
 		
+		Gdx.input.setInputProcessor(new TouchInputHandler()); // Set up InputHandling
+		
 		_batch = new SpriteBatch();
 		_mainCam = new GameCamera();
 		_mainCam.setToOrtho(false, WIDTH, HEIGHT);
@@ -58,7 +61,7 @@ public class MyGdxGame extends ApplicationAdapter
 		_hudCam.setToOrtho(false, WIDTH, HEIGHT);
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
 		_scenesManager = new GameScenesManager(_renderComponents);
-
+		
 		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
 	}
 
