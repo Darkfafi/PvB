@@ -80,6 +80,21 @@ public class TransformComponent extends BaseEntityComponent
 	}
 	
 	/**
+	 * Makes the Entity which this component is attached to change its angle to look at the given positionToLookAt
+	 * @param posToLookAt which will be the target to turn towards
+	 * @param percentageTowardsLocation is a value between 0 and 1 with 1 being fully turned to the posToLookAt and 0 being not at all.
+	 */
+	public void lookAt(Vector2 posToLookAt, float percentageTowardsLocation)
+	{
+		Vector2 posToLookAtCopy = new Vector2(posToLookAt.x, posToLookAt.y);
+		Vector2 difference = posToLookAtCopy.sub(_position);
+		difference.nor();
+		float angleToTarget =  -((float) Math.toDegrees(Math.atan2(difference.y, difference.x)) - 90);
+		float newAngle = getRotation() + getShortestAngleDistance(getRotation(), doAngleCirclation(angleToTarget), percentageTowardsLocation);
+		this.setRotation(newAngle);
+	}
+	
+	/**
 	 * Sets the position to a new value
 	 * @param newPosValue overwriting the x and y position of the entity.
 	 */
@@ -94,7 +109,7 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void setRotation(float angleInDeg)
 	{
-		_rotation = angleInDeg;
+		_rotation = doAngleCirclation(angleInDeg);
 	}
 	
 	/**
@@ -121,7 +136,24 @@ public class TransformComponent extends BaseEntityComponent
 	@Override
 	protected void destroyed() 
 	{
-		// TODO Auto-generated method stub
+		_position = null;
+		_scale = null;
 	}
-
+	
+	private float getShortestAngleDistance(float angleOne, float angleTwo, float lerpAmount)
+	{
+		float shortestAngle = ((((angleTwo - angleOne) % 360) + 540) % 360) - 180;
+	    return shortestAngle * lerpAmount;
+	}
+	
+	private float doAngleCirclation(float angle)
+	{
+		while(angle >= 360)
+			angle -= 360;
+		
+		while(angle < 0)
+			angle += 360;
+		
+		return angle;
+	}
 }
