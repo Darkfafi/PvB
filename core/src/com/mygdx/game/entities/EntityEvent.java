@@ -12,7 +12,8 @@ public class EntityEvent extends Event
 {
 	private BaseEntity _entity;
 	
-	public EntityEvent(String type, BaseEntity entity) {
+	public EntityEvent(String type, BaseEntity entity) 
+	{
 		super(type);
 		_entity = entity;
 	}
