@@ -46,13 +46,18 @@ public class MyGdxGame extends ApplicationAdapter
 		return _audioResources;
 	}
 	
+	public static TouchInputHandler getInputHandler()
+	{
+		return (TouchInputHandler) Gdx.input.getInputProcessor();
+	}
+	
 	@Override
 	public void create () 
 	{
 		getTextureResources().load();
 		getAudioResources().load();
 		
-		Gdx.input.setInputProcessor(new TouchInputHandler()); // Set up InputHandling
+		Gdx.input.setInputProcessor(new TouchInputHandler(WIDTH ,HEIGHT)); // Set up InputHandling
 		
 		_batch = new SpriteBatch();
 		_mainCam = new GameCamera();

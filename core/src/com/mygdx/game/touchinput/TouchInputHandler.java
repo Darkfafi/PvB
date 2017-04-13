@@ -5,10 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.events.EventDispatcher;
-import com.mygdx.game.globals.TouchGlobals;
+import com.mygdx.game.globals.InputGlobals;
 
 public class TouchInputHandler extends EventDispatcher implements ApplicationListener, InputProcessor 
 {
+	private int _screenHeight = 0;
+	private int _screenWidth = 0;
+	
+	public TouchInputHandler(int screenWidth, int screenHeight)
+	{
+		_screenWidth = screenWidth;
+		_screenHeight = screenHeight;
+	}
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -30,22 +39,30 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{
-		this.dispatchEvent(new TouchEvent(new Vector2(screenX, screenY), pointer, TouchGlobals.TOUCH_STARTED_EVENT));
+		if(!inScreenBounds(screenX, screenY)){return false;}
+		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_STARTED_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_EVENT));
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) 
 	{
-		System.out.println("UPP");
-		this.dispatchEvent(new TouchEvent(new Vector2(screenX, screenY), pointer, TouchGlobals.TOUCH_ENDED_EVENT));
+		if(!inScreenBounds(screenX, screenY)){return false;}
+		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_ENDED_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_EVENT));
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) 
 	{
-		this.dispatchEvent(new TouchEvent(new Vector2(screenX, screenY), pointer, TouchGlobals.TOUCH_EVENT));
+		if(!inScreenBounds(screenX, screenY)){return false;}
+		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_DRAGGED_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_EVENT));
 		return true;
 	}
 	
@@ -80,7 +97,6 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -106,5 +122,8 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 		// TODO Auto-generated method stub
 		
 	}
-
+	private boolean inScreenBounds(int x, int y)
+	{
+		return (x >= 0 && x <= _screenWidth) && (y >= 0 && y <= _screenHeight);
+	}
 }

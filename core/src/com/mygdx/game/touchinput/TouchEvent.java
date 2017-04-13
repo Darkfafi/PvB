@@ -5,14 +5,23 @@ import com.mygdx.game.events.Event;
 
 public class TouchEvent extends Event 
 {
+	public enum TouchType
+	{
+		Started,
+		Dragged,
+		Ended
+	}
+	
 	private int _pointer = -1;
 	private Vector2 _location;
+	private TouchType _touchType;
 	
-	public TouchEvent(Vector2 location, int pointer, String type) 
+	public TouchEvent(Vector2 location, int pointer, TouchType touchType, String type) 
 	{
 		super(type);
 		_pointer = pointer;
 		_location = location;
+		_touchType = touchType;
 	}
 	
 	public int getTouchX()
@@ -28,5 +37,10 @@ public class TouchEvent extends Event
 	public int getPointer()
 	{
 		return _pointer;
+	}
+	
+	public TouchType getTouchType()
+	{
+		return _touchType;
 	}
 }
