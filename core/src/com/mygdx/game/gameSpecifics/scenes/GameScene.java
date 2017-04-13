@@ -1,5 +1,6 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -24,12 +25,12 @@ public class GameScene extends BaseScene {
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	protected void created() {
 		// TODO Auto-generated method stub
+		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 
 	}
 
