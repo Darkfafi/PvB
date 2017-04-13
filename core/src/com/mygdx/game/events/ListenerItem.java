@@ -1,7 +1,7 @@
 package com.mygdx.game.events;
 
 /**
- * This class is a tag listener tag. It is added when an EventDispatcher listens to another EventDispatcher
+ * This class is a tag listener tag. It is added when an IEventReceiver listens to a EventDispatcher
  * It contains all the data of what it is listening to, who is listening and what method to trigger.
  * @author Ramses Di Perna
  *

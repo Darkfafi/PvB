@@ -13,6 +13,7 @@ import com.mygdx.game.entities.components.Rendering.RenderInfo;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
+import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.scenes.RenderComponents;
 
 /**
@@ -45,7 +46,7 @@ public class EntitySystem implements IEventReceiver
 	
 	public EntitySystem()
 	{
-		GlobalDispatcher.getInstance().addEventListener(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, this);
+		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_CREATED, this);
 	}
 	
 	/**
@@ -134,7 +135,7 @@ public class EntitySystem implements IEventReceiver
 	
 	@Override
 	public void onReceiveEvent(Event event) {
-		if(event.getType() == EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED)
+		if(event.getType() == EngineGlobals.GLOBAL_EVENT_ENTITY_CREATED)
 		{
 			onEntityCreatedEvent(event);	
 		}

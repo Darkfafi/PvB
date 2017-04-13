@@ -25,7 +25,7 @@ public class MyGdxGame extends ApplicationAdapter
 	private static GameTextureResources _textureResources = new GameTextureResources();
 	private static GameAudioResources _audioResources = new GameAudioResources();
 	
-	// Scene Handing
+	// Scene Handling
 	private float _timeAfterLastRender = 0;
 	private BaseScenesManager _scenesManager;
 	

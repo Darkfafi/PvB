@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.mygdx.game.entities.components.TransformComponent;
 import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
+import com.mygdx.game.globals.EngineGlobals;
 
 /**
  * This class must be extended to be part of the EntitySystem. 
@@ -24,7 +25,7 @@ public abstract class BaseEntity extends EventDispatcher
 	public BaseEntity()
 	{
 		EntitySystem.getInstance(); // To create an instance of the EntitySystem if not already active.
-		GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EntityGlobals.GLOBAL_EVENT_ENTITY_CREATED, this));
+		GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EngineGlobals.GLOBAL_EVENT_ENTITY_CREATED, this));
 		_transformComponent = this.addComponent(new TransformComponent());
 		awake();
 	}
@@ -166,7 +167,7 @@ public abstract class BaseEntity extends EventDispatcher
 			}
 			
 			_isDestroyed = true;
-			GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EntityGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this));
+			GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this));
 			destroyed();
 			_transformComponent = null;
 		}

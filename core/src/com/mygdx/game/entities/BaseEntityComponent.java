@@ -1,5 +1,9 @@
 package com.mygdx.game.entities;
 
+import com.mygdx.game.entities.components.ComponentEvent;
+import com.mygdx.game.events.GlobalDispatcher;
+import com.mygdx.game.globals.EngineGlobals;
+
 /**
  * This class must be inherited by a class for it to be able to be added to Entities as component.
  * @author Ramses Di Perna
@@ -31,6 +35,9 @@ public abstract class BaseEntityComponent
 		if(_initialized){ return; }
 		_initialized = true;
 		_parentOfComponent = parentEntity;
+		
+		GlobalDispatcher.getInstance().dispatchEvent(new ComponentEvent(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this));
+		
 		awake();
 	}
 	
@@ -54,8 +61,10 @@ public abstract class BaseEntityComponent
 			_parentOfComponent.removeComponent(this.getClass());
 		}
 		else
-		{
+		{						
 			_isDestroyed = true;
+			GlobalDispatcher.getInstance().dispatchEvent(new ComponentEvent(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this));
+			
 			destroyed();
 			_parentOfComponent = null;
 		}
