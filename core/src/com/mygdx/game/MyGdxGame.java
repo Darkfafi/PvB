@@ -3,19 +3,20 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gameSpecifics.scenes.GameScenesManager;
 import com.mygdx.game.scenes.BaseScenesManager;
+import com.mygdx.game.scenes.GameCamera;
 import com.mygdx.game.scenes.RenderComponents;
 
 public class MyGdxGame extends ApplicationAdapter 
 {	
 	// Game Settings
 	public static final String TITLE = "Archery Game";
-	
-	public static final int WIDTH = 480;
-	public static final int HEIGHT = 800;
+
+	public static final int SCALE = 2;
+	public static final int WIDTH = 300 * SCALE;
+	public static final int HEIGHT = 480 * SCALE;
 	
 	public static final int FRAME_RATE = 60;
 	public static final float FRAME_STEP = 1f / FRAME_RATE;
@@ -31,8 +32,8 @@ public class MyGdxGame extends ApplicationAdapter
 	private RenderComponents _renderComponents;
 	
 	private SpriteBatch _batch;
-	private OrthographicCamera _mainCam;
-	private OrthographicCamera _hudCam; 
+	private GameCamera _mainCam;
+	private GameCamera _hudCam; 
 	
 	public static GameTextureResources getTextureResources()
 	{
@@ -51,9 +52,9 @@ public class MyGdxGame extends ApplicationAdapter
 		getAudioResources().load();
 		
 		_batch = new SpriteBatch();
-		_mainCam = new OrthographicCamera();
+		_mainCam = new GameCamera();
 		_mainCam.setToOrtho(false, WIDTH, HEIGHT);
-		_hudCam = new OrthographicCamera();
+		_hudCam = new GameCamera();
 		_hudCam.setToOrtho(false, WIDTH, HEIGHT);
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
 		_scenesManager = new GameScenesManager(_renderComponents);
@@ -65,7 +66,6 @@ public class MyGdxGame extends ApplicationAdapter
 	public void render () 
 	{
 		_timeAfterLastRender += Gdx.graphics.getDeltaTime();
-		
 		while(_timeAfterLastRender >= FRAME_STEP)
 		{
 			_timeAfterLastRender -= FRAME_STEP;

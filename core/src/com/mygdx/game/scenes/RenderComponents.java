@@ -11,10 +11,10 @@ public class RenderComponents {
 
 	private SpriteBatch _spriteBatch;
 	
-	private OrthographicCamera _mainCam;
-	private OrthographicCamera _hudCam;
+	private GameCamera _mainCam;
+	private GameCamera _hudCam;
 	
-	public RenderComponents(SpriteBatch sp, OrthographicCamera mainCam, OrthographicCamera hudCam)
+	public RenderComponents(SpriteBatch sp, GameCamera mainCam, GameCamera hudCam)
 	{
 		_spriteBatch = sp;
 		_mainCam = mainCam;
