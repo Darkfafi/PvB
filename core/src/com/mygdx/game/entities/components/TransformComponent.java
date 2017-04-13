@@ -60,6 +60,28 @@ public class TransformComponent extends BaseEntityComponent
 	}
 	
 	/**
+	 * Gets the Upward vector of the current transform and its rotation
+	 * @return normalized upward vector for current rotation
+	 */
+	public Vector2 getUpwards()
+	{
+		Vector2 v = new Vector2(0, 1);
+		v.setAngle((-getRotation()) + 90);
+		return v.nor();
+	}
+	
+	/**
+	 * Gets the Right vector of the current transform and its rotation
+	 * @return normalized right vector for current rotation
+	 */
+	public Vector2 getRight()
+	{
+		Vector2 v = getUpwards();
+		v.setAngle(v.angle() - 90);
+		return v.nor();
+	}
+	
+	/**
 	 * Moves the entity with the given delta amount
 	 * @param deltaToPosition to add to the current position
 	 */
