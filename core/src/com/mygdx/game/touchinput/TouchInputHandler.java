@@ -12,7 +12,23 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	private int _screenHeight = 0;
 	private int _screenWidth = 0;
 	
+	/**
+	 * The info for the touchInputHandler requires the screen size to calculate the position and bounds.
+	 * WARNING: By resize the 'setTouchScreenWidthHeight' method should be called!
+	 * @param screenWidth of the application
+	 * @param screenHeight of the application
+	 */
 	public TouchInputHandler(int screenWidth, int screenHeight)
+	{
+		setTouchScreenWidthHeight(screenWidth, screenHeight);
+	}
+	
+	/**
+	 * Sets the new screen size to calculate the position and bounds for the touches
+	 * @param screenWidth of the application
+	 * @param screenHeight of the application
+	 */
+	public void setTouchScreenWidthHeight(int screenWidth, int screenHeight)
 	{
 		_screenWidth = screenWidth;
 		_screenHeight = screenHeight;
@@ -35,7 +51,7 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{
@@ -122,6 +138,13 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Checks if the position given is in screen bounds
+	 * @param x position to check
+	 * @param y position to check
+	 * @return if its in bounds of the screen 'True' else 'False'
+	 */
 	private boolean inScreenBounds(int x, int y)
 	{
 		return (x >= 0 && x <= _screenWidth) && (y >= 0 && y <= _screenHeight);
