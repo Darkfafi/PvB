@@ -17,10 +17,17 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	private boolean _flipX = false;
 	private boolean _flipY = false;
 	private int _sortingLayer = 0;
+	private boolean _isUserInterface = false;
 	
-	public RenderComponent(RenderInfo startRenderInfo)
+	public RenderComponent(RenderInfo startRenderInfo, boolean isUI)
 	{
 		this.setRenderInfo(startRenderInfo);
+		_isUserInterface = isUI;
+	}
+	
+	public boolean isUserInterface()
+	{
+		return _isUserInterface;
 	}
 	
 	/**

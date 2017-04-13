@@ -18,9 +18,9 @@ public class AnimationComponent extends RenderComponent
 	private float _animationSpeed = 0.5f; // At 60 fps this will be 30 fps
 	private boolean _isLooping = true;
 	
-	public AnimationComponent(RenderInfo startRenderInfo, boolean playOnCreation) 
+	public AnimationComponent(RenderInfo startRenderInfo, boolean playOnCreation, boolean isUI) 
 	{
-		super(startRenderInfo);
+		super(startRenderInfo, isUI);
 		if(playOnCreation)
 			play();
 	}

@@ -12,7 +12,7 @@ public class Enemy2 extends BaseEntity
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("cat"), false));
+		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("cat"), false, false));
 		this.getTransformComponent().setScale(new Vector2(0.8f, 0.8f));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0.5f));
 		this.getComponent(AnimationComponent.class).setFlipX(true);
