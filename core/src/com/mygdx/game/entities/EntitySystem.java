@@ -81,8 +81,9 @@ public class EntitySystem implements IEventReceiver
 		ArrayList<RenderComponent> uiRcs = new ArrayList<RenderComponent>();
 		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
 		
-		sb.begin();
 		sb.setProjectionMatrix(gameRenderComponents.getMainCamera().combined);
+
+		sb.begin();
 		for(int i = 0; i < rcs.size(); i++)
 		{
 			if(!rcs.get(i).isUserInterface())
@@ -217,7 +218,8 @@ public class EntitySystem implements IEventReceiver
 	{
 		RenderInfo ri = rc.getRenderInfo();
 		BaseEntity ce = rc.getParentOfComponent();
-		
+
+		sb.setColor(rc.getColor());
 		sb.draw(
 				ri.getTextureToDraw(),
 				ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
@@ -235,7 +237,6 @@ public class EntitySystem implements IEventReceiver
 			    ri.getCutHeight(), 							/* srcHeight the source height in texels                                         */
 			    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
 			    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
-		
 	}
 	
 	/**

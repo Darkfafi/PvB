@@ -1,5 +1,6 @@
 package com.mygdx.game.entities.components.Rendering;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.BaseEntityComponent;
@@ -18,6 +19,8 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	private boolean _flipY = false;
 	private int _sortingLayer = 0;
 	private boolean _isUserInterface = false;
+	private Color _color = new Color(Color.WHITE);
+	
 	
 	public RenderComponent(RenderInfo startRenderInfo, boolean isUI)
 	{
@@ -98,8 +101,6 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		{
 			Vector2 differents = new Vector2(_pivot.x, _pivot.y).sub(newPivotValue);
 			Vector2 newDelta = this.getParentOfComponent().getTransformComponent().getUpwards();
-			//newDelta.rotate(differents.angle());
-			
 			newDelta = new Vector2((-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().x, (-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().y);
 			newDelta.x += this.getParentOfComponent().getTransformComponent().getUpwards().x * (-this.getRealHeight() * differents.y);
 			newDelta.y += this.getParentOfComponent().getTransformComponent().getUpwards().y * (-this.getRealHeight() * differents.y);
@@ -115,6 +116,44 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public RenderInfo getRenderInfo()
 	{
 		return _renderInfo;
+	}
+	
+	/**
+	 * This sets the alpha of the Color which is modifying the current entity.
+	 * @param alpha to set the current modifying Color to.
+	 */
+	public void setAlpha(float alpha)
+	{
+		_color.a = alpha;
+	}
+	
+	/**
+	 * This gets the alpha of the Color which is modifying the current entity.
+	 * @return alpha of the current modifying color.
+	 */
+	public float getAlpha()
+	{
+		return _color.a;
+	}
+	
+	/**
+	 * This sets the color which is modifying the current entity.
+	 * The color White equals its original color 
+	 * @param color to set the value to.
+	 */
+	public void setColor(Color color)
+	{
+		_color = new Color(color.r, color.g, color.b, color.a);
+	}
+	
+	/**
+	 * This gets the color which is modifying the current entity.
+	 * The color White equals its original color 
+	 * @return The color this entity has as modification color
+	 */
+	public Color getColor()
+	{
+		return new Color(_color.r, _color.g, _color.b, _color.a);
 	}
 	
 	/**
@@ -213,6 +252,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	protected void destroyed() 
 	{
-		
+		_pivot = null;
+		_renderInfo = null;
 	}
 }
