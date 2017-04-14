@@ -63,8 +63,15 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	protected void destroyed() 
 	{
 		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
+		_targetLocation = null;
+		_currentProjectile.destroy();
+		_currentProjectile = null;
 	}
 	
+	/**
+	 * Redirection of the Event to TouchEvent
+	 * @param event received which is casted to a TouchEvent
+	 */
 	private void onTouchEvent(TouchEvent event) 
 	{
 		if(_currentBowStage == BowStage.Idle && event.getTouchType() == TouchEvent.TouchType.Started)
@@ -108,6 +115,11 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_currentProjectile = new ArrowProjectile();
 	}
 	
+	/**
+	 * Handles the complete draw mechanic of the bow.
+	 * @param posX is the x position of the touch which is controlling the draw
+	 * @param posY is the y position of the touch which is controlling the draw
+	 */
 	private void drawMechanic(int posX, int posY) 
 	{
 		Vector2 lineToTouch = new Vector2(posX - this.getTransformComponent().getPositionX(), posY - this.getTransformComponent().getPositionY());
@@ -131,8 +143,12 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		ac.getRenderInfo().setCurrentFrameInfo((int)((ac.getRenderInfo().getFramesLength() - 1) * _drawStrength));
 		handleProjectilePlacement();
 	}
-
-
+	
+	/**
+	 * Places the arrow in the correct orientation on the bow.
+	 * This orientation includes position and rotation.
+	 * It gets the position form the 'projectilePullDistance' method 
+	 */
 	private void handleProjectilePlacement() 
 	{
 		if(_currentProjectile == null) { return; }
@@ -157,11 +173,20 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		return v;
 	}
 	
+	/**
+	 * Returns the distance the bow can shoot in pixels with its draw strength.
+	 * @return Max distance in pixels
+	 */
 	private float powerToDistancePower()
 	{
 		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
 	}
 	
+	/**
+	 * Selects a start touch position before draw. This will be used as the start position of the draw value.
+	 * @param posX is the x position of the position value.
+	 * @param posY is the y position o the position value.
+	 */
 	private void selectTarget(int posX, int posY) 
 	{
 		_targetLocation = new Vector2(posX, posY);
