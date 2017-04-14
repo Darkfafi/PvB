@@ -1,6 +1,5 @@
 package com.mygdx.game.gameSpecifics.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
@@ -20,11 +19,12 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	}
 
 	public static final float MAX_DRAW_STRENGTH = 30f;
-	public static final float MAX_DRAW_LENGTH = 250f;
+	public static final float MAX_DRAW_LENGTH = 200f;
 	
 	private BowStage _currentBowStage = BowStage.Idle; 	// The current stage of the bow
 	private float _drawStrength = 0f;					// The draw strength to release the arrow with
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
+	private float _radiusToTargetLoc = 0f;
 	private int _pointerControllingTouch = -1;
 	
 	private BaseProjectile _currentProjectile;
@@ -52,9 +52,10 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void updated(float dt) 
 	{
-		if(_currentBowStage == BowStage.Draw)
+		if(_currentBowStage == BowStage.Draw && _pointerControllingTouch != -1)
 		{
-			getTransformComponent().lookAt(_targetLocation, 0.2f);
+			Vector2 aimLocation = new Vector2(MyGdxGame.getInputHandler().getX(_pointerControllingTouch),MyGdxGame.getInputHandler().getY(_pointerControllingTouch));
+			getTransformComponent().lookAt(aimLocation, 0.2f);
 		}
 		handleProjectilePlacement();
 	}
@@ -105,9 +106,13 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	
 	private void drawMechanic(int posX, int posY) 
 	{
-		Vector2 currentTouchLocation = new Vector2(posX, posY);
-		_drawStrength = (currentTouchLocation.y - _targetLocation.y) / MAX_DRAW_LENGTH;
-		_drawStrength *= -(Math.abs(currentTouchLocation.y) / currentTouchLocation.y);  
+		Vector2 lineToTouch = new Vector2(posX - this.getTransformComponent().getPositionX(), posY - this.getTransformComponent().getPositionY());
+		Vector2 lineToRealTarget = new Vector2(lineToTouch.x, lineToTouch.y);
+		lineToRealTarget.setLength(_radiusToTargetLoc);
+		Vector2 lineToRealMaxDraw = new Vector2(lineToRealTarget.x, lineToRealTarget.y);
+		lineToRealMaxDraw.setLength(_radiusToTargetLoc - MAX_DRAW_LENGTH);
+		
+		_drawStrength = 1 - (lineToTouch.len() - lineToRealMaxDraw.len()) / (lineToRealTarget.len() - lineToRealMaxDraw.len());
 		
 		if(_drawStrength > 1)
 		{
@@ -174,6 +179,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private void selectTarget(int posX, int posY) 
 	{
 		_targetLocation = new Vector2(posX, posY);
+		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(),this.getTransformComponent().getPositionY());
 		_currentBowStage = BowStage.Draw;
 	}
 }

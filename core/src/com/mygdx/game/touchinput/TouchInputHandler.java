@@ -82,6 +82,16 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 		return true;
 	}
 	
+	public float getX(int pointer)
+	{
+		return Gdx.input.getX(pointer);
+	}
+	
+	public float getY(int pointer)
+	{
+		return _screenHeight - Gdx.input.getY(pointer);	
+	}
+	
 	public boolean isTouched()
 	{
 		return Gdx.input.isTouched();
