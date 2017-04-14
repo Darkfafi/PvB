@@ -25,7 +25,7 @@ public class RenderInfo
 	public RenderInfo(Texture texture)
 	{
 		_textureToDraw = texture;
-		_frameInfos = new FrameInfo[1];
+		_frameInfos = new FrameInfo[1];	// 1 Cut info required. The info to cut the entire picture.
 		_frameInfos[0] = new FrameInfo(0, 0, texture.getWidth(), texture.getHeight());
 	}
 	

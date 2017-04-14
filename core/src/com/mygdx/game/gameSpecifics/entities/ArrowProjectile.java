@@ -79,10 +79,12 @@ public class ArrowProjectile extends BaseProjectile
 			}
 			else
 			{
-				if(this.getTransformComponent().getScaleX() > 0.1f)
+				RenderComponent rc = this.getComponent(RenderComponent.class);
+				if(rc.getAlpha() > 0.1f)
 				{
-					getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
-					getTransformComponent().translateScale(new Vector2(-0.5f * dt, -0.5f * dt));
+					rc.setAlpha(rc.getAlpha() - dt * 5);
+					//getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
+					//getTransformComponent().translateScale(new Vector2(-2f * dt, -2f * dt));
 				}
 				else
 				{

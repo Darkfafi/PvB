@@ -1,5 +1,6 @@
 package com.mygdx.game.gameSpecifics.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
@@ -131,6 +132,11 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_currentProjectile.getTransformComponent().translatePosition(projectilePullDistance());
 	}
 	
+	/**
+	 * Gives the Arrow location it requires to be in the animation.
+	 * NOTE: Must be adjusted when art changes!
+	 * @return The Arrow position in sink with the animation.
+	 */
 	private Vector2 projectilePullDistance()
 	{
 		Vector2 v = _currentProjectile.getTransformComponent().getUpwards();
