@@ -92,16 +92,35 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * Y = 0 being the bottom and 1 being the top of the image
 	 * @param newPivotValue
 	 */
-	public void setPivot(Vector2 newPivotValue)
+	public void setPivot(Vector2 newPivotValue, boolean keepPosition)
 	{
-		_pivot = newPivotValue;
+		if(keepPosition)
+		{
+			Vector2 differents = new Vector2(_pivot.x, _pivot.y).sub(newPivotValue);
+			Vector2 newDelta = this.getParentOfComponent().getTransformComponent().getUpwards();
+			//newDelta.rotate(differents.angle());
+			
+			newDelta = new Vector2((-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().x, (-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().y);
+			newDelta.x += this.getParentOfComponent().getTransformComponent().getUpwards().x * (-this.getRealHeight() * differents.y);
+			newDelta.y += this.getParentOfComponent().getTransformComponent().getUpwards().y * (-this.getRealHeight() * differents.y);
+			this.getParentOfComponent().getTransformComponent().translatePosition(newDelta);
+		}
+		_pivot = new Vector2(newPivotValue.x, newPivotValue.y);
 	}
 	
+	/**
+	 * Gets the RenderInfo set in the RenderComponent to use for display.
+	 * @return RenderInfo of the RenderComponent
+	 */
 	public RenderInfo getRenderInfo()
 	{
 		return _renderInfo;
 	}
 	
+	/**
+	 * Sets the current render info and cleans the previous one.
+	 * @param info to set as new RenderInfo for this component.
+	 */
 	public void setRenderInfo(RenderInfo info)
 	{
 		if(_renderInfo != null)
