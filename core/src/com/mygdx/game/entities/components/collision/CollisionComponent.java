@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.components;
+package com.mygdx.game.entities.components.collision;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,12 +88,12 @@ public class CollisionComponent extends BaseEntityComponent {
 		}
 		else
 		{
-			_body.createFixture(fixDef);
+			createFixtureForBody(fixDef, _body);
 		}
 	}
 	
 	/**
-	 * 
+	 * Sets the current body and puts the given fixtures to it.
 	 * @param body
 	 */
 	public void setBody(Body body)
@@ -102,7 +102,7 @@ public class CollisionComponent extends BaseEntityComponent {
 		
 		for(int i = 0; i < _fixDefs.size(); i++)
 		{
-			body.createFixture(_fixDefs.get(i));
+			createFixtureForBody(_fixDefs.get(i), body);
 		}
 		_fixDefs.clear();
 	}
@@ -122,6 +122,11 @@ public class CollisionComponent extends BaseEntityComponent {
 	protected void destroyed() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void createFixtureForBody(FixtureDef def, Body body)
+	{
+		body.createFixture(def);
 	}
 
 }
