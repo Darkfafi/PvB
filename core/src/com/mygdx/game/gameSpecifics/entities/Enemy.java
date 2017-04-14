@@ -14,7 +14,7 @@ public class Enemy extends BaseEntity
 		// TODO Auto-generated method stub
 		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("knight"), true, true));
 		this.getTransformComponent().setScale(new Vector2(0.7f, 0.7f));
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f));
+		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
 	}
 	
@@ -25,7 +25,7 @@ public class Enemy extends BaseEntity
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
 		if(_time > 2f)
 		{
-			//this.destroy();
+			this.destroy();
 		}
 	}
 

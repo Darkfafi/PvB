@@ -17,13 +17,16 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		Idle,		// Waiting for target location to fire at
 		Draw  		// Preparing and Doing the Shoot method
 	}
-	
+
+	public static final float MAX_DRAW_STRENGTH = 30f;
 	public static final float MAX_DRAW_LENGTH = 250f;
 	
 	private BowStage _currentBowStage = BowStage.Idle; 	// The current stage of the bow
 	private float _drawStrength = 0f;					// The draw strength to release the arrow with
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
 	private int _pointerControllingTouch = -1;
+	
+	private BaseProjectile _currentProjectile;
 	
 	@Override
 	public void onReceiveEvent(Event event) 
@@ -42,6 +45,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		this.addComponent(new AnimationComponent(ri, false, false));
 		this.getTransformComponent().setScale(new Vector2(1.1f, 0.3f));
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
+		this.setBowIdle();
 	}
 
 	@Override
@@ -51,6 +55,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		{
 			getTransformComponent().lookAt(_targetLocation, 0.2f);
 		}
+		handleProjectilePlacement();
 	}
 	
 	@Override
@@ -85,15 +90,22 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private void shoot() 
 	{
 		// Shoot Mechanic
+		_currentProjectile.fire((powerToDistancePower() * _drawStrength) + 20f, MAX_DRAW_STRENGTH * _drawStrength);
+		setBowIdle();
+	}
+	
+	private void setBowIdle()
+	{
 		_currentBowStage = BowStage.Idle;
 		_pointerControllingTouch = -1;
 		this.getComponent(AnimationComponent.class).getRenderInfo().setCurrentFrameInfo(0); // Reset bow
+		_currentProjectile = new ArrowProjectile();
 	}
 	
 	private void drawMechanic(int posX, int posY) 
 	{
 		Vector2 currentTouchLocation = new Vector2(posX, posY);
-		_drawStrength = currentTouchLocation.sub(_targetLocation).len() / MAX_DRAW_LENGTH;
+		_drawStrength = (currentTouchLocation.y - _targetLocation.y) / MAX_DRAW_LENGTH;
 		_drawStrength *= -(Math.abs(currentTouchLocation.y) / currentTouchLocation.y);  
 		
 		if(_drawStrength > 1)
@@ -113,13 +125,49 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 
 	private void handleProjectilePlacement() 
 	{
-		
+		if(_currentProjectile == null) { return; }
+		_currentProjectile.getTransformComponent().setPosition(new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY()));
+		_currentProjectile.getTransformComponent().setRotation(this.getTransformComponent().getRotation());
+		_currentProjectile.getTransformComponent().translatePosition(projectilePullDistance());
 	}
-
+	
+	private Vector2 projectilePullDistance()
+	{
+		Vector2 v = _currentProjectile.getTransformComponent().getUpwards();
+		float amount = 65;
+		
+		switch(this.getComponent(AnimationComponent.class).getRenderInfo().getCurrentFrameInfo())
+		{
+			case 1:
+				amount -= 5;
+				break;
+			case 2:
+				amount -= 10;
+				break;
+			case 3:
+				amount -= 15;
+				break;
+			case 4:
+				amount -= 20;
+				break;
+			case 5:
+				amount -= 27;
+				break;
+		}
+		
+		v.x *= amount;
+		v.y *= amount;
+		return v;
+	}
+	
+	private float powerToDistancePower()
+	{
+		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
+	}
+	
 	private void selectTarget(int posX, int posY) 
 	{
 		_targetLocation = new Vector2(posX, posY);
 		_currentBowStage = BowStage.Draw;
-		// TODO: Quickly turn to spot
 	}
 }

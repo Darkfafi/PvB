@@ -83,12 +83,13 @@ public class TransformComponent extends BaseEntityComponent
 	
 	/**
 	 * Moves the entity with the given delta amount
-	 * @param deltaToPosition to add to the current position
+	 * @param delta to add to the current position
 	 */
-	public void translatePosition(Vector2 deltaToPosition)
+	public void translatePosition(Vector2 delta)
 	{
-		deltaToPosition.x += _position.x;
-		deltaToPosition.y += _position.y;
+		Vector2 deltaToPosition = new Vector2(delta.x, delta.y);
+		deltaToPosition.x += this.getPositionX();
+		deltaToPosition.y += this.getPositionY();
 		setPosition(deltaToPosition);
 	}
 	
@@ -99,6 +100,14 @@ public class TransformComponent extends BaseEntityComponent
 	public void translateRotation(float deltaRotation)
 	{
 		setRotation(_rotation + deltaRotation);
+	}
+	
+	public void translateScale(Vector2 delta)
+	{
+		Vector2 deltaToScale = new Vector2(delta.x, delta.y);
+		deltaToScale.x += this.getScaleX();
+		deltaToScale.y += this.getScaleY();
+		this.setScale(deltaToScale);	
 	}
 	
 	/**
@@ -122,7 +131,7 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void setPosition(Vector2 newPosValue)
 	{
-		_position = newPosValue;
+		_position = new Vector2(newPosValue.x, newPosValue.y);
 	}
 	
 	/**
@@ -140,7 +149,7 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void setScale(Vector2 newScaleValue)
 	{
-		_scale = newScaleValue;
+		_scale = new Vector2(newScaleValue.x, newScaleValue.y);
 	}
 	
 	@Override
