@@ -47,7 +47,6 @@ public class ArrowProjectile extends BaseProjectile
 	protected void awake() {
 		// TODO Auto-generated method stub
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo("arrow"), false));
-		this.getTransformComponent().setScale(new Vector2(0.6f, 0.6f));
 		super.awake();
 	}
 

@@ -42,9 +42,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	protected void awake() 
 	{
 		// TODO Auto-generated method stub
-		RenderInfo ri = MyGdxGame.getTextureResources().getRenderInfo("fakeBow");
+		RenderInfo ri = MyGdxGame.getTextureResources().getRenderInfo("bowDraw");
 		this.addComponent(new AnimationComponent(ri, false, false));
-		this.getTransformComponent().setScale(new Vector2(1.1f, 0.3f));
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
 	}
@@ -81,18 +80,22 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 			}
 			else if(event.getTouchType() == TouchEvent.TouchType.Ended)
 			{
-				shoot();
+				shoot(_drawStrength, 0.1f);
 			}
 		}
 	}
 	
 	/**
-	 * Fires the projectile from the bow with a
+	 * Fires the current arrow from the bow with the strength given.
+	 * @param strengthPercentage makes the arrow shoot in distance of powerToDistancePower() * the value and the strength of MAX_DRAW_STRENGTH * the value
+	 * @param minimum is the minimum the shooting strength should be. If its below that it will be put onto the minimum value
 	 */
-	private void shoot() 
+	private void shoot(float strengthPercentage, float minimum) 
 	{
-		// Shoot Mechanic
-		_currentProjectile.fire((powerToDistancePower() * _drawStrength) + 20f, MAX_DRAW_STRENGTH * _drawStrength);
+		if(strengthPercentage < minimum)
+			strengthPercentage = minimum;
+		
+		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
 		setBowIdle();
 	}
 	
@@ -100,6 +103,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	{
 		_currentBowStage = BowStage.Idle;
 		_pointerControllingTouch = -1;
+		_drawStrength = 0;
 		this.getComponent(AnimationComponent.class).getRenderInfo().setCurrentFrameInfo(0); // Reset bow
 		_currentProjectile = new ArrowProjectile();
 	}
@@ -145,27 +149,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private Vector2 projectilePullDistance()
 	{
 		Vector2 v = _currentProjectile.getTransformComponent().getUpwards();
-		float amount = 65;
-		
-		switch(this.getComponent(AnimationComponent.class).getRenderInfo().getCurrentFrameInfo())
-		{
-			case 1:
-				amount -= 5;
-				break;
-			case 2:
-				amount -= 10;
-				break;
-			case 3:
-				amount -= 15;
-				break;
-			case 4:
-				amount -= 20;
-				break;
-			case 5:
-				amount -= 27;
-				break;
-		}
-		
+		float amount = 72;
+		float delta = 4f;
+		amount -= delta * this.getComponent(AnimationComponent.class).getRenderInfo().getCurrentFrameInfo();
 		v.x *= amount;
 		v.y *= amount;
 		return v;
