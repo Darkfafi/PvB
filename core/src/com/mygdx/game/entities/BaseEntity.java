@@ -88,11 +88,11 @@ public abstract class BaseEntity extends EventDispatcher
 	 * @param componentInstrance to check
 	 * @return 'true' if it has the components instance else 'false'
 	 */
-	public boolean hasInstanceOfComponent(BaseEntityComponent componentInstrance)
+	public boolean hasInstanceOfComponent(BaseEntityComponent componentInstance)
 	{
 		for(int i = 0; i < _components.size(); i++)
 		{
-			if(_components.get(i) == componentInstrance)
+			if(_components.get(i) == componentInstance)
 			{
 				return true;
 			}

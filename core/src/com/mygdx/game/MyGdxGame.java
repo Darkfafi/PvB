@@ -67,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
 		_scenesManager = new GameScenesManager(_renderComponents);
 		
-		Gdx.gl.glClearColor(0, 0, 0.25f, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
 
 	@Override

@@ -142,6 +142,15 @@ public class EntitySystem implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * Gets and returns all the existing entities
+	 * @return All the entities in the '_allEntities' ArrayList
+	 */
+	public ArrayList<BaseEntity> getAllEntities()
+	{
+		return _allEntities;
+	}
+	
 	// Getting entities
 	/**
 	 * Returns the first entity active with the given tag

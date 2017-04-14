@@ -20,7 +20,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	private short _type; 
 	private List<Short> _allowedTypes = new ArrayList<Short>();
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
-	private FixtureDef _fixture;
 	
 	/**
 	 * Returns the type/collision category for this entity
@@ -47,7 +46,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	public void setType(short type)
 	{
 		_type = type;
-		_fixture.filter.categoryBits = _type;
 	}
 	
 	/**
@@ -69,17 +67,21 @@ public class CollisionComponent extends BaseEntityComponent {
 		
 		for(int i = 0; i < _allowedTypes.size(); i++)
 		{
-			_fixture.filter.maskBits = _allowedTypes.get(i);
+			for(int j = 0; j < _fixDefs.size(); j++)
+			{
+				_fixDefs.get(j).filter.maskBits = _allowedTypes.get(i);
+			}
 		}
 	}
 	
 	/**
 	 * Creates and adds a fixture for this entity. A FixtureDef must be given so that multiple fixtures can be added to the entity.
+	 * NOTE: A shape must be created first. This has to be given to the fixDef parameter.
 	 * @param fixDef
 	 */
 	public void createFixture(FixtureDef fixDef)
 	{
-		fixDef = new FixtureDef();
+		fixDef.filter.categoryBits = _type;
 		if(_body == null)
 		{
 			_fixDefs.push(fixDef);
@@ -90,6 +92,10 @@ public class CollisionComponent extends BaseEntityComponent {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param body
+	 */
 	public void setBody(Body body)
 	{
 		_body = body;
@@ -109,8 +115,7 @@ public class CollisionComponent extends BaseEntityComponent {
 
 	@Override
 	public void updated(float deltaTime) {
-		// TODO Auto-generated method stub
-		
+		//TODO Auto-generated method stub
 	}
 
 	@Override

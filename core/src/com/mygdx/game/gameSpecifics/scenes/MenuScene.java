@@ -7,7 +7,9 @@ import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.gameSpecifics.entities.Enemy2;
+import com.mygdx.game.gameSpecifics.entities.TestBlock;
 import com.mygdx.game.globals.EngineGlobals;
+import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -17,6 +19,7 @@ import com.mygdx.game.scenes.BaseScene;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
+	private PhysicsWorld _physicsWorld;
 
 	@Override
 	public void destroyed() {
@@ -28,14 +31,13 @@ public class MenuScene extends BaseScene implements IEventReceiver
 
 	@Override
 	public void update(float dt) {
-		// TODO Auto-generated method stub
-		
+		_physicsWorld.update();
 	}
 
 	@Override
 	public void render() {
-		// TODO Auto-generated method stub
-
+		_physicsWorld.render(this.getRenderComponents());
+		System.out.println("humma");
 	}
 
 	@Override
@@ -49,10 +51,15 @@ public class MenuScene extends BaseScene implements IEventReceiver
 
 	@Override
 	protected void created() {
-		// TODO Auto-generated method stub
+		_physicsWorld = new PhysicsWorld();
+		
 		Enemy enemy = new Enemy();
 		Enemy2 enemy2 = new Enemy2();
-		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2 ,0));
+		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0));
+		
+//		TestBlock block = new TestBlock();
+//		block.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0.25f));
+		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
 	}

@@ -37,7 +37,6 @@ public class GameScene extends BaseScene
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		BowWeapon bow = new BowWeapon();
 		bow.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 40));
-
 	}
 
 }
