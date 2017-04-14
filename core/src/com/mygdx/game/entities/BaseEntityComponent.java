@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.mygdx.game.entities.components.ComponentEvent;
+import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.globals.EngineGlobals;
 
@@ -9,7 +10,7 @@ import com.mygdx.game.globals.EngineGlobals;
  * @author Ramses Di Perna
  *
  */
-public abstract class BaseEntityComponent 
+public abstract class BaseEntityComponent extends EventDispatcher
 {
 	/**
 	 * Indicates whether the component has been initialized.
