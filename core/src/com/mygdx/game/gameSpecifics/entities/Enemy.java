@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
-import com.mygdx.game.entities.components.CollisionComponent;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.collision.CollisionComponent;
 import com.mygdx.game.resources.CollisionResources;
 
 public class Enemy extends BaseEntity 
@@ -16,7 +16,7 @@ public class Enemy extends BaseEntity
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("knight"), true, true));
+		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run"), true, false));
 		this.getTransformComponent().setScale(new Vector2(0.7f, 0.7f));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
@@ -38,10 +38,10 @@ public class Enemy extends BaseEntity
 		// TODO Auto-generated method stub
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
-//		if(_time > 2f)
-//		{
-//			this.destroy();
-//		}
+		if(_time > 2f)
+		{
+			//this.destroy();
+		}
 	}
 
 	@Override

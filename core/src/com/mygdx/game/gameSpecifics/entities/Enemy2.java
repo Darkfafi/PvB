@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
-import com.mygdx.game.entities.components.CollisionComponent;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.collision.CollisionComponent;
 import com.mygdx.game.resources.CollisionResources;
 
 public class Enemy2 extends BaseEntity 
@@ -16,10 +16,9 @@ public class Enemy2 extends BaseEntity
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("cat"), false, false));
+		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_1_Run"), true, false));
 		this.getTransformComponent().setScale(new Vector2(0.8f, 0.8f));
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0.5f), false);
-		this.getComponent(AnimationComponent.class).setFlipX(true);
+		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		
 		this.addComponent(new CollisionComponent());
 		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ENEMY);
@@ -36,7 +35,7 @@ public class Enemy2 extends BaseEntity
 	protected void updated(float dt) {
 		// TODO Auto-generated method stub
 		this.getTransformComponent().translatePosition(new Vector2(1, 0));
-		this.getTransformComponent().translateRotation(5);
+		//this.getTransformComponent().translateRotation(5);
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
 		if(_time > 2f)
