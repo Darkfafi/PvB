@@ -18,9 +18,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	private boolean _flipX = false;
 	private boolean _flipY = false;
 	private int _sortingLayer = 0;
+	private float _innerSortingLayer = 0f;
 	private boolean _isUserInterface = false;
+	private boolean _isSortedOnY = false;
 	private Color _color = new Color(Color.WHITE);
-	
 	
 	public RenderComponent(RenderInfo startRenderInfo, boolean isUI)
 	{
@@ -31,6 +32,23 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public boolean isUserInterface()
 	{
 		return _isUserInterface;
+	}
+	
+	public boolean isSortedOnY()
+	{
+		return _isSortedOnY;
+	}
+	
+	public void setSortOnY(boolean sortOnY)
+	{
+		_isSortedOnY = sortOnY;
+		if(!_isSortedOnY)
+			_innerSortingLayer = 0f;
+	}
+	
+	public float getInnerSortingLayer()
+	{
+		return _innerSortingLayer;
 	}
 	
 	/**
@@ -225,7 +243,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	// Overriding the compare method to sort the layer
 	public int compare(RenderComponent d, RenderComponent d1)
 	{
-	  return d.getSortingLayer() - d1.getSortingLayer();
+	  return (int)Math.floor(((d.getSortingLayer()+ 0.95f) - d.getInnerSortingLayer()) - ((d1.getSortingLayer()+ 0.95f) - d1.getInnerSortingLayer()));
 	}
 	
 
@@ -233,7 +251,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	public int compareTo(RenderComponent comp) 
 	{
-		return _sortingLayer - comp.getSortingLayer();
+		return (int)Math.floor(((_sortingLayer + 0.95f) - _innerSortingLayer) - ((comp.getSortingLayer() + 0.95f) - comp.getInnerSortingLayer()));
 	}
 	
 	@Override
@@ -246,7 +264,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	public void updated(float deltaTime) 
 	{
-		// TODO Auto-generated method stub
+		if(isSortedOnY())
+		{
+			this.setInnerSortingLayer(this.getParentOfComponent().getTransformComponent().getPositionY() * 0.0001f);
+		}
 	}
 
 	@Override
@@ -254,5 +275,15 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	{
 		_pivot = null;
 		_renderInfo = null;
+	}
+	
+	private void setInnerSortingLayer(float value)
+	{
+		if(value < 0)
+			value = 0;
+		if(value > 0.95f)
+			value = 0.95f;
+		
+		_innerSortingLayer = value;
 	}
 }
