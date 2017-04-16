@@ -29,16 +29,28 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		_isUserInterface = isUI;
 	}
 	
+	/**
+	 * Returns whether this is rendered on the main camera or the hud camera
+	 * @return returns false when it is rendered on the main camera and true when rendered on the hud camera
+	 */
 	public boolean isUserInterface()
 	{
 		return _isUserInterface;
 	}
 	
+	/**
+	 * Indicates whether the renderComponent is rendered in its layer on its y position.
+	 * @return true if its sorted on y position, else it returns false.
+	 */
 	public boolean isSortedOnY()
 	{
 		return _isSortedOnY;
 	}
 	
+	/**
+	 * Sets if the entity should be rendered on its Y position. 
+	 * @param sortOnY true means it will be sorted on Y position, else it will not. 
+	 */
 	public void setSortOnY(boolean sortOnY)
 	{
 		_isSortedOnY = sortOnY;
@@ -46,6 +58,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 			_innerSortingLayer = 0f;
 	}
 	
+	/**
+	 * Returns the sorting value in the entity its layer which it is sorted on.
+	 * @return The higher the value the later it is rendered (The opposite of the normal Sort Layer)
+	 */
 	public float getInnerSortingLayer()
 	{
 		return _innerSortingLayer;
@@ -275,8 +291,13 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	{
 		_pivot = null;
 		_renderInfo = null;
+		_color = null;
 	}
 	
+	/**
+	 * Sets the inner layer sorting value and clamps it between 0 and 0.95f.
+	 * @param value indicates the depth the entity should be rendered in its layer. The higher the value, the later it will be rendered.
+	 */
 	private void setInnerSortingLayer(float value)
 	{
 		if(value < 0)
