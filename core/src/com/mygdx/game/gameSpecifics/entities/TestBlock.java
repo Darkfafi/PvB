@@ -5,8 +5,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
-import com.mygdx.game.entities.components.CollisionComponent;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
+import com.mygdx.game.entities.components.collision.CollisionComponent;
 import com.mygdx.game.resources.CollisionResources;
 
 public class TestBlock extends BaseEntity {
