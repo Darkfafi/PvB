@@ -7,6 +7,7 @@ import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
+import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
 import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
@@ -50,15 +51,11 @@ public class MenuScene extends BaseScene implements IEventReceiver
 
 	@Override
 	protected void created() {
+		
 		_physicsWorld = new PhysicsWorld();
 		
-		Enemy enemy = new Enemy(new Animations("run", MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run")), 0.5f);
-		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0));
-		Enemy enemy2 = new Enemy(new Animations("run", MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run")), 0.2f);
-		enemy2.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
-
-//		TestBlock block = new TestBlock();
-//		block.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0.25f));
+		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
+		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
 		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);

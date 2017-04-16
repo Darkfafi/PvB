@@ -7,6 +7,7 @@ import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.gameSpecifics.components.HealthComponent;
 import com.mygdx.game.resources.CollisionResources;
 
 public class Enemy extends BaseEntity 
@@ -15,14 +16,18 @@ public class Enemy extends BaseEntity
 	private float _moveSpeed = 0;
 	private Animations _animations;
 	
-	public Enemy(Animations animations, float moveSpeed)
+	public Enemy(Animations animations, float health, float movementSpeed)
 	{
-		_moveSpeed = moveSpeed;
+		_moveSpeed = movementSpeed;
 		_animations = animations;
+		
 		this.addComponent(new AnimationComponent(_animations, true, false));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
 		this.getComponent(AnimationComponent.class).setSortOnY(true);
+		
+		this.addComponent(new HealthComponent(health));
+		
 	}
 	
 	@Override

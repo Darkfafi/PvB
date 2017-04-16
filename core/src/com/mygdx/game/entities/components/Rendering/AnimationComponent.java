@@ -13,6 +13,7 @@ public class AnimationComponent extends RenderComponent
 	private float _timePassed = 0;
 	private boolean _isRunning = false;
 	private boolean _isPaused = false;
+	private Animations _animations = null;
 	
 	// Options
 	private float _animationSpeed = 0.5f; // At 60 fps this will be 30 fps
@@ -21,7 +22,22 @@ public class AnimationComponent extends RenderComponent
 	public AnimationComponent(Animations animations, boolean playOnCreation, boolean isUI) 
 	{
 		super(animations.getDefaultAnimation(), isUI);
+		_animations = animations;
 		if(playOnCreation)
+			play();
+	}
+	
+	/**
+	 * Sets the current animation to the animation with the given name. 
+	 * The animations are defined in the Animations class given in the constructor.
+	 * @param animationName of the animation which should be set as current animation
+	 * @param playOnSet if 'true', the animation will play after it is set, else it will not
+	 */
+	public void setCurrentAnimation(String animationName, boolean playOnSet)
+	{
+		stop();
+		this.setRenderInfo(_animations.getAnimation(animationName));
+		if(playOnSet)
 			play();
 	}
 	
@@ -161,6 +177,8 @@ public class AnimationComponent extends RenderComponent
 	protected void destroyed() {
 		// TODO Auto-generated method stub
 		super.destroyed();
+		_animations.clean();
+		_animations = null;
 	}
 
 }

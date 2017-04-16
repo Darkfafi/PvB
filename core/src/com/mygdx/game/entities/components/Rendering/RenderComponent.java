@@ -200,6 +200,8 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 			_renderInfo.clean();
 		
 		_renderInfo = info;
+		if(_renderInfo != null)
+			_renderInfo.setCurrentFrameInfo(0);
 	}
 	
 	/**
