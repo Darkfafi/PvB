@@ -28,7 +28,8 @@ public abstract class BaseTextureResources extends BaseResource
 	 */
 	public RenderInfo getRenderInfo(String key)
 	{
-		return _texturesUnderKeys.get(key);
+		RenderInfo originalRenderInfo = _texturesUnderKeys.get(key);
+		return new RenderInfo(originalRenderInfo.getTextureToDraw(), originalRenderInfo.getAllFrameInfos());
 	}
 	
 	/**

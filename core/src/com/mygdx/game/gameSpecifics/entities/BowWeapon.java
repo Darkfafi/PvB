@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.entities.components.Rendering.RenderInfo;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.IEventReceiver;
@@ -41,9 +42,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		// TODO Auto-generated method stub
-		RenderInfo ri = MyGdxGame.getTextureResources().getRenderInfo("bowDraw");
-		this.addComponent(new AnimationComponent(ri, false, false));
+		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo("bowDraw"));
+		this.addComponent(new AnimationComponent(animations, false, false));
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
 	}

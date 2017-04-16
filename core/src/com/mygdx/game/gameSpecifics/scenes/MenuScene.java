@@ -2,12 +2,11 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
-import com.mygdx.game.gameSpecifics.entities.Enemy2;
-import com.mygdx.game.gameSpecifics.entities.TestBlock;
 import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
@@ -53,10 +52,11 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	protected void created() {
 		_physicsWorld = new PhysicsWorld();
 		
-		Enemy enemy = new Enemy();
-		Enemy2 enemy2 = new Enemy2();
+		Enemy enemy = new Enemy(new Animations("run", MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run")), 0.5f);
 		enemy.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0));
-		
+		Enemy enemy2 = new Enemy(new Animations("run", MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run")), 0.2f);
+		enemy2.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
+
 //		TestBlock block = new TestBlock();
 //		block.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 0.25f));
 		

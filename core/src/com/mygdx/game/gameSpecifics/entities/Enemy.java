@@ -3,24 +3,31 @@ package com.mygdx.game.gameSpecifics.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
 import com.mygdx.game.resources.CollisionResources;
 
 public class Enemy extends BaseEntity 
 {
 	private float _time = 0;
+	private float _moveSpeed = 0;
+	private Animations _animations;
 	
-	@Override
-	protected void awake() {
-		// TODO Auto-generated method stub
-		this.addComponent(new AnimationComponent(MyGdxGame.getTextureResources().getRenderInfo("light_Bandit_0_Run"), true, false));
-		this.getTransformComponent().setScale(new Vector2(0.7f, 0.7f));
+	public Enemy(Animations animations, float moveSpeed)
+	{
+		_moveSpeed = moveSpeed;
+		_animations = animations;
+		this.addComponent(new AnimationComponent(_animations, true, false));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
-		
+		this.getComponent(AnimationComponent.class).setSortOnY(true);
+	}
+	
+	@Override
+	protected void awake() 
+	{	
 		this.addComponent(new CollisionComponent());
 		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ENEMY);
 		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
@@ -38,6 +45,7 @@ public class Enemy extends BaseEntity
 		// TODO Auto-generated method stub
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
+		this.getTransformComponent().translatePosition(new Vector2(0, this._moveSpeed));
 		if(_time > 2f)
 		{
 			//this.destroy();
