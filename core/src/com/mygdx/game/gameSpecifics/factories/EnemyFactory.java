@@ -2,6 +2,7 @@ package com.mygdx.game.gameSpecifics.factories;
 
 import static com.mygdx.game.MyGdxGame.getTextureResources;
 
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
 
@@ -53,7 +54,7 @@ public class EnemyFactory
 		switch(enemyType)
 		{
 		case LightBandit:
-			runKeys = new String[]{"light_Bandit_0_Run", "light_Bandit_1_Run"};
+			runKeys = new String[]{GameTextureResources.ANIMATION_LIGHT_BANDIT_0_RUN, GameTextureResources.ANIMATION_LIGHT_BANDIT_1_RUN};
 			break;
 		default:
 			System.out.println("Type animations not set! Please do in the EnemyFactory");

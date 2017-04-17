@@ -1,11 +1,13 @@
 package com.mygdx.game.gameSpecifics.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameAudioResources;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.entities.components.Rendering.Animations;
-import com.mygdx.game.entities.components.Rendering.RenderInfo;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.globals.InputGlobals;
@@ -30,6 +32,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	
 	private BaseProjectile _currentProjectile;
 	
+	private long _bowDrawSoundInstance = -10;
+	private float _volumeDraw = 0;
+	
 	@Override
 	public void onReceiveEvent(Event event) 
 	{
@@ -42,7 +47,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo("bowDraw"));
+		_bowDrawSoundInstance = -1;
+		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW));
 		this.addComponent(new AnimationComponent(animations, false, false));
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
@@ -55,6 +61,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		{
 			Vector2 aimLocation = new Vector2(MyGdxGame.getInputHandler().getX(_pointerControllingTouch),MyGdxGame.getInputHandler().getY(_pointerControllingTouch));
 			getTransformComponent().lookAt(aimLocation, 0.2f);
+			
+			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
+			_volumeDraw = 0.2f;
 		}
 		handleProjectilePlacement();
 	}
@@ -102,6 +111,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		if(strengthPercentage < minimum)
 			strengthPercentage = minimum;
 		
+		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage);
 		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
 		setBowIdle();
 	}
@@ -113,6 +123,10 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_drawStrength = 0;
 		this.getComponent(AnimationComponent.class).getRenderInfo().setCurrentFrameInfo(0); // Reset bow
 		_currentProjectile = new ArrowProjectile();
+		if(_bowDrawSoundInstance != -1)
+			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
+		
+		_bowDrawSoundInstance = -1;
 	}
 	
 	/**
@@ -128,6 +142,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		Vector2 lineToRealMaxDraw = new Vector2(lineToRealTarget.x, lineToRealTarget.y);
 		lineToRealMaxDraw.setLength(_radiusToTargetLoc - MAX_DRAW_LENGTH);
 		
+		float preStrength = _drawStrength;
+		
 		_drawStrength = 1 - (lineToTouch.len() - lineToRealMaxDraw.len()) / (lineToRealTarget.len() - lineToRealMaxDraw.len());
 		
 		if(_drawStrength > 1)
@@ -138,6 +154,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		{
 			_drawStrength = 0;
 		}
+		
+		if(preStrength != _drawStrength)
+			_volumeDraw = _drawStrength;
 		
 		AnimationComponent ac = this.getComponent(AnimationComponent.class);
 		ac.getRenderInfo().setCurrentFrameInfo((int)((ac.getRenderInfo().getFramesLength() - 1) * _drawStrength));
@@ -192,5 +211,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_targetLocation = new Vector2(posX, posY);
 		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(),this.getTransformComponent().getPositionY());
 		_currentBowStage = BowStage.Draw;
+		
+		_bowDrawSoundInstance = MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
+		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
 	}
 }

@@ -30,7 +30,7 @@ public class GameScene extends BaseScene
 		t += dt;
 		if(t > 2f)
 		{
-			this.getScenesManager().setScene(0);
+			//this.getScenesManager().setScene(0);
 		}
 	}
 

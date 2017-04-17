@@ -1,6 +1,7 @@
 package com.mygdx.game.gameSpecifics.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
 
@@ -46,7 +47,7 @@ public class ArrowProjectile extends BaseProjectile
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo("arrow"), false));
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_ARROW), false));
 		super.awake();
 	}
 
