@@ -2,12 +2,12 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
+import com.mygdx.game.gameSpecifics.level.Grid;
 import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
@@ -20,7 +20,7 @@ import com.mygdx.game.scenes.BaseScene;
 public class MenuScene extends BaseScene implements IEventReceiver
 {
 	private PhysicsWorld _physicsWorld;
-
+	private Grid _levelGrid;
 	@Override
 	public void destroyed() {
 		// TODO Auto-generated method stub
@@ -37,7 +37,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	@Override
 	public void render() {
 		_physicsWorld.render(this.getRenderComponents());
-		System.out.println("humma");
+		_levelGrid.debugRender(getRenderComponents());
 	}
 
 	@Override
@@ -59,6 +59,9 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
+		_levelGrid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 15);
+		
+		
 	}
 
 }
