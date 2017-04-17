@@ -20,13 +20,14 @@ import com.mygdx.game.scenes.BaseScene;
 public class MenuScene extends BaseScene implements IEventReceiver
 {
 	private PhysicsWorld _physicsWorld;
-	private Grid _levelGrid;
 	@Override
 	public void destroyed() {
 		// TODO Auto-generated method stub
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
+		_physicsWorld.clean();
+		_physicsWorld = null;
 	}
 
 	@Override
@@ -37,7 +38,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	@Override
 	public void render() {
 		_physicsWorld.render(this.getRenderComponents());
-		_levelGrid.debugRender(getRenderComponents());
 	}
 
 	@Override
@@ -59,9 +59,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
-		_levelGrid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 15);
-		
-		
 	}
 
 }

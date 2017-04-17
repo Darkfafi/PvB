@@ -53,7 +53,7 @@ public class Enemy extends BaseEntity
 		this.getTransformComponent().translatePosition(new Vector2(0, this._moveSpeed));
 		if(_time > 2f)
 		{
-			//this.destroy();
+			this.destroy();
 		}
 	}
 
