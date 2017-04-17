@@ -51,7 +51,7 @@ public abstract class BaseScenesManager
 	public void setScene(int sceneId)
 	{
 		popScene();
-		EntitySystem.getInstance().destroyAllEntities();
+		EntitySystem.getInstance().destroyAllEntitiesImmediately();
 		pushScene(sceneId);
 	}
 	
