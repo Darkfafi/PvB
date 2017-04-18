@@ -36,11 +36,11 @@ public class PhysicsWorld implements IEventReceiver
 	private OrthographicCamera _physicsCam;
 	
 	private ArrayList<CollisionComponent> _allCollisionComponents = new ArrayList<CollisionComponent>();
-	private ArrayList<Body> _allBodies = new ArrayList<Body>();
 	
 	public PhysicsWorld()
 	{
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
+		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 		_world = new World(new Vector2(0, 0), false);
 		_world.setContactListener(new CollisionComponentListener());
 		_bodyDef = new BodyDef();
@@ -61,7 +61,6 @@ public class PhysicsWorld implements IEventReceiver
 			{
 				tc = _allCollisionComponents.get(i).getParentOfComponent().getTransformComponent();
 				_allCollisionComponents.get(i).getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), tc.getRotation());
-				//System.out.println(_allCollisionComponents.get(i).getBody().getPosition());
 			}
 		}
 	}
@@ -105,7 +104,6 @@ public class PhysicsWorld implements IEventReceiver
 	private void createBodyForComponent(CollisionComponent c) 
 	{
 		c.setBody(_world.createBody(_bodyDef));
-		_allBodies.add(c.getBody());
 	}
 
 	/**
@@ -114,6 +112,7 @@ public class PhysicsWorld implements IEventReceiver
 	public void clean()
 	{
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
+		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 	}
 
 	@Override
@@ -122,6 +121,11 @@ public class PhysicsWorld implements IEventReceiver
 		if(event.getType() == EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED)
 		{
 			onComponentCreatedEvent(event);
+		}
+		
+		if(event.getType() == EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED)
+		{
+			onComponentDestroyedEvent(event);
 		}
 	}
 	
@@ -139,6 +143,17 @@ public class PhysicsWorld implements IEventReceiver
 		}
 	}
 	
+	private void onComponentDestroyedEvent(Event e)
+	{
+		ComponentEvent event = (ComponentEvent)e;
+		
+		if(event.getComponent().getClass() == CollisionComponent.class)
+		{
+			_world.destroyBody(((CollisionComponent)event.getComponent()).getBody());
+			deregisterComponent((CollisionComponent)event.getComponent());
+		}
+	}
+	
 	/**
 	 * Registers a new component as an active one in the system.
 	 * @param component
@@ -150,6 +165,17 @@ public class PhysicsWorld implements IEventReceiver
 			if(_allCollisionComponents.contains(component)) { return; }
 			_allCollisionComponents.add(component);
 			createBodyForComponent(component);
+		}
+	}
+	
+	private void deregisterComponent(CollisionComponent component)
+	{
+		if(component.getClass() == CollisionComponent.class)
+		{
+			if(_allCollisionComponents.contains(component))
+			{
+				_allCollisionComponents.remove(component);
+			}
 		}
 	}
 	
