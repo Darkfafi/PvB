@@ -26,4 +26,14 @@ public final class EngineGlobals
 	 * Event type for when a component is destroyed (Global event)
 	 */
 	public static final String GLOBAL_EVENT_COMPONENT_DESTROYED = "ComponentDestroyed";
+	
+	/**
+	 * Event type for when collision has started (Global Event)
+	 */
+	public static final String GLOBAL_EVENT_COLLISION_ENTER = "CollisionStarted";
+	
+	/**
+	 * Event type for when collision has stopped (Global Event)
+	 */
+	public static final String GLOBAL_EVENT_COLLISION_EXIT = "CollisionStopped";
 }

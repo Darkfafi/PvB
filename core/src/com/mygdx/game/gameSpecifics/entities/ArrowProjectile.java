@@ -1,9 +1,13 @@
 package com.mygdx.game.gameSpecifics.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
+import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.resources.CollisionResources;
 
 public class ArrowProjectile extends BaseProjectile 
 {
@@ -49,6 +53,18 @@ public class ArrowProjectile extends BaseProjectile
 	protected void awake() {
 		// TODO Auto-generated method stub
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
+		this.addComponent(new CollisionComponent());
+		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ARROW);
+		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
+		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_TRAP);
+		
+		//Create the Fixture for this Arrow Entity
+		FixtureDef _fixDef = new FixtureDef();
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f), new Vector2(0, 0), 0);
+		_fixDef.shape = shape;
+		this.getComponent(CollisionComponent.class).createFixture(_fixDef);
+	
 		super.awake();
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 	}

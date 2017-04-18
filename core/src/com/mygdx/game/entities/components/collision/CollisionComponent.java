@@ -17,7 +17,7 @@ public class CollisionComponent extends BaseEntityComponent {
 
 	private Body _body;
 	
-	private short _type; 
+	private short _type;
 	private List<Short> _allowedTypes = new ArrayList<Short>();
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
 	
@@ -37,15 +37,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	public Body getBody()
 	{
 		return _body;
-	}
-	
-	/**
-	 * Sets the collider category type for this entity
-	 * @param type
-	 */
-	public void setType(short type)
-	{
-		_type = type;
 	}
 	
 	/**
@@ -75,6 +66,30 @@ public class CollisionComponent extends BaseEntityComponent {
 	}
 	
 	/**
+	 * Sets the collision category type for this entity
+	 * @param type
+	 */
+	public void setType(short type)
+	{
+		_type = type;
+	}
+	
+	/**
+	 * Sets the current body and puts the given fixtures to it.
+	 * @param body
+	 */
+	public void setBody(Body body)
+	{
+		_body = body;
+		
+		for(int i = 0; i < _fixDefs.size(); i++)
+		{
+			createFixtureForBody(_fixDefs.get(i), body);
+		}
+		_fixDefs.clear();
+	}
+	
+	/**
 	 * Creates and adds a fixture for this entity. A FixtureDef must be given so that multiple fixtures can be added to the entity.
 	 * NOTE: A shape must be created first. This has to be given to the fixDef parameter.
 	 * @param fixDef
@@ -93,18 +108,14 @@ public class CollisionComponent extends BaseEntityComponent {
 	}
 	
 	/**
-	 * Sets the current body and puts the given fixtures to it.
+	 * Creates a Fixture for the entity's Body using the FixtureDef def
+	 * And also sets the fixture's userData as this object
+	 * @param def
 	 * @param body
 	 */
-	public void setBody(Body body)
+	private void createFixtureForBody(FixtureDef def, Body body)
 	{
-		_body = body;
-		
-		for(int i = 0; i < _fixDefs.size(); i++)
-		{
-			createFixtureForBody(_fixDefs.get(i), body);
-		}
-		_fixDefs.clear();
+		body.createFixture(def).setUserData(this);
 	}
 	
 	@Override
@@ -122,11 +133,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	protected void destroyed() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	private void createFixtureForBody(FixtureDef def, Body body)
-	{
-		body.createFixture(def);
 	}
 
 }

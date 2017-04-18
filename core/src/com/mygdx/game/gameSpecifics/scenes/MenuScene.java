@@ -53,7 +53,6 @@ public class MenuScene extends BaseScene
 		
 		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
 		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
-		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 	}
 
