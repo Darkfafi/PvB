@@ -1,6 +1,7 @@
 package com.mygdx.game.gameSpecifics.level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.mygdx.game.scenes.RenderComponents;
 
@@ -30,6 +31,15 @@ public class Grid
 		_tileAmountY = tileAmountY + 1;
 		
 		createGrid();
+	}
+	
+	/**
+	 * Returns all tiles created by this grid.
+	 * @return All GridTile objects made by this grid.
+	 */
+	public Collection<GridTile> getAllTiles()
+	{
+		return _levelGridTiles;
 	}
 	
 	/**
