@@ -100,7 +100,7 @@ public class PhysicsWorld implements IEventReceiver
 	private void createBodyForComponent(CollisionComponent c) 
 	{
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.KinematicBody;
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
 		c.setBody(_world.createBody(bodyDef));
 	}
 

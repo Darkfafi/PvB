@@ -2,6 +2,7 @@ package com.mygdx.game.entities.components.collision;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -16,6 +17,8 @@ public class CollisionComponent extends BaseEntityComponent {
 
 	private Body _body;
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
+	
+	private Vector2 _velocity = new Vector2(0,0); 
 	
 	
 	/**
@@ -73,6 +76,19 @@ public class CollisionComponent extends BaseEntityComponent {
 		newFix.setUserData(this);
 	}
 	
+	public void setVelocity(float xVelocity, float yVelocity)
+	{
+		this.getBody().setLinearVelocity(xVelocity, yVelocity);
+		_velocity.x = xVelocity;
+		_velocity.y = yVelocity;
+	}
+	
+	public void stopVelocity()
+	{
+		_velocity.x = 0;
+		_velocity.y = 0;
+	}
+	
 	@Override
 	public void awake() {
 		// TODO Auto-generated method stub
@@ -80,8 +96,13 @@ public class CollisionComponent extends BaseEntityComponent {
 	}
 
 	@Override
-	public void updated(float deltaTime) {
-		//TODO Auto-generated method stub
+	public void updated(float deltaTime) 
+	{
+		if(_velocity.len() > 0)
+		{
+			this.getParentOfComponent().getTransformComponent().setPosition(new Vector2(this.getBody().getPosition().x, this.getBody().getPosition().y));
+			this.getParentOfComponent().getTransformComponent().setRotation((float) -Math.toDegrees(this.getBody().getAngle()));
+		}
 	}
 
 	@Override

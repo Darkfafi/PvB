@@ -53,6 +53,19 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		_currentSpeed = _SPEED * drawPower;
 		_startPos = new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
 		getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
+		
+		
+		Vector2 diff = new Vector2(_landSpot.x, _landSpot.y);
+		diff.sub(new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY()));
+		if(diff.len() > _currentSpeed && diff.len() < _currentSpeed * 2)
+		{
+			diff.setLength(_currentSpeed); // Fixes the stuck in velocity bug
+		}
+		
+		diff.nor();
+		diff.x *= _currentSpeed;
+		diff.y *= _currentSpeed;
+		this.getComponent(CollisionComponent.class).setVelocity(diff.x, diff.y);
 	}
 	
 	@Override
@@ -98,18 +111,11 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 				distancePercentage = diff.len() / distancePercentage;
 				this.setHeightStage(getHeightStageByDistancePercentage(distancePercentage));
 				//System.out.println(this.getHeightStage());
-				
-				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(
-						Math.round((1 - distancePercentage) * (this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 3))
-				);
-				
-				diff.nor();
-				diff.x *= _currentSpeed;
-				diff.y *= _currentSpeed;
-				this.getTransformComponent().translatePosition(diff);
 			}
 			else if(_timeOnGround < _GROUND_LIFE_TIME)
 			{
+
+				this.getComponent(CollisionComponent.class).stopVelocity();
 				_timeOnGround += dt;
 				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
 				this.getComponent(RenderComponent.class).setSortingLayer(1);
