@@ -28,4 +28,14 @@ public class Playfield
 		if(_grid != null)
 			_grid.debugRender(rcs);
 	}
+	
+	public PlayerBase getPlayerBase()
+	{
+		return _playerBase;
+	}
+	
+	public Grid getGrid()
+	{
+		return _grid;
+	}
 }

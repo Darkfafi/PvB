@@ -17,13 +17,14 @@ import com.mygdx.game.scenes.BaseScene;
  * This will spawn and set the world for the menu related classes.
  * @author Ramses Di Perna
  */
-public class MenuScene extends BaseScene implements IEventReceiver
+public class MenuScene extends BaseScene
 {
 	private PhysicsWorld _physicsWorld;
+	private float t = 0;
+	
 	@Override
 	public void destroyed() {
 		// TODO Auto-generated method stub
-		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
 		_physicsWorld.clean();
@@ -33,20 +34,16 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	@Override
 	public void update(float dt) {
 		_physicsWorld.update();
+		t += dt;
+		if(t > 2f)
+		{
+			this.getScenesManager().setScene(1);
+		}
 	}
 
 	@Override
 	public void render() {
 		_physicsWorld.render(this.getRenderComponents());
-	}
-
-	@Override
-	public void onReceiveEvent(Event event) {
-		// TODO Auto-generated method stub
-		if(event.getType() == EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED)
-		{
-			this.getScenesManager().setScene(GameScenesManager.GAME_SCENE);
-		}
 	}
 
 	@Override
@@ -58,7 +55,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
 		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
-		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
 	}
 
 }

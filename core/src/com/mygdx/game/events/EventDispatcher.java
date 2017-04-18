@@ -104,4 +104,10 @@ public abstract class EventDispatcher
 			this.removeEventListener(_allListeners.get(i).getType(), _allListeners.get(i).getListener());
 		}
 	}
+	
+	public void clean()
+	{
+		_allListeners.clear();
+		_allListeners = null;
+	}
 }

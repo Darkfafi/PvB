@@ -47,7 +47,7 @@ public class ArrowProjectile extends BaseProjectile
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_ARROW), false));
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_ARROW), false)).setSortingLayer(3);
 		super.awake();
 	}
 

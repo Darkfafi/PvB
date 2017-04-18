@@ -26,8 +26,8 @@ public class Grid
 	{
 		_gridWidth = gridWidth;
 		_gridHeight = gridHeight;
-		_tileAmountX = tileAmountX;
-		_tileAmountY = tileAmountY;
+		_tileAmountX = tileAmountX + 1;
+		_tileAmountY = tileAmountY + 1;
 		
 		createGrid();
 	}
@@ -56,7 +56,7 @@ public class Grid
 	 */
 	public float getTileWidth()
 	{
-		return (float)_gridWidth / (float)_tileAmountX;
+		return (float)_gridWidth / ((float)getTileAmountX());
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Grid
 	 */
 	public float getTileHeight()
 	{
-		return (float)_gridHeight / (float)_tileAmountY;
+		return (float)_gridHeight / ((float)getTileAmountY());
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class Grid
 	 */
 	public int getTileAmountX()
 	{
-		return _tileAmountX;
+		return _tileAmountX - 1;
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class Grid
 	 */
 	public int getTileAmountY()
 	{
-		return _tileAmountY;
+		return _tileAmountY - 1;
 	}
 	
 	/**
@@ -138,9 +138,9 @@ public class Grid
 	 */
 	private void createGrid()
 	{
-		for(int yRow = 0; yRow < _tileAmountY; yRow++)
+		for(int yRow = -1; yRow < _tileAmountY; yRow++)
 		{
-			for(int xRow = 0; xRow < _tileAmountX; xRow++)
+			for(int xRow = -1; xRow < _tileAmountX; xRow++)
 			{
 				_levelGridTiles.add(new GridTile(xRow, yRow, this));
 			}

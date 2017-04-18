@@ -1,5 +1,7 @@
 package com.mygdx.game.gameSpecifics.level;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -10,6 +12,7 @@ public class GridTile
 	// Idea: string list of things on the tile, "Trap, Enemy, Blockade, DamageArea" etc etc..
 	private ShapeRenderer _debugShapeRenderer = new ShapeRenderer();
 	private Grid _grid;
+	private ArrayList<String> _currentGridOccupyingTags = new ArrayList<String>();
 	
 	/**
 	 * The tile of the grid requires a grid position and the grid itself
@@ -22,6 +25,21 @@ public class GridTile
 		_xPos = xPos;
 		_yPos = yPos;
 		_grid = grid;
+	}
+	
+	public void addOccupyingTag(String tag)
+	{
+		_currentGridOccupyingTags.add(tag);
+	}
+	
+	public void removeOccupyingTag(String tag)
+	{
+		_currentGridOccupyingTags.remove(tag);
+	}
+	
+	public boolean hasOccupyingTag(String tag)
+	{
+		return _currentGridOccupyingTags.contains(tag);
 	}
 	
 	/**
@@ -101,5 +119,7 @@ public class GridTile
 	{
 		_debugShapeRenderer = null;
 		_grid = null;
+		_currentGridOccupyingTags.clear();
+		_currentGridOccupyingTags = null;
 	}
 }

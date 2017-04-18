@@ -6,6 +6,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
 import com.mygdx.game.gameSpecifics.level.Playfield;
+import com.mygdx.game.gameSpecifics.level.WaveSystem;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -16,6 +17,8 @@ import com.mygdx.game.scenes.BaseScene;
 public class GameScene extends BaseScene 
 {
 	private Playfield _playfield = new Playfield();
+	private WaveSystem _waveSystem;
+	
 	private float t = 0;
 	@Override
 	public void destroyed() {
@@ -25,13 +28,9 @@ public class GameScene extends BaseScene
 	}
 
 	@Override
-	public void update(float dt) {
-		// TODO Auto-generated method stub
-		t += dt;
-		if(t > 2f)
-		{
-			//this.getScenesManager().setScene(0);
-		}
+	public void update(float dt) 
+	{
+		_waveSystem.updateWaveSystem(dt);
 	}
 
 	@Override
@@ -41,10 +40,13 @@ public class GameScene extends BaseScene
 	}
 
 	@Override
-	protected void created() {
-		// TODO Auto-generated method stub
+	protected void created() 
+	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
+		
 		_playfield.createLevel();
+		_waveSystem = new WaveSystem(_playfield);
+		
 		BowWeapon bow = new BowWeapon();
 		bow.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 	}
