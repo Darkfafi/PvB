@@ -34,15 +34,13 @@ public class Enemy extends BaseEntity
 	protected void awake() 
 	{	
 		this.addComponent(new CollisionComponent());
-		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ENEMY);
-		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
-		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ARROW);
 		
 		FixtureDef _fixDef = new FixtureDef();
+		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW | CollisionResources.BIT_TRAP;
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(0, 0), 0);
 		_fixDef.shape = shape;
-		this.getComponent(CollisionComponent.class).createFixture(_fixDef);
+		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ENEMY);
 	}
 	
 	@Override
