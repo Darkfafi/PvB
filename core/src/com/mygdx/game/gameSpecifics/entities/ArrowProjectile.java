@@ -7,9 +7,12 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.events.Event;
+import com.mygdx.game.events.IEventReceiver;
+import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.CollisionResources;
 
-public class ArrowProjectile extends BaseProjectile 
+public class ArrowProjectile extends BaseProjectile implements IEventReceiver 
 {
 	private final float _SPEED = 2f;
 	private final float _GROUND_LIFE_TIME = 3f; 
@@ -19,6 +22,15 @@ public class ArrowProjectile extends BaseProjectile
 	private Vector2 _startPos = null;
 	
 	private float _timeOnGround = 0f;
+	
+	@Override
+	public void onReceiveEvent(Event event) 
+	{
+		if(event.getType() == EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER)
+		{
+			System.out.println("fsddf");
+		}
+	}
 	
 	public Vector2 getLandingPositionWithDrawWeight(float drawWeight)
 	{
@@ -53,10 +65,11 @@ public class ArrowProjectile extends BaseProjectile
 	protected void awake() {
 		// TODO Auto-generated method stub
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
-		this.addComponent(new CollisionComponent());
+		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, this);;
 		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ARROW);
 		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
 		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_TRAP);
+		
 		
 		//Create the Fixture for this Arrow Entity
 		FixtureDef _fixDef = new FixtureDef();
@@ -85,7 +98,7 @@ public class ArrowProjectile extends BaseProjectile
 				float distancePercentage = Vector2.dst(_startPos.x, _startPos.y, _landSpot.x, _landSpot.y);
 				distancePercentage = diff.len() / distancePercentage;
 				this.setHeightStage(getHeightStageByDistancePercentage(distancePercentage));
-				System.out.println(this.getHeightStage());
+				//System.out.println(this.getHeightStage());
 				
 				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(
 						Math.round((1 - distancePercentage) * (this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 3))

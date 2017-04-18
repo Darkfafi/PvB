@@ -62,6 +62,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 			getTransformComponent().lookAt(aimLocation, 0.2f);
 			
 			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
+			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setPitch(_bowDrawSoundInstance, _drawStrength);
 			_volumeDraw = 0.1f;
 		}
 		handleProjectilePlacement();

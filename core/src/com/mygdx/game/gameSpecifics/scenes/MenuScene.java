@@ -2,13 +2,8 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.events.Event;
-import com.mygdx.game.events.GlobalDispatcher;
-import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
-import com.mygdx.game.gameSpecifics.level.Grid;
-import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
 
@@ -53,7 +48,6 @@ public class MenuScene extends BaseScene
 		
 		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
 		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
-		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 	}
 
 }

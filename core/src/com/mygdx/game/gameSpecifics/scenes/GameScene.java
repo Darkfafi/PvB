@@ -10,6 +10,7 @@ import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
 import com.mygdx.game.gameSpecifics.level.Playfield;
 import com.mygdx.game.gameSpecifics.level.WaveSystem;
+import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
 
 /**
@@ -19,21 +20,25 @@ import com.mygdx.game.scenes.BaseScene;
  */
 public class GameScene extends BaseScene 
 {
+	private PhysicsWorld _physicsWorld;
 	private Playfield _playfield = new Playfield();
 	private WaveSystem _waveSystem;
 	
-	private float t = 0;
 	@Override
 	public void destroyed() {
 		// TODO Auto-generated method stub
 		_playfield.destroyLevel();
 		_playfield = null;
+		
+		_physicsWorld.clean();
+		_physicsWorld = null;
 	}
 
 	@Override
 	public void update(float dt) 
 	{
 		_waveSystem.updateWaveSystem(dt);
+		_physicsWorld.update();
 	}
 
 	@Override
@@ -45,13 +50,15 @@ public class GameScene extends BaseScene
 		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
 		getRenderComponents().getSpriteBatch().end();
 		
+		_physicsWorld.render(getRenderComponents());
+		
 	}
 
 	@Override
 	protected void created() 
 	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
-		
+		_physicsWorld = new PhysicsWorld();
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
 		
 		_playfield.createLevel();

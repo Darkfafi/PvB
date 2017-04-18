@@ -61,7 +61,7 @@ public class PhysicsWorld implements IEventReceiver
 			{
 				tc = _allCollisionComponents.get(i).getParentOfComponent().getTransformComponent();
 				_allCollisionComponents.get(i).getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), tc.getRotation());
-				System.out.println(_allCollisionComponents.get(i).getBody().getPosition());
+				//System.out.println(_allCollisionComponents.get(i).getBody().getPosition());
 			}
 		}
 	}
