@@ -18,7 +18,7 @@ public class Enemy extends BaseEntity
 	
 	public Enemy(Animations animations, float health, float movementSpeed)
 	{
-		_moveSpeed = movementSpeed;
+		_moveSpeed = 0;
 		_animations = animations;
 		
 		this.addComponent(new AnimationComponent(_animations, true, false));

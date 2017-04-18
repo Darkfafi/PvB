@@ -9,11 +9,15 @@ import com.mygdx.game.gameSpecifics.level.GridTile;
 
 public class GridUserComponent extends BaseEntityComponent
 {
+	public static final int NOT_LOCATED_VALUE = -1337;
+	
 	private ArrayList<String> _gridOccupyTags = new ArrayList<String>();
 	private Grid _grid;
 	private int _xSize, _ySize;
-	private int _locationX = -1337;
-	private int _locationY = -1337;
+	private int _locationX = NOT_LOCATED_VALUE;
+	private int _locationY = NOT_LOCATED_VALUE;
+	
+	
 	
 	public GridUserComponent(Grid grid, String gridOccupyTag, int xSize, int ySize)
 	{
@@ -47,8 +51,23 @@ public class GridUserComponent extends BaseEntityComponent
 	 */
 	public GridTile getCurrentLocatedTile()
 	{
-		if(_locationX == -1337){return null;}
+		if(!isLocated()){return null;}
 		return _grid.getTile(_locationX, _locationY);
+	}
+	
+	public boolean isLocated()
+	{
+		return _locationX != NOT_LOCATED_VALUE;
+	}
+	
+	public int getLocationX()
+	{
+		return _locationX;
+	}
+	
+	public int getLocationY()
+	{
+		return _locationY;
 	}
 	
 	/**
@@ -62,6 +81,8 @@ public class GridUserComponent extends BaseEntityComponent
 	public void placeSelfOnLocation(int x, int y)
 	{
 		this.removeSelfFromLocation();
+		_locationX = x;
+		_locationY = y;
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
@@ -80,7 +101,7 @@ public class GridUserComponent extends BaseEntityComponent
 	 */
 	public void removeSelfFromLocation()
 	{
-		if(_locationX == -1337) { return; }
+		if(!isLocated()) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
@@ -91,8 +112,8 @@ public class GridUserComponent extends BaseEntityComponent
 				}
 			}
 		}
-		_locationX = -1337;
-		_locationY = -1337;
+		_locationX = NOT_LOCATED_VALUE;
+		_locationY = NOT_LOCATED_VALUE;
 	}
 	
 	/**
@@ -115,7 +136,7 @@ public class GridUserComponent extends BaseEntityComponent
 		else
 			return;
 		
-		if(_locationX == -1337) { return; }
+		if(!isLocated()) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
@@ -136,7 +157,7 @@ public class GridUserComponent extends BaseEntityComponent
 		else
 			return;
 		
-		if(_locationX == -1337) { return; }
+		if(!isLocated()) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
