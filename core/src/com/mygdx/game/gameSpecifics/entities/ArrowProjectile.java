@@ -36,6 +36,7 @@ public class ArrowProjectile extends BaseProjectile
 		drawPower = (drawPower <= 5f) ? 5f : drawPower;
 		_currentSpeed = _SPEED * drawPower;
 		_startPos = new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
+		getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
 	}
 	
 	@Override
@@ -47,8 +48,9 @@ public class ArrowProjectile extends BaseProjectile
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_ARROW), false)).setSortingLayer(3);
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
 		super.awake();
+		this.getComponent(RenderComponent.class).setSortOnY(true);
 	}
 
 	@Override
@@ -68,6 +70,11 @@ public class ArrowProjectile extends BaseProjectile
 				distancePercentage = diff.len() / distancePercentage;
 				this.setHeightStage(getHeightStageByDistancePercentage(distancePercentage));
 				System.out.println(this.getHeightStage());
+				
+				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(
+						Math.round((1 - distancePercentage) * (this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 3))
+				);
+				
 				diff.nor();
 				diff.x *= _currentSpeed;
 				diff.y *= _currentSpeed;
@@ -76,6 +83,9 @@ public class ArrowProjectile extends BaseProjectile
 			else if(_timeOnGround < _GROUND_LIFE_TIME)
 			{
 				_timeOnGround += dt;
+				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
+				this.getComponent(RenderComponent.class).setSortingLayer(1);
+				getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0.7f), true);
 			}
 			else
 			{
@@ -83,8 +93,6 @@ public class ArrowProjectile extends BaseProjectile
 				if(rc.getAlpha() > 0.1f)
 				{
 					rc.setAlpha(rc.getAlpha() - dt * 5);
-					//getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
-					//getTransformComponent().translateScale(new Vector2(-2f * dt, -2f * dt));
 				}
 				else
 				{
@@ -103,8 +111,6 @@ public class ArrowProjectile extends BaseProjectile
 	
 	private HeightStage getHeightStageByDistancePercentage(float distancePercentage) 
 	{
-		System.out.println(distancePercentage);
-
 		if(distancePercentage < 0.15f)
 			return HeightStage.Idle;
 		if(distancePercentage < 0.2f || distancePercentage > 0.8f)

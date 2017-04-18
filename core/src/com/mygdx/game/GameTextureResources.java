@@ -5,7 +5,7 @@ import com.mygdx.game.resources.BaseTextureResources;
 public class GameTextureResources extends BaseTextureResources 
 {
 	public static final String ANIMATION_BOW_DRAW = "bowDraw";
-	public static final String SPRITE_BOW_ARROW = "arrow";
+	public static final String ANIMATION_BOW_ARROW = "arrowFly";
 	
 	public static final String ANIMATION_LIGHT_BANDIT_0_RUN = "light_Bandit_0_Run";
 	public static final String ANIMATION_LIGHT_BANDIT_1_RUN = "light_Bandit_1_Run";
@@ -17,7 +17,7 @@ public class GameTextureResources extends BaseTextureResources
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
-		this.loadResource(SPRITE_BOW_ARROW, "weapon/arrow.png");
+		this.loadResource(ANIMATION_BOW_ARROW, "weapon/arrowFly.png", "weapon/arrowFly.xml");
 		
 		// Enemies
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_RUN,"enemies/banditARun.png", "enemies/banditARun.xml");

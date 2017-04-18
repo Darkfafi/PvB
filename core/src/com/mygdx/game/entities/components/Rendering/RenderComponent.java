@@ -53,6 +53,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public void setSortOnY(boolean sortOnY)
 	{
+		if(_isSortedOnY == sortOnY) { return; }
 		_isSortedOnY = sortOnY;
 		if(!_isSortedOnY)
 			_innerSortingLayer = 0f;
