@@ -5,14 +5,15 @@ import java.util.Collection;
 
 import com.mygdx.game.entities.BaseEntityComponent;
 import com.mygdx.game.gameSpecifics.level.Grid;
+import com.mygdx.game.gameSpecifics.level.GridTile;
 
 public class GridUserComponent extends BaseEntityComponent
 {
 	private ArrayList<String> _gridOccupyTags = new ArrayList<String>();
 	private Grid _grid;
 	private int _xSize, _ySize;
-	private int _locationX = -1;
-	private int _locationY = -1;
+	private int _locationX = -1337;
+	private int _locationY = -1337;
 	
 	public GridUserComponent(Grid grid, String gridOccupyTag, int xSize, int ySize)
 	{
@@ -38,6 +39,16 @@ public class GridUserComponent extends BaseEntityComponent
 		{
 			addGridOccupyTag(gridOccupyTags[i]);
 		}
+	}
+	
+	/**
+	 * Returns the current tile this user is located on. If it was not placed, this will return null
+	 * @return The current tile this user is placed on.
+	 */
+	public GridTile getCurrentLocatedTile()
+	{
+		if(_locationX == -1337){return null;}
+		return _grid.getTile(_locationX, _locationY);
 	}
 	
 	/**
@@ -69,7 +80,7 @@ public class GridUserComponent extends BaseEntityComponent
 	 */
 	public void removeSelfFromLocation()
 	{
-		if(_locationX == -1) { return; }
+		if(_locationX == -1337) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
@@ -80,8 +91,8 @@ public class GridUserComponent extends BaseEntityComponent
 				}
 			}
 		}
-		_locationX = -1;
-		_locationY = -1;
+		_locationX = -1337;
+		_locationY = -1337;
 	}
 	
 	/**
@@ -104,7 +115,7 @@ public class GridUserComponent extends BaseEntityComponent
 		else
 			return;
 		
-		if(_locationX == -1) { return; }
+		if(_locationX == -1337) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
@@ -125,7 +136,7 @@ public class GridUserComponent extends BaseEntityComponent
 		else
 			return;
 		
-		if(_locationX == -1) { return; }
+		if(_locationX == -1337) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
