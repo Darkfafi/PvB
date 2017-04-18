@@ -17,7 +17,6 @@ public class WaveSystem
 		System.out.println(playfield.getGrid());
 	}
 	
-	
 	public void updateWaveSystem(float deltaTime)
 	{
 		_timeSinceSpawnedEnemy += deltaTime;
@@ -28,6 +27,10 @@ public class WaveSystem
 		}
 	}
 	
+	/**
+	 * Creates an enemy of the given enemy type using the EneyFactory and places it above the playground on a random x axis.
+	 * @param enemyType to spawn
+	 */
 	private void createEnemy(EnemyFactory.EnemyType enemyType)
 	{
 		Enemy e = EnemyFactory.createEnemyOfType(enemyType);
@@ -37,6 +40,10 @@ public class WaveSystem
 		e.getTransformComponent().setPosition(new Vector2(tile.getWorldPositionX() + tile.getTileWidth() / 2, tile.getWorldPositionY() + tile.getTileHeight() / 2));
 	}
 	
+	/**
+	 * Returns a random tile in the horizontal axis of the grid.
+	 * @return The randomly selected horizontal tile grid position.
+	 */
 	private int getSpawnPointX()
 	{
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
