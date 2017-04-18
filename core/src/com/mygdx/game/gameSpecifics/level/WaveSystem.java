@@ -20,7 +20,7 @@ public class WaveSystem
 	public void updateWaveSystem(float deltaTime)
 	{
 		_timeSinceSpawnedEnemy += deltaTime;
-		if(_timeSinceSpawnedEnemy >= 1f)
+		if(_timeSinceSpawnedEnemy >= 20f)
 		{
 			createEnemy(EnemyFactory.EnemyType.LightBandit);
 			_timeSinceSpawnedEnemy = 0f;

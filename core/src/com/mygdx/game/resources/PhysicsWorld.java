@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -30,7 +29,6 @@ import com.mygdx.game.scenes.RenderComponents;
 public class PhysicsWorld implements IEventReceiver
 {
 	private World _world;
-	private BodyDef _bodyDef;
 	
 	private Box2DDebugRenderer _debugRenderer;
 	private OrthographicCamera _physicsCam;
@@ -43,8 +41,6 @@ public class PhysicsWorld implements IEventReceiver
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 		_world = new World(new Vector2(0, 0), false);
 		_world.setContactListener(new CollisionComponentListener());
-		_bodyDef = new BodyDef();
-		_bodyDef.type = BodyDef.BodyType.KinematicBody;
 		_physicsCam = new OrthographicCamera();
 		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)MyGdxGame.WIDTH), CollisionResources.convertToPPM((float)MyGdxGame.HEIGHT));
 		
@@ -55,7 +51,7 @@ public class PhysicsWorld implements IEventReceiver
 	public void update()
 	{
 		TransformComponent tc;
-		for(int i = 0; i < _allCollisionComponents.size(); i++)
+		for(int i = _allCollisionComponents.size() - 1; i >= 0; i--)
 		{
 			if(_allCollisionComponents.get(i).getBody() != null)
 			{
@@ -103,7 +99,9 @@ public class PhysicsWorld implements IEventReceiver
 	 */
 	private void createBodyForComponent(CollisionComponent c) 
 	{
-		c.setBody(_world.createBody(_bodyDef));
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.KinematicBody;
+		c.setBody(_world.createBody(bodyDef));
 	}
 
 	/**
@@ -146,11 +144,11 @@ public class PhysicsWorld implements IEventReceiver
 	private void onComponentDestroyedEvent(Event e)
 	{
 		ComponentEvent event = (ComponentEvent)e;
-		
 		if(event.getComponent().getClass() == CollisionComponent.class)
 		{
-			_world.destroyBody(((CollisionComponent)event.getComponent()).getBody());
 			deregisterComponent((CollisionComponent)event.getComponent());
+			_world.destroyBody(((CollisionComponent)event.getComponent()).getBody());
+			((CollisionComponent)event.getComponent()).setBody(null);
 		}
 	}
 	

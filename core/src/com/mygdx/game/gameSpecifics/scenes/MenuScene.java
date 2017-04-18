@@ -14,7 +14,7 @@ import com.mygdx.game.scenes.BaseScene;
  */
 public class MenuScene extends BaseScene
 {
-	private PhysicsWorld _physicsWorld;
+	//private PhysicsWorld _physicsWorld;
 	private float t = 0;
 	
 	@Override
@@ -22,13 +22,13 @@ public class MenuScene extends BaseScene
 		// TODO Auto-generated method stub
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
-		_physicsWorld.clean();
-		_physicsWorld = null;
+		//_physicsWorld.clean();
+		//_physicsWorld = null;
 	}
 
 	@Override
 	public void update(float dt) {
-		_physicsWorld.update();
+		//_physicsWorld.update();
 		t += dt;
 		if(t > 2f)
 		{
@@ -38,16 +38,16 @@ public class MenuScene extends BaseScene
 
 	@Override
 	public void render() {
-		_physicsWorld.render(this.getRenderComponents());
+		//_physicsWorld.render(this.getRenderComponents());
 	}
 
 	@Override
 	protected void created() {
 		
-		_physicsWorld = new PhysicsWorld();
+		//_physicsWorld = new PhysicsWorld();
 		
-		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
-		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
+		//Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
+		//e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
 	}
 
 }

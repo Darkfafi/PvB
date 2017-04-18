@@ -15,9 +15,7 @@ import com.mygdx.game.entities.BaseEntityComponent;
 public class CollisionComponent extends BaseEntityComponent {
 
 	private Body _body;
-	
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
-	private Stack<Fixture> _fixtures = new Stack<Fixture>();
 	
 	
 	/**
@@ -37,6 +35,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	{
 		_body = body;
 		
+		if(_body == null) { return; }
 		for(int i = 0; i < _fixDefs.size(); i++)
 		{
 			createFixtureForBody(_fixDefs.get(i), body);
@@ -72,7 +71,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	{
 		Fixture newFix = body.createFixture(def);
 		newFix.setUserData(this);
-		_fixtures.add(newFix);
 	}
 	
 	@Override
@@ -89,7 +87,9 @@ public class CollisionComponent extends BaseEntityComponent {
 	@Override
 	protected void destroyed() {
 		// TODO Auto-generated method stub
-		
+		_body = null;
+		_fixDefs.clear();
+		_fixDefs = null;
 	}
 
 }

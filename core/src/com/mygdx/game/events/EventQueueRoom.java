@@ -37,7 +37,8 @@ public class EventQueueRoom
 		{
 			for(int i = 0; i < items.size(); i++)
 			{
-				items.get(i).getListener().onReceiveEvent(event);
+				if(listToLoop.get(i).getType() == event.getType())
+					items.get(i).getListener().onReceiveEvent(event);
 			}
 		}
 	}
