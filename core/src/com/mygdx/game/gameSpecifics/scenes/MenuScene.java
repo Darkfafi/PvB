@@ -56,7 +56,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		
 		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
 		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
-		
 		MyGdxGame.getAudioResources().getMusic("testMusic").play();
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this);
 	}

@@ -7,53 +7,42 @@ import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
-import com.mygdx.game.gameSpecifics.components.HealthComponent;
 import com.mygdx.game.resources.CollisionResources;
 
-public class Enemy extends BaseEntity 
+public class Enemy2 extends BaseEntity 
 {
 	private float _time = 0;
-	private float _moveSpeed = 0;
 	private Animations _animations;
 	
-	public Enemy(Animations animations, float health, float movementSpeed)
-	{
-		_moveSpeed = movementSpeed;
-		_animations = animations;
-		
-		this.addComponent(new AnimationComponent(_animations, true, false));
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
-		this.getComponent(AnimationComponent.class).setSortingLayer(1);
-		this.getComponent(AnimationComponent.class).setSortOnY(true);
-		
-		this.addComponent(new HealthComponent(health));
-		
-	}
-	
 	@Override
-	protected void awake() 
-	{	
+	protected void awake() {
+		// TODO Auto-generated method stub
+		this.addComponent(new AnimationComponent(_animations, true, false));
+		this.getTransformComponent().setScale(new Vector2(0.8f, 0.8f));
+		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0.5f), false);
+		this.getComponent(AnimationComponent.class).setFlipX(true);
+		
 		this.addComponent(new CollisionComponent());
 		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ENEMY);
 		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
-		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ARROW);
 		
-		FixtureDef _fixDef = new FixtureDef();
+		FixtureDef fixDef = new FixtureDef();
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(0, 0), 0);
-		_fixDef.shape = shape;
-		this.getComponent(CollisionComponent.class).createFixture(_fixDef);
+		fixDef.shape = shape;
+		this.getComponent(CollisionComponent.class).createFixture(fixDef);
 	}
 	
 	@Override
 	protected void updated(float dt) {
 		// TODO Auto-generated method stub
+		this.getTransformComponent().translatePosition(new Vector2(0.4f, 0));
+		this.getTransformComponent().translateRotation(2.5f);
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
-		this.getTransformComponent().translatePosition(new Vector2(0, this._moveSpeed));
 		if(_time > 2f)
 		{
-			this.destroy();
+			//this.destroy();
 		}
 	}
 

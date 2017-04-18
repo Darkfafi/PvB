@@ -14,6 +14,7 @@ import com.mygdx.game.entities.EntitySystem;
 import com.mygdx.game.entities.components.ComponentEvent;
 import com.mygdx.game.entities.components.TransformComponent;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.entities.components.collision.CollisionComponentListener;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.events.IEventReceiver;
@@ -40,9 +41,10 @@ public class PhysicsWorld implements IEventReceiver
 	public PhysicsWorld()
 	{
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
-		_world = new World(new Vector2(0, 0), true);
+		_world = new World(new Vector2(0, 0), false);
+		_world.setContactListener(new CollisionComponentListener());
 		_bodyDef = new BodyDef();
-		_bodyDef.type = BodyDef.BodyType.DynamicBody;
+		_bodyDef.type = BodyDef.BodyType.KinematicBody;
 		_physicsCam = new OrthographicCamera();
 		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)MyGdxGame.WIDTH), CollisionResources.convertToPPM((float)MyGdxGame.HEIGHT));
 		
