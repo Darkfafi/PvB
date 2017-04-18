@@ -1,7 +1,10 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameAudioResources;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
@@ -37,12 +40,19 @@ public class GameScene extends BaseScene
 	public void render() 
 	{
 		_playfield.debugRender(getRenderComponents());
+		getRenderComponents().getSpriteBatch().begin();
+		Texture t = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
+		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
+		getRenderComponents().getSpriteBatch().end();
+		
 	}
 
 	@Override
 	protected void created() 
 	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
+		
+		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
 		
 		_playfield.createLevel();
 		_waveSystem = new WaveSystem(_playfield);

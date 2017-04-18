@@ -4,6 +4,8 @@ import com.mygdx.game.resources.BaseTextureResources;
 
 public class GameTextureResources extends BaseTextureResources 
 {
+	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
+	
 	public static final String ANIMATION_BOW_DRAW = "bowDraw";
 	public static final String ANIMATION_BOW_ARROW = "arrowFly";
 	
@@ -14,6 +16,8 @@ public class GameTextureResources extends BaseTextureResources
 	public void load() 
 	{
 		this.loadResource("testImage", "badlogic.jpg");
+		
+		this.loadResource(SPRITE_GAME_BACKGROUND_01, "background_01.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
