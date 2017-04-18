@@ -1,6 +1,7 @@
 package com.mygdx.game.entities.components.Rendering;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is a container for RenderInfos which the AnimationComponent uses to set and play animations by generic names.
@@ -11,8 +12,7 @@ import java.util.HashMap;
  */
 public class Animations
 {
-	private HashMap<String, RenderInfo> _animations = new HashMap<String, RenderInfo>();
-	
+	private HashMap<String, Animation> _animations = new HashMap<String, Animation>();
 	private String _defaultAnimationName;
 	
 	/**
@@ -20,10 +20,10 @@ public class Animations
 	 * @param defaultAnimationName to call the default animation by. This can be requested by the method 'getDefaultAnimationName'
 	 * @param defaultAnimationRenderInfo which is used as animation. This can be requested by the method 'getDefaultAnimation'
 	 */
-	public Animations(String defaultAnimationName, RenderInfo defaultAnimationRenderInfo)
+	public Animations(String defaultAnimationName, RenderInfo defaultAnimationRenderInfo, boolean loopAnimation)
 	{
 		_defaultAnimationName = defaultAnimationName;
-		setAnimation(defaultAnimationName, defaultAnimationRenderInfo);
+		setAnimation(defaultAnimationName, defaultAnimationRenderInfo, loopAnimation);
 	}
 	
 	/**
@@ -31,9 +31,13 @@ public class Animations
 	 * @param name to call the animation by
 	 * @param renderInfo which is used as animation
 	 */
-	public void setAnimation(String name, RenderInfo renderInfo)
+	public void setAnimation(String name, RenderInfo renderInfo, boolean loopAnimation)
 	{
-		_animations.put(name, renderInfo);
+		if(_animations.containsKey(name))
+		{
+			_animations.get(name).clear();
+		}
+		_animations.put(name, new Animation(renderInfo, loopAnimation));
 	}
 	
 	/**
@@ -43,6 +47,7 @@ public class Animations
 	public void removeAnimation(String name)
 	{
 		if(name == _defaultAnimationName) { return; } // The default animation can not be removed, only replaced.
+		_animations.get(name).clear();
 		_animations.remove(name);
 	}
 	
@@ -55,10 +60,25 @@ public class Animations
 	public RenderInfo getAnimation(String name)
 	{
 		if(_animations.containsKey(name))
-			return _animations.get(name);
+			return new RenderInfo(_animations.get(name).RenderInfo.getTextureToDraw(), _animations.get(name).RenderInfo.getAllFrameInfos());
 		
 		System.out.println("WARNING: Animation with name '" + name + "' not defined!");
 		return null;
+			
+	}
+	
+	/**
+	 * Returns the original loop purpose set for the animation
+	 * @param name of the needed animation to get loop information for
+	 * @return If the animation was meant to be played as a loop or not.
+	 */
+	public boolean getLoopAnimation(String name)
+	{
+		if(_animations.containsKey(name))
+			return _animations.get(name).LoopAnimation;
+		
+		System.out.println("WARNING: Animation with name '" + name + "' not defined!");
+		return false;
 			
 	}
 	
@@ -86,8 +106,29 @@ public class Animations
 	 */
 	public void clean()
 	{
+		for(Map.Entry<String, Animation> item : _animations.entrySet())
+		{
+			item.getValue().clear();
+		}
 		_animations.clear();
 		_animations = null;
 		_defaultAnimationName = null;
+	}
+	
+	private class Animation
+	{
+		public RenderInfo RenderInfo;
+		public boolean LoopAnimation;
+		
+		public Animation(RenderInfo renderInfo, boolean loopAnimation)
+		{
+			RenderInfo = renderInfo;
+			LoopAnimation = loopAnimation;
+		}
+		
+		public void clear()
+		{
+			RenderInfo = null;
+		}
 	}
 }

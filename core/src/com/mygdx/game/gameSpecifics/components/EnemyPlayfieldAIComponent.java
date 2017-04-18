@@ -3,6 +3,7 @@ package com.mygdx.game.gameSpecifics.components;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.gameSpecifics.level.GridTile;
 import com.mygdx.game.gameSpecifics.level.Playfield;
 
@@ -15,11 +16,13 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	}
 	
 	private Playfield _playfield;
+	private Enemy _enemy;
 	private AIState _currentState = AIState.Movement;
 	
 	public EnemyPlayfieldAIComponent(Playfield playfield)
 	{
 		super(playfield.getGrid(), "Enemy", 1, 1);
+		_enemy = (Enemy)this.getParentOfComponent();
 		_playfield = playfield;
 	}
 
@@ -40,6 +43,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	protected void destroyed() 
 	{
 		_playfield = null;
+		_enemy = null;
 		super.destroyed();
 	}
 

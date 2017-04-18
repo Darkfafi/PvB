@@ -18,7 +18,7 @@ public class HealthComponent extends BaseEntityComponent
 	/**
 	 * This event type is fired by the HealthComponent when it is damaged
 	 */
-	public static final String EVENT_HEALTH_DAMAHED = "EventHealthDamaged";
+	public static final String EVENT_HEALTH_DAMAGED = "EventHealthDamaged";
 	/**
 	 * This event type is fired by the HealthComponent when it is killed
 	 */
@@ -62,7 +62,7 @@ public class HealthComponent extends BaseEntityComponent
 		
 		_currentHealth -= amount;
 		
-		this.dispatchEvent(new HealthEvent(EVENT_HEALTH_DAMAHED, amount, _currentHealth));
+		this.dispatchEvent(new HealthEvent(EVENT_HEALTH_DAMAGED, amount, _currentHealth));
 		
 		if(_currentHealth == 0)
 		{

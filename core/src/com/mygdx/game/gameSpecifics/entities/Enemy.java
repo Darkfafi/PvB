@@ -5,12 +5,17 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
+import com.mygdx.game.entities.components.Rendering.AnimationEvent;
 import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.events.Event;
+import com.mygdx.game.events.IEventReceiver;
+import com.mygdx.game.gameSpecifics.components.EnemyPlayfieldAIComponent;
 import com.mygdx.game.gameSpecifics.components.HealthComponent;
+import com.mygdx.game.gameSpecifics.events.HealthEvent;
 import com.mygdx.game.resources.CollisionResources;
 
-public class Enemy extends BaseEntity 
+public class Enemy extends BaseEntity implements IEventReceiver
 {
 	private float _time = 0;
 	private float _moveSpeed = 0;
@@ -26,10 +31,26 @@ public class Enemy extends BaseEntity
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
 		this.getComponent(AnimationComponent.class).setSortOnY(true);
 		
-		this.addComponent(new HealthComponent(health));
+		this.addComponent(new HealthComponent(health)).addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		
 		
 	}
 	
+	@Override
+	public void onReceiveEvent(Event event) 
+	{
+		if(event.getType() == HealthComponent.EVENT_HEALTH_DAMAGED)
+		{
+			onDamagedEvent((HealthEvent)event);
+		}
+		
+		if(event.getType() == AnimationComponent.EVENT_ANIMATION_STOPPED)
+		{
+			onAnimationStopped((AnimationEvent)event);
+		}
+		
+	}
+
 	@Override
 	protected void awake() 
 	{	
@@ -49,16 +70,50 @@ public class Enemy extends BaseEntity
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
 		this.getTransformComponent().translatePosition(new Vector2(0, -this._moveSpeed));
-		if(_time > 2f)
+		if(_time > 8f && _time < 10f)
 		{
-			//this.destroy();
+			die();
+			_time = 12f;
 		}
 	}
 
 	@Override
-	protected void destroyed() {
-		// TODO Auto-generated method stub
+	protected void destroyed() 
+	{
+		this.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 		
 	}
 	
+	private void onDamagedEvent(HealthEvent event) 
+	{
+		if(event.getNewHealth() == 0)
+		{
+			die();
+		}
+	}
+
+	private void onAnimationStopped(AnimationEvent event) 
+	{
+		if(event.getAnimationName() == "death")
+		{
+			this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+			//death();
+			System.out.println("fsfssdf");
+		}
+	}
+
+	private void die() 
+	{
+		EnemyPlayfieldAIComponent c = this.getComponent(EnemyPlayfieldAIComponent.class);
+		if(c != null)
+		{
+			this.removeComponent(EnemyPlayfieldAIComponent.class);
+		}
+		
+		this.removeComponent(CollisionComponent.class);
+		
+		this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
+		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+	}
 }

@@ -8,12 +8,17 @@ package com.mygdx.game.entities.components.Rendering;
  */
 public class AnimationComponent extends RenderComponent 
 {	
+	public static final String EVENT_ANIMATION_STARTED = "AnimationStartedEvent";
+	public static final String EVENT_ANIMATION_LOOPED = "AnimationLoopedEvent";
+	public static final String EVENT_ANIMATION_STOPPED = "AnimationStoppedEvent";
+	
 	// Trackers
 	private int _newIndex = 0;
 	private float _timePassed = 0;
 	private boolean _isRunning = false;
 	private boolean _isPaused = false;
 	private Animations _animations = null;
+	private String _currentAnimation = "";
 	
 	// Options
 	private float _animationSpeed = 0.5f; // At 60 fps this will be 30 fps
@@ -23,8 +28,7 @@ public class AnimationComponent extends RenderComponent
 	{
 		super(animations.getDefaultAnimation(), isUI);
 		_animations = animations;
-		if(playOnCreation)
-			play();
+		setCurrentAnimation(_animations.getDefaultAnimationName(), playOnCreation);
 	}
 	
 	/**
@@ -37,6 +41,8 @@ public class AnimationComponent extends RenderComponent
 	{
 		stop();
 		this.setRenderInfo(_animations.getAnimation(animationName));
+		_currentAnimation = animationName;
+		_isLooping = _animations.getLoopAnimation(animationName);
 		if(playOnSet)
 			play();
 	}
@@ -110,6 +116,7 @@ public class AnimationComponent extends RenderComponent
 	{
 		reset();
 		_isRunning = true;
+		this.dispatchEvent(new AnimationEvent(EVENT_ANIMATION_STARTED, _currentAnimation));
 	}
 	
 	/**
@@ -118,6 +125,7 @@ public class AnimationComponent extends RenderComponent
 	public void stop() 
 	{
 		_isRunning = false;	
+		this.dispatchEvent(new AnimationEvent(EVENT_ANIMATION_STOPPED, _currentAnimation));
 	}
 	
 	/**
@@ -160,7 +168,9 @@ public class AnimationComponent extends RenderComponent
 				{
 					if(_isLooping)
 					{
-						_newIndex = 0;
+						this.getRenderInfo().setCurrentFrameInfo(0);
+						this.dispatchEvent(new AnimationEvent(EVENT_ANIMATION_LOOPED, _currentAnimation));
+						return;
 					}
 					else
 					{
@@ -174,11 +184,12 @@ public class AnimationComponent extends RenderComponent
 	}
 
 	@Override
-	protected void destroyed() {
-		// TODO Auto-generated method stub
+	protected void destroyed() 
+	{
 		super.destroyed();
 		_animations.clean();
 		_animations = null;
+		_currentAnimation = null;
 	}
 
 }

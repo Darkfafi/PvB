@@ -49,22 +49,35 @@ public class EnemyFactory
 	 */
 	private static Animations getRandomSkinForType(EnemyType enemyType)
 	{
+		String[] idleKeys;
 		String[] runKeys;
-		Animations animations = new Animations("run", null);
+		String[] deathKeys;
+		Animations animations = new Animations("run", null, true);
 		switch(enemyType)
 		{
 		case LightBandit:
-			runKeys = new String[]{GameTextureResources.ANIMATION_LIGHT_BANDIT_0_RUN, GameTextureResources.ANIMATION_LIGHT_BANDIT_1_RUN};
+			idleKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_IDLE, 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_IDLE 	};
+			runKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_RUN, 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_RUN 	};
+			deathKeys = new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_DEATH, 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_DEATH };
 			break;
 		default:
 			System.out.println("Type animations not set! Please do in the EnemyFactory");
-			runKeys = null;
+			idleKeys = 	null;
+			runKeys = 	null;
+			deathKeys = null;
 			break;
 		
 		}
 		int skinToSelect = (int) Math.round(Math.random() * (runKeys.length - 1));
-		animations.setAnimation("run", getTextureResources().getRenderInfo(runKeys[skinToSelect]));
-		// TODO: Set Death Animation
+		animations.setAnimation("idle", getTextureResources().getRenderInfo(idleKeys[skinToSelect]), true);
+		animations.setAnimation("run", getTextureResources().getRenderInfo(runKeys[skinToSelect]), true);
+		animations.setAnimation("death", getTextureResources().getRenderInfo(deathKeys[skinToSelect]), false);
 		
 		return animations;
 	}

@@ -10,7 +10,7 @@ public class Playfield
 	
 	public void createLevel()
 	{
-		_grid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 15);
+		_grid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 20);
 		_playerBase = new PlayerBase();
 	}
 	
