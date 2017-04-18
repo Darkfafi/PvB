@@ -261,7 +261,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	// Overriding the compare method to sort the layer
 	public int compare(RenderComponent d, RenderComponent d1)
 	{
-	  return (int)Math.floor(((d.getSortingLayer()+ 0.95f) - d.getInnerSortingLayer()) - ((d1.getSortingLayer()+ 0.95f) - d1.getInnerSortingLayer()));
+		int value = (int)Math.floor(((d.getSortingLayer()+ 0.95f) - d.getInnerSortingLayer()) - ((d1.getSortingLayer()+ 0.95f) - d1.getInnerSortingLayer()));
+	  	value = (value == 0) ? 1 : value;
+		return value;
 	}
 	
 
@@ -269,7 +271,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	public int compareTo(RenderComponent comp) 
 	{
-		return (int)Math.floor(((_sortingLayer + 0.95f) - _innerSortingLayer) - ((comp.getSortingLayer() + 0.95f) - comp.getInnerSortingLayer()));
+		int value = (int)Math.floor(((_sortingLayer + 0.95f) - _innerSortingLayer) - ((comp.getSortingLayer() + 0.95f) - comp.getInnerSortingLayer()));
+		value = (value == 0) ? 1 : value;
+		return value;
 	}
 	
 	@Override

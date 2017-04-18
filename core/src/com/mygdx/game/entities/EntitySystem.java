@@ -301,7 +301,9 @@ public class EntitySystem implements IEventReceiver
 			}
 			rcs.add(rc);
 		}
-		Collections.sort(rcs);
+		if(rcs.size() > 0)
+			Collections.sort(rcs);
+		
 		return rcs;
 	}
 	

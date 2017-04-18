@@ -1,6 +1,5 @@
 package com.mygdx.game.gameSpecifics.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
@@ -49,7 +48,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	{
 		_bowDrawSoundInstance = -1;
 		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW));
-		this.addComponent(new AnimationComponent(animations, false, false));
+		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
 	}
@@ -63,7 +62,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 			getTransformComponent().lookAt(aimLocation, 0.2f);
 			
 			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
-			_volumeDraw = 0.2f;
+			_volumeDraw = 0.1f;
 		}
 		handleProjectilePlacement();
 	}

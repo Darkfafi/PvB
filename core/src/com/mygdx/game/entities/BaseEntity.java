@@ -169,6 +169,7 @@ public abstract class BaseEntity extends EventDispatcher
 			_isDestroyed = true;
 			GlobalDispatcher.getInstance().dispatchEvent(new EntityEvent(EngineGlobals.GLOBAL_EVENT_ENTITY_DESTROYED, this));
 			destroyed();
+			this.clean();
 			_transformComponent = null;
 			_tags.clear();
 			_tags = null;

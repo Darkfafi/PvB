@@ -50,10 +50,10 @@ public class Enemy extends BaseEntity
 		// TODO Auto-generated method stub
 		_time += dt;
 		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
-		this.getTransformComponent().translatePosition(new Vector2(0, this._moveSpeed));
+		this.getTransformComponent().translatePosition(new Vector2(0, -this._moveSpeed));
 		if(_time > 2f)
 		{
-			this.destroy();
+			//this.destroy();
 		}
 	}
 
