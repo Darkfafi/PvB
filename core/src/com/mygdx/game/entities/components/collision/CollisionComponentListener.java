@@ -24,14 +24,14 @@ public class CollisionComponentListener implements ContactListener {
 			if(contact.getFixtureA() == fixA)
 			{
 				((BaseEntity)contact.getFixtureA().getUserData()).dispatchEvent(
-								new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB, contact)
-							);
+					new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB, contact)
+				);
 			}
 			if(contact.getFixtureB() == fixB)
 			{
 				((BaseEntity)contact.getFixtureB().getUserData()).dispatchEvent(
-								new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA, contact)
-							);
+					new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA, contact)
+				);
 			}
 		}
 	}
@@ -47,13 +47,18 @@ public class CollisionComponentListener implements ContactListener {
 		
 		if(fixA.getUserData() == BaseEntity.class && fixB.getUserData() == BaseEntity.class)
 		{
-			((BaseEntity)contact.getFixtureA().getUserData()).dispatchEvent(
-						new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB, contact)
-					);
-			
-			((BaseEntity)contact.getFixtureB().getUserData()).dispatchEvent(
-						new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA, contact)
-					);
+			if(contact.getFixtureA() == fixA)
+			{
+				((BaseEntity)contact.getFixtureA().getUserData()).dispatchEvent(
+					new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB, contact)
+				);
+			}
+			if(contact.getFixtureB() == fixB)
+			{
+				((BaseEntity)contact.getFixtureB().getUserData()).dispatchEvent(
+					new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA, contact)
+				);
+			}
 		}
 	}
 

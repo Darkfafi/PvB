@@ -66,17 +66,16 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		// TODO Auto-generated method stub
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, this);;
-		this.getComponent(CollisionComponent.class).setType(CollisionResources.BIT_ARROW);
-		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_ENEMY);
-		this.getComponent(CollisionComponent.class).addAllowedType(CollisionResources.BIT_TRAP);
+
 		
 		
 		//Create the Fixture for this Arrow Entity
 		FixtureDef _fixDef = new FixtureDef();
+		_fixDef.filter.maskBits = CollisionResources.BIT_ENEMY | CollisionResources.BIT_TRAP;
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f), new Vector2(0, 0), 0);
 		_fixDef.shape = shape;
-		this.getComponent(CollisionComponent.class).createFixture(_fixDef);
+		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ARROW);
 	
 		super.awake();
 		this.getComponent(RenderComponent.class).setSortOnY(true);

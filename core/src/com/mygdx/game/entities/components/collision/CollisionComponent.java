@@ -1,10 +1,9 @@
 package com.mygdx.game.entities.components.collision;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.game.entities.BaseEntityComponent;
 
@@ -17,18 +16,9 @@ public class CollisionComponent extends BaseEntityComponent {
 
 	private Body _body;
 	
-	private short _type;
-	private List<Short> _allowedTypes = new ArrayList<Short>();
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
+	private Stack<Fixture> _fixtures = new Stack<Fixture>();
 	
-	/**
-	 * Returns the type/collision category for this entity
-	 * @return type/collision category
-	 */
-	public int getType()
-	{
-		return _type;
-	}
 	
 	/**
 	 * Returns the _body for this entity
@@ -37,41 +27,6 @@ public class CollisionComponent extends BaseEntityComponent {
 	public Body getBody()
 	{
 		return _body;
-	}
-	
-	/**
-	 * Return the types/maskBits this entity is allowed to collide with
-	 * @return maskBits value
-	 */
-	public List<Short> getAllowedTypes()
-	{
-		return _allowedTypes;
-	}
-	
-	/**
-	 * Adds a maskBit type to an array so it can be allowed to be collided with this entity
-	 * @param type
-	 */
-	public void addAllowedType(short type)
-	{
-		_allowedTypes.add(type);
-		
-		for(int i = 0; i < _allowedTypes.size(); i++)
-		{
-			for(int j = 0; j < _fixDefs.size(); j++)
-			{
-				_fixDefs.get(j).filter.maskBits = _allowedTypes.get(i);
-			}
-		}
-	}
-	
-	/**
-	 * Sets the collision category type for this entity
-	 * @param type
-	 */
-	public void setType(short type)
-	{
-		_type = type;
 	}
 	
 	/**
@@ -94,7 +49,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	 * NOTE: A shape must be created first. This has to be given to the fixDef parameter.
 	 * @param fixDef
 	 */
-	public void createFixture(FixtureDef fixDef)
+	public void createFixture(FixtureDef fixDef, short _type)
 	{
 		fixDef.filter.categoryBits = _type;
 		if(_body == null)
@@ -115,7 +70,9 @@ public class CollisionComponent extends BaseEntityComponent {
 	 */
 	private void createFixtureForBody(FixtureDef def, Body body)
 	{
-		body.createFixture(def).setUserData(this);
+		Fixture newFix = body.createFixture(def);
+		newFix.setUserData(this);
+		_fixtures.add(newFix);
 	}
 	
 	@Override
