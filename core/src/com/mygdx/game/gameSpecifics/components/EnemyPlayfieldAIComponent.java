@@ -48,16 +48,16 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		if(!this.isLocated()) { return; }
 		Vector2 target = getTargetPosition();
 		if(target == null) { return; }
-		Vector2 newTileLocation = getNewTargetTile();
 		Vector2 ownPos = new Vector2(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY());
 		
-		if(newTileLocation == null) { return; }
 		
 		if(Vector2.dst(ownPos.x, ownPos.y, getTargetPosition().x, getTargetPosition().y) < 2f)
 		{
 			// Arrived at selected tile.
 			if(this.getLocationY() < this.getGrid().getTileAmountY() - 2)
 			{
+				Vector2 newTileLocation = getNewTargetTile();
+				if(newTileLocation == null) { return; }
 				this.placeSelfOnLocation((int)newTileLocation.x,(int)newTileLocation.y);
 			}
 			else
