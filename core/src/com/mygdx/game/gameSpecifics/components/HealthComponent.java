@@ -58,7 +58,7 @@ public class HealthComponent extends BaseEntityComponent
 			amount = _currentHealth;
 		}
 		
-		if(amount <= 0 || !isAlive()) {return;}
+		if(amount <= 0 || !isAlive()) { return; }
 		
 		_currentHealth -= amount;
 		

@@ -10,6 +10,7 @@ public class WaveSystem
 	private Playfield _playfield;
 
 	private float _timeSinceSpawnedEnemy = 1f;
+	private int _currentWave = 0;
 	
 	public WaveSystem(Playfield playfield)
 	{

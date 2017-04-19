@@ -49,6 +49,7 @@ public class GameScene extends BaseScene
 	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		_physicsWorld = new PhysicsWorld();
+		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).setVolume(0.1f);
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
 		
 		_playfield.createLevel();
