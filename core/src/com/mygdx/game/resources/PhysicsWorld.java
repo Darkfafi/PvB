@@ -48,12 +48,13 @@ public class PhysicsWorld implements IEventReceiver
 		checkAllExistingCollisionComponents();
 	}
 	
-	public void update()
+	public void update(float dt)
 	{
+		_world.step(dt, 6, 2);
 		TransformComponent tc;
 		for(int i = _allCollisionComponents.size() - 1; i >= 0; i--)
 		{
-			if(_allCollisionComponents.get(i).getBody() != null)
+			if(_allCollisionComponents.get(i).getBody() != null && _allCollisionComponents.get(i).getVelocity().len() == 0)
 			{
 				tc = _allCollisionComponents.get(i).getParentOfComponent().getTransformComponent();
 				_allCollisionComponents.get(i).getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), (float) Math.toRadians(-tc.getRotation()));

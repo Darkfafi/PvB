@@ -38,7 +38,7 @@ public class GameScene extends BaseScene
 	public void update(float dt) 
 	{
 		_waveSystem.updateWaveSystem(dt);
-		_physicsWorld.update();
+		_physicsWorld.update(dt);
 	}
 
 	@Override

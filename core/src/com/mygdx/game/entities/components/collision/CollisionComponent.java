@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.mygdx.game.entities.BaseEntityComponent;
+import com.mygdx.game.resources.CollisionResources;
 
 /**
  * This component contains information on what collision category the entity has and with what the entity
@@ -76,6 +77,11 @@ public class CollisionComponent extends BaseEntityComponent {
 		newFix.setUserData(this);
 	}
 	
+	public Vector2 getVelocity()
+	{
+		return new Vector2(_velocity.x, _velocity.y);
+	}
+	
 	public void setVelocity(float xVelocity, float yVelocity)
 	{
 		this.getBody().setLinearVelocity(xVelocity, yVelocity);
@@ -85,6 +91,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	
 	public void stopVelocity()
 	{
+		this.getBody().setLinearVelocity(0, 0);
 		_velocity.x = 0;
 		_velocity.y = 0;
 	}
@@ -100,7 +107,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	{
 		if(_velocity.len() > 0)
 		{
-			this.getParentOfComponent().getTransformComponent().setPosition(new Vector2(this.getBody().getPosition().x, this.getBody().getPosition().y));
+			this.getParentOfComponent().getTransformComponent().setPosition(new Vector2(this.getBody().getPosition().x * CollisionResources.PIXEL_PER_METER, this.getBody().getPosition().y * CollisionResources.PIXEL_PER_METER));
 			this.getParentOfComponent().getTransformComponent().setRotation((float) -Math.toDegrees(this.getBody().getAngle()));
 		}
 	}

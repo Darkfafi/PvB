@@ -110,7 +110,6 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 				float distancePercentage = Vector2.dst(_startPos.x, _startPos.y, _landSpot.x, _landSpot.y);
 				distancePercentage = diff.len() / distancePercentage;
 				this.setHeightStage(getHeightStageByDistancePercentage(distancePercentage));
-				//System.out.println(this.getHeightStage());
 			}
 			else if(_timeOnGround < _GROUND_LIFE_TIME)
 			{
