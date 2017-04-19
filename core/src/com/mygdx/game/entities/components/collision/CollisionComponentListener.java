@@ -19,13 +19,15 @@ public class CollisionComponentListener implements ContactListener {
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
 		
-		((CollisionComponent)fixA.getUserData()).dispatchEvent(
-			new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB, contact)
-		);
-
-		((CollisionComponent)fixB.getUserData()).dispatchEvent(
-			new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA, contact)
-		);
+		if(fixA.getUserData().getClass() == CollisionComponent.class)
+			((CollisionComponent)fixA.getUserData()).dispatchEvent(
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB, contact)
+			);
+		
+		if(fixB.getUserData().getClass() == CollisionComponent.class)
+			((CollisionComponent)fixB.getUserData()).dispatchEvent(
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA, contact)
+			);
 	}
 
 	/**
@@ -36,14 +38,15 @@ public class CollisionComponentListener implements ContactListener {
 	{
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
-		
-		((CollisionComponent)fixA.getUserData()).dispatchEvent(
-			new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB, contact)
-		);
+		if(fixA.getUserData().getClass() == CollisionComponent.class)
+			((CollisionComponent)fixA.getUserData()).dispatchEvent(
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB, contact)
+			);
 
-		((CollisionComponent)fixB.getUserData()).dispatchEvent(
-			new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA, contact)
-		);
+		if(fixB.getUserData().getClass() == CollisionComponent.class)
+			((CollisionComponent)fixB.getUserData()).dispatchEvent(
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA, contact)
+			);
 	}
 
 	/**
