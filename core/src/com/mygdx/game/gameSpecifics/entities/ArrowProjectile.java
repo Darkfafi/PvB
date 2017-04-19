@@ -7,8 +7,10 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
 import com.mygdx.game.entities.components.collision.CollisionComponent;
+import com.mygdx.game.entities.components.collision.CollisionEvent;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.IEventReceiver;
+import com.mygdx.game.gameSpecifics.components.HealthComponent;
 import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.CollisionResources;
 
@@ -28,10 +30,21 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	{
 		if(event.getType() == EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER)
 		{
-			System.out.println("fsddf");
+			onCollisionEvent((CollisionEvent)event);
 		}
 	}
 	
+	private void onCollisionEvent(CollisionEvent event) 
+	{
+		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
+		if(hc != null)
+		{
+			hc.damage(100);
+			this.setHeightStage(HeightStage.Idle);
+			System.out.println("health hit: " + hc.getHealth());
+		}
+	}
+
 	public Vector2 getLandingPositionWithDrawWeight(float drawWeight)
 	{
 		Vector2 v = this.getTransformComponent().getUpwards();
@@ -81,7 +94,6 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, this);
 
 		
-		
 		//Create the Fixture for this Arrow Entity
 		FixtureDef _fixDef = new FixtureDef();
 		_fixDef.filter.maskBits = CollisionResources.BIT_ENEMY | CollisionResources.BIT_TRAP;
@@ -113,8 +125,12 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 			}
 			else if(_timeOnGround < _GROUND_LIFE_TIME)
 			{
-
-				this.getComponent(CollisionComponent.class).stopVelocity();
+				CollisionComponent cc = this.getComponent(CollisionComponent.class);
+				if(cc.isActive())
+				{
+					this.getComponent(CollisionComponent.class).stopVelocity();
+					cc.setActiveState(false);
+				}
 				_timeOnGround += dt;
 				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
 				this.getComponent(RenderComponent.class).setSortingLayer(1);
