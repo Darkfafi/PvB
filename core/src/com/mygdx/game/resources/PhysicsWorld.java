@@ -1,9 +1,11 @@
 package com.mygdx.game.resources;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -34,6 +36,7 @@ public class PhysicsWorld implements IEventReceiver
 	private OrthographicCamera _physicsCam;
 	
 	private ArrayList<CollisionComponent> _allCollisionComponents = new ArrayList<CollisionComponent>();
+	private Stack<Body> _bodiesToDelete = new Stack<Body>();
 	
 	public PhysicsWorld()
 	{
@@ -50,7 +53,6 @@ public class PhysicsWorld implements IEventReceiver
 	
 	public void update(float dt)
 	{
-		_world.step(dt, 6, 2);
 		TransformComponent tc;
 		for(int i = _allCollisionComponents.size() - 1; i >= 0; i--)
 		{
@@ -60,6 +62,9 @@ public class PhysicsWorld implements IEventReceiver
 				_allCollisionComponents.get(i).getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), (float) Math.toRadians(-tc.getRotation()));
 			}
 		}
+		_world.step(dt, 6, 2);
+		
+		deleteDeadBodies();
 	}
 	
 	public void render(RenderComponents rcs)
@@ -112,6 +117,7 @@ public class PhysicsWorld implements IEventReceiver
 	{
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
+		deleteDeadBodies();
 	}
 
 	@Override
@@ -148,9 +154,15 @@ public class PhysicsWorld implements IEventReceiver
 		if(event.getComponent().getClass() == CollisionComponent.class)
 		{
 			deregisterComponent((CollisionComponent)event.getComponent());
-			_world.destroyBody(((CollisionComponent)event.getComponent()).getBody());
+			_bodiesToDelete.push(((CollisionComponent)event.getComponent()).getBody());
 			((CollisionComponent)event.getComponent()).setBody(null);
 		}
+	}
+	
+	private void deleteDeadBodies()
+	{
+		while(!_bodiesToDelete.isEmpty())
+			_world.destroyBody(_bodiesToDelete.pop());
 	}
 	
 	/**
