@@ -187,4 +187,10 @@ public class TransformComponent extends BaseEntityComponent
 		
 		return angle;
 	}
+
+	@Override
+	protected void activeStateChanged() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -134,4 +134,10 @@ public class CollisionComponent extends BaseEntityComponent {
 		_fixDefs = null;
 	}
 
+	@Override
+	protected void activeStateChanged() 
+	{
+		_body.setActive(isActive());
+	}
+
 }

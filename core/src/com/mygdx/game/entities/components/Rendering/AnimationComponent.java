@@ -191,5 +191,14 @@ public class AnimationComponent extends RenderComponent
 		_animations = null;
 		_currentAnimation = null;
 	}
-
+	
+	@Override
+	protected void activeStateChanged()
+	{
+		super.activeStateChanged();
+		if(this.isActive())
+			this.unpause();
+		else
+			this.pause();
+	}
 }

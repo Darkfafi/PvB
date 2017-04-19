@@ -158,7 +158,8 @@ public abstract class BaseEntity extends EventDispatcher
 		
 		for(int i = _components.size() - 1; i >= 0; i--)
 		{
-			_components.get(i).updated(dt);
+			if(_components.get(i).isActive())
+				_components.get(i).updated(dt);
 			
 			if(!_destroyStackQueue.isEmpty())
 				_destroyStack.push(_destroyStackQueue.pop());

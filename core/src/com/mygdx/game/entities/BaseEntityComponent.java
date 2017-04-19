@@ -13,6 +13,11 @@ import com.mygdx.game.globals.EngineGlobals;
 public abstract class BaseEntityComponent extends EventDispatcher
 {
 	/**
+	 * Indicates whether the component is active or not.
+	 */
+	private boolean _isActive = true;
+	
+	/**
 	 * Indicates whether the component has been initialized.
 	 */
 	private boolean _initialized = false;
@@ -35,6 +40,7 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	{
 		if(_initialized){ return; }
 		_initialized = true;
+		_isActive = true;
 		_parentOfComponent = parentEntity;
 		
 		GlobalDispatcher.getInstance().dispatchEvent(new ComponentEvent(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this));
@@ -49,6 +55,23 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	public BaseEntity getParentOfComponent()
 	{
 		return _parentOfComponent;
+	}
+	
+	/**
+	 * Returns if the component is active or not active. 
+	 * When it is not active, the component will not be updated and other functionalities can also be turned off
+	 * @return The components active state. If active, this will return true, else it returns false.
+	 */
+	public boolean isActive()
+	{
+		return _isActive;
+	}
+	
+	public void setActiveState(boolean activeState)
+	{
+		if(_isActive == activeState) { return; }
+		_isActive = activeState;
+		activeStateChanged();
 	}
 	
 	/**
@@ -86,4 +109,9 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	 * This will be called when the component is about to be destroyed / removed from the parent entity
 	 */
 	protected abstract void destroyed();
+	
+	/**
+	 * This will be called when the active state of the component has been changed.
+	 */
+	protected abstract void activeStateChanged();
 }

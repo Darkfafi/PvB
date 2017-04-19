@@ -206,4 +206,10 @@ public class GridUserComponent extends BaseEntityComponent
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	protected void activeStateChanged() {
+		// TODO Auto-generated method stub
+		
+	}
 }

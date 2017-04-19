@@ -143,4 +143,10 @@ public class HealthComponent extends BaseEntityComponent
 
 	}
 
+	@Override
+	protected void activeStateChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

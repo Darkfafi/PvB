@@ -312,4 +312,11 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		
 		_innerSortingLayer = value;
 	}
+
+	@Override
+	protected void activeStateChanged() 
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
