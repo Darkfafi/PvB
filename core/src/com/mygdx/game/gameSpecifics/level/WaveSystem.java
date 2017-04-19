@@ -8,24 +8,47 @@ import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
 public class WaveSystem 
 {
 	private Playfield _playfield;
-
-	private float _timeSinceSpawnedEnemy = 1f;
 	private int _currentWave = 0;
+	
+	private Wave _wave = null;
+	
+	private BaseWaveDesignes _designes = null;
 	
 	public WaveSystem(Playfield playfield)
 	{
 		_playfield = playfield;
-		System.out.println(playfield.getGrid());
+		_designes = new GameWaveDesignes(this);
+		_wave = _designes.getWaveDesign(_currentWave, 1);
+		_wave.startWave();
 	}
 	
 	public void updateWaveSystem(float deltaTime)
 	{
-		_timeSinceSpawnedEnemy += deltaTime;
-		if(_timeSinceSpawnedEnemy >= 1.5f)
+		if(_wave != null)
 		{
-			createEnemy(EnemyFactory.EnemyType.LightBandit);
-			_timeSinceSpawnedEnemy = 0f;
+			_wave.updateWave(deltaTime);
+			if(_wave.isWaveOver())
+			{
+				_wave.clean();
+				_wave = _designes.getWaveDesign(_currentWave, 1);
+				_wave.startWave();
+			}
 		}
+	}
+
+	public void waveCreateEnemy(Wave wave, EnemyFactory.EnemyType enemyType)
+	{
+		if(wave != _wave) { return ;}
+		
+		createEnemy(enemyType);
+	}
+	
+	public void clean()
+	{
+		_designes.clean();
+		_designes = null;
+		_wave = null;
+		_playfield = null;
 	}
 	
 	/**
@@ -48,5 +71,11 @@ public class WaveSystem
 	private int getSpawnPointX()
 	{
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
+	}
+	
+	private Wave selectNewWave() 
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

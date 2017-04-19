@@ -8,6 +8,7 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
+import com.mygdx.game.gameSpecifics.level.GameWaveDesignes;
 import com.mygdx.game.gameSpecifics.level.Playfield;
 import com.mygdx.game.gameSpecifics.level.WaveSystem;
 import com.mygdx.game.resources.PhysicsWorld;
@@ -68,6 +69,7 @@ public class GameScene extends BaseScene
 		_physicsWorld.clean();
 		_physicsWorld = null;
 		
+		_waveSystem.clean();
 		_waveSystem = null;
 	}
 }
