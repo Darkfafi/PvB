@@ -1,6 +1,5 @@
 package com.mygdx.game.gameSpecifics.entities;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameAudioResources;
@@ -123,6 +122,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		setBowIdle();
 	}
 	
+	/**
+	 * Sets the bow back to its idle state
+	 */
 	private void setBowIdle()
 	{
 		_currentBowStage = BowStage.Idle;
