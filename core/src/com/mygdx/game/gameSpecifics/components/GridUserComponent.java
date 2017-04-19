@@ -89,7 +89,9 @@ public class GridUserComponent extends BaseEntityComponent
 			{
 				for(int h = 0; h < this._gridOccupyTags.size(); h++)
 				{
-					_grid.getTile(x + i, y + j).addOccupyingTag(_gridOccupyTags.get(h));
+					GridTile t = _grid.getTile(x + i, y + j);
+					if(t != null)
+						t.addOccupyingTag(_gridOccupyTags.get(h));
 				}
 			}
 		}
@@ -101,14 +103,16 @@ public class GridUserComponent extends BaseEntityComponent
 	 */
 	public void removeSelfFromLocation()
 	{
-		if(!isLocated()) { return; }
+		if(!isLocated() || _grid == null) { return; }
 		for(int i = 0; i < _xSize; i++)
 		{
 			for(int j = 0; j < _ySize; j++)
 			{
 				for(int h = 0; h < this._gridOccupyTags.size(); h++)
 				{
-					_grid.getTile(_locationX + i, _locationY + j).removeOccupyingTag(_gridOccupyTags.get(h));
+					GridTile t = _grid.getTile(_locationX + i, _locationY + j);
+					if(t != null)
+						t.removeOccupyingTag(_gridOccupyTags.get(h));
 				}
 			}
 		}

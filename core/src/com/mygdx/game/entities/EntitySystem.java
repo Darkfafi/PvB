@@ -62,6 +62,7 @@ public class EntitySystem implements IEventReceiver
 		
 		for(int i = _allEntities.size() - 1; i >= 0; i--)
 		{
+			if(_allEntities.size() <=  i) { return; }
 			if(!_destroyStackQueue.contains(_allEntities.get(i)))
 				_allEntities.get(i).update(dt);
 			

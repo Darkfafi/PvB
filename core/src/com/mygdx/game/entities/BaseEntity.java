@@ -152,17 +152,22 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public void update(float dt) 
 	{
-
-		while(!_destroyStack.isEmpty())
+		if(_isDestroyed) { return; }
+		while(_destroyStack != null && !_destroyStack.isEmpty())
 			removeComponent(_destroyStack.pop());
 		
 		for(int i = _components.size() - 1; i >= 0; i--)
 		{
+			if(_components == null) { return; }
+
 			if(_components.get(i).isActive())
+			{
 				_components.get(i).updated(dt);
+			}
 			
-			if(!_destroyStackQueue.isEmpty())
+			if(_destroyStackQueue != null && !_destroyStackQueue.isEmpty())
 				_destroyStack.push(_destroyStackQueue.pop());
+			
 		}
 		updated(dt);
 	}

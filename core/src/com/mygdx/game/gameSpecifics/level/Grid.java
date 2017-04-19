@@ -50,6 +50,7 @@ public class Grid
 	 */
 	public GridTile getTile(int gridXPos, int gridYPos)
 	{
+		if(_levelGridTiles == null){ return null; }
 		GridTile tile;
 		for(int i = 0; i < _levelGridTiles.size(); i++)
 		{

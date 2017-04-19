@@ -27,7 +27,7 @@ public class MyGdxGame extends ApplicationAdapter
 	
 	// Scene Handling
 	private float _timeAfterLastRender = 0;
-	private BaseScenesManager _scenesManager;
+	private static BaseScenesManager _scenesManager;
 	
 	// Rendering
 	private RenderComponents _renderComponents;
@@ -49,6 +49,11 @@ public class MyGdxGame extends ApplicationAdapter
 	public static TouchInputHandler getInputHandler()
 	{
 		return (TouchInputHandler) Gdx.input.getInputProcessor();
+	}
+	
+	public static BaseScenesManager getSceneManager() 
+	{
+		return _scenesManager; 
 	}
 	
 	@Override
