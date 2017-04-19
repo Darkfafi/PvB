@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import com.mygdx.game.entities.components.TransformComponent;
 import com.mygdx.game.events.EventDispatcher;
@@ -21,6 +22,10 @@ public abstract class BaseEntity extends EventDispatcher
 	private boolean _isDestroyed = false;
 	
 	private TransformComponent _transformComponent;
+	
+
+	private Stack<BaseEntityComponent> _destroyStackQueue = new Stack<BaseEntityComponent>();
+	private Stack<BaseEntityComponent> _destroyStack = new Stack<BaseEntityComponent>();
 	
 	public BaseEntity()
 	{
@@ -79,7 +84,8 @@ public abstract class BaseEntity extends EventDispatcher
 		
 		if(component != null)
 		{
-			removeComponent(component);
+			if(!_destroyStackQueue.contains(component))
+				_destroyStackQueue.add(component);
 		}
 	}
 	
@@ -146,9 +152,16 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public void update(float dt) 
 	{
+
+		while(!_destroyStack.isEmpty())
+			removeComponent(_destroyStack.pop());
+		
 		for(int i = _components.size() - 1; i >= 0; i--)
 		{
 			_components.get(i).updated(dt);
+			
+			if(!_destroyStackQueue.isEmpty())
+				_destroyStack.push(_destroyStackQueue.pop());
 		}
 		updated(dt);
 	}
@@ -176,6 +189,10 @@ public abstract class BaseEntity extends EventDispatcher
 			_tags = null;
 			_components.clear();
 			_components = null;
+			_destroyStackQueue.clear();
+			_destroyStack.clear();
+			_destroyStackQueue = null;
+			_destroyStack = null;
 		}
 		else
 		{
