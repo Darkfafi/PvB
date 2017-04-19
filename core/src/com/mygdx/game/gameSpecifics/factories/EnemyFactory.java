@@ -35,8 +35,7 @@ public class EnemyFactory
 	{
 		Enemy enemy = new Enemy(
 				getRandomSkinForType(enemyType), 
-				getHealthAmountForType(enemyType), 
-				getMovementSpeedForType(enemyType));
+				getHealthAmountForType(enemyType));
 		
 		
 		return enemy;
@@ -87,7 +86,7 @@ public class EnemyFactory
 	 * @param enemyType to get health amount for
 	 * @return The health value for the given enemy Type
 	 */
-	private static float getHealthAmountForType(EnemyType enemyType)
+	public static float getHealthAmountForType(EnemyType enemyType)
 	{
 		switch(enemyType)
 		{
@@ -104,12 +103,12 @@ public class EnemyFactory
 	 * @param enemyType to get movement speed amount for
 	 * @return The movement speed value for the given enemy Type
 	 */
-	private static float getMovementSpeedForType(EnemyType enemyType)
+	public static float getMovementSpeedForType(EnemyType enemyType)
 	{
 		switch(enemyType)
 		{
 		case LightBandit:
-			return 1f;
+			return 1.5f;
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;

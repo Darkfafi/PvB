@@ -18,14 +18,22 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	private Playfield _playfield;
 	private Enemy _enemy;
 	private AIState _currentState = AIState.Movement;
+	private float _movementSpeed = 1;
 	
-	public EnemyPlayfieldAIComponent(Playfield playfield)
+	public EnemyPlayfieldAIComponent(Playfield playfield, float movementSpeed)
 	{
 		super(playfield.getGrid(), "Enemy", 1, 1);
-		_enemy = (Enemy)this.getParentOfComponent();
+		_movementSpeed = movementSpeed;
 		_playfield = playfield;
 	}
-
+	
+	@Override
+	public void awake()
+	{
+		super.awake();
+		_enemy = (Enemy)this.getParentOfComponent();
+	}
+	
 	@Override
 	public void updated(float dt)
 	{
@@ -58,10 +66,16 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		if(Vector2.dst(ownPos.x, ownPos.y, getTargetPosition().x, getTargetPosition().y) < 2f)
 		{
 			// Arrived at selected tile.
-			if(this.getLocationY() < this.getGrid().getTileAmountY() - 2)
+			if(this.getLocationY() < this.getGrid().getTileAmountY() - Playfield.BORDER_TILE_Y_LINE_FROM_END)
 			{
 				Vector2 newTileLocation = getNewTargetTile();
-				if(newTileLocation == null) { return; }
+				
+				if(newTileLocation == null) 
+				{ 
+					_enemy.setEnemyState(Enemy.EnemyState.IdleState); 
+					return; 
+				}
+				
 				this.placeSelfOnLocation((int)newTileLocation.x,(int)newTileLocation.y);
 			}
 			else
@@ -71,8 +85,11 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		}
 		else
 		{
+			_enemy.setEnemyState(Enemy.EnemyState.WalkState);
 			Vector2 dif = getTargetPosition().sub(ownPos);
 			dif.nor();
+			dif.x *= (_movementSpeed * 1.5f);
+			dif.y *= _movementSpeed;
 			this.getParentOfComponent().getTransformComponent().translatePosition(dif);
 		}
 	}
@@ -123,6 +140,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 
 	private void attackLogics() 
 	{
+		_enemy.setEnemyState(Enemy.EnemyState.AttackState); 
 		_playfield.getPlayerBase().getComponent(HealthComponent.class).damage(0.1f);
 	}
 	

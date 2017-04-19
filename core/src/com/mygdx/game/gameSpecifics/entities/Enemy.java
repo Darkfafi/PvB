@@ -17,13 +17,19 @@ import com.mygdx.game.resources.CollisionResources;
 
 public class Enemy extends BaseEntity implements IEventReceiver
 {
-	private float _time = 0;
-	private float _moveSpeed = 0;
-	private Animations _animations;
-	
-	public Enemy(Animations animations, float health, float movementSpeed)
+	public enum EnemyState
 	{
-		_moveSpeed = 0;
+		IdleState,
+		WalkState,
+		AttackState
+	}
+	private Animations _animations;
+	private float _deathTime = -1f;
+	private EnemyState _currentEnemyState = EnemyState.WalkState;
+	
+	
+	public Enemy(Animations animations, float health)
+	{
 		_animations = animations;
 		
 		this.addComponent(new AnimationComponent(_animations, true, false));
@@ -34,6 +40,27 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.addComponent(new HealthComponent(health)).addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 		
 		
+	}
+	
+	public void setEnemyState(EnemyState state)
+	{
+		if(state == _currentEnemyState) { return; }
+		_currentEnemyState = state;
+		
+		switch(_currentEnemyState)
+		{
+		case AttackState:
+			//this.getComponent(AnimationComponent.class).setCurrentAnimation("attack", true);
+			break;
+		case IdleState:
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("idle", true);
+			break;
+		case WalkState:
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("run", true);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	@Override
@@ -65,15 +92,23 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	}
 	
 	@Override
-	protected void updated(float dt) {
-		// TODO Auto-generated method stub
-		_time += dt;
-		//System.out.println(EntitySystem.getInstance().getEntitiesByClass(Enemy.class));
-		this.getTransformComponent().translatePosition(new Vector2(0, -this._moveSpeed));
-		if(_time > 8f && _time < 10f)
+	protected void updated(float dt) 
+	{
+		if(_deathTime != -1)
 		{
-			die();
-			_time = 12f;
+			_deathTime += dt;
+			if(_deathTime > 2f)
+			{
+				float alpha = this.getComponent(AnimationComponent.class).getAlpha();
+				if(alpha > 0.1f)
+				{
+					this.getComponent(AnimationComponent.class).setAlpha(alpha - (dt * 2));
+				}
+				else
+				{
+					this.destroy();
+				}
+			}
 		}
 	}
 
@@ -98,8 +133,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		if(event.getAnimationName() == "death")
 		{
 			this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
-			//death();
-			System.out.println("fsfssdf");
+			_deathTime = 0;
 		}
 	}
 

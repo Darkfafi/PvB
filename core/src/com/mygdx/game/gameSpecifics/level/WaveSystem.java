@@ -35,7 +35,7 @@ public class WaveSystem
 	{
 		Enemy e = EnemyFactory.createEnemyOfType(enemyType);
 		int spawnX = this.getSpawnPointX();
-		e.addComponent(new EnemyPlayfieldAIComponent(_playfield)).placeSelfOnLocation(spawnX, -1);
+		e.addComponent(new EnemyPlayfieldAIComponent(_playfield, EnemyFactory.getMovementSpeedForType(enemyType))).placeSelfOnLocation(spawnX, -1);
 		GridTile tile = _playfield.getGrid().getTile(spawnX, -1);
 		e.getTransformComponent().setPosition(new Vector2(tile.getWorldPositionX() + tile.getTileWidth() / 2, tile.getWorldPositionY() + tile.getTileHeight() / 2));
 	}

@@ -5,6 +5,8 @@ import com.mygdx.game.scenes.RenderComponents;
 
 public class Playfield
 {
+	public static final int BORDER_TILE_Y_LINE_FROM_END = 5;
+	
 	private PlayerBase _playerBase;
 	private Grid _grid;
 	
