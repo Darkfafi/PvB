@@ -299,6 +299,9 @@ public class EntitySystem implements IEventReceiver
 				rc = ce.getComponent(AnimationComponent.class);
 				if(rc == null){ continue; }
 			}
+			
+			if(!rc.isActive()) { continue; }
+			
 			rcs.add(rc);
 		}
 		if(rcs.size() > 0)
