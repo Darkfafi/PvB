@@ -19,6 +19,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	private Enemy _enemy;
 	private AIState _currentState = AIState.Movement;
 	private float _movementSpeed = 1;
+	private Vector2 _currentTargetPosition;
 	
 	public EnemyPlayfieldAIComponent(Playfield playfield, float movementSpeed)
 	{
@@ -52,18 +53,24 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	{
 		_playfield = null;
 		_enemy = null;
+		_currentTargetPosition = null;
 		super.destroyed();
 	}
 
 	private void movementLogics() 
 	{
 		if(!this.isLocated()) { return; }
-		Vector2 target = getTargetPosition();
-		if(target == null) { return; }
+		
+		if(_currentTargetPosition == null)
+		{
+			_currentTargetPosition = getTargetPosition();
+		}
+		
+		if(_currentTargetPosition == null) { return; }
 		Vector2 ownPos = new Vector2(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY());
 		
 		
-		if(Vector2.dst(ownPos.x, ownPos.y, getTargetPosition().x, getTargetPosition().y) < 2f)
+		if(Vector2.dst(ownPos.x, ownPos.y, _currentTargetPosition.x, _currentTargetPosition.y) < 2f)
 		{
 			// Arrived at selected tile.
 			if(this.getLocationY() < this.getGrid().getTileAmountY() - Playfield.BORDER_TILE_Y_LINE_FROM_END)
@@ -77,16 +84,19 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 				}
 				
 				this.placeSelfOnLocation((int)newTileLocation.x,(int)newTileLocation.y);
+				_currentTargetPosition = getTargetPosition();
 			}
 			else
 			{
 				this._currentState = AIState.Attack;
 			}
+
+			_currentTargetPosition = null;
 		}
 		else
 		{
 			_enemy.setEnemyState(Enemy.EnemyState.WalkState);
-			Vector2 dif = getTargetPosition().sub(ownPos);
+			Vector2 dif = new Vector2(_currentTargetPosition.x - ownPos.x, _currentTargetPosition.y - ownPos.y);
 			dif.nor();
 			dif.x *= (_movementSpeed * 1.5f);
 			dif.y *= _movementSpeed;
@@ -147,8 +157,17 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	private Vector2 getTargetPosition()
 	{
 		if(!this.isLocated()) {return null;}
-		float x = this.getLocationX() * this.getGrid().getTileWidth() + (this.getGrid().getTileWidth() / 2);
-		float y = (getGrid().getGridHeight() - this.getLocationY() * this.getGrid().getTileHeight()) + (this.getGrid().getTileHeight() / 2);
+		
+		float amountX = (float) Math.random();
+		float amountY = (float) Math.random();
+		
+		if(amountX < 0.3f) { amountX = 0.3f;}
+		else if(amountX > 0.7f) { amountX = 0.7f;}
+		if(amountY < 0.4f) { amountY = 0.4f;}
+		else if(amountY > 0.8f) { amountY = 0.8f;}
+		
+		float x = this.getLocationX() * this.getGrid().getTileWidth() + (this.getGrid().getTileWidth() * amountX);
+		float y = (getGrid().getGridHeight() - this.getLocationY() * this.getGrid().getTileHeight()) + (this.getGrid().getTileHeight() * amountY);
 		return new Vector2(x, y);
 	}
 	

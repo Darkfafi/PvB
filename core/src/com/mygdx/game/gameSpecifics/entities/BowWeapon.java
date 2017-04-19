@@ -170,7 +170,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	 */
 	private void handleProjectilePlacement() 
 	{
-		if(_currentProjectile == null) { return; }
+		if(_currentProjectile == null || _currentProjectile.getTransformComponent() == null) { return; }
 		_currentProjectile.getTransformComponent().setPosition(new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY()));
 		_currentProjectile.getTransformComponent().setRotation(this.getTransformComponent().getRotation());
 		_currentProjectile.getTransformComponent().translatePosition(projectilePullDistance());

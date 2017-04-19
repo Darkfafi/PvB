@@ -23,16 +23,6 @@ public class GameScene extends BaseScene
 	private PhysicsWorld _physicsWorld;
 	private Playfield _playfield = new Playfield();
 	private WaveSystem _waveSystem;
-	
-	@Override
-	public void destroyed() {
-		// TODO Auto-generated method stub
-		_playfield.destroyLevel();
-		_playfield = null;
-		
-		_physicsWorld.clean();
-		_physicsWorld = null;
-	}
 
 	@Override
 	public void update(float dt) 
@@ -50,7 +40,7 @@ public class GameScene extends BaseScene
 		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
 		getRenderComponents().getSpriteBatch().end();
 		
-		_physicsWorld.render(getRenderComponents());
+		//_physicsWorld.render(getRenderComponents()); // Debug rendering of colliders
 		
 	}
 
@@ -67,5 +57,16 @@ public class GameScene extends BaseScene
 		BowWeapon bow = new BowWeapon();
 		bow.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 	}
-
+	
+	@Override
+	public void destroyed() 
+	{
+		_playfield.destroyLevel();
+		_playfield = null;
+		
+		_physicsWorld.clean();
+		_physicsWorld = null;
+		
+		_waveSystem = null;
+	}
 }

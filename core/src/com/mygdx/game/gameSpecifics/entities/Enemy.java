@@ -86,7 +86,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		FixtureDef _fixDef = new FixtureDef();
 		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW | CollisionResources.BIT_TRAP;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(0, 0), 0);
+		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(40f), new Vector2(0, CollisionResources.convertToPPM(50)), 0);
 		_fixDef.shape = shape;
 		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ENEMY);
 	}

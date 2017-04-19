@@ -5,14 +5,14 @@ import com.mygdx.game.scenes.RenderComponents;
 
 public class Playfield
 {
-	public static final int BORDER_TILE_Y_LINE_FROM_END = 5;
+	public static final int BORDER_TILE_Y_LINE_FROM_END = 3;
 	
 	private PlayerBase _playerBase;
 	private Grid _grid;
 	
 	public void createLevel()
 	{
-		_grid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 20);
+		_grid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, 6, 15);
 		_playerBase = new PlayerBase();
 	}
 	
@@ -27,8 +27,8 @@ public class Playfield
 	
 	public void debugRender(RenderComponents rcs)
 	{
-		if(_grid != null)
-			_grid.debugRender(rcs);
+		//if(_grid != null)
+			//_grid.debugRender(rcs);
 	}
 	
 	public PlayerBase getPlayerBase()

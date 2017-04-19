@@ -91,7 +91,7 @@ public class EnemyFactory
 		switch(enemyType)
 		{
 		case LightBandit:
-			return 100f;
+			return 20f;
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;

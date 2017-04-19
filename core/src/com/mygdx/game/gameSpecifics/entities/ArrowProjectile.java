@@ -16,10 +16,14 @@ import com.mygdx.game.resources.CollisionResources;
 
 public class ArrowProjectile extends BaseProjectile implements IEventReceiver 
 {
-	private final float _SPEED = 2f;
-	private final float _GROUND_LIFE_TIME = 3f; 
+	private final float _SPEED = 1.5f;								// The speed of the arrow.
+	private final float _GROUND_LIFE_TIME = 3f; 					// The duration the arrow is alive on the ground
+	private final float _DAMAGE = 25f; 								// The arrow its damage on full potential
+	private final float _FULL_DAMAGE_DRAW_POWER_POTENTIAL = 22f; 	// On what draw power does this arrow do its full damage?
 	
+	// Track data
 	private float _currentSpeed = 0;
+	private float _drawPower = 0f;
 	private Vector2 _landSpot = null;
 	private Vector2 _startPos = null;
 	
@@ -39,9 +43,11 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
 		if(hc != null)
 		{
-			hc.damage(100);
+			float dmg = (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL) * _DAMAGE;
+			hc.damage(dmg);
 			this.setHeightStage(HeightStage.Idle);
-			System.out.println("health hit: " + hc.getHealth());
+			this.destroy();
+			System.out.println(dmg + " health hit: " + hc.getHealth());
 		}
 	}
 
@@ -60,9 +66,11 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	@Override
 	public void fire(float powerInDistance, float drawPower)
 	{
+		if(this.getTransformComponent() == null) { return ;}
 		_landSpot = getLandingPositionWithDrawWeight(powerInDistance);
 		drawPower = (drawPower - getWeight());
 		drawPower = (drawPower <= 5f) ? 5f : drawPower;
+		_drawPower = drawPower;
 		_currentSpeed = _SPEED * drawPower;
 		_startPos = new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
 		getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
@@ -98,7 +106,8 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		FixtureDef _fixDef = new FixtureDef();
 		_fixDef.filter.maskBits = CollisionResources.BIT_ENEMY | CollisionResources.BIT_TRAP;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f), new Vector2(0, 0), 0);
+		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f),
+						new Vector2(0, CollisionResources.convertToPPM((this.getComponent(RenderComponent.class).getRealHeight() / 2) - 30)), 0);
 		_fixDef.shape = shape;
 		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ARROW);
 	
