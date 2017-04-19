@@ -5,6 +5,7 @@ import com.mygdx.game.entities.BaseEntity;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.components.HealthComponent;
+import com.mygdx.game.scenes.RenderComponents;
 
 public class PlayerBase extends BaseEntity implements IEventReceiver
 {
@@ -32,6 +33,12 @@ public class PlayerBase extends BaseEntity implements IEventReceiver
 	{
 		System.out.println("HELLLOOOO");
 		MyGdxGame.getSceneManager().setScene(0);
+	}
+
+	@Override
+	protected void rendered(RenderComponents renderComponents) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

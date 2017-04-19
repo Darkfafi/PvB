@@ -7,6 +7,7 @@ import com.mygdx.game.entities.components.TransformComponent;
 import com.mygdx.game.events.EventDispatcher;
 import com.mygdx.game.events.GlobalDispatcher;
 import com.mygdx.game.globals.EngineGlobals;
+import com.mygdx.game.scenes.RenderComponents;
 
 /**
  * This class must be extended to be part of the EntitySystem. 
@@ -173,6 +174,16 @@ public abstract class BaseEntity extends EventDispatcher
 	}
 	
 	/**
+	 * This method will be called every render update by the EntitySystem for as long as the entity is active.
+	 * @param renderComponents which contains all the render information
+	 */
+	public void render(RenderComponents renderComponents)
+	{
+		if(_isDestroyed) { return; }
+		rendered(renderComponents);
+	}
+	
+	/**
 	 * This method will destroy the entity. This can also be done through the method EntitySystem.destroyEntity();
 	 */
 	public void destroy()
@@ -216,6 +227,12 @@ public abstract class BaseEntity extends EventDispatcher
 	 * @param dt equals the delta time which has passed between the frames
 	 */
 	protected abstract void updated(float dt);
+	
+	/**
+	 * Is called every render update. This method can be used to draw things which are not entities.
+	 * @param renderComponents which contains all the render informations
+	 */
+	protected abstract void rendered(RenderComponents renderComponents);
 	
 	/**
 	 * Will be called when the entity is in its final destroy phase

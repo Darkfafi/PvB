@@ -1,5 +1,7 @@
 package com.mygdx.game.gameSpecifics.entities;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
@@ -10,6 +12,7 @@ import com.mygdx.game.entities.components.Rendering.Animations;
 import com.mygdx.game.events.Event;
 import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.globals.InputGlobals;
+import com.mygdx.game.scenes.RenderComponents;
 import com.mygdx.game.touchinput.TouchEvent;
 
 public class BowWeapon extends BaseEntity implements IEventReceiver
@@ -29,10 +32,12 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private float _radiusToTargetLoc = 0f;
 	private int _pointerControllingTouch = -1;
 	
-	private BaseProjectile _currentProjectile;
+	private ArrowProjectile _currentProjectile;
 	
 	private long _bowDrawSoundInstance = -10;
 	private float _volumeDraw = 0;
+	
+	private Texture _aimTexture;
 	
 	@Override
 	public void onReceiveEvent(Event event) 
@@ -46,6 +51,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
+		_aimTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
 		_bowDrawSoundInstance = -1;
 		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
@@ -75,6 +81,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_targetLocation = null;
 		_currentProjectile.destroy();
 		_currentProjectile = null;
+		_aimTexture = null;
 	}
 	
 	/**
@@ -214,5 +221,16 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		
 		_bowDrawSoundInstance = MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
 		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
+	}
+
+	@Override
+	protected void rendered(RenderComponents renderComponents) 
+	{
+		if(_currentProjectile == null || _aimTexture == null) { return;}
+		if(_currentBowStage == BowStage.Draw && _pointerControllingTouch != -1)
+		{
+			Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
+			renderComponents.getSpriteBatch().draw(_aimTexture, landLocation.x - _aimTexture.getWidth() / 2, landLocation.y - _aimTexture.getHeight() / 2, _aimTexture.getWidth(), _aimTexture.getHeight());
+		}
 	}
 }

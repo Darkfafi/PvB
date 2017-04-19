@@ -15,6 +15,7 @@ import com.mygdx.game.gameSpecifics.components.EnemyPlayfieldAIComponent;
 import com.mygdx.game.gameSpecifics.components.HealthComponent;
 import com.mygdx.game.gameSpecifics.events.HealthEvent;
 import com.mygdx.game.resources.CollisionResources;
+import com.mygdx.game.scenes.RenderComponents;
 
 public class Enemy extends BaseEntity implements IEventReceiver
 {
@@ -174,5 +175,11 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		
 		this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+	}
+
+	@Override
+	protected void rendered(RenderComponents renderComponents) {
+		// TODO Auto-generated method stub
+		
 	}
 }

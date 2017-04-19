@@ -83,13 +83,12 @@ public class EntitySystem implements IEventReceiver
 		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
 		
 		sb.setProjectionMatrix(gameRenderComponents.getMainCamera().combined);
-
 		sb.begin();
 		for(int i = 0; i < rcs.size(); i++)
 		{
 			if(!rcs.get(i).isUserInterface())
 			{
-				renderRenderComponent(rcs.get(i), sb);
+				renderRenderComponent(rcs.get(i), gameRenderComponents);
 			}
 			else
 			{
@@ -99,7 +98,7 @@ public class EntitySystem implements IEventReceiver
 		sb.setProjectionMatrix(gameRenderComponents.getHudCamera().combined);
 		for(int i = 0; i < uiRcs.size(); i++)
 		{
-			renderRenderComponent(uiRcs.get(i), sb);
+			renderRenderComponent(uiRcs.get(i), gameRenderComponents);
 		}
 		sb.end();
 	}
@@ -236,8 +235,9 @@ public class EntitySystem implements IEventReceiver
 		return entities;
 	}
 	
-	private void renderRenderComponent(RenderComponent rc, SpriteBatch sb)
+	private void renderRenderComponent(RenderComponent rc, RenderComponents gameRenderComponents)
 	{
+		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
 		RenderInfo ri = rc.getRenderInfo();
 		BaseEntity ce = rc.getParentOfComponent();
 
@@ -259,6 +259,8 @@ public class EntitySystem implements IEventReceiver
 			    ri.getCutHeight(), 							/* srcHeight the source height in texels                                         */
 			    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
 			    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
+		
+		ce.render(gameRenderComponents);
 	}
 	
 	/**

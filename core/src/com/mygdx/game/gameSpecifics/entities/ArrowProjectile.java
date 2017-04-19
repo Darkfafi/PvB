@@ -14,6 +14,7 @@ import com.mygdx.game.events.IEventReceiver;
 import com.mygdx.game.gameSpecifics.components.HealthComponent;
 import com.mygdx.game.globals.EngineGlobals;
 import com.mygdx.game.resources.CollisionResources;
+import com.mygdx.game.scenes.RenderComponents;
 
 public class ArrowProjectile extends BaseProjectile implements IEventReceiver 
 {
@@ -54,6 +55,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 
 	public Vector2 getLandingPositionWithDrawWeight(float drawWeight)
 	{
+		if(getTransformComponent() == null) {return new Vector2(0,0); }
 		Vector2 v = this.getTransformComponent().getUpwards();
 		drawWeight = drawWeight - (getWeight() / 2);
 		drawWeight = (drawWeight < 0.2f) ? 0.2f : drawWeight;
@@ -184,5 +186,12 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 			return HeightStage.AboveAir;
 		
 		return HeightStage.GoodAir;
+	}
+
+	@Override
+	protected void rendered(RenderComponents renderComponents) 
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }
