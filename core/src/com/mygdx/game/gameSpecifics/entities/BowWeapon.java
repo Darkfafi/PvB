@@ -111,7 +111,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		if(strengthPercentage < minimum)
 			strengthPercentage = minimum;
 		
-		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage);
+		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
 		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
 		setBowIdle();
 	}

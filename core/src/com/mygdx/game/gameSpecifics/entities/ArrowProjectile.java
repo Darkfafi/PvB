@@ -3,6 +3,7 @@ package com.mygdx.game.gameSpecifics.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.RenderComponent;
@@ -47,7 +48,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 			hc.damage(dmg);
 			this.setHeightStage(HeightStage.Idle);
 			this.destroy();
-			System.out.println(dmg + " health hit: " + hc.getHealth());
+			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_ENEMY).play(0.8f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), ((float)Math.random() * 0.3f) + 0.9f, 0f);
 		}
 	}
 
@@ -131,19 +132,24 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 				float distancePercentage = Vector2.dst(_startPos.x, _startPos.y, _landSpot.x, _landSpot.y);
 				distancePercentage = diff.len() / distancePercentage;
 				this.setHeightStage(getHeightStageByDistancePercentage(distancePercentage));
+				
+				if(this.getHeightStage() == HeightStage.Idle)
+				{
+					CollisionComponent cc = this.getComponent(CollisionComponent.class);
+					if(cc.isActive())
+					{
+						this.getComponent(CollisionComponent.class).stopVelocity();
+						cc.setActiveState(false);
+						this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
+						this.getComponent(RenderComponent.class).setSortingLayer(1);
+						getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0.7f), true);
+						MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_NOTHING).play(0.4f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), (float)Math.random() + 0.8f, 0f);
+					}
+				}
 			}
 			else if(_timeOnGround < _GROUND_LIFE_TIME)
 			{
-				CollisionComponent cc = this.getComponent(CollisionComponent.class);
-				if(cc.isActive())
-				{
-					this.getComponent(CollisionComponent.class).stopVelocity();
-					cc.setActiveState(false);
-				}
 				_timeOnGround += dt;
-				this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
-				this.getComponent(RenderComponent.class).setSortingLayer(1);
-				getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0.7f), true);
 			}
 			else
 			{

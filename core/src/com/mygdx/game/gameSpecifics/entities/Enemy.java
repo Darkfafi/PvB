@@ -1,5 +1,6 @@
 package com.mygdx.game.gameSpecifics.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -27,6 +28,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	private float _deathTime = -1f;
 	private EnemyState _currentEnemyState = EnemyState.WalkState;
 	
+	private float _hitEffectTimeTracker = 0f;
 	
 	public Enemy(Animations animations, float health)
 	{
@@ -94,6 +96,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	@Override
 	protected void updated(float dt) 
 	{
+		// Death Effect
 		if(_deathTime != -1)
 		{
 			_deathTime += dt;
@@ -110,6 +113,26 @@ public class Enemy extends BaseEntity implements IEventReceiver
 				}
 			}
 		}
+		
+		// Hit Effect
+		if(_hitEffectTimeTracker != -1)
+		{
+			_hitEffectTimeTracker += dt;
+			if(_hitEffectTimeTracker > 0.1f && _hitEffectTimeTracker < 0.2f)
+			{
+				// Red flash effect
+				_hitEffectTimeTracker = 0.2f;
+				this.getComponent(AnimationComponent.class).setColor(new Color(1,1,1,1));
+			}
+			
+			// Hit back effect
+			this.getTransformComponent().translatePosition(new Vector2(0, 1f));
+			
+			if(_hitEffectTimeTracker > 0.3f)
+			{
+				_hitEffectTimeTracker = -1;
+			}
+		}
 	}
 
 	@Override
@@ -122,6 +145,8 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	private void onDamagedEvent(HealthEvent event) 
 	{
+		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
+		_hitEffectTimeTracker = 0;
 		if(event.getNewHealth() == 0)
 		{
 			die();
