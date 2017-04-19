@@ -77,11 +77,22 @@ public class CollisionComponent extends BaseEntityComponent {
 		newFix.setUserData(this);
 	}
 	
+	/**
+	 * Returns the velocity set with the setVelocity method. If both values are zero, no velocity was set.
+	 * @return
+	 */
 	public Vector2 getVelocity()
 	{
 		return new Vector2(_velocity.x, _velocity.y);
 	}
 	
+	/**
+	 * Sets the physics velocity of this object. (Should not be called in an update to work)
+	 * This will turn off all set position handing and force its own position on rotation on the entity
+	 * To regain control, the 'stopVelocity' method should be called
+	 * @param xVelocity to give the entity
+	 * @param yVelocity to give the entity
+	 */
 	public void setVelocity(float xVelocity, float yVelocity)
 	{
 		this.getBody().setLinearVelocity(xVelocity, yVelocity);
@@ -89,6 +100,9 @@ public class CollisionComponent extends BaseEntityComponent {
 		_velocity.y = yVelocity;
 	}
 	
+	/**
+	 * This stops the entity of having physics velocity and gives it its control over its own position and rotation back.
+	 */
 	public void stopVelocity()
 	{
 		this.getBody().setLinearVelocity(0, 0);

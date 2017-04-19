@@ -19,15 +19,16 @@ public class CollisionComponentListener implements ContactListener {
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
 		
-		if(fixA.getUserData().getClass() == CollisionComponent.class)
+		if(fixA.getUserData().getClass() == CollisionComponent.class && fixB.getUserData().getClass() == CollisionComponent.class)
+		{
 			((CollisionComponent)fixA.getUserData()).dispatchEvent(
-				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB, contact)
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixA, fixB,(CollisionComponent)fixB.getUserData(), contact)
 			);
-		
-		if(fixB.getUserData().getClass() == CollisionComponent.class)
+			
 			((CollisionComponent)fixB.getUserData()).dispatchEvent(
-				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA, contact)
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, fixB, fixA,(CollisionComponent)fixA.getUserData(), contact)
 			);
+		}
 	}
 
 	/**
@@ -38,15 +39,17 @@ public class CollisionComponentListener implements ContactListener {
 	{
 		Fixture fixA = contact.getFixtureA();
 		Fixture fixB = contact.getFixtureB();
-		if(fixA.getUserData().getClass() == CollisionComponent.class)
+		
+		if(fixA.getUserData().getClass() == CollisionComponent.class && fixB.getUserData().getClass() == CollisionComponent.class)
+		{
 			((CollisionComponent)fixA.getUserData()).dispatchEvent(
-				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB, contact)
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixA, fixB,(CollisionComponent)fixB.getUserData(), contact)
 			);
-
-		if(fixB.getUserData().getClass() == CollisionComponent.class)
+			
 			((CollisionComponent)fixB.getUserData()).dispatchEvent(
-				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA, contact)
+				new CollisionEvent(EngineGlobals.GLOBAL_EVENT_COLLISION_EXIT, fixB, fixA,(CollisionComponent)fixA.getUserData(), contact)
 			);
+		}
 	}
 
 	/**
