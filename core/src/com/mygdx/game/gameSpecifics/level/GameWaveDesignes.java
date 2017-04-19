@@ -14,8 +14,14 @@ public class GameWaveDesignes extends BaseWaveDesignes {
 	public Wave getWaveDesign(int currentWave, int waveType) 
 	{
 		Wave wave = new Wave(this.waveSystem);
-		wave.addEnemySection(EnemyFactory.EnemyType.LightBandit, 5, 8);
-		wave.addEnemySection(EnemyFactory.EnemyType.LightBandit, 10, 10);
+		
+		wave.addEnemySection(EnemyFactory.EnemyType.LightBandit, 2 + (2 * currentWave % 2), 8);
+		
+		if(waveType > 0)
+		{
+			wave.addEnemySection(EnemyFactory.EnemyType.LightBandit, 10 + (2 * currentWave % 5), 8);
+			wave.addEnemySection(EnemyFactory.EnemyType.LightBandit, 5 + (2 * currentWave % 5), 10);
+		}
 		return wave;
 	}
 

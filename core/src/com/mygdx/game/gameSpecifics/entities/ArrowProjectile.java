@@ -42,6 +42,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	
 	private void onCollisionEvent(CollisionEvent event) 
 	{
+		if(this.getHeightStage() == HeightStage.Idle) { return; }
 		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
 		if(hc != null)
 		{

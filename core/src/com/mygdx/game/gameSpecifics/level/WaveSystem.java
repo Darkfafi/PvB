@@ -8,7 +8,7 @@ import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
 public class WaveSystem 
 {
 	private Playfield _playfield;
-	private int _currentWave = 0;
+	private int _currentWave = 1;
 	
 	private Wave _wave = null;
 	
@@ -18,7 +18,7 @@ public class WaveSystem
 	{
 		_playfield = playfield;
 		_designes = new GameWaveDesignes(this);
-		_wave = _designes.getWaveDesign(_currentWave, 1);
+		_wave = _designes.getWaveDesign(_currentWave, 0);
 		_wave.startWave();
 	}
 	
@@ -30,6 +30,7 @@ public class WaveSystem
 			if(_wave.isWaveOver())
 			{
 				_wave.clean();
+				_currentWave++;
 				_wave = _designes.getWaveDesign(_currentWave, 1);
 				_wave.startWave();
 			}
@@ -71,11 +72,5 @@ public class WaveSystem
 	private int getSpawnPointX()
 	{
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
-	}
-	
-	private Wave selectNewWave() 
-	{
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
