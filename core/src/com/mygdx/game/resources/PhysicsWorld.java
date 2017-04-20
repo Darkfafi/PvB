@@ -31,6 +31,7 @@ import com.mygdx.game.scenes.RenderComponents;
 public class PhysicsWorld implements IEventReceiver
 {
 	private World _world;
+	private CollisionComponentListener _listener;
 	
 	private Box2DDebugRenderer _debugRenderer;
 	private OrthographicCamera _physicsCam;
@@ -43,7 +44,8 @@ public class PhysicsWorld implements IEventReceiver
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 		_world = new World(new Vector2(0, 0), false);
-		_world.setContactListener(new CollisionComponentListener());
+		_listener = new CollisionComponentListener();
+		_world.setContactListener(_listener);
 		_physicsCam = new OrthographicCamera();
 		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)MyGdxGame.WIDTH), CollisionResources.convertToPPM((float)MyGdxGame.HEIGHT));
 		
@@ -148,6 +150,10 @@ public class PhysicsWorld implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * When a component is destroyed it will be deregistered and removed from the components list.
+	 * @param e
+	 */
 	private void onComponentDestroyedEvent(Event e)
 	{
 		ComponentEvent event = (ComponentEvent)e;
@@ -179,6 +185,10 @@ public class PhysicsWorld implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * Deregisters a component. It will remove from the system's list.
+	 * @param component
+	 */
 	private void deregisterComponent(CollisionComponent component)
 	{
 		if(component.getClass() == CollisionComponent.class)
