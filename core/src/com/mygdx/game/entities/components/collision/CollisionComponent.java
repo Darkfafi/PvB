@@ -54,7 +54,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	 */
 	public void createFixture(FixtureDef fixDef, short _type)
 	{
-		fixDef.filter.categoryBits = _type;
+//		fixDef.filter.categoryBits = _type;
 		if(_body == null)
 		{
 			_fixDefs.push(fixDef);
