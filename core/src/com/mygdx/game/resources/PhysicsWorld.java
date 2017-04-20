@@ -31,7 +31,6 @@ import com.mygdx.game.scenes.RenderComponents;
 public class PhysicsWorld implements IEventReceiver
 {
 	private World _world;
-	private CollisionComponentListener _listener;
 	
 	private Box2DDebugRenderer _debugRenderer;
 	private OrthographicCamera _physicsCam;
@@ -44,8 +43,7 @@ public class PhysicsWorld implements IEventReceiver
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
 		GlobalDispatcher.getInstance().addEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 		_world = new World(new Vector2(0, 0), false);
-		_listener = new CollisionComponentListener();
-		_world.setContactListener(_listener);
+		_world.setContactListener(new CollisionComponentListener());
 		_physicsCam = new OrthographicCamera();
 		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)MyGdxGame.WIDTH), CollisionResources.convertToPPM((float)MyGdxGame.HEIGHT));
 		
