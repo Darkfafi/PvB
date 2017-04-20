@@ -53,7 +53,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		switch(_currentEnemyState)
 		{
 		case AttackState:
-			//this.getComponent(AnimationComponent.class).setCurrentAnimation("attack", true);
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("attack", true);
 			break;
 		case IdleState:
 			this.getComponent(AnimationComponent.class).setCurrentAnimation("idle", true);
