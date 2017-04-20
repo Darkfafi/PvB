@@ -1,5 +1,10 @@
 package com.mygdx.game.globals;
 
+/**
+ * Contains all the input events which will be called by the touch system
+ * @author Ramses Di Perna
+ *
+ */
 public final class InputGlobals 
 {
 	/**

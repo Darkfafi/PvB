@@ -1,7 +1,8 @@
 package com.mygdx.game.globals;
 
 /**
- * A class containing static final variables which are used by the EntitySystem.
+ * A class containing static final variables which are used by the Engine
+ * This includes Entity calls and Component events
  * @author Ramses Di Perna
  *
  */
@@ -28,12 +29,12 @@ public final class EngineGlobals
 	public static final String GLOBAL_EVENT_COMPONENT_DESTROYED = "ComponentDestroyed";
 	
 	/**
-	 * Event type for when collision has started (Global Event)
+	 * Event type for when collision has started (Collision Component Event)
 	 */
-	public static final String GLOBAL_EVENT_COLLISION_ENTER = "CollisionStarted";
+	public static final String COLLISION_EVENT_COLLISION_ENTER = "CollisionStarted";
 	
 	/**
-	 * Event type for when collision has stopped (Global Event)
+	 * Event type for when collision has stopped (Collision Component Event)
 	 */
-	public static final String GLOBAL_EVENT_COLLISION_EXIT = "CollisionStopped";
+	public static final String COLLISION_EVENT_COLLISION_EXIT = "CollisionStopped";
 }

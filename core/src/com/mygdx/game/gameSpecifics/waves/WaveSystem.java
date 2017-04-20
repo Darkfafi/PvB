@@ -1,27 +1,45 @@
-package com.mygdx.game.gameSpecifics.level;
+package com.mygdx.game.gameSpecifics.waves;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.gameSpecifics.components.EnemyPlayfieldAIComponent;
 import com.mygdx.game.gameSpecifics.entities.Enemy;
 import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
+import com.mygdx.game.gameSpecifics.level.GridTile;
+import com.mygdx.game.gameSpecifics.level.Playfield;
 
+/**
+ * The wave system is a system which tracks the current wave and switches to the next wave. 
+ * It also spawns enemies on request and gives those enemies the components to work as 'wave slaves'.
+ * @author Ramses Di Perna
+ *
+ */
 public class WaveSystem 
 {
 	private Playfield _playfield;
 	private int _currentWave = 1;
 	
 	private Wave _wave = null;
+	private BaseWaveDesigns _designs = null;
 	
-	private BaseWaveDesignes _designes = null;
 	
-	public WaveSystem(Playfield playfield)
+	/**
+	 * This gives the tools needed for the WaveSystem to work
+	 * @param playfield to give to the enemies as reference and to spawn the enemies on
+	 * @param waveDesigns to get waves from which are perfectly designed with the information given to them
+	 */
+	public WaveSystem(Playfield playfield, BaseWaveDesigns waveDesigns)
 	{
 		_playfield = playfield;
-		_designes = new GameWaveDesignes(this);
-		_wave = _designes.getWaveDesign(_currentWave, 0);
+		_designs = waveDesigns;
+		_wave = _designs.getWaveDesign(this, _currentWave, 0);
 		_wave.startWave();
 	}
 	
+	/**
+	 * Updates the system and makes it so all functionalities work perfectly together.
+	 * NOTE: This method should be called every frame in order for the system to work! 
+	 * @param deltaTime represents the time which has passed between the last frame and the current
+	 */
 	public void updateWaveSystem(float deltaTime)
 	{
 		if(_wave != null)
@@ -31,12 +49,17 @@ public class WaveSystem
 			{
 				_wave.clean();
 				_currentWave++;
-				_wave = _designes.getWaveDesign(_currentWave, 1);
+				_wave = _designs.getWaveDesign(this, _currentWave, 1);
 				_wave.startWave();
 			}
 		}
 	}
-
+	
+	/**
+	 * Creates an enemy for the current wave if the current wave instance is given. Else it does nothing.
+	 * @param wave which is the caller and the current active wave
+	 * @param enemyType to spawn
+	 */
 	public void waveCreateEnemy(Wave wave, EnemyFactory.EnemyType enemyType)
 	{
 		if(wave != _wave) { return ;}
@@ -44,10 +67,12 @@ public class WaveSystem
 		createEnemy(enemyType);
 	}
 	
+	/**
+	 * Prepares the system for Garbage Collection.
+	 */
 	public void clean()
 	{
-		_designes.clean();
-		_designes = null;
+		_designs = null;
 		_wave = null;
 		_playfield = null;
 	}
