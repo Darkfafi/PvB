@@ -51,6 +51,8 @@ public class EnemyFactory
 		String[] idleKeys;
 		String[] runKeys;
 		String[] deathKeys;
+		String[] attackKeys;
+		
 		Animations animations = new Animations("run", null, true);
 		switch(enemyType)
 		{
@@ -64,12 +66,18 @@ public class EnemyFactory
 			deathKeys = new String[]{ 
 					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_DEATH, 
 					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_DEATH };
+			
+			attackKeys = new String[]{
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_ATTACK,
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_ATTACK
+			};
 			break;
 		default:
 			System.out.println("Type animations not set! Please do in the EnemyFactory");
 			idleKeys = 	null;
 			runKeys = 	null;
 			deathKeys = null;
+			attackKeys = null;
 			break;
 		
 		}
@@ -77,6 +85,7 @@ public class EnemyFactory
 		animations.setAnimation("idle", getTextureResources().getRenderInfo(idleKeys[skinToSelect]), true);
 		animations.setAnimation("run", getTextureResources().getRenderInfo(runKeys[skinToSelect]), true);
 		animations.setAnimation("death", getTextureResources().getRenderInfo(deathKeys[skinToSelect]), false);
+		animations.setAnimation("attack", getTextureResources().getRenderInfo(attackKeys[skinToSelect]), true);
 		
 		return animations;
 	}

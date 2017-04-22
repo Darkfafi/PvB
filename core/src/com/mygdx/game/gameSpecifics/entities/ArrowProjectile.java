@@ -34,7 +34,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	@Override
 	public void onReceiveEvent(Event event) 
 	{
-		if(event.getType() == EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER)
+		if(event.getType() == EngineGlobals.COLLISION_EVENT_COLLISION_ENTER)
 		{
 			onCollisionEvent((CollisionEvent)event);
 		}
@@ -103,7 +103,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	protected void awake() {
 		// TODO Auto-generated method stub
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
-		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, this);
+		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 
 		
 		//Create the Fixture for this Arrow Entity
@@ -174,7 +174,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	{
 		_landSpot = null;	
 		_startPos = null;
-		this.getComponent(CollisionComponent.class).removeEventListener(EngineGlobals.GLOBAL_EVENT_COLLISION_ENTER, this);
+		this.getComponent(CollisionComponent.class).removeEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 	}
 	
 	private HeightStage getHeightStageByDistancePercentage(float distancePercentage) 

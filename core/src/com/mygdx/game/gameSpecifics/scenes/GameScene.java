@@ -10,7 +10,8 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
 import com.mygdx.game.gameSpecifics.level.Playfield;
-import com.mygdx.game.gameSpecifics.level.WaveSystem;
+import com.mygdx.game.gameSpecifics.waves.GameWaveDesigns;
+import com.mygdx.game.gameSpecifics.waves.WaveSystem;
 import com.mygdx.game.resources.PhysicsWorld;
 import com.mygdx.game.scenes.BaseScene;
 
@@ -62,7 +63,7 @@ public class GameScene extends BaseScene
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
 		
 		_playfield.createLevel();
-		_waveSystem = new WaveSystem(_playfield);
+		_waveSystem = new WaveSystem(_playfield, new GameWaveDesigns());
 		
 		BowWeapon bow = new BowWeapon();
 		bow.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));

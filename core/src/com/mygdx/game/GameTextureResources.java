@@ -19,6 +19,9 @@ public class GameTextureResources extends BaseTextureResources
 
 	public static final String ANIMATION_LIGHT_BANDIT_0_DEATH = "light_Bandit_0_Death";
 	public static final String ANIMATION_LIGHT_BANDIT_1_DEATH = "light_Bandit_1_Death";
+
+	public static final String ANIMATION_LIGHT_BANDIT_0_ATTACK = "light_Bandit_0_Attack";
+	public static final String ANIMATION_LIGHT_BANDIT_1_ATTACK = "light_Bandit_1_Attack";
 	
 	@Override
 	public void load() 
@@ -43,6 +46,9 @@ public class GameTextureResources extends BaseTextureResources
 		
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_DEATH,"enemies/banditADeath.png", "enemies/banditADeath.xml");
 		this.loadResource(ANIMATION_LIGHT_BANDIT_1_DEATH,"enemies/banditBDeath.png", "enemies/banditBDeath.xml");
+
+		this.loadResource(ANIMATION_LIGHT_BANDIT_0_ATTACK,"enemies/banditAAttack.png", "enemies/banditAAttack.xml");
+		this.loadResource(ANIMATION_LIGHT_BANDIT_1_ATTACK,"enemies/banditBAttack.png", "enemies/banditBAttack.xml");
 
 	}
 }

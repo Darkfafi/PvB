@@ -156,6 +156,10 @@ public class PhysicsWorld implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * When a component is destroyed it will be deregistered and removed from the components list.
+	 * @param e
+	 */
 	private void onComponentDestroyedEvent(Event e)
 	{
 		ComponentEvent event = (ComponentEvent)e;
@@ -187,6 +191,10 @@ public class PhysicsWorld implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * Deregisters a component. It will remove from the system's list.
+	 * @param component
+	 */
 	private void deregisterComponent(CollisionComponent component)
 	{
 		if(component.getClass() == CollisionComponent.class)
