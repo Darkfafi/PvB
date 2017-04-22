@@ -22,6 +22,11 @@ public class WaveSystem
 		_wave.startWave();
 	}
 	
+	public int getCurrentWave()
+	{
+		return _currentWave;
+	}
+	
 	public void updateWaveSystem(float deltaTime)
 	{
 		if(_wave != null)

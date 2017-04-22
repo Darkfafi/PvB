@@ -2,13 +2,13 @@ package com.mygdx.game.gameSpecifics.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.components.Rendering.AnimationComponent;
 import com.mygdx.game.gameSpecifics.entities.BowWeapon;
-import com.mygdx.game.gameSpecifics.level.GameWaveDesignes;
 import com.mygdx.game.gameSpecifics.level.Playfield;
 import com.mygdx.game.gameSpecifics.level.WaveSystem;
 import com.mygdx.game.resources.PhysicsWorld;
@@ -24,25 +24,33 @@ public class GameScene extends BaseScene
 	private PhysicsWorld _physicsWorld;
 	private Playfield _playfield = new Playfield();
 	private WaveSystem _waveSystem;
-
+	
+	private BitmapFont _font = new BitmapFont();
+			
 	@Override
 	public void update(float dt) 
 	{
 		_waveSystem.updateWaveSystem(dt);
 		_physicsWorld.update(dt);
+		_font.getData().scaleX = _font.getData().scaleY = (1.2f);
 	}
 
 	@Override
 	public void render() 
 	{
-		_playfield.debugRender(getRenderComponents());
+		this.getRenderComponents().getSpriteBatch().setProjectionMatrix(this.getRenderComponents().getMainCamera().combined);
+		//_playfield.debugRender(getRenderComponents());
 		getRenderComponents().getSpriteBatch().begin();
 		Texture t = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
 		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
 		getRenderComponents().getSpriteBatch().end();
 		
 		//_physicsWorld.render(getRenderComponents()); // Debug rendering of colliders
-		
+		this.getRenderComponents().getSpriteBatch().setProjectionMatrix(this.getRenderComponents().getHudCamera().combined);
+		this.getRenderComponents().getSpriteBatch().begin();
+		String text = "Wave: " + _waveSystem.getCurrentWave();
+		_font.draw(this.getRenderComponents().getSpriteBatch(), text, (MyGdxGame.WIDTH / 2) - _font.getBounds(text).width / 2, MyGdxGame.HEIGHT - 10);
+		this.getRenderComponents().getSpriteBatch().end();
 	}
 
 	@Override
