@@ -42,4 +42,13 @@ public class Event
 		if(_dispatcher != null){ return; }
 		_dispatcher = dispatcherValue;
 	}
+
+	/**
+	 * Cleans The event from any references after it is used.
+	 */
+	public void clean()
+	{
+		_dispatcher = null;
+		_type = null;
+	}
 }

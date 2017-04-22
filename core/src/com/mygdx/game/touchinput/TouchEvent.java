@@ -86,4 +86,11 @@ public class TouchEvent extends Event
 	{
 		return _touchType;
 	}
+	
+	@Override
+	public void clean()
+	{
+		super.clean();
+		_location = null;
+	}
 }

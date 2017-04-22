@@ -70,4 +70,14 @@ public class CollisionEvent extends Event
 	{
 		return _otherCollisionComponent;
 	}
+	
+	@Override
+	public void clean()
+	{
+		super.clean();
+		_myCollidedFixture = null;
+		_otherCollidedFixture = null;
+		_contactInfo = null;
+		_otherCollisionComponent = null;
+	}
 }

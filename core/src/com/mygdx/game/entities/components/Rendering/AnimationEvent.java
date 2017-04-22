@@ -15,4 +15,11 @@ public class AnimationEvent extends Event
 	{
 		return _animationName;
 	}
+	
+	@Override
+	public void clean()
+	{
+		super.clean();
+		_animationName = null;
+	}
 }

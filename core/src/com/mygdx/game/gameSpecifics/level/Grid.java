@@ -3,6 +3,9 @@ package com.mygdx.game.gameSpecifics.level;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.game.scenes.RenderComponents;
 
 /**
@@ -13,7 +16,8 @@ import com.mygdx.game.scenes.RenderComponents;
  */
 public class Grid 
 {
-	private ArrayList<GridTile> _levelGridTiles = new ArrayList<GridTile>();
+	private ShapeRenderer _debugShapeRenderer = new ShapeRenderer();
+	private ArrayList<ArrayList<GridTile>> _levelGridTiles = new ArrayList<ArrayList<GridTile>>();
 	private int _gridWidth, _gridHeight, _tileAmountX, _tileAmountY;
 	
 	/**
@@ -37,9 +41,18 @@ public class Grid
 	 * Returns all tiles created by this grid.
 	 * @return All GridTile objects made by this grid.
 	 */
-	public Collection<GridTile> getAllTiles()
+	public ArrayList<ArrayList<GridTile>> getAllTiles()
 	{
 		return _levelGridTiles;
+	}
+	
+	/**
+	 * Returns all tiles created by this grid.
+	 * @return All GridTile objects made by this grid.
+	 */
+	public ArrayList<GridTile> getAllTilesInYRow(int yRow)
+	{
+		return _levelGridTiles.get(yRow + 1);
 	}
 	
 	/**
@@ -51,14 +64,7 @@ public class Grid
 	public GridTile getTile(int gridXPos, int gridYPos)
 	{
 		if(_levelGridTiles == null){ return null; }
-		GridTile tile;
-		for(int i = 0; i < _levelGridTiles.size(); i++)
-		{
-			tile = _levelGridTiles.get(i);
-			if(tile.getPositionX() == gridXPos && tile.getPositionY() == gridYPos)
-				return tile;
-		}
-		return null;
+		return _levelGridTiles.get(gridYPos + 1).get(gridXPos + 1);
 	}
 	
 	/**
@@ -121,10 +127,24 @@ public class Grid
 	 */
 	public void debugRender(RenderComponents renderComponents)
 	{
+		Color c;
+		GridTile t;
 		renderComponents.getSpriteBatch().begin();
-		for(int i = 0; i < _levelGridTiles.size(); i++)
+		for(int yRow = -1; yRow < _tileAmountY; yRow++)
 		{
-			_levelGridTiles.get(i).debugDraw();
+			for(int xRow = -1; xRow < _tileAmountX; xRow++)
+			{
+				t = this.getTile(xRow, yRow);
+				c = ((xRow % 2 == 0 && yRow % 2 != 0)|| (xRow % 2 != 0 && yRow % 2 == 0)) ? new Color(0,0,0.6f,0.8f) : new Color(0,0,0.8f,0.8f);
+				if(xRow == 0 && yRow == 0)
+					c = Color.RED;
+				_debugShapeRenderer.begin(ShapeType.Filled);
+
+				_debugShapeRenderer.flush();
+				_debugShapeRenderer.setColor(c);
+				_debugShapeRenderer.rect(t.getWorldPositionX(), t.getWorldPositionY(), this.getTileWidth(), this.getTileHeight());
+				_debugShapeRenderer.end();
+			}
 		}
 		renderComponents.getSpriteBatch().end();
 	}
@@ -135,13 +155,18 @@ public class Grid
 	 */
 	public void clean()
 	{
-		for(int i = 0; i < _levelGridTiles.size(); i++)
+		for(int yRow = -1; yRow < _tileAmountY; yRow++)
 		{
-			_levelGridTiles.get(i).clean();
+			for(int xRow = -1; xRow < _tileAmountX; xRow++)
+			{
+				_levelGridTiles.get(yRow + 1).get(xRow + 1).clean();
+			}
 		}
-		
 		_levelGridTiles.clear();
 		_levelGridTiles = null;
+		
+		_debugShapeRenderer.dispose();
+		_debugShapeRenderer = null;
 	}
 	
 	/**
@@ -151,9 +176,10 @@ public class Grid
 	{
 		for(int yRow = -1; yRow < _tileAmountY; yRow++)
 		{
+			_levelGridTiles.add(new ArrayList<GridTile>());
 			for(int xRow = -1; xRow < _tileAmountX; xRow++)
 			{
-				_levelGridTiles.add(new GridTile(xRow, yRow, this));
+				_levelGridTiles.get(yRow + 1).add(new GridTile(xRow, yRow, this));
 			}
 		}
 	}

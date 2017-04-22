@@ -27,8 +27,8 @@ public class Playfield
 	
 	public void debugRender(RenderComponents rcs)
 	{
-		//if(_grid != null)
-			//_grid.debugRender(rcs);
+		if(_grid != null)
+			_grid.debugRender(rcs);
 	}
 	
 	public PlayerBase getPlayerBase()

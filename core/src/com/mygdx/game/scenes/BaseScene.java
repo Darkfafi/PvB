@@ -27,9 +27,12 @@ public abstract class BaseScene {
 	
 	/**
 	 * This method is called by the BaseScenesManager when the current scene is being destroyed
-	 * Here all the cleaning logic of the class must be created. 
 	 */
-	public abstract void destroyed();
+	public void destroy()
+	{
+		destroyed();
+		_scenesManager = null;
+	}
 	
 	/**
 	 * This method will be called every frame as long as the scene is active.
@@ -46,6 +49,12 @@ public abstract class BaseScene {
 	 * This method will be called when the class is initialized.
 	 */
 	protected abstract void created();
+	
+	/**
+	 * This method is called by the BaseScenesManager when the current scene is being destroyed
+	 * Here all the cleaning logic of the class must be created. 
+	 */
+	protected abstract void destroyed();
 	
 	/**
 	 * Getter for the BaseScenesManager parent of the scene.

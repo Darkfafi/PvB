@@ -41,5 +41,7 @@ public class EventQueueRoom
 					items.get(i).getListener().onReceiveEvent(event);
 			}
 		}
+		
+		event.clean();
 	}
 }

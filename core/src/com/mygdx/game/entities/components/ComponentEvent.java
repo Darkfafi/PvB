@@ -26,5 +26,11 @@ public class ComponentEvent extends Event {
 	{
 		return _component;
 	}
-
+	
+	@Override
+	public void clean()
+	{
+		super.clean();
+		_component = null;
+	}
 }

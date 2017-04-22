@@ -90,6 +90,6 @@ public abstract class BaseScenesManager
 	private void popScene()
 	{
 		if(_gameScenes.isEmpty()){return;}
-		_gameScenes.pop().destroyed();
+		_gameScenes.pop().destroy();
 	}
 }

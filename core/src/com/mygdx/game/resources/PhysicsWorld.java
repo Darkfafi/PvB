@@ -118,6 +118,14 @@ public class PhysicsWorld implements IEventReceiver
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_CREATED, this);
 		GlobalDispatcher.getInstance().removeEventListener(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this);
 		deleteDeadBodies();
+		
+		_world = null;
+		_debugRenderer = null;
+		_physicsCam = null;
+		_allCollisionComponents.clear();
+		_allCollisionComponents = null;
+		_bodiesToDelete.clear();
+		_bodiesToDelete = null;
 	}
 
 	@Override

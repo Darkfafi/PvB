@@ -26,5 +26,11 @@ public class EntityEvent extends Event
 	{
 		return _entity;
 	}
-
+	
+	@Override
+	public void clean()
+	{
+		super.clean();
+		_entity = null;
+	}
 }

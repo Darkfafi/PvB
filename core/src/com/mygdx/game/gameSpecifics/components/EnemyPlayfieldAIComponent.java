@@ -186,16 +186,13 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	}
 	private Vector2 getWalkableTileOnRow(int yRow)
 	{
-		ArrayList<GridTile> tiles = (ArrayList<GridTile>) this.getGrid().getAllTiles();
+		ArrayList<GridTile> tiles = (ArrayList<GridTile>) this.getGrid().getAllTilesInYRow(yRow);
 		Vector2 v = null;
 		for(int i = 0; i < tiles.size(); i++)
 		{
-			if(tiles.get(i).getPositionY() == yRow)
-			{
-				v = new Vector2(tiles.get(i).getPositionX(), tiles.get(i).getPositionY());
-				if(canWalkOnTile((int)v.x,(int)v.y))
-					return v;
-			}
+			v = new Vector2(tiles.get(i).getPositionX(), tiles.get(i).getPositionY());
+			if(canWalkOnTile((int)v.x,(int)v.y))
+				return v;
 		}
 		return null;
 	}

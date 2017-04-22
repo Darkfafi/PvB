@@ -10,7 +10,6 @@ public class GridTile
 {
 	private int _xPos, _yPos;
 	// Idea: string list of things on the tile, "Trap, Enemy, Blockade, DamageArea" etc etc..
-	private ShapeRenderer _debugShapeRenderer = new ShapeRenderer();
 	private Grid _grid;
 	private ArrayList<String> _currentGridOccupyingTags = new ArrayList<String>();
 	
@@ -96,20 +95,6 @@ public class GridTile
 		return _grid.getGridHeight() - ((float)_yPos * getTileHeight()) - this.getTileHeight();
 	}
 	
-	/**
-	 * Calls a render to draw the tile on the correct coordinates on the screen.
-	 * A SpriteBatch begin, end draw call should be put around this method call.
-	 */
-	public void debugDraw()
-	{
-		_debugShapeRenderer.begin(ShapeType.Filled);
-		Color c = ((_xPos % 2 == 0 && _yPos % 2 != 0)|| (_xPos % 2 != 0 && _yPos % 2 == 0)) ? new Color(0,0,0.6f,0.8f) : new Color(0,0,0.8f,0.8f);
-		if(_xPos == 0 && _yPos == 0)
-			c = Color.RED;
-		_debugShapeRenderer.setColor(c);
-		_debugShapeRenderer.rect(getWorldPositionX(), getWorldPositionY(), this.getTileWidth(), this.getTileHeight());
-		_debugShapeRenderer.end();
-	}
 	
 	/**
 	 * To clean the class's references. After this method, all references of this class should be nulled and the class should not be used.
@@ -117,7 +102,6 @@ public class GridTile
 	 */
 	public void clean()
 	{
-		_debugShapeRenderer = null;
 		_grid = null;
 		_currentGridOccupyingTags.clear();
 		_currentGridOccupyingTags = null;
