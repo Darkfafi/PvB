@@ -1,4 +1,4 @@
-package com.mygdx.game.gameSpecifics.scenes;
+package com.mygdx.game.scenes;
 
 import com.mygdx.engine.entities.EntitySystem;
 import com.mygdx.engine.scenes.BaseScene;

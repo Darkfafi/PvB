@@ -1,4 +1,4 @@
-package com.mygdx.game.gameSpecifics.scenes;
+package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
