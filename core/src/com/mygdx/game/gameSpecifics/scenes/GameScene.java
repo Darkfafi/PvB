@@ -4,16 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.engine.resources.PhysicsWorld;
+import com.mygdx.engine.scenes.BaseScene;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.entities.components.Rendering.AnimationComponent;
-import com.mygdx.game.gameSpecifics.entities.BowWeapon;
-import com.mygdx.game.gameSpecifics.level.Playfield;
-import com.mygdx.game.gameSpecifics.waves.GameWaveDesigns;
-import com.mygdx.game.gameSpecifics.waves.WaveSystem;
-import com.mygdx.game.resources.PhysicsWorld;
-import com.mygdx.game.scenes.BaseScene;
+import com.mygdx.game.entities.BowWeapon;
+import com.mygdx.game.level.Playfield;
+import com.mygdx.game.waves.GameWaveDesigns;
+import com.mygdx.game.waves.WaveSystem;
 
 /**
  * This scene is the main game scene. 
@@ -59,7 +59,7 @@ public class GameScene extends BaseScene
 	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		_physicsWorld = new PhysicsWorld();
-		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).setVolume(0.1f);
+		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).setVolume(0.3f);
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
 		
 		_playfield.createLevel();

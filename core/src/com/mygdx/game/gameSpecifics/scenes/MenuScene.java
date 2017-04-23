@@ -1,11 +1,7 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
-import com.badlogic.gdx.math.Vector2;
+import com.mygdx.engine.scenes.BaseScene;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.gameSpecifics.entities.Enemy;
-import com.mygdx.game.gameSpecifics.factories.EnemyFactory;
-import com.mygdx.game.resources.PhysicsWorld;
-import com.mygdx.game.scenes.BaseScene;
 
 /**
  * This scene is the main menu scene. 

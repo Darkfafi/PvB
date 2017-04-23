@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.events.EventDispatcher;
+import com.mygdx.engine.events.EventDispatcher;
 import com.mygdx.game.globals.InputGlobals;
 
 public class TouchInputHandler extends EventDispatcher implements ApplicationListener, InputProcessor 

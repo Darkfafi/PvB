@@ -1,7 +1,7 @@
 package com.mygdx.game.touchinput;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.events.Event;
+import com.mygdx.engine.events.Event;
 
 /**
  * This class or an extending class is an event which is dispatched for touch events.

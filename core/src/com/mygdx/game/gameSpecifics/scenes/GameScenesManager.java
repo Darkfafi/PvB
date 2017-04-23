@@ -1,9 +1,9 @@
 package com.mygdx.game.gameSpecifics.scenes;
 
-import com.mygdx.game.entities.EntitySystem;
-import com.mygdx.game.scenes.BaseScene;
-import com.mygdx.game.scenes.BaseScenesManager;
-import com.mygdx.game.scenes.RenderComponents;
+import com.mygdx.engine.entities.EntitySystem;
+import com.mygdx.engine.scenes.BaseScene;
+import com.mygdx.engine.scenes.BaseScenesManager;
+import com.mygdx.engine.scenes.RenderComponents;
 
 /**
  * This class is the definer for the game specific scenes.
