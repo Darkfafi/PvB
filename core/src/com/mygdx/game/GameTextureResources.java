@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-import com.mygdx.engine.resources.BaseTextureResources;
+import com.mygdx.game.engine.resources.BaseTextureResources;
 
 public class GameTextureResources extends BaseTextureResources 
 {

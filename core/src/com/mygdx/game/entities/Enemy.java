@@ -4,17 +4,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.engine.entities.BaseEntity;
-import com.mygdx.engine.entities.components.collision.CollisionComponent;
-import com.mygdx.engine.entities.components.rendering.AnimationComponent;
-import com.mygdx.engine.entities.components.rendering.AnimationEvent;
-import com.mygdx.engine.entities.components.rendering.Animations;
-import com.mygdx.engine.events.Event;
-import com.mygdx.engine.events.IEventReceiver;
-import com.mygdx.engine.resources.CollisionResources;
-import com.mygdx.engine.scenes.RenderComponents;
 import com.mygdx.game.components.EnemyPlayfieldAIComponent;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
+import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
+import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.resources.CollisionResources;
+import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
 
 public class Enemy extends BaseEntity implements IEventReceiver

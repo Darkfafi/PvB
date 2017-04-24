@@ -3,7 +3,7 @@ package com.mygdx.game.components;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.mygdx.engine.entities.components.BaseEntityComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.level.Grid;
 import com.mygdx.game.level.GridTile;
 

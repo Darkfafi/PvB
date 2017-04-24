@@ -1,7 +1,7 @@
 package com.mygdx.game.scenes;
 
-import com.mygdx.engine.scenes.BaseScene;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.scenes.BaseScene;
 
 /**
  * This scene is the main menu scene. 

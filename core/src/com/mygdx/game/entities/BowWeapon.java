@@ -2,15 +2,15 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.engine.entities.BaseEntity;
-import com.mygdx.engine.entities.components.rendering.AnimationComponent;
-import com.mygdx.engine.entities.components.rendering.Animations;
-import com.mygdx.engine.events.Event;
-import com.mygdx.engine.events.IEventReceiver;
-import com.mygdx.engine.scenes.RenderComponents;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
 

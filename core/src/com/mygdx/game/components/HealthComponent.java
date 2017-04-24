@@ -1,6 +1,6 @@
 package com.mygdx.game.components;
 
-import com.mygdx.engine.entities.components.BaseEntityComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.events.HealthEvent;
 
 /**

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.engine.scenes.RenderComponents;
+import com.mygdx.game.engine.scenes.RenderComponents;
 
 /**
  * This class is used to generate GridTile tiles to form a grid.
