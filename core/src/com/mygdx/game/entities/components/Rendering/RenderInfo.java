@@ -40,7 +40,11 @@ public class RenderInfo
 	public RenderInfo(Texture texture, FrameInfo[] frames)
 	{
 		_textureToDraw = texture;
-		_frameInfos = frames.clone();
+		_frameInfos = new FrameInfo[frames.length];
+		for(int i = 0; i < frames.length; i++)
+		{
+			_frameInfos[i] = frames[i];
+		}
 	}
 	
 	public FrameInfo[] getAllFrameInfos()
