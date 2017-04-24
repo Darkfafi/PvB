@@ -2,8 +2,8 @@ package com.mygdx.game.factories;
 
 import static com.mygdx.game.MyGdxGame.getTextureResources;
 
-import com.mygdx.engine.entities.components.rendering.Animations;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.entities.Enemy;
 
 /**

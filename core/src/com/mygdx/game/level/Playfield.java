@@ -1,7 +1,7 @@
 package com.mygdx.game.level;
 
-import com.mygdx.engine.scenes.RenderComponents;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.scenes.RenderComponents;
 
 public class Playfield
 {

@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-import com.mygdx.engine.resources.BaseAudioResources;
+import com.mygdx.game.engine.resources.BaseAudioResources;
 
 public class GameAudioResources extends BaseAudioResources 
 {

@@ -3,18 +3,18 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.engine.entities.components.collision.CollisionComponent;
-import com.mygdx.engine.entities.components.collision.CollisionEvent;
-import com.mygdx.engine.entities.components.rendering.RenderComponent;
-import com.mygdx.engine.events.Event;
-import com.mygdx.engine.events.IEventReceiver;
-import com.mygdx.engine.globals.EngineGlobals;
-import com.mygdx.engine.resources.CollisionResources;
-import com.mygdx.engine.scenes.RenderComponents;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
+import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.globals.EngineGlobals;
+import com.mygdx.game.engine.resources.CollisionResources;
+import com.mygdx.game.engine.scenes.RenderComponents;
 
 public class ArrowProjectile extends BaseProjectile implements IEventReceiver 
 {

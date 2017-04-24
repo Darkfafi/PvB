@@ -1,7 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.BaseEntity;
 
 public abstract class BaseProjectile extends BaseEntity 
 {

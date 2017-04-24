@@ -1,6 +1,6 @@
 package com.mygdx.game.events;
 
-import com.mygdx.engine.events.Event;
+import com.mygdx.game.engine.events.Event;
 
 /**
  * This class and all events extending this class represent events which involve health.

@@ -2,15 +2,15 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.engine.entities.BaseEntity;
-import com.mygdx.engine.entities.components.rendering.AnimationComponent;
-import com.mygdx.engine.entities.components.rendering.Animations;
-import com.mygdx.engine.events.Event;
-import com.mygdx.engine.events.IEventReceiver;
-import com.mygdx.engine.scenes.RenderComponents;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
 
@@ -28,6 +28,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private BowStage _currentBowStage = BowStage.Idle; 	// The current stage of the bow
 	private float _drawStrength = 0f;					// The draw strength to release the arrow with
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
+	private float _aimAngle = 0f;
 	private float _radiusToTargetLoc = 0f;
 	private int _pointerControllingTouch = -1;
 	
@@ -63,8 +64,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	{
 		if(_currentBowStage == BowStage.Draw && _pointerControllingTouch != -1)
 		{
-			Vector2 aimLocation = new Vector2(MyGdxGame.getInputHandler().getX(_pointerControllingTouch),MyGdxGame.getInputHandler().getY(_pointerControllingTouch));
-			getTransformComponent().lookAt(aimLocation, 0.2f);
+			//Vector2 aimLocation = new Vector2(_aimLocation.x, _aimLocation.y);
+			//getTransformComponent().lookAt(aimLocation, 0.2f);
+			this.getTransformComponent().setRotation(_aimAngle);
 			
 			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
 			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setPitch(_bowDrawSoundInstance, _drawStrength);
@@ -144,16 +146,29 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	 * @param posY is the y position of the touch which is controlling the draw
 	 */
 	private void drawMechanic(int posX, int posY) 
-	{
-		Vector2 lineToTouch = new Vector2(posX - this.getTransformComponent().getPositionX(), posY - this.getTransformComponent().getPositionY());
-		Vector2 lineToRealTarget = new Vector2(lineToTouch.x, lineToTouch.y);
+	{	
+		float realBowY = this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 1.5f;
+		Vector2 lineToTouch = new Vector2(posX - this.getTransformComponent().getPositionX(), posY);
+		Vector2 drawTouch = new Vector2(lineToTouch.x, lineToTouch.y);
+		lineToTouch.y -= realBowY;
+		
+		if(posY < realBowY)
+		{
+			lineToTouch.y *= -1;
+			drawTouch.x += (-(Math.abs(drawTouch.x) / drawTouch.x)) * Math.abs(posX - this.getTransformComponent().getPositionX());
+		}
+		
+		Vector2 lineToRealTarget = new Vector2(drawTouch.x, drawTouch.y);
 		lineToRealTarget.setLength(_radiusToTargetLoc);
 		Vector2 lineToRealMaxDraw = new Vector2(lineToRealTarget.x, lineToRealTarget.y);
 		lineToRealMaxDraw.setLength(_radiusToTargetLoc - MAX_DRAW_LENGTH);
 		
+		_aimAngle = lineToTouch.angle() - 90;
+		_aimAngle = 360 - _aimAngle;
+		
 		float preStrength = _drawStrength;
 		
-		_drawStrength = 1 - (lineToTouch.len() - lineToRealMaxDraw.len()) / (lineToRealTarget.len() - lineToRealMaxDraw.len());
+		_drawStrength = 1 - (drawTouch.len() - lineToRealMaxDraw.len()) / (lineToRealTarget.len() - lineToRealMaxDraw.len());
 		
 		if(_drawStrength > 1)
 		{
@@ -218,7 +233,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private void selectTarget(int posX, int posY) 
 	{
 		_targetLocation = new Vector2(posX, posY);
-		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(),this.getTransformComponent().getPositionY());
+		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(), 0);
 		_currentBowStage = BowStage.Draw;
 		
 		_bowDrawSoundInstance = MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
