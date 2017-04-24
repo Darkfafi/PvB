@@ -5,6 +5,7 @@
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
 
 	<inherits name='MyGdxGame' />
+	<inherits name='aurelienribon.tweenengine'/>
 	<entry-point class='com.mygdx.game.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../core/assets" />

@@ -2,7 +2,16 @@ package com.mygdx.engine.scenes;
 
 import java.util.Stack;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.engine.entities.EntitySystem;
+import com.mygdx.engine.entities.components.TransformComponent;
+import com.mygdx.engine.entities.components.rendering.RenderComponent;
+import com.mygdx.engine.tweening.EngineTweener;
+import com.mygdx.engine.tweening.RenderAccessor;
+import com.mygdx.engine.tweening.TransformAccessor;
+import com.mygdx.engine.tweening.Vector2Accessor;
+
+import aurelienribon.tweenengine.Tween;
 
 /**
  * The BaseScenesManager is the system which controls the switching of scenes.
@@ -25,6 +34,12 @@ public abstract class BaseScenesManager
 	public BaseScenesManager(RenderComponents renderComponents)
 	{
 		_renderComponents = renderComponents;
+		
+		Tween.registerAccessor(TransformComponent.class, new TransformAccessor());
+		Tween.registerAccessor(RenderComponent.class, new RenderAccessor());
+		Tween.registerAccessor(Vector2.class, new Vector2Accessor());
+		
+		Tween.setCombinedAttributesLimit(4);
 	}
 	
 	/**
@@ -34,6 +49,7 @@ public abstract class BaseScenesManager
 	public void update(float dt)
 	{
 		_gameScenes.peek().update(dt);
+		EngineTweener.getTweenManager(EngineTweener.COMPONENT_CHANNEL).update(dt);
 	}
 	
 	/**

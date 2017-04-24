@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.engine.entities.EntitySystem;
+import com.mygdx.engine.tweening.EngineTweener;
+import com.mygdx.engine.tweening.TransformAccessor;
+import com.mygdx.engine.tweening.Vector2Accessor;
+
+import aurelienribon.tweenengine.Tween;
 
 /**
  * This component contains the orientation information of the entity it is attached to.
@@ -238,6 +243,49 @@ public class TransformComponent extends BaseEntityComponent
 	}
 	
 	/**
+	 * Tweens the entity to the given position in the given duration. 
+	 * The Tween can still be modified by the return value
+	 * The Tween will be updated in the Component channel. (EngineTweener)
+	 * @param x Position to tween to
+	 * @param y Position to tween to
+	 * @param duration in seconds on how long to take until reaching the position.
+	 * @return The Tween which will be executed.
+	 */
+	public Tween doPosition(float x, float y, float duration)
+	{
+		return EngineTweener.startTween(Tween.to(this, TransformAccessor.POSITION, duration), EngineTweener.COMPONENT_CHANNEL).target(x, y);
+	}
+	
+	/**
+	 * Tweens the entity to the given rotation in the given duration. 
+	 * The Tween can still be modified by the return value
+	 * The Tween will be updated in the Component channel. (EngineTweener)
+	 * @param degrees To lerp to
+	 * @param duration in seconds on how long to take until reaching the rotation.
+	 * @param shortestRotation indicates whether it should take a long or a short turn when dealing with from 350 -> 10. True means rotating right and false means rotating left.
+	 * @return The Tween which will be executed.
+	 */
+	public Tween doRotation(float degrees, float duration, boolean shortestRotation)
+	{
+		float newValue = (!shortestRotation) ? degrees : this.getLocalRotation() + getShortestAngleDistance(this.getLocalRotation(), degrees, 1);
+		return EngineTweener.startTween(Tween.to(this, TransformAccessor.ROTATION, duration), EngineTweener.COMPONENT_CHANNEL).target(newValue);
+	}
+	
+	/**
+	 * Tweens the entity to the given scale in the given duration. 
+	 * The Tween can still be modified by the return value
+	 * The Tween will be updated in the Component channel. (EngineTweener)
+	 * @param x scale to tween to
+	 * @param y scale to tween to
+	 * @param duration in seconds on how long to take until reaching the scale.
+	 * @return The Tween which will be executed.
+	 */
+	public Tween doScale(float x, float y, float duration)
+	{
+		return EngineTweener.startTween(Tween.to(this, TransformAccessor.SCALE, duration), EngineTweener.COMPONENT_CHANNEL).target(x, y);
+	}
+	
+	/**
 	 * Makes the Entity which this component is attached to change its angle to look at the given positionToLookAt
 	 * @param posToLookAt which will be the target to turn towards
 	 * @param percentageTowardsLocation is a value between 0 and 1 with 1 being fully turned to the posToLookAt and 0 being not at all.
@@ -258,7 +306,8 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void setPosition(Vector2 newPosValue)
 	{
-		_position = new Vector2(newPosValue.x, newPosValue.y);
+		_position.x = newPosValue.x;
+		_position.y = newPosValue.y;
 	}
 	
 	/**
@@ -276,7 +325,8 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void setScale(Vector2 newScaleValue)
 	{
-		_scale = new Vector2(newScaleValue.x, newScaleValue.y);
+		_scale.x = newScaleValue.x;
+		_scale.y = newScaleValue.y;
 	}
 	
 	@Override

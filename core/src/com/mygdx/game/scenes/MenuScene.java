@@ -44,6 +44,9 @@ public class MenuScene extends BaseScene
 		
 		//Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
 		//e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
+		//e.getTransformComponent().setRotation(360);
+		//e.getTransformComponent().doScale(2, 2, 1).ease(TweenType.BounceOut.getTween());
+		//e.getComponent(AnimationComponent.class).doColor(new Color(Color.RED), 2);
 	}
 
 }

@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.engine.entities.components.BaseEntityComponent;
+import com.mygdx.engine.tweening.EngineTweener;
+import com.mygdx.engine.tweening.RenderAccessor;
+
+import aurelienribon.tweenengine.Tween;
 
 /**
  * This component contains the 2D render information of the entity it is attached to.
@@ -172,13 +176,43 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	}
 	
 	/**
+	 * Tweens the entity to the given alpha in the given duration.  
+	 * The Tween can still be modified by the return value
+	 * The Tween will be updated in the Component channel. (EngineTweener)
+	 * @param value indicates the alpha to tween to. 1 is fully visible and 0 is not visible
+	 * @param duration in seconds on how long to take until reaching the alpha value
+	 * @returnThe Tween which will be executed.
+	 */
+	public Tween doAlpha(float value, float duration)
+	{
+		return EngineTweener.startTween(Tween.to(this, RenderAccessor.ALPHA, duration), EngineTweener.COMPONENT_CHANNEL).target(value);
+	}
+	
+	/**
+	 * Tweens the entity to the given color in the given duration.  
+	 * The Tween can still be modified by the return value
+	 * The Tween will be updated in the Component channel. (EngineTweener)
+	 * @param color indicates the color to tween to.
+	 * @param duration in seconds on how long to take until reaching the color value
+	 * @returnThe Tween which will be executed.
+	 */
+	public Tween doColor(Color color, float duration)
+	{
+		return EngineTweener.startTween(Tween.to(this, RenderAccessor.COLOR, duration), 
+				EngineTweener.COMPONENT_CHANNEL).target(color.r, color.g, color.b, color.a);
+	}
+	
+	/**
 	 * This sets the color which is modifying the current entity.
 	 * The color White equals its original color 
 	 * @param color to set the value to.
 	 */
 	public void setColor(Color color)
 	{
-		_color = new Color(color.r, color.g, color.b, color.a);
+		_color.r = color.r;
+		_color.g = color.g;
+		_color.b = color.b;
+		_color.a = color.a;
 	}
 	
 	/**
