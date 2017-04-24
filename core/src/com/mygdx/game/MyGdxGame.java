@@ -4,10 +4,10 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.gameSpecifics.scenes.GameScenesManager;
-import com.mygdx.game.scenes.BaseScenesManager;
-import com.mygdx.game.scenes.GameCamera;
-import com.mygdx.game.scenes.RenderComponents;
+import com.mygdx.engine.scenes.BaseScenesManager;
+import com.mygdx.engine.scenes.GameCamera;
+import com.mygdx.engine.scenes.RenderComponents;
+import com.mygdx.game.scenes.GameScenesManager;
 import com.mygdx.game.touchinput.TouchInputHandler;
 
 public class MyGdxGame extends ApplicationAdapter 

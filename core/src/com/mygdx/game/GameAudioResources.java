@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-import com.mygdx.game.resources.BaseAudioResources;
+import com.mygdx.engine.resources.BaseAudioResources;
 
 public class GameAudioResources extends BaseAudioResources 
 {
@@ -15,7 +15,7 @@ public class GameAudioResources extends BaseAudioResources
 	@Override
 	public void load() 
 	{
-		this.loadResourceMusic(MUSIC_WAVE_SOUNDTRACK, "audio/AUD_MU_WaveMusic_01.wav");
+		this.loadResourceMusic(MUSIC_WAVE_SOUNDTRACK, "audio/AUD_MU_WaveMusic_01.mp3");
 		this.loadResourceSound(SOUND_BOW_RELEASE, "audio/effects/AUD_SG_BowRelease_03.wav");
 		this.loadResourceSound(SOUND_BOW_DRAW, "audio/effects/AUD_SG_BowPull_Loop.wav");
 		
