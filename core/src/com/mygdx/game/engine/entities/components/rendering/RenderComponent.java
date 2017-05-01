@@ -233,6 +233,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public void setRenderInfo(RenderInfo info)
 	{
+		if(_renderInfo != null)
+			_renderInfo.clean();
+		
 		_renderInfo = info;
 		
 		if(_renderInfo != null)

@@ -18,8 +18,8 @@ import com.mygdx.game.touchinput.TouchEvent;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
-	private RenderInfo _menuBG = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
-	private RenderInfo _menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO);
+	private RenderInfo _menuBG = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
+	private RenderInfo _menuLogo = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_GAME_MENU_LOGO);
 	@Override
 	public void destroyed() {
 		MyGdxGame.getAudioResources().stopAllMusic();
