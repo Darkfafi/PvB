@@ -4,6 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
+/**
+ * This Accessor handles / contains all the tweening types for the Vector2 class.
+ * @author Ramses Di Perna
+ *
+ */
 public class Vector2Accessor implements TweenAccessor<Vector2>
 {
 	public static final int CHANGE = 0;

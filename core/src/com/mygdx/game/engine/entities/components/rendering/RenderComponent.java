@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
+import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.EngineTweener;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 
@@ -183,9 +184,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * @param duration in seconds on how long to take until reaching the alpha value
 	 * @returnThe Tween which will be executed.
 	 */
-	public Tween doAlpha(float value, float duration)
+	public EngineTween doAlpha(float value, float duration)
 	{
-		return EngineTweener.startTween(Tween.to(this, RenderAccessor.ALPHA, duration), EngineTweener.COMPONENT_CHANNEL).target(value);
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.ALPHA, duration).target(value));
 	}
 	
 	/**
@@ -196,10 +197,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * @param duration in seconds on how long to take until reaching the color value
 	 * @returnThe Tween which will be executed.
 	 */
-	public Tween doColor(Color color, float duration)
+	public EngineTween doColor(Color color, float duration)
 	{
-		return EngineTweener.startTween(Tween.to(this, RenderAccessor.COLOR, duration), 
-				EngineTweener.COMPONENT_CHANNEL).target(color.r, color.g, color.b, color.a);
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.COLOR, duration).target(color.r, color.g, color.b, color.a));
 	}
 	
 	/**
@@ -317,7 +317,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	}
 
 	@Override
-	public void updated(float deltaTime) 
+	protected void updated(float deltaTime) 
 	{
 		if(isSortedOnY())
 		{

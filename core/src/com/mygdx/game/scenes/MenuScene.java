@@ -10,6 +10,7 @@ import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
 
+
 /**
  * This scene is the main menu scene. 
  * This will spawn and set the world for the menu related classes.
@@ -18,15 +19,6 @@ import com.mygdx.game.touchinput.TouchEvent;
 public class MenuScene extends BaseScene implements IEventReceiver
 {
 	private BitmapFont _font = new BitmapFont();
-	
-	@Override
-	public void onReceiveEvent(Event event)
-	{
-		if(event.getType() == InputGlobals.TOUCH_EVENT)
-		{
-			onTouchEvent((TouchEvent)event);
-		}
-	}
 	
 	@Override
 	public void destroyed() {
@@ -78,6 +70,15 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	private void startGame()
 	{
 		this.getScenesManager().setScene(1);
+	}
+	
+	@Override
+	public void onReceiveEvent(Event event)
+	{
+		if(event.getType() == InputGlobals.TOUCH_EVENT)
+		{
+			onTouchEvent((TouchEvent)event);
+		}
 	}
 
 }

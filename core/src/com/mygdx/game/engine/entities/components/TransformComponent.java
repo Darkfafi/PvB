@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.EntitySystem;
+import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.EngineTweener;
 import com.mygdx.game.engine.tweening.TransformAccessor;
-import com.mygdx.game.engine.tweening.Vector2Accessor;
 
 import aurelienribon.tweenengine.Tween;
 
@@ -251,9 +251,9 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param duration in seconds on how long to take until reaching the position.
 	 * @return The Tween which will be executed.
 	 */
-	public Tween doPosition(float x, float y, float duration)
+	public EngineTween doPosition(float x, float y, float duration)
 	{
-		return EngineTweener.startTween(Tween.to(this, TransformAccessor.POSITION, duration), EngineTweener.COMPONENT_CHANNEL).target(x, y);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.POSITION, duration).target(x, y));
 	}
 	
 	/**
@@ -265,10 +265,10 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param shortestRotation indicates whether it should take a long or a short turn when dealing with from 350 -> 10. True means rotating right and false means rotating left.
 	 * @return The Tween which will be executed.
 	 */
-	public Tween doRotation(float degrees, float duration, boolean shortestRotation)
+	public EngineTween doRotation(float degrees, float duration, boolean shortestRotation)
 	{
 		float newValue = (!shortestRotation) ? degrees : this.getLocalRotation() + getShortestAngleDistance(this.getLocalRotation(), degrees, 1);
-		return EngineTweener.startTween(Tween.to(this, TransformAccessor.ROTATION, duration), EngineTweener.COMPONENT_CHANNEL).target(newValue);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.ROTATION, duration).target(newValue));
 	}
 	
 	/**
@@ -280,9 +280,9 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param duration in seconds on how long to take until reaching the scale.
 	 * @return The Tween which will be executed.
 	 */
-	public Tween doScale(float x, float y, float duration)
+	public EngineTween doScale(float x, float y, float duration)
 	{
-		return EngineTweener.startTween(Tween.to(this, TransformAccessor.SCALE, duration), EngineTweener.COMPONENT_CHANNEL).target(x, y);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.SCALE, duration).target(x, y));
 	}
 	
 	/**
@@ -336,7 +336,7 @@ public class TransformComponent extends BaseEntityComponent
 	}
 
 	@Override
-	public void updated(float deltaTime) 
+	protected void updated(float deltaTime) 
 	{
 		// TODO Auto-generated method stub
 	}
