@@ -2,8 +2,10 @@ package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.BaseScene;
@@ -44,11 +46,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		//Draw the Game Logo on the menu.
 		Texture menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO).getTextureToDraw();
 		getRenderComponents().getSpriteBatch().draw(menuLogo, 10, MyGdxGame.HEIGHT - (menuLogo.getHeight() + 80), menuLogo.getWidth(), menuLogo.getHeight());
-		
-		String text = "Tap the Screen to Start.";
-		_font.setScale(1.1f);
-		_font.draw(this.getRenderComponents().getSpriteBatch(), text, ((MyGdxGame.WIDTH/2) - (_font.getBounds(text).width/2)), MyGdxGame.HEIGHT/2);
-		
 		getRenderComponents().getSpriteBatch().end();
 	}
 
@@ -56,6 +53,9 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	protected void created() 
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
+		TextEntity startText = new TextEntity("Tap the Screen to Start.", true);
+		startText.getTransformComponent().setScale(new Vector2(1.1f, 1.1f));
+		startText.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
 	}
 	
 	private void onTouchEvent(TouchEvent event)
