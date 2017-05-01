@@ -251,23 +251,24 @@ public class EntitySystem implements IEventReceiver
 		BaseEntity ce = rc.getParentOfComponent();
 
 		sb.setColor(rc.getColor());
-		sb.draw(
-				ri.getTextureToDraw(),
-				ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
-				ce.getTransformComponent().getPositionY() - rc.getRealHeight() * rc.getPivotY(),  	/* y the y-coordinate in screen space                                            */
-			    rc.getRealWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
-			    rc.getRealHeight() * (rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
-			    rc.getRealWidth(),           			 	/* width the width in pixels                                                     */
-			    rc.getRealHeight(),				     	    /* height the height in pixels                                                   */
-			    1,    										 /* scaleX the scale of the rectangle around originX/originY in x                 */
-			    1,     										/* scaleY the scale of the rectangle around originX/originY in y                 */
-			    360 - ce.getTransformComponent().getRotation(),   /* rotation the angle of counter clockwise rotation of the rectangle around originX/originY               */
-			    ri.getStartX(),      						/* srcX the x-coordinate in texel space                                          */
-			    ri.getStartY(),      						/* srcY the y-coordinate in texel space 										 */
-			    ri.getCutWidth(),   						/* srcWidth the source with in texels                                            */
-			    ri.getCutHeight(), 							/* srcHeight the source height in texels                                         */
-			    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
-			    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
+		if(ri != null)
+			sb.draw(
+					ri.getTextureToDraw(),
+					ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
+					ce.getTransformComponent().getPositionY() - rc.getRealHeight() * rc.getPivotY(),  	/* y the y-coordinate in screen space                                            */
+				    rc.getRealWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    rc.getRealHeight() * (rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
+				    rc.getRealWidth(),           			 	/* width the width in pixels                                                     */
+				    rc.getRealHeight(),				     	    /* height the height in pixels                                                   */
+				    1,    										 /* scaleX the scale of the rectangle around originX/originY in x                 */
+				    1,     										/* scaleY the scale of the rectangle around originX/originY in y                 */
+				    360 - ce.getTransformComponent().getRotation(),   /* rotation the angle of counter clockwise rotation of the rectangle around originX/originY               */
+				    ri.getStartX(),      						/* srcX the x-coordinate in texel space                                          */
+				    ri.getStartY(),      						/* srcY the y-coordinate in texel space 										 */
+				    ri.getCutWidth(),   						/* srcWidth the source with in texels                                            */
+				    ri.getCutHeight(), 							/* srcHeight the source height in texels                                         */
+				    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
+				    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
 		
 		ce.render(gameRenderComponents);
 	}

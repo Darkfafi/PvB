@@ -98,6 +98,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public float getRealWidth()
 	{
+		if(_renderInfo == null) { return 0;}
 		return this.getParentOfComponent().getTransformComponent().getScaleX() * (float)_renderInfo.getCutWidth();
 	}
 	
@@ -107,6 +108,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public float getRealHeight()
 	{
+		if(_renderInfo == null) { return 0;}
 		return this.getParentOfComponent().getTransformComponent().getScaleY() * (float)_renderInfo.getCutHeight();
 	}
 	
@@ -243,6 +245,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public Texture getCurrentTexture()
 	{
+		if(_renderInfo == null) { return null;}
 		return _renderInfo.getTextureToDraw();
 	}
 	
@@ -294,7 +297,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	// Overriding the compare method to sort the layer
 	public int compare(RenderComponent d, RenderComponent d1)
 	{
-		int value = (int)Math.floor(((d.getSortingLayer()+ 0.95f) - d.getInnerSortingLayer()) - ((d1.getSortingLayer()+ 0.95f) - d1.getInnerSortingLayer()));
+		int value = d.getCompareValue() - d1.getCompareValue();
 	  	value = (value == 0) ? 1 : value;
 		return value;
 	}
@@ -304,7 +307,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	public int compareTo(RenderComponent comp) 
 	{
-		int value = (int)Math.floor(((_sortingLayer + 0.95f) - _innerSortingLayer) - ((comp.getSortingLayer() + 0.95f) - comp.getInnerSortingLayer()));
+		int value = getCompareValue() - comp.getCompareValue();
 		value = (value == 0) ? 1 : value;
 		return value;
 	}
@@ -352,5 +355,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private int getCompareValue()
+	{
+		return (int)Math.floor((((this.isUserInterface() ? 999f : 0f) + _sortingLayer + 0.95f) - _innerSortingLayer));
 	}
 }
