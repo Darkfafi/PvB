@@ -121,7 +121,7 @@ public class TextEntity extends BaseEntity
 		renderComponents.getSpriteBatch().setTransformMatrix(_mx4Font);
 		
 		_bitMapFontData.setColor(this.getRenderComponent().getColor());
-		_bitMapFontData.setScale(this.getTransformComponent().getScaleX() * (_fontSize / DEFAULT_FONT_SIZE), this.getTransformComponent().getScaleY()* (_fontSize / DEFAULT_FONT_SIZE));
+		_bitMapFontData.setScale(this.getTransformComponent().getScaleX() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE), this.getTransformComponent().getScaleY() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE));
 		
 		_bitMapFontData.draw(renderComponents.getSpriteBatch(), 
 				_currentText,
