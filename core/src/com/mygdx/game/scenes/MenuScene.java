@@ -66,7 +66,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	{
 		if(event.getEngineTween().getTweenType() == TransformAccessor.POSITION)
 		{
-			//this.getScenesManager().setScene(1);
+			this.getScenesManager().setScene(1);
 		}
 	}
 
