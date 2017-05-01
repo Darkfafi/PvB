@@ -1,19 +1,14 @@
 package com.mygdx.game.scenes;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
-import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
-import com.mygdx.game.engine.tweening.EaseType;
-import com.mygdx.game.engine.tweening.EngineTween;
-import com.mygdx.game.engine.tweening.TransformAccessor;
-import com.mygdx.game.engine.tweening.TweenEvent;
-import com.mygdx.game.entities.Enemy;
-import com.mygdx.game.factories.EnemyFactory;
+import com.mygdx.game.globals.InputGlobals;
+import com.mygdx.game.touchinput.TouchEvent;
 
 /**
  * This scene is the main menu scene. 
@@ -22,59 +17,66 @@ import com.mygdx.game.factories.EnemyFactory;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
-	private PhysicsWorld _physicsWorld;
+	private BitmapFont _font = new BitmapFont();
 	
 	@Override
 	public void destroyed() {
-		// TODO Auto-generated method stub
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
-		_physicsWorld.clean();
-		_physicsWorld = null;
+		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
 	}
 
 	@Override
 	public void update(float dt) {
-		_physicsWorld.update(dt);
+		//
 	}
 
 	@Override
-	public void render() {
-		//_physicsWorld.render(this.getRenderComponents());
-	}
-
-	@Override
-	protected void created() {
-		
-		_physicsWorld = new PhysicsWorld();
-		
-		Enemy e = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
-		e.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, 100));
-		e.getTransformComponent().setRotation(360);
-		e.getTransformComponent().doPosition(100, 800, 2).ease(EaseType.BounceOut).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
-		//e.getComponent(AnimationComponent.class).doColor(new Color(Color.RED), 2);
-		TextEntity te = new TextEntity("ha|ha", true);
-		TextEntity te2 = new TextEntity("ha|ha", true);
-		te.getRenderComponent().setColor(new Color(Color.WHITE));
-		te.getTransformComponent().setPosition(new Vector2(200, 200));
-		te2.getTransformComponent().setPosition(new Vector2(200, 200));
-		te2.getTransformComponent().doRotation(90, 2, false).ease(EaseType.BounceOut);
-	}
-
-	@Override
-	public void onReceiveEvent(Event event) 
+	public void render() 
 	{
-		if(event.getType() == EngineTween.ENGINE_TWEEN_EVENT)	
+		this.getRenderComponents().getSpriteBatch().setProjectionMatrix(this.getRenderComponents().getMainCamera().combined);
+		getRenderComponents().getSpriteBatch().begin();
+		
+		//Draw the Background on the menu.
+		Texture menuBG = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND).getTextureToDraw();
+		getRenderComponents().getSpriteBatch().draw(menuBG, 0, 0, menuBG.getWidth(), menuBG.getHeight());
+		
+		//Draw the Game Logo on the menu.
+		Texture menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO).getTextureToDraw();
+		getRenderComponents().getSpriteBatch().draw(menuLogo, 10, MyGdxGame.HEIGHT - (menuLogo.getHeight() + 80), menuLogo.getWidth(), menuLogo.getHeight());
+		
+		String text = "Tap the Screen to Start.";
+		_font.setScale(1.1f);
+		_font.draw(this.getRenderComponents().getSpriteBatch(), text, ((MyGdxGame.WIDTH/2) - (_font.getBounds(text).width/2)), MyGdxGame.HEIGHT/2);
+		
+		getRenderComponents().getSpriteBatch().end();
+	}
+
+	@Override
+	protected void created() 
+	{	
+		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
+	}
+	
+	private void onTouchEvent(TouchEvent event)
+	{
+		if(event.getTouchType() == TouchEvent.TouchType.Started)
 		{
-			onTweenEvent((TweenEvent)event);
+			startGame();
 		}
 	}
-
-	private void onTweenEvent(TweenEvent event) 
+	
+	private void startGame()
 	{
-		if(event.getEngineTween().getTweenType() == TransformAccessor.POSITION)
+		this.getScenesManager().setScene(1);
+	}
+	
+	@Override
+	public void onReceiveEvent(Event event)
+	{
+		if(event.getType() == InputGlobals.TOUCH_EVENT)
 		{
-			//this.getScenesManager().setScene(1);
+			onTouchEvent((TouchEvent)event);
 		}
 	}
 
