@@ -5,6 +5,8 @@ import com.mygdx.game.engine.resources.BaseTextureResources;
 public class GameTextureResources extends BaseTextureResources 
 {
 	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
+	public static final String SPRITE_GAME_MENU_BACKGROUND = "menu_bg";
+	public static final String SPRITE_GAME_MENU_LOGO = "menu_logo";
 	public static final String SPRITE_BOW_AIM_TARGET = "bowAimTargetSprite";
 	public static final String SPRITE_HP_BAR = "hpBarSprite";
 	
@@ -30,6 +32,9 @@ public class GameTextureResources extends BaseTextureResources
 		
 		// Other
 		this.loadResource(SPRITE_GAME_BACKGROUND_01, "background_01.png");
+		this.loadResource(SPRITE_GAME_MENU_BACKGROUND, "menu_bg.png");
+		this.loadResource(SPRITE_GAME_MENU_LOGO, "menu_logo.png");
+		
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
 		this.loadResource(SPRITE_HP_BAR, "hpBarPlaceholder.png");
 		
