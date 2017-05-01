@@ -1,15 +1,17 @@
 package com.mygdx.game.scenes;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
+import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.TransformAccessor;
 import com.mygdx.game.engine.tweening.TweenEvent;
-import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.factories.EnemyFactory;
 
@@ -51,6 +53,12 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		e.getTransformComponent().setRotation(360);
 		e.getTransformComponent().doPosition(100, 800, 2).ease(EaseType.BounceOut).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
 		//e.getComponent(AnimationComponent.class).doColor(new Color(Color.RED), 2);
+		TextEntity te = new TextEntity("ha|ha", true);
+		TextEntity te2 = new TextEntity("ha|ha", true);
+		te.getRenderComponent().setColor(new Color(Color.WHITE));
+		te.getTransformComponent().setPosition(new Vector2(200, 200));
+		te2.getTransformComponent().setPosition(new Vector2(200, 200));
+		te2.getTransformComponent().doRotation(90, 2, false).ease(EaseType.BounceOut);
 	}
 
 	@Override
@@ -66,7 +74,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	{
 		if(event.getEngineTween().getTweenType() == TransformAccessor.POSITION)
 		{
-			this.getScenesManager().setScene(1);
+			//this.getScenesManager().setScene(1);
 		}
 	}
 

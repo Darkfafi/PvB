@@ -251,6 +251,7 @@ public class EntitySystem implements IEventReceiver
 		BaseEntity ce = rc.getParentOfComponent();
 
 		sb.setColor(rc.getColor());
+		if(ri != null)
 		sb.draw(
 				ri.getTextureToDraw(),
 				ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
