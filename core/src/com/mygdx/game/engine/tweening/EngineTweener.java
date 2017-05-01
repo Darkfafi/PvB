@@ -21,7 +21,7 @@ public class EngineTweener
 	 * Starts a Tween on the given channel and returns an EngineTween which represents the started tween.
 	 * @param tween to start through the Engine and to create an EngineTween for
 	 * @param channel to start the tween on
-	 * @return The EngineTween instance which represetns the Tween started
+	 * @return The EngineTween instance which represents the Tween started.
 	 */
 	public static EngineTween startTween(Tween tween, int channel)
 	{

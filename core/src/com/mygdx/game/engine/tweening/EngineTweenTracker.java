@@ -63,6 +63,9 @@ public class EngineTweenTracker
 		_activeTweens.clear();
 	}
 	
+	/**
+	 * Cleans the class and makes it ready for garbage collection.
+	 */
 	public void clean()
 	{
 		stopAllTweens();
