@@ -5,6 +5,11 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
+/**
+ * This Accessor handles / contains all the tweening types for the RenderComponent.
+ * @author Ramses Di Perna
+ *
+ */
 public class RenderAccessor implements TweenAccessor<RenderComponent>
 {
 	public static final int COLOR = 0;

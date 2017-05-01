@@ -12,7 +12,13 @@ import aurelienribon.tweenengine.equations.Quart;
 import aurelienribon.tweenengine.equations.Quint;
 import aurelienribon.tweenengine.equations.Sine;
 
-public enum TweenType
+/**
+ * This enum holds all the Ease types which can be used in the tweening functionality.
+ * Use the 'getTweenEquation' method to get the linked Equation of the tween.
+ * @author Ramses Di Perna
+ *
+ */
+public enum EaseType
 {
 	// Default
 	Linear(aurelienribon.tweenengine.equations.Linear.INOUT),
@@ -69,12 +75,12 @@ public enum TweenType
 	
 	private TweenEquation _equation;
 	
-	private TweenType(TweenEquation equation) 
+	private EaseType(TweenEquation equation) 
 	{
 		_equation = equation;
     }
 
-    public TweenEquation getTween()
+    public TweenEquation getTweenEquation()
     {
     	return _equation;
     }

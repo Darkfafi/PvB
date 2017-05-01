@@ -36,7 +36,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	}
 	
 	@Override
-	public void updated(float dt)
+	public void update(float dt)
 	{
 		if(_currentState == AIState.Movement)
 		{
