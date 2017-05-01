@@ -19,7 +19,7 @@ public class TextEntity extends BaseEntity
 	private BitmapFont _bitMapFontData = new BitmapFont();
 	private String _currentText = "";
 	private RenderComponent _renderComponent;
-	Matrix4 _mx4Font = new Matrix4();
+	private Matrix4 _mx4Font = new Matrix4();
 	private int _fontSize = DEFAULT_FONT_SIZE;
 	
 	/**
@@ -69,6 +69,7 @@ public class TextEntity extends BaseEntity
 	 */
 	public void setFont(FontData fontData)
 	{
+		_bitMapFontData.dispose();
 		_bitMapFontData = new BitmapFont(fontData.getFont(), fontData.getFontPng(), false);
 		_bitMapFontData.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	}
@@ -119,7 +120,6 @@ public class TextEntity extends BaseEntity
 		_mx4Font.setToRotation(new Vector3(0, 0, 1), -this.getTransformComponent().getRotation());
 		_mx4Font.trn(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY(), 0);
 		renderComponents.getSpriteBatch().setTransformMatrix(_mx4Font);
-		
 		_bitMapFontData.setColor(this.getRenderComponent().getColor());
 		_bitMapFontData.setScale(this.getTransformComponent().getScaleX() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE), this.getTransformComponent().getScaleY() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE));
 		
@@ -137,6 +137,10 @@ public class TextEntity extends BaseEntity
 	protected void destroyed() 
 	{
 		_renderComponent = null;
+		_bitMapFontData.dispose();
+		_bitMapFontData = null;
+		_currentText = null;
+		_mx4Font = null;
 	}
 	
 	private void initialize(String text, boolean isUI) 
