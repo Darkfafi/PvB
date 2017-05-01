@@ -24,6 +24,7 @@ public class MyGdxGame extends ApplicationAdapter
 	
 	private static GameTextureResources _textureResources = new GameTextureResources();
 	private static GameAudioResources _audioResources = new GameAudioResources();
+	private static GameFontResources _fontResources = new GameFontResources();
 	
 	// Scene Handling
 	private float _timeAfterLastRender = 0;
@@ -35,6 +36,11 @@ public class MyGdxGame extends ApplicationAdapter
 	private SpriteBatch _batch;
 	private GameCamera _mainCam;
 	private GameCamera _hudCam; 
+	
+	public static GameFontResources getFontResources()
+	{
+		return _fontResources;
+	}
 	
 	public static GameTextureResources getTextureResources()
 	{
@@ -61,6 +67,7 @@ public class MyGdxGame extends ApplicationAdapter
 	{
 		getTextureResources().load();
 		getAudioResources().load();
+		getFontResources().load();
 		
 		Gdx.input.setInputProcessor(new TouchInputHandler(WIDTH ,HEIGHT)); // Set up InputHandling
 		

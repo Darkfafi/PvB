@@ -153,9 +153,9 @@ public class AnimationComponent extends RenderComponent
 	}
 	
 	@Override
-	public void updated(float deltaTime) {
+	public void update(float deltaTime) {
 		// TODO Auto-generated method stub
-		super.updated(deltaTime);
+		super.update(deltaTime);
 		
 		if(isPlaying())
 		{

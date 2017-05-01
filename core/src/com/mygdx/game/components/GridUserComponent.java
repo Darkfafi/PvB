@@ -206,7 +206,7 @@ public class GridUserComponent extends BaseEntityComponent
 	}
 
 	@Override
-	public void updated(float deltaTime) {
+	protected void updated(float deltaTime) {
 		// TODO Auto-generated method stub
 		
 	}

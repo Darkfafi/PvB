@@ -4,6 +4,11 @@ import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.engine.events.GlobalDispatcher;
 import com.mygdx.game.engine.globals.EngineGlobals;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.EngineTweenTracker;
+import com.mygdx.game.engine.tweening.EngineTweener;
+
+import aurelienribon.tweenengine.Tween;
 
 /**
  * This class must be inherited by a class for it to be able to be added to Entities as component.
@@ -31,6 +36,21 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	 * Indicates whether the component has been destroyed.
 	 */
 	private boolean _isDestroyed = false;
+	
+	private EngineTweenTracker _tweenTracker = new EngineTweenTracker();
+	
+	
+	public EngineTween startTweenOnComponent(Tween tween)
+	{
+		EngineTween t = EngineTweener.startTween(tween, EngineTweener.COMPONENT_CHANNEL);
+		_tweenTracker.registerTween(t);
+		return t;
+	}
+	
+	public void stopAllComponentTweens()
+	{
+		_tweenTracker.stopAllTweens();
+	}
 	
 	/**
 	 * Initializes the component to set its correct properties. This method can only be called once.
@@ -90,8 +110,19 @@ public abstract class BaseEntityComponent extends EventDispatcher
 			GlobalDispatcher.getInstance().dispatchEvent(new ComponentEvent(EngineGlobals.GLOBAL_EVENT_COMPONENT_DESTROYED, this));
 			
 			destroyed();
+			
+			stopAllComponentTweens();
+			
+			_tweenTracker.clean();
+			_tweenTracker = null;
 			_parentOfComponent = null;
 		}
+	}
+	
+	public void update(float deltaTime)
+	{
+		_tweenTracker.updateTracker();
+		updated(deltaTime);
 	}
 	
 	/**
@@ -103,7 +134,7 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	 * This will be called every frame for as long as the component is attached to the entity.
 	 * @param deltaTime of how much time passed between this frame and the last.
 	 */
-	public abstract void updated(float deltaTime);
+	protected abstract void updated(float deltaTime);
 	
 	/**
 	 * This will be called when the component is about to be destroyed / removed from the parent entity

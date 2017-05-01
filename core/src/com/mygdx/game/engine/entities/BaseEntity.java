@@ -165,7 +165,7 @@ public abstract class BaseEntity extends EventDispatcher
 
 			if(_components.get(i).isActive())
 			{
-				_components.get(i).updated(dt);
+				_components.get(i).update(dt);
 			}
 			
 			if(_destroyStackQueue != null && !_destroyStackQueue.isEmpty())

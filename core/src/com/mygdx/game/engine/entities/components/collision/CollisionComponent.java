@@ -117,7 +117,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	}
 
 	@Override
-	public void updated(float deltaTime) 
+	protected void updated(float deltaTime) 
 	{
 		if(_velocity.len() > 0)
 		{

@@ -5,6 +5,11 @@ import com.mygdx.game.engine.entities.components.TransformComponent;
 
 import aurelienribon.tweenengine.TweenAccessor;
 
+/**
+ * This Accessor handles / contains all the tweening types for the TransformComponent.
+ * @author Ramses Di Perna
+ *
+ */
 public class TransformAccessor implements TweenAccessor<TransformComponent>
 {
 	public static final int POSITION = 0;
