@@ -70,7 +70,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 //						startText.getTransformComponent().doRotation(16, 1.5f, true).ease(EaseType.Linear).getTween().repeatYoyo(100, 0)
 //					).
 //			end().repeatYoyo(Tween.INFINITY, 0).start();
-		startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0)
+		startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
 //		startText.getTransformComponent().doRotation(16, 1.2f, true).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
 //		startText.getRenderComponent().doAlpha(0.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
 	}
