@@ -232,6 +232,7 @@ public abstract class BaseEntity extends EventDispatcher
 	
 	/**
 	 * Is called every render update. This method can be used to draw things which are not entities.
+	 * NOTE: This method will only be called if this entity has a RenderComponent attached to it!
 	 * @param renderComponents which contains all the render informations
 	 */
 	protected abstract void rendered(RenderComponents renderComponents);

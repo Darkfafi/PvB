@@ -51,9 +51,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		_aimTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
+		_aimTexture = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
 		_bowDrawSoundInstance = -1;
-		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
+		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();

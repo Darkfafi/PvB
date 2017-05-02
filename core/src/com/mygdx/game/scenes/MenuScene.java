@@ -1,11 +1,10 @@
 package com.mygdx.game.scenes;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.BaseScene;
@@ -19,13 +18,15 @@ import com.mygdx.game.touchinput.TouchEvent;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
-	private BitmapFont _font = new BitmapFont();
-	
+	private RenderInfo _menuBG = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
+	private RenderInfo _menuLogo = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_GAME_MENU_LOGO);
 	@Override
 	public void destroyed() {
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
 		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
+		_menuBG.clean();
+		_menuLogo.clean();
 	}
 
 	@Override
@@ -40,12 +41,10 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		getRenderComponents().getSpriteBatch().begin();
 		
 		//Draw the Background on the menu.
-		Texture menuBG = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND).getTextureToDraw();
-		getRenderComponents().getSpriteBatch().draw(menuBG, 0, 0, menuBG.getWidth(), menuBG.getHeight());
+		getRenderComponents().getSpriteBatch().draw(_menuBG.getTextureToDraw(), 0, 0, _menuBG.getTextureToDraw().getWidth(), _menuBG.getTextureToDraw().getHeight());
 		
 		//Draw the Game Logo on the menu.
-		Texture menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO).getTextureToDraw();
-		getRenderComponents().getSpriteBatch().draw(menuLogo, 10, MyGdxGame.HEIGHT - (menuLogo.getHeight() + 80), menuLogo.getWidth(), menuLogo.getHeight());
+		getRenderComponents().getSpriteBatch().draw(_menuLogo.getTextureToDraw(), 10, MyGdxGame.HEIGHT - (_menuLogo.getTextureToDraw().getHeight() + 80), _menuLogo.getTextureToDraw().getWidth(), _menuLogo.getTextureToDraw().getHeight());
 		getRenderComponents().getSpriteBatch().end();
 	}
 

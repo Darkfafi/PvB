@@ -102,7 +102,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 
 		

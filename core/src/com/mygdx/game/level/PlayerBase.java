@@ -18,9 +18,9 @@ public class PlayerBase extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		_healthBarTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR).getTextureToDraw();
+		_healthBarTexture = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_HP_BAR).getTextureToDraw();
 		this.addComponent(new HealthComponent(100f)).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false)).setColor(new Color(0,0,0,0));
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_HP_BAR), false)).setColor(new Color(0,0,0,0));
 	}
 
 	@Override
