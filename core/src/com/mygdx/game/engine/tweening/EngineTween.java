@@ -21,6 +21,7 @@ public class EngineTween extends EventDispatcher
 	private Tween _tween;
 	private IEngineTweenMethod _method;
 	
+	
 	/**
 	 * Sets the EngineTween and sets a callback listener to it so it can listen to the different events.
 	 * WARNING: Do not add your own callback to the Tween. If you need one, you can listen to the ENGINE_TWEEN_EVENT or add a callback with the 'setCallbackMethod'
@@ -38,6 +39,15 @@ public class EngineTween extends EventDispatcher
 				sendTweenEvent(type);
 			}
 		});
+	}
+	
+	/**
+	 * Returns whether the class has been cleaned or not.
+	 * @return true when it has been cleaned, else false
+	 */
+	public boolean isCleaned()
+	{
+		return _tween == null;
 	}
 	
 	/**

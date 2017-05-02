@@ -61,6 +61,9 @@ public class EngineTweener
 		while(!_tweensToStartStack.isEmpty())
 		{
 			ChannelTween ct = _tweensToStartStack.pop();
+			
+			if(ct.Tween.isCleaned()) { continue; }
+			
 			ct.Tween.getTween().start(getTweenManager(ct.Channel));
 			ct.Tween = null;
 		}

@@ -57,7 +57,7 @@ public class EngineTweenTracker
 	{
 		for(int i = _activeTweens.size() - 1; i >= 0; i--)
 		{
-			_activeTweens.get(i).getTween().kill();
+			_activeTweens.get(i).clean();
 		}
 		
 		_activeTweens.clear();
