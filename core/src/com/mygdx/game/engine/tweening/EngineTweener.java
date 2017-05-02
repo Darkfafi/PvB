@@ -1,6 +1,5 @@
 package com.mygdx.game.engine.tweening;
 
-import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 /**
@@ -23,9 +22,10 @@ public class EngineTweener
 	 * @param channel to start the tween on
 	 * @return The EngineTween instance which represents the Tween started.
 	 */
-	public static EngineTween startTween(Tween tween, int channel)
+	public static EngineTween startTween(EngineTween tween, int channel)
 	{
-		return new EngineTween(tween.start(getTweenManager(channel)));
+		tween.getTween().start(getTweenManager(channel));
+		return tween;
 	}
 	
 	/**
