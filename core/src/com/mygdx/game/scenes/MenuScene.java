@@ -1,6 +1,7 @@
 package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.TextEntity;
@@ -12,7 +13,6 @@ import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
 
-import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 
 /**
@@ -56,7 +56,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	protected void created() 
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
-		TextEntity startText = new TextEntity("Tap the Screen to Start.", true);
+		TextEntity startText = new TextEntity(MyGdxGame.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "Tap the Screen to Start.", true);
 		
 		startText.getTransformComponent().setScale(new Vector2(1.1f, 1.1f));
 		startText.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
