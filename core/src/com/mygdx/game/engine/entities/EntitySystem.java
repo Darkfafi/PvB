@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -270,6 +271,7 @@ public class EntitySystem implements IEventReceiver
 				    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
 				    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
 		
+		sb.setColor(new Color(Color.WHITE));
 		ce.render(gameRenderComponents);
 	}
 	

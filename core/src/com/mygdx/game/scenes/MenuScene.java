@@ -8,8 +8,12 @@ import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.BaseScene;
+import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
+
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 
 /**
  * This scene is the main menu scene. 
@@ -53,8 +57,22 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		TextEntity startText = new TextEntity("Tap the Screen to Start.", true);
+		
 		startText.getTransformComponent().setScale(new Vector2(1.1f, 1.1f));
 		startText.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
+		startText.getTransformComponent().setRotation(-16);
+//		Timeline.createParallel().
+//			beginParallel().
+//				push(
+//						startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(100, 0)
+//					).
+//				push(
+//						startText.getTransformComponent().doRotation(16, 1.5f, true).ease(EaseType.Linear).getTween().repeatYoyo(100, 0)
+//					).
+//			end().repeatYoyo(Tween.INFINITY, 0).start();
+		startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0)
+//		startText.getTransformComponent().doRotation(16, 1.2f, true).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
+//		startText.getRenderComponent().doAlpha(0.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
 	}
 	
 	private void onTouchEvent(TouchEvent event)
