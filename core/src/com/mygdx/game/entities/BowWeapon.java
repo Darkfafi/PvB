@@ -51,9 +51,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		_aimTexture = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
+		_aimTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
 		_bowDrawSoundInstance = -1;
-		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.ANIMATION_BOW_DRAW), false);
+		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
@@ -132,7 +132,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_currentBowStage = BowStage.Idle;
 		_pointerControllingTouch = -1;
 		_drawStrength = 0;
-		this.getComponent(AnimationComponent.class).getRenderInfo().setCurrentFrameInfo(0); // Reset bow
+		this.getComponent(AnimationComponent.class).reset(); // Reset bow
 		_currentProjectile = new ArrowProjectile();
 		if(_bowDrawSoundInstance != -1)
 			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
@@ -183,7 +183,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 			_volumeDraw = _drawStrength;
 		
 		AnimationComponent ac = this.getComponent(AnimationComponent.class);
-		ac.getRenderInfo().setCurrentFrameInfo((int)((ac.getRenderInfo().getFramesLength() - 1) * _drawStrength));
+		ac.setCurrentFrameInfo((int)((ac.getRenderInfo().getFramesLength() - 1) * _drawStrength));
 		handleProjectilePlacement();
 	}
 	
@@ -210,7 +210,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		Vector2 v = _currentProjectile.getTransformComponent().getUpwards();
 		float amount = 72;
 		float delta = 4f;
-		amount -= delta * this.getComponent(AnimationComponent.class).getRenderInfo().getCurrentFrameInfo();
+		amount -= delta * this.getComponent(AnimationComponent.class).getCurrentFrameInfo();
 		v.x *= amount;
 		v.y *= amount;
 		return v;

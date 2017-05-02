@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.engine.tweening.EngineTween;
-import com.mygdx.game.engine.tweening.EngineTweener;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 
 import aurelienribon.tweenengine.Tween;
@@ -18,7 +17,9 @@ import aurelienribon.tweenengine.Tween;
  */
 public class RenderComponent extends BaseEntityComponent implements Comparable<RenderComponent>
 {
-	private RenderInfo _renderInfo = new RenderInfo();
+	
+	private RenderInfo _renderInfo = null;
+	private int _currentFrameInfo = 0;
 	private Vector2 _pivot = new Vector2(0.5f, 0.5f);
 	private boolean _flipX = false;
 	private boolean _flipY = false;
@@ -50,6 +51,24 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public boolean isSortedOnY()
 	{
 		return _isSortedOnY;
+	}
+	
+	/**
+	 * * Returns what frame info index should be displayed
+	 * @return The index of the current frame info
+	 */
+	public int getCurrentFrameInfo()
+	{
+		return _currentFrameInfo;
+	}
+	
+	/**
+	 * Sets the frame info index which should be displayed
+	 * @param index is the index of the current frame info
+	 */
+	public void setCurrentFrameInfo(int index)
+	{
+		_currentFrameInfo = index;
 	}
 	
 	/**
@@ -100,7 +119,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public float getRealWidth()
 	{
 		if(_renderInfo == null) { return 0;}
-		return this.getParentOfComponent().getTransformComponent().getScaleX() * (float)_renderInfo.getCutWidth();
+		return this.getParentOfComponent().getTransformComponent().getScaleX() * (float)_renderInfo.getCutWidth(_currentFrameInfo);
 	}
 	
 	/**
@@ -110,7 +129,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public float getRealHeight()
 	{
 		if(_renderInfo == null) { return 0;}
-		return this.getParentOfComponent().getTransformComponent().getScaleY() * (float)_renderInfo.getCutHeight();
+		return this.getParentOfComponent().getTransformComponent().getScaleY() * (float)_renderInfo.getCutHeight(_currentFrameInfo);
 	}
 	
 	/**
@@ -232,14 +251,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * @param info to set as new RenderInfo for this component.
 	 */
 	public void setRenderInfo(RenderInfo info)
-	{
-		if(_renderInfo != null)
-			_renderInfo.clean();
-		
+	{	
+		_currentFrameInfo  = 0;	
 		_renderInfo = info;
-		
-		if(_renderInfo != null)
-			_renderInfo.setCurrentFrameInfo(0);
 	}
 	
 	/**

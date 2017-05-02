@@ -102,7 +102,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
+		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 
 		
@@ -143,7 +143,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 					{
 						this.getComponent(CollisionComponent.class).stopVelocity();
 						cc.setActiveState(false);
-						this.getComponent(RenderComponent.class).getRenderInfo().setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
+						this.getComponent(RenderComponent.class).setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 2);
 						this.getComponent(RenderComponent.class).setSortingLayer(1);
 						getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0.7f), true);
 						MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_NOTHING).play(0.4f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), (float)Math.random() + 0.8f, 0f);

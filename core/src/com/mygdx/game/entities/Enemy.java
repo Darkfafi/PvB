@@ -41,8 +41,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.getComponent(AnimationComponent.class).setSortOnY(true);
 		
 		this.addComponent(new HealthComponent(health)).addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
-		
-		
 	}
 	
 	public void setEnemyState(EnemyState state)

@@ -40,7 +40,7 @@ public class GameScene extends BaseScene
 		this.getRenderComponents().getSpriteBatch().setProjectionMatrix(this.getRenderComponents().getMainCamera().combined);
 		//_playfield.debugRender(getRenderComponents());
 		getRenderComponents().getSpriteBatch().begin();
-		Texture t = MyGdxGame.getTextureResources().createRenderInfoCopy(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
+		Texture t = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
 		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
 		getRenderComponents().getSpriteBatch().end();
 		

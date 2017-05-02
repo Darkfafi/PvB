@@ -82,10 +82,10 @@ public class EnemyFactory
 		
 		}
 		int skinToSelect = (int) Math.round(Math.random() * (runKeys.length - 1));
-		animations.setAnimation("idle", getTextureResources().createRenderInfoCopy(idleKeys[skinToSelect]), true);
-		animations.setAnimation("run", getTextureResources().createRenderInfoCopy(runKeys[skinToSelect]), true);
-		animations.setAnimation("death", getTextureResources().createRenderInfoCopy(deathKeys[skinToSelect]), false);
-		animations.setAnimation("attack", getTextureResources().createRenderInfoCopy(attackKeys[skinToSelect]), true);
+		animations.setAnimation("idle", getTextureResources().getRenderInfo(idleKeys[skinToSelect]), true);
+		animations.setAnimation("run", getTextureResources().getRenderInfo(runKeys[skinToSelect]), true);
+		animations.setAnimation("death", getTextureResources().getRenderInfo(deathKeys[skinToSelect]), false);
+		animations.setAnimation("attack", getTextureResources().getRenderInfo(attackKeys[skinToSelect]), true);
 		
 		return animations;
 	}

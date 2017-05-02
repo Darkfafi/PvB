@@ -26,10 +26,9 @@ public abstract class BaseTextureResources extends BaseResource
 	 * @param key linked to texture
 	 * @return texture linked to the given key
 	 */
-	public RenderInfo createRenderInfoCopy(String key)
+	public RenderInfo getRenderInfo(String key)
 	{
-		RenderInfo originalRenderInfo = _texturesUnderKeys.get(key);
-		return new RenderInfo(originalRenderInfo.getTextureToDraw(), originalRenderInfo.getAllFrameInfos());
+		return _texturesUnderKeys.get(key);
 	}
 	
 	/**

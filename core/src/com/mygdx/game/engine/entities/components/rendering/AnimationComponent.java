@@ -53,7 +53,7 @@ public class AnimationComponent extends RenderComponent
 	 */
 	public int getCurrentFrame()
 	{
-		return this.getRenderInfo().getCurrentFrameInfo();
+		return this.getCurrentFrameInfo();
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class AnimationComponent extends RenderComponent
 	 */
 	public void reset()
 	{
-		this.getRenderInfo().setCurrentFrameInfo(0);
+		this.setCurrentFrameInfo(0);
 	}
 	
 	@Override
@@ -163,12 +163,12 @@ public class AnimationComponent extends RenderComponent
 			if(_timePassed >= deltaTime / _animationSpeed)
 			{
 				_timePassed -= (deltaTime / _animationSpeed);
-				_newIndex = this.getRenderInfo().getCurrentFrameInfo() + 1;
+				_newIndex = this.getCurrentFrameInfo() + 1;
 				if(_newIndex >= this.getRenderInfo().getFramesLength())
 				{
 					if(_isLooping)
 					{
-						this.getRenderInfo().setCurrentFrameInfo(0);
+						reset();
 						this.dispatchEvent(new AnimationEvent(EVENT_ANIMATION_LOOPED, _currentAnimation));
 						return;
 					}
@@ -178,7 +178,7 @@ public class AnimationComponent extends RenderComponent
 						return;
 					}
 				}
-				this.getRenderInfo().setCurrentFrameInfo(_newIndex);
+				this.setCurrentFrameInfo(_newIndex);
 			}
 		}
 	}

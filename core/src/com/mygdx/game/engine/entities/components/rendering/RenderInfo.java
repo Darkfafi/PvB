@@ -11,12 +11,6 @@ public class RenderInfo
 {	
 	private Texture _textureToDraw = null;
 	private FrameInfo[] _frameInfos;
-	private int _currentFrameInfo = 0;
-	
-	public RenderInfo()
-	{
-		
-	}
 	
 	/**
 	 * Shows the entire picture given
@@ -40,13 +34,13 @@ public class RenderInfo
 	public RenderInfo(Texture texture, FrameInfo[] frames)
 	{
 		_textureToDraw = texture;
-		_frameInfos = new FrameInfo[frames.length];
-		for(int i = 0; i < frames.length; i++)
-		{
-			_frameInfos[i] = frames[i];
-		}
+		_frameInfos = frames;
 	}
 	
+	/**
+	 * Returns all the FrameInfos linked in the RenderInfo
+	 * @return All FrameInfos of the RenderInfo
+	 */
 	public FrameInfo[] getAllFrameInfos()
 	{
 		return _frameInfos;
@@ -59,23 +53,6 @@ public class RenderInfo
 	public int getFramesLength()
 	{
 		return _frameInfos.length;
-	}
-	/**
-	 * Returns what frame info index should be displayed
-	 * @return The index of the current frame info
-	 */
-	public int getCurrentFrameInfo() 
-	{
-		return _currentFrameInfo;
-	}
-	
-	/**
-	 * Sets what frame info index should be displayed
-	 * @param currentFrameInfo of the new frame to display
-	 */
-	public void setCurrentFrameInfo(int currentFrameInfo)
-	{
-		_currentFrameInfo = currentFrameInfo;
 	}
 	
 	/**
@@ -91,36 +68,36 @@ public class RenderInfo
 	 * Returns the X axis start cutting coordinates for the texture.
 	 * @return The X axis start cutting coordinates for the texture.
 	 */
-	public int getStartX()
+	public int getStartX(int frameInfoIndex)
 	{
-		return _frameInfos[_currentFrameInfo].getStartX();
+		return _frameInfos[frameInfoIndex].getStartX();
 	}
 	
 	/**
 	 * Returns the Y axis start cutting coordinates for the texture.
 	 * @return The Y axis start cutting coordinates for the texture.
 	 */
-	public int getStartY()
+	public int getStartY(int frameInfoIndex)
 	{
-		return _frameInfos[_currentFrameInfo].getStartY();
+		return _frameInfos[frameInfoIndex].getStartY();
 	}
 	
 	/**
 	 * Returns the width it should cut from the start position.
 	 * @return The width it should cut from the start position.
 	 */
-	public int getCutWidth()
+	public int getCutWidth(int frameInfoIndex)
 	{
-		return _frameInfos[_currentFrameInfo].getCutWidth();
+		return _frameInfos[frameInfoIndex].getCutWidth();
 	}
 	
 	/**
 	 * Returns the height it should cut from the start position.
 	 * @return The height it should cut from the start position.
 	 */
-	public int getCutHeight()
+	public int getCutHeight(int frameInfoIndex)
 	{
-		return _frameInfos[_currentFrameInfo].getCutHeight();
+		return _frameInfos[frameInfoIndex].getCutHeight();
 	}
 	
 	/**
