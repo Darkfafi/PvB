@@ -49,7 +49,7 @@ public abstract class BaseScenesManager
 	public void update(float dt)
 	{
 		_gameScenes.peek().update(dt);
-		EngineTweener.getTweenManager(EngineTweener.COMPONENT_CHANNEL).update(dt);
+		EngineTweener.updateTweenEngine(dt);
 	}
 	
 	/**

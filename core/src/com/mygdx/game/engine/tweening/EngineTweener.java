@@ -1,5 +1,8 @@
 package com.mygdx.game.engine.tweening;
 
+import java.util.Stack;
+
+import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
 /**
@@ -16,16 +19,19 @@ public class EngineTweener
 	
 	private static TweenManager[] _tweenManagers = new TweenManager[1]; 
 	
+	private static Stack<ChannelTween> _tweensToStartStack = new Stack<ChannelTween>();
+	
 	/**
 	 * Starts a Tween on the given channel and returns an EngineTween which represents the started tween.
 	 * @param tween to start through the Engine and to create an EngineTween for
 	 * @param channel to start the tween on
 	 * @return The EngineTween instance which represents the Tween started.
 	 */
-	public static EngineTween startTween(EngineTween tween, int channel)
+	public static EngineTween startTween(Tween tween, int channel)
 	{
-		tween.getTween().start(getTweenManager(channel));
-		return tween;
+		EngineTween t = new EngineTween(tween);
+		_tweensToStartStack.add(new ChannelTween(t, channel));
+		return t;
 	}
 	
 	/**
@@ -48,5 +54,33 @@ public class EngineTweener
 		}
 		
 		return _tweenManagers[channel];
+	}
+	
+	public static void updateTweenEngine(float dt)
+	{
+		while(!_tweensToStartStack.isEmpty())
+		{
+			ChannelTween ct = _tweensToStartStack.pop();
+			ct.Tween.getTween().start(getTweenManager(ct.Channel));
+			ct.Tween = null;
+		}
+		
+		for(int i = 0; i < _tweenManagers.length; i++)
+		{
+			if(_tweenManagers[i] != null)
+				_tweenManagers[i].update(dt);
+		}
+	}
+	
+	private static class ChannelTween
+	{
+		public EngineTween Tween;
+		public int Channel;
+		
+		public ChannelTween(EngineTween t, int c)
+		{
+			Tween = t;
+			Channel = c;
+		}
 	}
 }

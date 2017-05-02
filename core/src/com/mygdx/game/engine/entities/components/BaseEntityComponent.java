@@ -41,12 +41,9 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	
 	private EngineTweenTracker _tweenTracker = new EngineTweenTracker();
 	
-	private Stack<EngineTween> _tweensToStartStack = new Stack<EngineTween>();
-	
 	public EngineTween startTweenOnComponent(Tween tween)
 	{
-		EngineTween t = new EngineTween(tween);
-		_tweensToStartStack.add(t);
+		EngineTween t = EngineTweener.startTween(tween, EngineTweener.COMPONENT_CHANNEL);
 		_tweenTracker.registerTween(t);
 		return t;
 	}
@@ -116,8 +113,6 @@ public abstract class BaseEntityComponent extends EventDispatcher
 			destroyed();
 			
 			stopAllComponentTweens();
-			_tweensToStartStack.clear();
-			_tweensToStartStack = null;
 			_tweenTracker.clean();
 			_tweenTracker = null;
 			_parentOfComponent = null;
@@ -126,9 +121,6 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	
 	public void update(float deltaTime)
 	{
-		while(!_tweensToStartStack.isEmpty())
-			EngineTweener.startTween(_tweensToStartStack.pop(), EngineTweener.COMPONENT_CHANNEL);
-		
 		_tweenTracker.updateTracker();
 		updated(deltaTime);
 	}
