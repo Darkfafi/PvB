@@ -2,6 +2,11 @@ package com.mygdx.game.waves;
 
 import java.util.ArrayList;
 
+import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.events.HealthEvent;
 import com.mygdx.game.factories.EnemyFactory;
 
 /**
@@ -12,7 +17,7 @@ import com.mygdx.game.factories.EnemyFactory;
  * @author Ramses Di Perna
  *
  */
-public class Wave 
+public class Wave implements IEventReceiver
 {
 	private ArrayList<WaveSectionInfo> _waveInfos = new ArrayList<WaveSectionInfo>();
 	private WaveSystem _waveSystem;
@@ -23,13 +28,18 @@ public class Wave
 	
 	private int _amountSpawnedThisSection = 0;
 	
+	private boolean _isEnemyKillToEndWave = false;
+	private ArrayList<Enemy> _enemiesTracking = new ArrayList<Enemy>();
+	
+	
 	/**
 	 * A wave should be linked to a waveSystem to be able to create enemies.
 	 * @param waveSystem to create enemies with
 	 */
-	public Wave(WaveSystem waveSystem)
+	public Wave(WaveSystem waveSystem, boolean isEnemyKillToEndWave)
 	{
-		_waveSystem = waveSystem;	
+		_waveSystem = waveSystem;
+		_isEnemyKillToEndWave = isEnemyKillToEndWave;
 	}
 	
 	/**
@@ -87,11 +97,16 @@ public class Wave
 		if(_isRunningWave)
 		{
 			_timeInSection += dt;
-			
-			if(_amountSpawnedThisSection < _waveInfos.get(_currentSection).Amount)
+			if(!hasSpawnedEntireSection())
 			{
-				_waveSystem.waveCreateEnemy(this, _waveInfos.get(_currentSection).EnemyType);
+				Enemy e = _waveSystem.waveCreateEnemy(this, _waveInfos.get(_currentSection).EnemyType);
 				_amountSpawnedThisSection++;
+				
+				if(_isEnemyKillToEndWave)
+				{
+					_enemiesTracking.add(e);
+					e.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+				}
 			}
 			
 			if(_timeInSection >= _waveInfos.get(_currentSection).TimeForSection)
@@ -107,7 +122,14 @@ public class Wave
 	 */
 	public boolean isWaveOver()
 	{
-		return getCurrentSection() >= getTotalSections();
+		if(_isEnemyKillToEndWave)
+		{
+			return getCurrentSection() >= getTotalSections() - 1 &&  this._enemiesTracking.size() == 0 && hasSpawnedEntireSection();
+		}
+		else
+		{
+			return getCurrentSection() >= getTotalSections();
+		}
 	}
 	
 	/**
@@ -118,6 +140,14 @@ public class Wave
 		_waveInfos.clear();
 		_waveInfos = null;
 		_waveSystem = null;
+		
+		for(int i = _enemiesTracking.size() - 1; i >= 0; i--)
+		{
+			removeFromTrack(_enemiesTracking.get(i));
+		}
+		
+		_enemiesTracking.clear();
+		_enemiesTracking = null;
 	}
 	
 	/**
@@ -128,7 +158,7 @@ public class Wave
 		_timeInSection = 0;
 		_amountSpawnedThisSection = 0;
 		_currentSection++;
-		if(isWaveOver())
+		if(getCurrentSection() >= getTotalSections())
 		{
 			_isRunningWave = false;
 		}
@@ -157,6 +187,43 @@ public class Wave
 			EnemyType = enemyType;
 			Amount = amount;
 			TimeForSection = timeForSection;
+		}
+	}
+
+	@Override
+	public void onReceiveEvent(Event event) 
+	{	
+		if(event.getType() == HealthComponent.EVENT_HEALTH_DIED)
+		{
+			onEnemyDiedEvent((HealthEvent)event);
+		}
+	}
+
+	public boolean hasSpawnedEntireSection()
+	{
+		return _amountSpawnedThisSection >= _waveInfos.get(_currentSection).Amount;
+	}
+	
+	/**
+	 * This is triggered when a health died event is triggered by a tracked enemy
+	 * @param event triggered by a tracked enemy
+	 */
+	private void onEnemyDiedEvent(HealthEvent event) 
+	{
+		HealthComponent hc = (HealthComponent)event.getDispatcher();
+		removeFromTrack((Enemy)hc.getParentOfComponent());
+	}
+	
+	/**
+	 * Removes the given enemy from the current tracking enemies
+	 * @param enemy to remove and unlisten.
+	 */
+	private void removeFromTrack(Enemy enemy)
+	{
+		enemy.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+		if(_enemiesTracking.contains(enemy))
+		{
+			_enemiesTracking.remove(enemy);
 		}
 	}
 }

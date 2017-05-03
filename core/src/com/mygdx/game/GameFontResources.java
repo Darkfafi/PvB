@@ -9,7 +9,7 @@ public class GameFontResources extends BaseFontResources
 	public void load() 
 	{
 		// TODO:  Load Game Fonts with the 'loadResource' method
-		this.loadResource(REGULAR_WHITE_BANDIDOS, "fonts/testFont.fnt", "fonts/testFont.png");
+		this.loadResource(REGULAR_WHITE_BANDIDOS, "fonts/font_bandidos_white.fnt", "fonts/font_bandidos_white.png");
 	}
 
 }

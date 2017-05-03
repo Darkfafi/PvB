@@ -68,11 +68,11 @@ public class WaveSystem
 	 * @param wave which is the caller and the current active wave
 	 * @param enemyType to spawn
 	 */
-	public void waveCreateEnemy(Wave wave, EnemyFactory.EnemyType enemyType)
+	public Enemy waveCreateEnemy(Wave wave, EnemyFactory.EnemyType enemyType)
 	{
-		if(wave != _wave) { return ;}
+		if(wave != _wave) { return null;}
 		
-		createEnemy(enemyType);
+		return createEnemy(enemyType);
 	}
 	
 	/**
@@ -89,13 +89,15 @@ public class WaveSystem
 	 * Creates an enemy of the given enemy type using the EneyFactory and places it above the playground on a random x axis.
 	 * @param enemyType to spawn
 	 */
-	private void createEnemy(EnemyFactory.EnemyType enemyType)
+	private Enemy createEnemy(EnemyFactory.EnemyType enemyType)
 	{
 		Enemy e = EnemyFactory.createEnemyOfType(enemyType);
 		int spawnX = this.getSpawnPointX();
 		e.addComponent(new EnemyPlayfieldAIComponent(_playfield, EnemyFactory.getMovementSpeedForType(enemyType))).placeSelfOnLocation(spawnX, -1);
 		GridTile tile = _playfield.getGrid().getTile(spawnX, -1);
 		e.getTransformComponent().setPosition(new Vector2(tile.getWorldPositionX() + tile.getTileWidth() / 2, tile.getWorldPositionY() + tile.getTileHeight() / 2));
+		
+		return e;
 	}
 	
 	/**
