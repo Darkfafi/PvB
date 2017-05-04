@@ -1,11 +1,11 @@
 <allFrames> 
  <frame><xPos>175</xPos><yPos>148</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>350</xPos><yPos>148</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>350</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>175</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>350</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>175</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>0</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>0</xPos><yPos>148</yPos><width>173</width><height>146</height></frame>
-<frame><xPos>0</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
-</allFrames>
+ <frame><xPos>350</xPos><yPos>148</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>350</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>175</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>350</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>175</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>0</xPos><yPos>296</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>0</xPos><yPos>148</yPos><width>173</width><height>146</height></frame>
+ <frame><xPos>0</xPos><yPos>0</yPos><width>173</width><height>146</height></frame>
+ </allFrames>
