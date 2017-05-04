@@ -35,6 +35,7 @@ public class Wave implements IEventReceiver
 	/**
 	 * A wave should be linked to a waveSystem to be able to create enemies.
 	 * @param waveSystem to create enemies with
+	 * @param isEnemyKillToEndWave means, when set on true, the wave will not end until all enemies are killed else it will end by the time given.
 	 */
 	public Wave(WaveSystem waveSystem, boolean isEnemyKillToEndWave)
 	{
@@ -44,7 +45,7 @@ public class Wave implements IEventReceiver
 	
 	/**
 	 * This method designs a wave by sections, every section contains an enemyType to spawn, the amount to spawn and the time to clear the section before the other starts.
-	 * When all wave sections ran out of time, the wave will end.
+	 * When all wave sections ran out of time, the wave will end if isEnemyKillToEndWave is not set to true, else it will end when all enemies are killed. The last section timeForSection will not be used.
 	 * @param enemyType to spawn in this section
 	 * @param amount of enemies of given type to spawn
 	 * @param timeForSection is the time in seconds before the other section starts.
@@ -201,6 +202,7 @@ public class Wave implements IEventReceiver
 
 	public boolean hasSpawnedEntireSection()
 	{
+		if(getCurrentSection() >= getTotalSections()) { return true; }
 		return _amountSpawnedThisSection >= _waveInfos.get(_currentSection).Amount;
 	}
 	
