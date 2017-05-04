@@ -1,6 +1,5 @@
 package com.mygdx.game.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.BaseEntity;
@@ -21,13 +20,12 @@ import com.mygdx.game.ui.ButtonEvent;
  */
 public class ButtonEntity extends BaseEntity implements IEventReceiver 
 {
-	Texture _buttonTexture;
-	private boolean _buttonDown;
-	private boolean _buttonUp;
+	private RenderComponent _renderComponent;
+	private boolean _isButtonPressed;
 	
-	public ButtonEntity(String backgroundImageName)
+	public ButtonEntity(String buttonAtlas)
 	{
-		_buttonTexture = MyGdxGame.getTextureResources().getRenderInfo(backgroundImageName).getTextureToDraw();
+		_renderComponent = this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(buttonAtlas), true));
 	}
 	
 	/**
@@ -37,8 +35,7 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 	{
 		this.dispatchEvent(new ButtonEvent(ButtonEvent.ButtonState.Down, ButtonGlobals.BUTTON_DOWN_EVENT));
 		this.dispatchEvent(new ButtonEvent(ButtonEvent.ButtonState.Down, ButtonGlobals.BUTTON_EVENT));
-		_buttonDown = true;
-		_buttonUp = false;
+		_isButtonPressed = true;
 	}
 	
 	/**
@@ -48,26 +45,26 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 	{
 		this.dispatchEvent(new ButtonEvent(ButtonEvent.ButtonState.Up, ButtonGlobals.BUTTON_UP_EVENT));
 		this.dispatchEvent(new ButtonEvent(ButtonEvent.ButtonState.Up, ButtonGlobals.BUTTON_EVENT));
-		_buttonUp = true;
-		_buttonDown = false;
+		_isButtonPressed = false;
 	}
-
+	
 	/**
-	 * 
-	 * @return _buttonDown
+	 * Returns the RenderComponent for the TextEntity
+	 * WARNING: Do not remove the RenderComponent
+	 * @return The RenderComponent attached to the TextEntity
 	 */
-	public boolean getButtonDown()
+	public RenderComponent getRenderComponent()
 	{
-		return _buttonDown;
+		return _renderComponent;
 	}
 	
 	/**
 	 * 
-	 * @return _buttonUp
+	 * @return _isButtonPressed
 	 */
-	public boolean getButtonUp()
+	public boolean isButtonPressed()
 	{
-		return _buttonUp;
+		return _isButtonPressed;
 	}
 	
 	@Override
@@ -97,8 +94,8 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 
 	@Override
 	protected void destroyed() {
+		_renderComponent = null;
 		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
-		_buttonTexture = null;
 	}
 	
 	private void onTouchEvent(TouchEvent event)
@@ -111,15 +108,20 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 			touchPos.y = event.getTouchY();
 			
 			Vector2 position = new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
-			float pivotX = this.getComponent(RenderComponent.class).getPivotX();
-			float pivotY = this.getComponent(RenderComponent.class).getPivotY();
-			float buttonTextureWidth = this.getComponent(RenderComponent.class).getCurrentTexture().getWidth();
-			float buttonTextureHeight = this.getComponent(RenderComponent.class).getCurrentTexture().getHeight();
+			float pivotX = getRenderComponent().getPivotX();
+			float pivotY = getRenderComponent().getPivotY();
+			float buttonTextureWidth = getRenderComponent().getCurrentTexture().getWidth();
+			float buttonTextureHeight = getRenderComponent().getCurrentTexture().getHeight();
 			
 			if(touchPos.x > (position.x - buttonTextureWidth * pivotX) && touchPos.x < position.x + buttonTextureWidth)
 			{
 				if(touchPos.y > (position.y - buttonTextureHeight * pivotY) && touchPos.y < position.y + buttonTextureHeight)
 				{
+					if(getRenderComponent().getRenderInfo().getFramesLength() > 1)
+					{
+						getRenderComponent().setCurrentFrameInfo(1);
+					}
+					
 					onButtonDown();
 				}
 			}
@@ -127,6 +129,15 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 		else if(event.getTouchType() == TouchEvent.TouchType.Ended)
 		{
 			onButtonUp();
+
+			if(getRenderComponent().getRenderInfo().getFramesLength() > 1)
+			{
+				getRenderComponent().setCurrentFrameInfo(0);
+			}
+			else 
+			{
+				return;
+			}
 		}
 	}
 	
