@@ -1,19 +1,17 @@
 package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.BaseScene;
-import com.mygdx.game.engine.tweening.EaseType;
+import com.mygdx.game.entities.ButtonEntity;
+import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.InputGlobals;
-import com.mygdx.game.touchinput.TouchEvent;
-
-import aurelienribon.tweenengine.Tween;
+import com.mygdx.game.ui.ButtonEvent;
 
 /**
  * This scene is the main menu scene. 
@@ -24,13 +22,17 @@ public class MenuScene extends BaseScene implements IEventReceiver
 {
 	private RenderInfo _menuBG = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
 	private RenderInfo _menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO);
+	private ButtonEntity _playBtn = new ButtonEntity(GameTextureResources.SPRITE_GAME_MENU_PLAY_BTN);
+	
 	@Override
 	public void destroyed() {
 		MyGdxGame.getAudioResources().stopAllMusic();
 		MyGdxGame.getAudioResources().stopAllSounds();
 		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
+		_playBtn.removeEventListener(ButtonGlobals.BUTTON_EVENT, this);
 		_menuBG = null;
 		_menuLogo = null;
+		_playBtn = null;
 	}
 
 	@Override
@@ -56,33 +58,24 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	protected void created() 
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
-		TextEntity startText = new TextEntity(MyGdxGame.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "Tap the Screen to Start.", true);
 		
-		startText.getTransformComponent().setScale(new Vector2(1.1f, 1.1f));
-		startText.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
-		startText.getTransformComponent().setRotation(-16);
-//		Timeline.createParallel().
-//			beginParallel().
-//				push(
-//						startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(100, 0)
-//					).
-//				push(
-//						startText.getTransformComponent().doRotation(16, 1.5f, true).ease(EaseType.Linear).getTween().repeatYoyo(100, 0)
-//					).
-//			end().repeatYoyo(Tween.INFINITY, 0).start();
-		startText.getTransformComponent().doScale(1.1f, 1.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
-//		startText.getTransformComponent().doRotation(16, 1.2f, true).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
-//		startText.getRenderComponent().doAlpha(0.1f, 1.2f).ease(EaseType.Linear).getTween().repeatYoyo(Tween.INFINITY, 0);
+		_playBtn.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_PLAY_BTN), true));
+		_playBtn.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
+		_playBtn.addEventListener(ButtonGlobals.BUTTON_EVENT, this);
 	}
 	
-	private void onTouchEvent(TouchEvent event)
+	//This function will run when a Button Event is triggered. Namely the button down event. This function will start the game.
+	private void onButtonEvent(ButtonEvent event)
 	{
-		if(event.getTouchType() == TouchEvent.TouchType.Started)
+		if(event.getButtonState() == ButtonEvent.ButtonState.Down)
 		{
 			startGame();
 		}
 	}
 	
+	/**
+	 * This function starts the game.
+	 */
 	private void startGame()
 	{
 		this.getScenesManager().setScene(1);
@@ -91,9 +84,9 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	@Override
 	public void onReceiveEvent(Event event)
 	{
-		if(event.getType() == InputGlobals.TOUCH_EVENT)
+		if(event.getType() == ButtonGlobals.BUTTON_EVENT)
 		{
-			onTouchEvent((TouchEvent)event);
+			onButtonEvent((ButtonEvent)event);			
 		}
 	}
 
