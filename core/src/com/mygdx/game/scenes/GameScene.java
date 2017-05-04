@@ -2,7 +2,6 @@ package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
@@ -41,7 +40,11 @@ public class GameScene extends BaseScene
 		//_playfield.debugRender(getRenderComponents());
 		getRenderComponents().getSpriteBatch().begin();
 		Texture t = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
-		getRenderComponents().getSpriteBatch().draw(t, 0, 0, t.getWidth(), t.getHeight());
+		float offsetX = (t.getWidth() - MyGdxGame.WIDTH) / 2;
+		float offsetY = (t.getHeight() - MyGdxGame.HEIGHT) / 2;
+		if(offsetX <= 0) { offsetX = 0;}
+		if(offsetY <= 0) { offsetY = 0;}
+		getRenderComponents().getSpriteBatch().draw(t, -offsetX, -offsetY, t.getWidth(), t.getHeight());
 		getRenderComponents().getSpriteBatch().end();
 		
 	}
@@ -51,9 +54,7 @@ public class GameScene extends BaseScene
 	{
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		_physicsWorld = new PhysicsWorld();
-		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).setVolume(0.3f);
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
-		
 		_playfield.createLevel();
 		_waveSystem = new WaveSystem(_playfield, new GameWaveDesigns());
 		
@@ -67,6 +68,9 @@ public class GameScene extends BaseScene
 	@Override
 	public void destroyed() 
 	{
+		MyGdxGame.getAudioResources().stopAllMusic();
+		MyGdxGame.getAudioResources().stopAllSounds();
+		
 		_playfield.destroyLevel();
 		_playfield = null;
 		
