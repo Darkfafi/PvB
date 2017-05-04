@@ -53,6 +53,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public <T extends BaseEntityComponent> T addComponent(T instanceComponent)
 	{
+		if(_components == null) {System.out.println("WARNING: Can't add component "+ instanceComponent +" on destroyed entity"); return null; }
 		_components.add(instanceComponent);
 		instanceComponent.initialize(this);
 		return instanceComponent;
@@ -66,6 +67,7 @@ public abstract class BaseEntity extends EventDispatcher
 	@SuppressWarnings("unchecked")
 	public <T extends BaseEntityComponent> T getComponent(Class<T> classType)
 	{
+		if(_components == null) {System.out.println("WARNING: Can't get component "+ classType +" on destroyed entity"); return null; }
 		for(int i = 0; i < _components.size(); i++)
 		{
 			if(_components.get(i).getClass() == classType)
@@ -82,6 +84,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public <T extends BaseEntityComponent> void removeComponent(Class<T> classType)
 	{
+		if(_components == null) {return;}
 		T component = getComponent(classType);
 		
 		if(component != null)
@@ -98,6 +101,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public boolean hasInstanceOfComponent(BaseEntityComponent componentInstance)
 	{
+		if(_components == null) { return false;}
 		for(int i = 0; i < _components.size(); i++)
 		{
 			if(_components.get(i) == componentInstance)
@@ -115,6 +119,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public void addTag(String tag)
 	{
+		if(_tags == null) {return; }
 		if(hasTag(tag)){ return;}
 		_tags.add(tag);
 	}
@@ -125,6 +130,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public void removeTag(String tag)
 	{
+		if(_tags == null) {return; }
 		if(!hasTag(tag)) { return;}
 		_tags.remove(tag);
 	}
@@ -136,6 +142,7 @@ public abstract class BaseEntity extends EventDispatcher
 	 */
 	public boolean hasTag(String tag)
 	{
+		if(_tags == null) {return false; }
 		if(_tags.size() == 0){ return false; }
 		
 		for(int i = 0; i < _tags.size(); i++)
