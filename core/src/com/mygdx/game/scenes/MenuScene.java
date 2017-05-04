@@ -70,7 +70,6 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		if(event.getButtonState() == ButtonEvent.ButtonState.Down)
 		{
 			startGame();
-			System.out.print("baby no hurt me.");
 		}
 	}
 	

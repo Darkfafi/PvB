@@ -120,7 +120,6 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 			{
 				if(touchPos.y > (position.y - buttonTextureHeight * pivotY) && touchPos.y < position.y + buttonTextureHeight)
 				{
-					System.out.println("hiyah");
 					onButtonDown();
 				}
 			}
