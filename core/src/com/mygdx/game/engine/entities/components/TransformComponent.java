@@ -311,6 +311,17 @@ public class TransformComponent extends BaseEntityComponent
 	}
 	
 	/**
+	 * Sets the position to a new value
+	 * @param newPosX overwriting the x position of the entity.
+	 * @param newPosY overwriting the y position of the entity.
+	 */
+	public void setPosition(float newPosX, float newPosY)
+	{
+		_position.x = newPosX;
+		_position.y = newPosY;
+	}
+	
+	/**
 	 * Sets the rotation to a new value in Degrees
 	 * @param angleInDeg overwriting the angle of the entity in degrees. 
 	 */

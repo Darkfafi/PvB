@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 /**
- * This class is a singleton which can be used to track score and save / load highscore data.
+ * This a class which can be used to track score and save / load highscore data.
  * @author Ramses Di Perna
  *
  */
@@ -16,8 +16,6 @@ public class ScoreSystem
 	
 	private static int DEFAULT_SCORE = 0;
 	private static int DEFAULT_MULTIPLIER = 1;
-	
-	private static ScoreSystem _instance;
 	
 	private int _currentScore;
 	private int _currentMultiplier;
@@ -33,35 +31,34 @@ public class ScoreSystem
 		loadBestData();
 		startNewScoreSession();
 	}
-	
-	public static ScoreSystem getInstance()
-	{
-		if(_instance == null)
-			_instance = new ScoreSystem();
-		
-		return _instance;
-	}
-	
 	/**
 	 * Adds Score to the current score session. If the current score reaches higher than the best score, it becomes the best score (Not saved)
 	 * @param score to add * the current multiplier to the current score.
+	 * @return real score added
 	 */
-	public void addScore(int score)
+	public int addScore(int score)
 	{
-		_currentScore += score * _currentMultiplier;
+		int scoreToAdd = score * _currentMultiplier;
+		
+		_currentScore += scoreToAdd;
 		if(_currentScore > _bestScore)
 		{
 			_bestScore = _currentScore;
 		}
+		
+		return scoreToAdd;
 	}
 	
 	/**
 	 * Subtract the given score value from the current score.
 	 * @param score to subtract * the current multiplier from the current score.
+	 * @return real score subtracted
 	 */
-	public void subScore(int score)
+	public int subScore(int score)
 	{
-		_currentScore -= score * _currentMultiplier;
+		int scoreToSubtract = score * _currentMultiplier;
+		_currentScore -= scoreToSubtract;
+		return scoreToSubtract;
 	}
 	
 	/**

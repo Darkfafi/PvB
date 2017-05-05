@@ -35,8 +35,10 @@ public class EnemyFactory
 	{
 		Enemy enemy = new Enemy(
 				getRandomSkinForType(enemyType), 
-				getHealthAmountForType(enemyType));
-		
+				getHealthAmountForType(enemyType),
+				getScoreAmountForType(enemyType)
+		);
+					
 		
 		return enemy;
 	}
@@ -121,6 +123,23 @@ public class EnemyFactory
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;
+		}
+	}
+	
+	/**
+	 * Returns an amount for the given enemy type's score
+	 * @param enemyType to get score amount for
+	 * @return The score value for the given enemy Type
+	 */
+	public static int getScoreAmountForType(EnemyType enemyType)
+	{
+		switch(enemyType)
+		{
+		case LightBandit:
+			return 50;
+		default:
+			System.out.println("Type score not set! Please do in the EnemyFactory");
+			return 0;
 		}
 	}
 }

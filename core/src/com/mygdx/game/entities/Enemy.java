@@ -16,6 +16,7 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.score.GameScoreSystem;
 
 public class Enemy extends BaseEntity implements IEventReceiver
 {
@@ -31,10 +32,12 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	private float _hitEffectTimeTracker = 0f;
 	
-	public Enemy(Animations animations, float health)
+	private int _baseScoreWorth = 0;
+	
+	public Enemy(Animations animations, float health, int baseScoreWorth)
 	{
 		_animations = animations;
-		
+		_baseScoreWorth = baseScoreWorth;
 		this.addComponent(new AnimationComponent(_animations, true, false));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
@@ -169,8 +172,9 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			this.removeComponent(EnemyPlayfieldAIComponent.class);
 		}
 		
-		this.removeComponent(CollisionComponent.class);
+		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
+		this.removeComponent(CollisionComponent.class);
 		this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 	}
