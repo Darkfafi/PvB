@@ -11,7 +11,7 @@ import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
-public class PlayerBase extends BaseEntity implements IEventReceiver
+public class PlayerBase extends BaseEntity
 {
 	private Texture _healthBarTexture;
 	
@@ -19,8 +19,8 @@ public class PlayerBase extends BaseEntity implements IEventReceiver
 	protected void awake() 
 	{
 		_healthBarTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR).getTextureToDraw();
-		this.addComponent(new HealthComponent(100f)).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false)).setColor(new Color(0,0,0,0));
+		this.addComponent(new HealthComponent(100));
 	}
 
 	@Override
@@ -32,14 +32,7 @@ public class PlayerBase extends BaseEntity implements IEventReceiver
 	@Override
 	protected void destroyed() 
 	{
-		this.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_healthBarTexture = null;
-	}
-
-	@Override
-	public void onReceiveEvent(Event event) 
-	{
-		MyGdxGame.getSceneManager().setScene(0);
 	}
 
 	@Override

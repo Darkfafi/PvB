@@ -7,6 +7,8 @@ import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.entities.BowWeapon;
@@ -20,7 +22,7 @@ import com.mygdx.game.waves.WaveSystem;
  * This will spawn and set the world for the game related classes.
  * @author Ramses Di Perna
  */
-public class GameScene extends BaseScene 
+public class GameScene extends BaseScene implements IEventReceiver
 {
 	private PhysicsWorld _physicsWorld;
 	private Playfield _playfield = new Playfield();
@@ -55,7 +57,10 @@ public class GameScene extends BaseScene
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		_physicsWorld = new PhysicsWorld();
 		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK).play();
+		
 		_playfield.createLevel();
+		_playfield.addEventListener(Playfield.EVENT_BASE_DESTROYED, this);
+		
 		_waveSystem = new WaveSystem(_playfield, new GameWaveDesigns());
 		
 		BowWeapon bow = new BowWeapon();
@@ -72,6 +77,7 @@ public class GameScene extends BaseScene
 		MyGdxGame.getAudioResources().stopAllSounds();
 		
 		_playfield.destroyLevel();
+		_playfield.removeEventListener(Playfield.EVENT_BASE_DESTROYED, this);
 		_playfield = null;
 		
 		_physicsWorld.clean();
@@ -79,5 +85,19 @@ public class GameScene extends BaseScene
 		
 		_waveSystem.clean();
 		_waveSystem = null;
+	}
+
+	@Override
+	public void onReceiveEvent(Event event)
+	{
+		if(event.getType() == Playfield.EVENT_BASE_DESTROYED)
+		{
+			onBaseDestroyedEvent(event);
+		}
+	}
+
+	private void onBaseDestroyedEvent(Event event) 
+	{
+		this.getScenesManager().setScene(GameScenesManager.MENU_SCENE);
 	}
 }
