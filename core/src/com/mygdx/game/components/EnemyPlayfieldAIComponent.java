@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.GridTile;
 import com.mygdx.game.level.Playfield;
 
@@ -23,7 +24,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 	
 	public EnemyPlayfieldAIComponent(Playfield playfield, float movementSpeed)
 	{
-		super(playfield.getGrid(), "Enemy", 1, 1);
+		super(playfield.getGrid(), GridTags.OCCUPY_TAG_ENEMY, 1, 1);
 		_movementSpeed = movementSpeed;
 		_playfield = playfield;
 	}
@@ -178,7 +179,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		GridTile tile = this.getGrid().getTile(tileX, tileY);
 		if(tile == null) { return false; }
 		
-		if(tile.hasOccupyingTag("Enemy"))
+		if(tile.hasOccupyingTag(GridTags.OCCUPY_TAG_ENEMY) || tile.hasOccupyingTag(GridTags.OCCUPY_TAG_BLOCKED))
 		{
 			return false;
 		}
