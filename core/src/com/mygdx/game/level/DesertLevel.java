@@ -6,6 +6,8 @@ import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.factories.EnemyFactory;
+import com.mygdx.game.factories.TrapFactory;
+import com.mygdx.game.traps.TrapSpawnInfo;
 import com.mygdx.game.waves.Wave;
 import com.mygdx.game.waves.WaveSystem;
 
@@ -51,6 +53,18 @@ public class DesertLevel implements ILevelBlueprint
 	public Music getLevelMusic() 
 	{
 		return MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK);
+	}
+	
+	@Override
+	public TrapSpawnInfo[] getTrapSpawnInfos()
+	{
+		return new TrapSpawnInfo[]
+		{
+				new TrapSpawnInfo(0, 4, TrapSpawnInfo.Direction.Right, 
+						new TrapFactory.TrapType[]{
+								TrapFactory.TrapType.Block_BarrelTrap
+				})
+		};
 	}
 	
 	private int countForEachOnWave(int value, int wave)

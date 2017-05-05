@@ -13,7 +13,7 @@ public class CollisionResources {
 	
 	//constant bits
 	public static final short BIT_FORTRESS = 2;
-	public static final short BIT_TRAP = 4;
+	public static final short BIT_TRAP_ACTIVATOR = 4;
 	public static final short BIT_ARROW = 8;
 	public static final short BIT_ENEMY = 16;
 	

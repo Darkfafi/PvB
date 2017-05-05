@@ -18,8 +18,7 @@ public final class InputGlobals
 	/**
 	 * An event type fired by the 'TouchInputHandler' to indicate when a touch has ended 
 	 */
-	public static final String TOUCH_ENDED_EVENT = "TouchEndedEvent";
-	
+	public static final String TOUCH_ENDED_EVENT = "TouchEndedEvent";	
 	/**
 	 * An event type fired by the 'TouchInputHandler' to indicate any touch event
 	 */

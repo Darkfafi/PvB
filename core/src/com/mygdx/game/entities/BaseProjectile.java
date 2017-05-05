@@ -2,6 +2,7 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.globals.Tags;
 
 public abstract class BaseProjectile extends BaseEntity 
 {
@@ -20,6 +21,7 @@ public abstract class BaseProjectile extends BaseEntity
 	
 	protected void awake()
 	{
+		this.addTag(Tags.TAG_PROJECTILE);
 		_startScaleX = this.getTransformComponent().getScaleX();
 		_startScaleY = this.getTransformComponent().getScaleY();
 	}

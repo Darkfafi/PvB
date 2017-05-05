@@ -33,6 +33,7 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		_playerBase = new PlayerBase();
 		_playerBase.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		
+		_blueprint.getLevelMusic().setVolume(0.3f);
 		_blueprint.getLevelMusic().play();
 	}
 	

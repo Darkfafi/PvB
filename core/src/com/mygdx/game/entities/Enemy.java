@@ -16,6 +16,7 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.globals.Tags;
 import com.mygdx.game.score.GameScoreSystem;
 
 public class Enemy extends BaseEntity implements IEventReceiver
@@ -85,10 +86,10 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{	
+		this.addTag(Tags.TAG_ENEMY);
 		this.addComponent(new CollisionComponent());
-		
 		FixtureDef _fixDef = new FixtureDef();
-		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW | CollisionResources.BIT_TRAP;
+		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW;
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(40f), new Vector2(0, CollisionResources.convertToPPM(50)), 0);
 		_fixDef.shape = shape;

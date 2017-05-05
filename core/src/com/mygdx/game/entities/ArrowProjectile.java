@@ -108,7 +108,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		
 		//Create the Fixture for this Arrow Entity
 		FixtureDef _fixDef = new FixtureDef();
-		_fixDef.filter.maskBits = CollisionResources.BIT_ENEMY | CollisionResources.BIT_TRAP;
+		_fixDef.filter.maskBits = CollisionResources.BIT_ENEMY | CollisionResources.BIT_TRAP_ACTIVATOR;
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f),
 						new Vector2(0, CollisionResources.convertToPPM((this.getComponent(RenderComponent.class).getRealHeight() / 2) - 30)), 0);
