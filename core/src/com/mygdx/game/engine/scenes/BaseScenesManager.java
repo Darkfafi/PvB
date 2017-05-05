@@ -68,6 +68,7 @@ public abstract class BaseScenesManager
 	{
 		popScene();
 		EntitySystem.getInstance().destroyAllEntitiesImmediately();
+		_renderComponents.resetCams();
 		System.gc();
 		pushScene(sceneId);
 	}

@@ -19,7 +19,7 @@ public class WaveSystem
 	private int _currentWave = 1;
 	
 	private Wave _wave = null;
-	private BaseWaveDesigns _designs = null;
+	private IWaveDesigns _designs = null;
 	
 	
 	/**
@@ -27,7 +27,7 @@ public class WaveSystem
 	 * @param playfield to give to the enemies as reference and to spawn the enemies on
 	 * @param waveDesigns to get waves from which are perfectly designed with the information given to them
 	 */
-	public WaveSystem(Playfield playfield, BaseWaveDesigns waveDesigns)
+	public WaveSystem(Playfield playfield, IWaveDesigns waveDesigns)
 	{
 		_playfield = playfield;
 		_designs = waveDesigns;

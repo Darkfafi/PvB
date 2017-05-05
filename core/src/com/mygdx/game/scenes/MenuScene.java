@@ -80,7 +80,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	 */
 	private void startGame()
 	{
-		this.getScenesManager().setScene(1);
+		this.getScenesManager().setScene(GameScenesManager.GAME_SCENE);
 	}
 	
 	@Override

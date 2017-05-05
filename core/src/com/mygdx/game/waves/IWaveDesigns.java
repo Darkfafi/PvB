@@ -7,7 +7,7 @@ package com.mygdx.game.waves;
  * @author Ramses Di Perna
  *
  */
-public abstract class BaseWaveDesigns 
+public interface IWaveDesigns 
 {	
 	/**
 	 * Returns a new designed wave with the given information the WaveSystem has provided it with.
