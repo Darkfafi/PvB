@@ -1,6 +1,7 @@
 package com.mygdx.game.traps;
 
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.level.Grid;
@@ -35,12 +36,14 @@ public class TrapSpawn extends BaseEntity
 	/**
 	 * Spawns a trap and trap activator and positions them and links them.
 	 */
-	public void spawnTrap()
+	public void spawnTrap(float activatorPosition)
 	{
 		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _info.getTrapFaceDirection(), _grid);
 		int farLeftSide = t.place(_info.getGridPosX(), _info.getGridPosY());
 		
-		float _activatorXPos = (t.getSizeX() / 2) * _grid.getTileWidth();
+		int tileSide = (int)((farLeftSide + Math.ceil(t.getSizeX() * activatorPosition)) * _grid.getTileWidth());
+		
+		float _activatorXPos = tileSide - _activator.getComponent(RenderComponent.class).getRealWidth() / 2;
 		if(_info.getGridPosX() != farLeftSide)
 		{
 			_activatorXPos *= -1;
@@ -74,5 +77,6 @@ public class TrapSpawn extends BaseEntity
 	{
 		_info = null;
 		_grid = null;
+		_activator = null;
 	}
 }

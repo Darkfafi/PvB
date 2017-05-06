@@ -78,7 +78,6 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		_drawPower = drawPower;
 		_currentSpeed = _SPEED * drawPower;
 		_startPos = new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
-		getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 1f), true);
 		
 		
 		Vector2 diff = new Vector2(_landSpot.x, _landSpot.y);

@@ -38,6 +38,7 @@ public class PhysicsWorld implements IEventReceiver
 	
 	private ArrayList<CollisionComponent> _allCollisionComponents = new ArrayList<CollisionComponent>();
 	private Stack<Body> _bodiesToDelete = new Stack<Body>();
+	private Stack<CollisionComponent> _bodiesToCreate = new Stack<CollisionComponent>();
 	
 	public PhysicsWorld()
 	{
@@ -54,20 +55,29 @@ public class PhysicsWorld implements IEventReceiver
 	
 	public void update(float dt)
 	{
+		CollisionComponent cc;
 		TransformComponent tc;
 		for(int i = _allCollisionComponents.size() - 1; i >= 0; i--)
 		{
-			if(_allCollisionComponents.get(i).getBody() != null && _allCollisionComponents.get(i).getVelocity().len() == 0)
+			cc = _allCollisionComponents.get(i);
+			if(cc.getBody() != null && cc.getVelocity().len() == 0)
 			{
-				tc = _allCollisionComponents.get(i).getParentOfComponent().getTransformComponent();
-				_allCollisionComponents.get(i).getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), (float) Math.toRadians(-tc.getRotation()));
+				tc = cc.getParentOfComponent().getTransformComponent();
+				cc.getBody().setTransform(CollisionResources.convertToPPM(tc.getPositionX()), CollisionResources.convertToPPM(tc.getPositionY()), (float) Math.toRadians(-tc.getRotation()));
+				
+				if(cc.getBody().isActive() != cc.isActive())
+				{
+					cc.getBody().setActive(cc.isActive());
+				}
 			}
 		}
+		
 		_world.step(dt, 6, 2);
 		
 		deleteDeadBodies();
+		createNewBodies();
 	}
-	
+
 	public void render(RenderComponents rcs)
 	{
 		rcs.getSpriteBatch().setProjectionMatrix(_physicsCam.combined);
@@ -127,6 +137,9 @@ public class PhysicsWorld implements IEventReceiver
 		_allCollisionComponents = null;
 		_bodiesToDelete.clear();
 		_bodiesToDelete = null;
+		
+		_bodiesToCreate.clear();
+		_bodiesToCreate = null;
 	}
 
 	@Override
@@ -178,6 +191,16 @@ public class PhysicsWorld implements IEventReceiver
 			_world.destroyBody(_bodiesToDelete.pop());
 	}
 	
+	private void createNewBodies()
+	{
+		while(!_bodiesToCreate.isEmpty())
+		{
+			CollisionComponent cc = _bodiesToCreate.pop();
+			if(cc.isDestroyed()) { continue; }
+			createBodyForComponent(cc);
+		}
+	}
+	
 	/**
 	 * Registers a new component as an active one in the system.
 	 * @param component
@@ -188,7 +211,7 @@ public class PhysicsWorld implements IEventReceiver
 		{
 			if(_allCollisionComponents.contains(component)) { return; }
 			_allCollisionComponents.add(component);
-			createBodyForComponent(component);
+			_bodiesToCreate.add(component);
 		}
 	}
 	

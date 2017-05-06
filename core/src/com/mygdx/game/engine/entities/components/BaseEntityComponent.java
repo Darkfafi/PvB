@@ -86,6 +86,15 @@ public abstract class BaseEntityComponent extends EventDispatcher
 		return _isActive;
 	}
 	
+	/**
+	 * Returns if this component has been destroyed
+	 * @return True if component has been destroyed, else false
+	 */
+	public boolean isDestroyed()
+	{
+		return _isDestroyed;
+	}
+	
 	public void setActiveState(boolean activeState)
 	{
 		if(_isActive == activeState) { return; }

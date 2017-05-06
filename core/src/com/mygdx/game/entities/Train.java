@@ -1,11 +1,22 @@
-package com.mygdx.game.engine.entities;
+package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
+import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.globals.EngineGlobals;
+import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
 /**
@@ -13,7 +24,7 @@ import com.mygdx.game.engine.scenes.RenderComponents;
  * @author Ramses Di Perna
  *
  */
-public class Train extends BaseEntity 
+public class Train extends BaseEntity
 {	
 	private int _cartAmount;
 	
@@ -38,6 +49,9 @@ public class Train extends BaseEntity
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f, 0), false);
 		this.getComponent(AnimationComponent.class).setSortOnY(true);
+		
+		_trainBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_BASE).getTextureToDraw();
+		_cartBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_CART_BASE).getTextureToDraw();
 	}
 	
 	/**
@@ -76,8 +90,7 @@ public class Train extends BaseEntity
 	@Override
 	protected void awake() 
 	{
-		_trainBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_BASE).getTextureToDraw();
-		_cartBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_CART_BASE).getTextureToDraw();
+		
 	}
 
 	@Override
@@ -147,9 +160,9 @@ public class Train extends BaseEntity
 	}
 	
 	@Override
-	protected void destroyed() {
-		// TODO Auto-generated method stub
-
+	protected void destroyed()
+	{
+		_trainBaseTexture = null;
+		_cartBaseTexture = null;
 	}
-
 }

@@ -19,8 +19,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	private Body _body;
 	private Stack<FixtureDef> _fixDefs = new Stack<FixtureDef>();
 	
-	private Vector2 _velocity = new Vector2(0,0); 
-	
+	private Vector2 _velocity = new Vector2(0,0);
 	
 	/**
 	 * Returns the _body for this entity
@@ -40,6 +39,7 @@ public class CollisionComponent extends BaseEntityComponent {
 		_body = body;
 		
 		if(_body == null) { return; }
+		_body.setActive(isActive());
 		for(int i = 0; i < _fixDefs.size(); i++)
 		{
 			createFixtureForBody(_fixDefs.get(i), body);
@@ -55,14 +55,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	public void createFixture(FixtureDef fixDef, short _type)
 	{
 		fixDef.filter.categoryBits = _type;
-		if(_body == null)
-		{
-			_fixDefs.push(fixDef);
-		}
-		else
-		{
-			createFixtureForBody(fixDef, _body);
-		}
+		_fixDefs.push(fixDef);
 	}
 	
 	/**
@@ -119,6 +112,11 @@ public class CollisionComponent extends BaseEntityComponent {
 	@Override
 	protected void updated(float deltaTime) 
 	{
+		if(!_fixDefs.isEmpty())
+		{
+			createFixtureForBody(_fixDefs.pop(), _body);
+		}
+		
 		if(_velocity.len() > 0)
 		{
 			this.getParentOfComponent().getTransformComponent().setPosition(new Vector2(this.getBody().getPosition().x * CollisionResources.PIXEL_PER_METER, this.getBody().getPosition().y * CollisionResources.PIXEL_PER_METER));
@@ -135,9 +133,8 @@ public class CollisionComponent extends BaseEntityComponent {
 	}
 
 	@Override
-	protected void activeStateChanged() 
-	{
-		_body.setActive(isActive());
+	protected void activeStateChanged() {
+		// TODO Auto-generated method stub
+		
 	}
-
 }

@@ -45,7 +45,7 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		for(int i = 0; i < infos.length; i++)
 		{
 			_trapSpawns.add(new TrapSpawn(infos[i], _grid));
-			_trapSpawns.get(i).spawnTrap();
+			_trapSpawns.get(i).spawnTrap(infos[i].getActivatorPosition());
 		}
 	}
 	
@@ -54,6 +54,13 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		if(_blueprint == null) { return; }
 		_grid.clean();
 		_playerBase.destroy();
+		
+		for(int i = _trapSpawns.size() - 1; i >= 0; i--)
+		{
+			_trapSpawns.get(i).destroy();
+		}
+		_trapSpawns.clear();
+		_trapSpawns = null;
 		
 		_grid = null;
 		_playerBase.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
