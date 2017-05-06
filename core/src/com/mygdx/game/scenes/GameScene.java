@@ -9,7 +9,6 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.entities.BowWeapon;
-import com.mygdx.game.entities.Train;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
 import com.mygdx.game.ui.WaveUI;

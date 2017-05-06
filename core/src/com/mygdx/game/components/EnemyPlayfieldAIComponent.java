@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.GridTile;

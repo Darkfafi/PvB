@@ -8,7 +8,6 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
-import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;

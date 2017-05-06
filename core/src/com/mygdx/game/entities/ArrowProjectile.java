@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionEvent;

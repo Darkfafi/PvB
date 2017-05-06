@@ -2,21 +2,11 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
-import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
-import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
-import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
-import com.mygdx.game.engine.events.Event;
-import com.mygdx.game.engine.events.IEventReceiver;
-import com.mygdx.game.engine.globals.EngineGlobals;
-import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
 /**

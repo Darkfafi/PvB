@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.factories.EnemyFactory;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.traps.TrapSpawnInfo;

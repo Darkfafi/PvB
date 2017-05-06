@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.tweening.EngineTween;
-import com.mygdx.game.engine.tweening.EngineTweener;
 import com.mygdx.game.engine.tweening.TransformAccessor;
 
 import aurelienribon.tweenengine.Tween;
