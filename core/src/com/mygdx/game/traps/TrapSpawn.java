@@ -15,6 +15,7 @@ import com.mygdx.game.traps.types.BaseTrap;
 public class TrapSpawn extends BaseEntity
 {
 	private TrapSpawnInfo _info;
+	private TrapActivator _activator;
 	private Grid _grid;
 	
 	/**
@@ -26,8 +27,9 @@ public class TrapSpawn extends BaseEntity
 	{
 		_info = info;	
 		_grid = grid;
-		
+		_activator = new TrapActivator(null);
 		getTransformComponent().setPosition(_grid.getTileWorldPosition(_info.getGridPosX(), _info.getGridPosY()));
+		_activator.getTransformComponent().setParent(this.getTransformComponent());
 	}
 	
 	/**
@@ -35,8 +37,10 @@ public class TrapSpawn extends BaseEntity
 	 */
 	public void spawnTrap()
 	{
-		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[0], _grid);
+		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _grid);
 		t.place(_info.getGridPosX(), _info.getGridPosY());
+		_activator.linkToTrap(t);
+		_activator.getTransformComponent().setPosition((t.getSizeX() / 2) * _grid.getTileWidth(), -35);
 	}
 
 	@Override

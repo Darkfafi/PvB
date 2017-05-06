@@ -32,20 +32,31 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	 */
 	public TrapActivator(ITrap trapToLink)
 	{
+		linkToTrap(trapToLink);
+	}
+	
+	/**
+	 * Links a trap to the activator so it can trigger it on activation. 
+	 * @param trapToLink Trap to link to the activator
+	 */
+	public void linkToTrap(ITrap trapToLink)
+	{
 		_linkedTrap = trapToLink;
 	}
 	
 	@Override
 	protected void awake() 
 	{
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false));
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAP_ACTIVATOR), false));
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
+		this.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
 		
 		FixtureDef _fixDef = new FixtureDef();
 		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW;
+		_fixDef.isSensor = true;
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(0, CollisionResources.convertToPPM(50)), 0);
+		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(0, CollisionResources.convertToPPM(100)), 0);
 		_fixDef.shape = shape;
 		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_TRAP_ACTIVATOR);
 	}
@@ -82,7 +93,8 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	{
 		if(event.getOtherCollisionComponent().getParentOfComponent().hasTag(Tags.TAG_PROJECTILE))
 		{
-			activateTrap();
+			if(_linkedTrap != null)
+				activateTrap();
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package com.mygdx.game.traps.types;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -28,7 +29,7 @@ public class TestBlockTrap extends BaseBlockTrap {
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), false));
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), false)).setPivot(new Vector2(0f, 0f), false);
 	}
 
 	@Override
