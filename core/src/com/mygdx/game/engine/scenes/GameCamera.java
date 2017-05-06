@@ -35,24 +35,21 @@ public class GameCamera extends OrthographicCamera
 		_shakeRequests.add(new ShakeRequest(time, shakePower));
 	}
 	
-	private void shake(float delta)
+	/**
+	 * Stops all current shake effects
+	 */
+	public void stopShaking()
 	{
 		for(int i = _shakeRequests.size() - 1; i >= 0; i--)
 		{
-			_shakeRequests.get(i).doEffectOnCamera(this, delta);
-			
-			if(_shakeRequests.get(i).isOverTime())
-			{
-				_shakeRequests.get(i).removeLastEffectOnCamera(this);
-				_shakeRequests.get(i).clean();
-				_shakeRequests.remove(i);
-			}
+			stopShake(_shakeRequests.get(i));
 		}
 	}
 	
 	public void update(float dt)
 	{
 		update();
+		
 		if(isShaking())
 			shake(dt);
 	}
@@ -61,6 +58,26 @@ public class GameCamera extends OrthographicCamera
 	public void update(boolean updateFrustum)
 	{
 		super.update(updateFrustum);
+	}
+	
+	private void shake(float delta)
+	{
+		for(int i = _shakeRequests.size() - 1; i >= 0; i--)
+		{
+			_shakeRequests.get(i).doEffectOnCamera(this, delta);
+			
+			if(_shakeRequests.get(i).isOverTime())
+			{
+				stopShake(_shakeRequests.get(i));
+			}
+		}
+	}
+	
+	private void stopShake(ShakeRequest shake)
+	{
+		shake.removeLastEffectOnCamera(this);
+		shake.clean();
+		_shakeRequests.remove(shake);
 	}
 	
 	/**

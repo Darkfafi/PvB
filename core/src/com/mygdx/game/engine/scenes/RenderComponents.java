@@ -1,6 +1,5 @@
 package com.mygdx.game.engine.scenes;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
@@ -33,6 +32,9 @@ public class RenderComponents {
 	 */
 	public void resetCams()
 	{
+		_mainCam.stopShaking();
+		_hudCam.stopShaking();
+		
 		_mainCam.position.x = _defaultPosMainCam.x;
 		_mainCam.position.y = _defaultPosMainCam.y;
 		_mainCam.position.z = _defaultPosMainCam.z;
@@ -40,8 +42,6 @@ public class RenderComponents {
 		_hudCam.position.x = _defaultPosHudCam.x;
 		_hudCam.position.y = _defaultPosHudCam.y;
 		_hudCam.position.z = _defaultPosHudCam.z;
-		
-		// TODO: Kill all cam effects. (Shake etc)
 	}
 	
 	/**
