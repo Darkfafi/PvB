@@ -79,8 +79,8 @@ public class TransformComponent extends BaseEntityComponent
 		
 		if(this.getParent() != null)
 		{
-			Vector2 diffVec = new Vector2(this.getLocalPositionX(), this.getLocalPositionY());
-			diffVec.setAngle(-(_parent.getRotation() - 90));
+			Vector2 diffVec = new Vector2(this.getLocalPositionX() * _parent.getScaleX(), this.getLocalPositionY() * _parent.getScaleY());
+			diffVec.setAngle(diffVec.angle() -_parent.getRotation());
 			p  = _parent.getPositionX() + diffVec.x;
 		}
 		
@@ -98,7 +98,7 @@ public class TransformComponent extends BaseEntityComponent
 		if(this.getParent() != null)
 		{
 			Vector2 diffVec = new Vector2(this.getLocalPositionX() * _parent.getScaleX(), this.getLocalPositionY() * _parent.getScaleY());
-			diffVec.setAngle(-(_parent.getRotation() - 90));
+			diffVec.setAngle(diffVec.angle() -_parent.getRotation());
 			p  = _parent.getPositionY() + diffVec.y;
 		}
 		
