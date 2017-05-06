@@ -33,8 +33,8 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	 */
 	public int place(int gridXPos, int gridYPos)
 	{
-		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - this.getSizeX();
-		getTransformComponent().setPosition(_grid.getTileWorldPosition(gridXPos, gridYPos));
+		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - (this.getSizeX() - 1);
+		getTransformComponent().setPosition(_grid.getTileWorldPosition(xPosGrid, gridYPos));
 		_gridUserComponent.placeSelfOnLocation(xPosGrid, gridYPos);
 		return xPosGrid;
 	}
@@ -46,16 +46,28 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 		_grid = null;
 	}
 	
+	/**
+	 * Returns the grid the trap is placed on
+	 * @return The grid the trap is placed on
+	 */
 	protected Grid getGrid()
 	{
 		return _grid;
 	}
 	
+	/**
+	 * Returns the direction which the trap is facing.
+	 * @return The direction the trap is facing
+	 */
 	protected TrapFactory.Direction getDirection()
 	{
 		return _direction;
 	}
 	
+	/**
+	 * The Grid user component the traps use to effect the state of the tiles on the grid and to be placed on them
+	 * @return The GridUserComponent of the trap
+	 */
 	protected GridUserComponent getGridUserComponent()
 	{
 		return _gridUserComponent;
@@ -64,8 +76,12 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	@Override
 	public void trigger()
 	{
-		doEffect();
+		if(this.canBeTriggered())
+			doEffect();
 	}
 	
+	/**
+	 * This is triggered when the trap is triggered * it was allowed to be triggered by the 'canBeTriggered()' method
+	 */
 	protected abstract void doEffect();
 }

@@ -48,7 +48,7 @@ public class TrapSpawn extends BaseEntity
 		}
 		
 		_activator.linkToTrap(t);
-		_activator.getTransformComponent().setPosition(_activatorXPos, -35);
+		_activator.getTransformComponent().setPosition(_activatorXPos, -45);
 	}
 
 	@Override

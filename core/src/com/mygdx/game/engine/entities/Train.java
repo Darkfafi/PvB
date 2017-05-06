@@ -40,6 +40,39 @@ public class Train extends BaseEntity
 		this.getComponent(AnimationComponent.class).setSortOnY(true);
 	}
 	
+	/**
+	 * Gives the size of the entire train + all the carts (x Size)
+	 * @return Horizontal size of entire train entity
+	 */
+	public float getFullTrainSize()
+	{
+		Vector2 trainSize = getScaledTextureSize(_trainBaseTexture);
+		Vector2 cartSize = getScaledTextureSize(_cartBaseTexture);
+		
+		return ((cartSize.x) * _cartAmount) + (trainSize.x);
+	}
+	
+	/**
+	 * Gets the size of the train itself.
+	 * @return Horizontal size of train base
+	 */
+	public float getTrainSize()
+	{
+		Vector2 trainSize = getScaledTextureSize(_trainBaseTexture);
+		
+		return trainSize.x;
+	}
+	
+	/**
+	 * Gets the size of the train cart
+	 * @return Horizontal size of a single train cart base
+	 */
+	public float getCartSize()
+	{
+		Vector2 cartSize = getScaledTextureSize(_cartBaseTexture);
+		return cartSize.x;
+	}
+	
 	@Override
 	protected void awake() 
 	{
@@ -72,14 +105,17 @@ public class Train extends BaseEntity
 		float offsetX = (trainSize.x);
 		
 		if(_xFlipped)
-			offsetX -=  cartSize.x * 1.182f;
+			offsetX -=  (cartSize.x * 1.182f) + (cartSize.x / 4.2f);
+		else
+			offsetX += (cartSize.x / 4.2f);
 		
 		float offsetY = 0;
+		float offsetAdd = cartSize.x;
 		
 		for(int i = 0; i < _cartAmount; i++)
 		{
-			float offsetAdd = ((cartSize.x / 4.2f) * (i + 1)) + ((cartSize.x / 2) * i);
-			offsetX += (_xFlipped) ? -offsetAdd : offsetAdd;
+			if(i != 0)
+				offsetX += (_xFlipped) ? -offsetAdd : offsetAdd;
 			
 			renderComponents.getSpriteBatch().draw(_cartBaseTexture, this.getTransformComponent().getPositionX() - offsetX, this.getTransformComponent().getPositionY() - offsetY,
 					cartSize.x, cartSize.y, 0, 0, _cartBaseTexture.getWidth(), _cartBaseTexture.getHeight(), _xFlipped, false);

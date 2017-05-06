@@ -6,6 +6,8 @@ import com.mygdx.game.level.Grid;
 
 public abstract class BaseBlockTrap extends BaseTrap
 {
+	protected boolean canBeTriggered = true;
+	
 	public BaseBlockTrap(Grid grid, TrapFactory.Direction direction) 
 	{
 		super(grid, direction);
@@ -15,5 +17,12 @@ public abstract class BaseBlockTrap extends BaseTrap
 	protected void doEffect()
 	{
 		this.getGridUserComponent().addGridOccupyTag(GridTags.OCCUPY_TAG_BLOCKED);
+		canBeTriggered = false;
+	}
+	
+	@Override
+	public boolean canBeTriggered()
+	{
+		return canBeTriggered;
 	}
 }

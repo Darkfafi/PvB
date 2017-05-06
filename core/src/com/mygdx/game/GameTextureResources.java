@@ -33,6 +33,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATIO_TRAIN_WHEELS = "TrainWheels";
 	public static final String SPRITE_TRAIN_BASE = "TrainBase";
 	public static final String SPRITE_CART_BASE = "CartBase";
+	public static final String SPRITE_TRAIN_RAIL = "TrainRail";
 	
 	@Override
 	public void load() 
@@ -52,6 +53,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATIO_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
 		this.loadResource(SPRITE_TRAIN_BASE, "train/train_base.png");
 		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
+		this.loadResource(SPRITE_TRAIN_RAIL, "train/rails.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");

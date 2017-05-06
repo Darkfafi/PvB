@@ -2,7 +2,7 @@ package com.mygdx.game.factories;
 
 import com.mygdx.game.level.Grid;
 import com.mygdx.game.traps.types.BaseTrap;
-import com.mygdx.game.traps.types.TestBlockTrap;
+import com.mygdx.game.traps.types.TrainBlockTrap;
 
 /**
  * This class contains static methods which can be used to create traps. 
@@ -24,7 +24,7 @@ public class TrapFactory
 	 */
 	public enum TrapType
 	{
-		Block_BarrelTrap
+		Block_TrainTrap
 	}
 	
 	
@@ -60,8 +60,8 @@ public class TrapFactory
 	{
 		switch(trapType)
 		{
-			case Block_BarrelTrap:
-				return new TestBlockTrap(grid, direction);
+			case Block_TrainTrap:
+				return new TrainBlockTrap(grid, direction);
 			default:
 				return null;
 		}

@@ -48,6 +48,7 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	protected void awake() 
 	{
 		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAP_ACTIVATOR), false));
+		this.getComponent(RenderComponent.class).setSortingLayer(1);
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 		this.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
