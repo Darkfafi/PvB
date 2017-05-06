@@ -145,7 +145,9 @@ public class GridUserComponent extends BaseEntityComponent
 		{
 			for(int j = 0; j < _ySize; j++)
 			{
-				_grid.getTile(_locationX + i, _locationY + j).addOccupyingTag(tag);				
+				GridTile t = _grid.getTile(_locationX + i, _locationY + j);
+				if(t != null)
+					t.addOccupyingTag(tag);
 			}
 		}	
 	}
@@ -166,7 +168,9 @@ public class GridUserComponent extends BaseEntityComponent
 		{
 			for(int j = 0; j < _ySize; j++)
 			{
-				_grid.getTile(_locationX + i, _locationY + j).removeOccupyingTag(tag);				
+				GridTile t = _grid.getTile(_locationX + i, _locationY + j);
+				if(t != null)
+					t.removeOccupyingTag(tag);			
 			}
 		}
 	}

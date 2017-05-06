@@ -1,6 +1,8 @@
 package com.mygdx.game.factories;
 
-import com.mygdx.game.traps.ITrap;
+import com.mygdx.game.level.Grid;
+import com.mygdx.game.traps.types.BaseTrap;
+import com.mygdx.game.traps.types.TestBlockTrap;
 
 /**
  * This class contains static methods which can be used to create traps. 
@@ -31,9 +33,9 @@ public class TrapFactory
 	 * @param trapType to create an instance for
 	 * @return the trap instance of the given type.
 	 */
-	public static ITrap createTrap(TrapType trapType)
+	public static BaseTrap createTrap(TrapType trapType, Grid grid)
 	{
-		ITrap trap = createTrapInstance(trapType);
+		BaseTrap trap = createTrapInstance(trapType, grid);
 		return trap;
 	}
 
@@ -43,12 +45,12 @@ public class TrapFactory
 	 * @param trapType to create an instance for
 	 * @return the trap instance of the given type.
 	 */
-	private static ITrap createTrapInstance(TrapType trapType) 
+	private static BaseTrap createTrapInstance(TrapType trapType, Grid grid) 
 	{
 		switch(trapType)
 		{
 			case Block_BarrelTrap:
-				return null;
+				return new TestBlockTrap(grid);
 			default:
 				return null;
 		}

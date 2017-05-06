@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
 /**
@@ -62,8 +63,25 @@ public class Grid
 	 */
 	public GridTile getTile(int gridXPos, int gridYPos)
 	{
-		if(_levelGridTiles == null){ return null; }
-		return _levelGridTiles.get(gridYPos + 1).get(gridXPos + 1);
+		if(_levelGridTiles == null || (gridYPos + 1) >= _levelGridTiles.size()){ return null; }
+		ArrayList<GridTile> rows = _levelGridTiles.get(gridYPos + 1);
+		if((gridXPos + 1) >= rows.size()) { return null; }
+		GridTile tile = rows.get(gridXPos + 1);
+		return tile;
+	}
+	
+	/**
+	 * Returns the world position of tile location given.
+	 * @param gridXPos is the index of the tile's x axis
+	 * @param gridYPos is the index of the tile's y axis
+	 * @return The world position of the given tile (The left down corner of it)
+	 */
+	public Vector2 getTileWorldPosition(int gridXPos, int gridYPos)
+	{
+		float x = gridXPos * getTileWidth();
+		float y = getGridHeight() - gridYPos* getTileHeight();
+		
+		return new Vector2(x, y);
 	}
 	
 	/**
@@ -154,17 +172,22 @@ public class Grid
 	 */
 	public void clean()
 	{
-		for(int yRow = -1; yRow < _tileAmountY; yRow++)
+		if(_levelGridTiles != null)
 		{
-			for(int xRow = -1; xRow < _tileAmountX; xRow++)
+			for(int yRow = -1; yRow < _tileAmountY; yRow++)
 			{
-				_levelGridTiles.get(yRow + 1).get(xRow + 1).clean();
+				for(int xRow = -1; xRow < _tileAmountX; xRow++)
+				{
+					_levelGridTiles.get(yRow + 1).get(xRow + 1).clean();
+				}
 			}
+			_levelGridTiles.clear();
 		}
-		_levelGridTiles.clear();
 		_levelGridTiles = null;
 		
-		_debugShapeRenderer.dispose();
+		if(_debugShapeRenderer != null)
+			_debugShapeRenderer.dispose();
+		
 		_debugShapeRenderer = null;
 	}
 	

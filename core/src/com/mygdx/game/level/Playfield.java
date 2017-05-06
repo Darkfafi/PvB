@@ -1,5 +1,7 @@
 package com.mygdx.game.level;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
 import com.mygdx.game.components.HealthComponent;
@@ -8,6 +10,8 @@ import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.traps.TrapSpawn;
+import com.mygdx.game.traps.TrapSpawnInfo;
 
 public class Playfield extends EventDispatcher implements IEventReceiver
 {
@@ -18,6 +22,7 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 	private PlayerBase _playerBase;
 	private Grid _grid;
 	private ILevelBlueprint _blueprint;
+	private ArrayList<TrapSpawn> _trapSpawns = new ArrayList<TrapSpawn>();
 	
 	public Playfield(ILevelBlueprint blueprint)
 	{
@@ -28,12 +33,20 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 	{
 		destroyLevel();
 		_blueprint = blueprint;
-		_grid = new Grid(Engine.getWidth(), Engine.getHeight(), blueprint.getGridAmountX(), blueprint.getGridAmountY()); // 6, 15
+		_grid = new Grid(Engine.getWidth(), Engine.getHeight(), blueprint.getGridAmountX(), blueprint.getGridAmountY());
 		_playerBase = new PlayerBase();
 		_playerBase.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		
 		_blueprint.getLevelMusic().setVolume(0.3f);
 		_blueprint.getLevelMusic().play();
+		
+		TrapSpawnInfo[] infos = _blueprint.getTrapSpawnInfos();
+		
+		for(int i = 0; i < infos.length; i++)
+		{
+			_trapSpawns.add(new TrapSpawn(infos[i], _grid));
+			_trapSpawns.get(i).spawnTrap();
+		}
 	}
 	
 	public void destroyLevel()
