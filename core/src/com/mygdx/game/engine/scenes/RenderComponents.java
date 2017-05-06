@@ -48,7 +48,7 @@ public class RenderComponents {
 	 * The camera which is responsible of drawing main assets of the game on the screen.
 	 * @return Returns the main camera of the game
 	 */
-	public OrthographicCamera getMainCamera()
+	public GameCamera getMainCamera()
 	{
 		return _mainCam;
 	}
@@ -56,7 +56,7 @@ public class RenderComponents {
 	 * The camera which is responsible of drawing UI on the screen.
 	 * @return Returns the main camera of the game
 	 */
-	public OrthographicCamera getHudCamera()
+	public GameCamera getHudCamera()
 	{
 		return _hudCam;
 	}

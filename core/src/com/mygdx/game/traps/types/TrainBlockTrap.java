@@ -145,6 +145,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		);
 		
 		this.getComponent(CollisionComponent.class).setActiveState(true);
+		Engine.getSceneManager().getRenderComponents().getMainCamera().doShake(3f, DURATION);
 	}
 
 	protected void endOfEffect() 

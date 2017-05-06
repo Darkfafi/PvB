@@ -1,6 +1,7 @@
 package com.mygdx.game.engine.scenes;
 
 import java.util.Random;
+import java.util.Stack;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -12,71 +13,107 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class GameCamera extends OrthographicCamera 
 {
-	private float _shakePower;
-	private float _currentShakePower = 0;
-	private float _time;
-	private float _currentTime = 0;
-	private boolean _isShaking = true;
-	private float x, y;
-	private Vector2 _shakePos = new Vector2();
 	private Random _randomFactor = new Random();
+	private Stack<ShakeRequest> _shakeRequests = new Stack<ShakeRequest>();
 	
+	/**
+	 * Returns if there is any shake effecting the camera
+	 * @return Returns true if any shake is effecting the camera, else false
+	 */
 	public boolean isShaking()
 	{
-		return _isShaking;
+		return !_shakeRequests.isEmpty();
 	}
 	
 	/**
-	 * 
-	 * @param shakePower
-	 * @param time
-	 * @param delta
+	 * Puts a shake request on the camera which will effect its current state. (Multiple shakes are possible)
+	 * @param shakePower to how much shake effect will take place
+	 * @param time is how long the shake must last in seconds.
 	 */
-	public void doShake(float shakePower, float time, float delta)
+	public void doShake(float shakePower, float time)
 	{
-		this._shakePower = shakePower;
-		this._time = time;
-		
-		_isShaking = true;
-		shake(delta);
+		_shakeRequests.add(new ShakeRequest(shakePower, time));
 	}
 	
 	private void shake(float delta)
 	{
-		if(_currentTime <= _time)
+		for(int i = _shakeRequests.size() - 1; i >= 0; i--)
 		{
-			_currentShakePower = _shakePower * ((_time - _currentTime) / _time);
+			_shakeRequests.get(i).doEffectOnCamera(this, delta);
 			
-			this.position.x -= _shakePos.x;
-			this.position.y -= _shakePos.y;
-			
-			x = (_randomFactor.nextFloat() - 0.5f) * 2 * _currentShakePower;
-			y = (_randomFactor.nextFloat() - 0.5f) * 2 * _currentShakePower;
-			
-			_shakePos.x = x;
-			_shakePos.y = y;
-			
-			_currentTime += delta;
-			translate(_shakePos.x, _shakePos.y);
-		}
-		else
-		{
-			_currentTime = 0;
-			_isShaking = false;
-			this.position.x -= _shakePos.x;
-			this.position.y -= _shakePos.y;
+			if(_shakeRequests.get(i).isOverTime())
+			{
+				_shakeRequests.get(i).removeLastEffectOnCamera(this);
+				_shakeRequests.get(i).clean();
+				_shakeRequests.remove(i);
+			}
 		}
 	}
 	
 	public void update(float dt)
 	{
-		update();	
-		doShake(10f, 2f, dt);
+		update();
+		if(isShaking())
+			shake(dt);
 	}
 	
 	@Override
 	public void update(boolean updateFrustum)
 	{
 		super.update(updateFrustum);
+	}
+	
+	/**
+	 * This private class handles a single shake request. This allows for multiple shakes on 1 camera.
+	 * @author Ramses Di Perna
+	 *
+	 */
+	private class ShakeRequest
+	{
+		private Vector2 _shakePos;
+		private float _time;
+		private float _shakePower;
+		private float _timePassed;
+		private float _x, _y;
+		
+		public ShakeRequest(float time, float shakePower)
+		{
+			_time = time;
+			_shakePower = shakePower;
+			_shakePos = new Vector2();
+			_timePassed = 0;
+		}
+		
+		public boolean isOverTime()
+		{
+			return _timePassed >= _time;
+		}
+		
+		public void doEffectOnCamera(GameCamera cameraEffecting, float deltaTime)
+		{
+			float _currentShakePower = _shakePower * ((_time - _timePassed) / _time);
+			
+			removeLastEffectOnCamera(cameraEffecting);
+			
+			_x = (_randomFactor.nextFloat() - 0.5f) * 2 * _currentShakePower;
+			_y = (_randomFactor.nextFloat() - 0.5f) * 2 * _currentShakePower;
+			
+			_shakePos.x = _x;
+			_shakePos.y = _y;
+			
+			_timePassed += deltaTime;
+			translate(_shakePos.x, _shakePos.y);
+		}
+		
+		public void removeLastEffectOnCamera(GameCamera cameraEffecting)
+		{
+			cameraEffecting.position.x -= _shakePos.x;
+			cameraEffecting.position.y -= _shakePos.y;
+		}
+		
+		public void clean()
+		{
+			_shakePos = null;
+		}
 	}
 }
