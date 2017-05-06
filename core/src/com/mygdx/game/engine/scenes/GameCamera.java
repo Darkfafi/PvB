@@ -32,7 +32,7 @@ public class GameCamera extends OrthographicCamera
 	 */
 	public void doShake(float shakePower, float time)
 	{
-		_shakeRequests.add(new ShakeRequest(shakePower, time));
+		_shakeRequests.add(new ShakeRequest(time, shakePower));
 	}
 	
 	private void shake(float delta)
