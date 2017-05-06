@@ -72,7 +72,7 @@ public class RenderComponents {
 
 	public void update(float deltaTime) 
 	{
-		_mainCam.update();
-		_hudCam.update();
+		_mainCam.update(deltaTime);
+		_hudCam.update(deltaTime);
 	}
 }
