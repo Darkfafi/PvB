@@ -12,23 +12,10 @@ import com.mygdx.game.touchinput.TouchInputHandler;
 
 public class MyGdxGame extends ApplicationAdapter 
 {	
-	// Game Settings
 	public static final String TITLE = "Archery Game";
-
 	public static final int SCALE = 2;
-	public static final int WIDTH = 300 * SCALE;
-	public static final int HEIGHT = 480 * SCALE;
-	
-	public static final int FRAME_RATE = 60;
-	public static final float FRAME_STEP = 1f / FRAME_RATE;
-	
-	private static GameTextureResources _textureResources = new GameTextureResources();
-	private static GameAudioResources _audioResources = new GameAudioResources();
-	private static GameFontResources _fontResources = new GameFontResources();
-	
-	// Scene Handling
-	private float _timeAfterLastRender = 0;
-	private static BaseScenesManager _scenesManager;
+	public static final int WIDTH = 300;
+	public static final int HEIGHT = 480;
 	
 	// Rendering
 	private RenderComponents _renderComponents;
@@ -37,47 +24,28 @@ public class MyGdxGame extends ApplicationAdapter
 	private GameCamera _mainCam;
 	private GameCamera _hudCam; 
 	
-	public static GameFontResources getFontResources()
-	{
-		return _fontResources;
-	}
-	
-	public static GameTextureResources getTextureResources()
-	{
-		return _textureResources;
-	}
-	
-	public static GameAudioResources getAudioResources()
-	{
-		return _audioResources;
-	}
+	private Engine _engine;
 	
 	public static TouchInputHandler getInputHandler()
 	{
 		return (TouchInputHandler) Gdx.input.getInputProcessor();
 	}
 	
-	public static BaseScenesManager getSceneManager() 
-	{
-		return _scenesManager; 
-	}
-	
 	@Override
 	public void create () 
 	{
-		getTextureResources().load();
-		getAudioResources().load();
-		getFontResources().load();
+		_engine = new Engine(TITLE, WIDTH, HEIGHT, SCALE, 60, new GameTextureResources(), new GameAudioResources(), new GameFontResources());
 		
-		Gdx.input.setInputProcessor(new TouchInputHandler(WIDTH ,HEIGHT)); // Set up InputHandling
+		Gdx.input.setInputProcessor(new TouchInputHandler(Engine.getWidth(), Engine.getHeight())); // Set up InputHandling
 		
 		_batch = new SpriteBatch();
 		_mainCam = new GameCamera();
-		_mainCam.setToOrtho(false, WIDTH, HEIGHT);
+		_mainCam.setToOrtho(false, Engine.getWidth(), Engine.getHeight());
 		_hudCam = new GameCamera();
-		_hudCam.setToOrtho(false, WIDTH, HEIGHT);
+		_hudCam.setToOrtho(false, Engine.getWidth(), Engine.getHeight());
 		_renderComponents = new RenderComponents(_batch, _mainCam, _hudCam);
-		_scenesManager = new GameScenesManager(_renderComponents);
+		
+		_engine.setScenesManager(new GameScenesManager(_renderComponents));
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
@@ -85,21 +53,12 @@ public class MyGdxGame extends ApplicationAdapter
 	@Override
 	public void render () 
 	{
-		_timeAfterLastRender += Gdx.graphics.getDeltaTime();
-		while(_timeAfterLastRender >= FRAME_STEP)
-		{
-			_timeAfterLastRender -= FRAME_STEP;
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			_scenesManager.update(FRAME_STEP);
-			_renderComponents.update(FRAME_STEP);
-			_scenesManager.render();
-		}
+		_engine.update();
 	}
 	
 	@Override
 	public void dispose()
 	{
-		getTextureResources().clean();
-		getAudioResources().clean();
+		
 	}
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.engine.scenes;
 import java.util.Stack;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
 import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.entities.components.TransformComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -20,7 +21,7 @@ import aurelienribon.tweenengine.Tween;
  * @author Ramses Di Perna
  */
 public abstract class BaseScenesManager 
-{
+{	
 	/**
 	 * The current scene active and the current scene which is being deactivated.
 	 */
@@ -48,8 +49,9 @@ public abstract class BaseScenesManager
 	 */
 	public void update(float dt)
 	{
-		_gameScenes.peek().update(dt);
-		EngineTweener.updateTweenEngine(dt);
+		_gameScenes.peek().update((dt * Engine.TimeScale));
+		EngineTweener.updateTweenEngine(dt, Engine.TimeScale);
+		EntitySystem.getInstance().updateEntities((dt * Engine.TimeScale));
 	}
 	
 	/**
@@ -58,6 +60,7 @@ public abstract class BaseScenesManager
 	public void render()
 	{
 		_gameScenes.peek().render();
+		EntitySystem.getInstance().renderEntities(this.getRenderComponents());
 	}
 	
 	/**

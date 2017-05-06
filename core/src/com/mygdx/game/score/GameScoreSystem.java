@@ -1,7 +1,7 @@
 package com.mygdx.game.score;
 
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
@@ -35,11 +35,11 @@ public class GameScoreSystem extends ScoreSystem implements IEventReceiver
 	public void addScore(int score, float effectXPos, float effectYPos)
 	{
 		int scoreAdded = this.addScore(score);
-		TextEntity te = new TextEntity(MyGdxGame.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), scoreAdded + "+", true);
+		TextEntity te = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), scoreAdded + "+", true);
 		te.setFontSize(4);
 		te.getTransformComponent().setPosition(effectXPos, effectYPos);
-		te.getTransformComponent().doPosition(effectXPos, effectYPos + 20, 0.8f).ease(EaseType.BackOut);
-		te.getRenderComponent().doAlpha(0.1f, 0.7f).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
+		te.getTransformComponent().doPosition(effectXPos, effectYPos + 20, 0.8f, true).ease(EaseType.BackOut);
+		te.getRenderComponent().doAlpha(0.1f, 0.7f, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
 	}
 
 

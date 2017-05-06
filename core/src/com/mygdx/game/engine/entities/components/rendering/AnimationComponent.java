@@ -1,5 +1,8 @@
 package com.mygdx.game.engine.entities.components.rendering;
 
+import com.mygdx.game.Engine;
+import com.mygdx.game.MyGdxGame;
+
 /**
  * This component is an extension on the RenderComponent and allows for animations to be played.
  * Note: When this component is on an entity, no RenderComponent is needed.
@@ -148,21 +151,20 @@ public class AnimationComponent extends RenderComponent
 	@Override
 	public void awake() 
 	{
-		// TODO Auto-generated method stub
 		super.awake();
 	}
 	
 	@Override
-	public void update(float deltaTime) {
-		// TODO Auto-generated method stub
+	public void update(float deltaTime) 
+	{
 		super.update(deltaTime);
 		
 		if(isPlaying())
 		{
-			_timePassed += deltaTime;
-			if(_timePassed >= deltaTime / _animationSpeed)
+			_timePassed += deltaTime * _animationSpeed;
+			if(_timePassed >= Engine.getFrameStep())
 			{
-				_timePassed -= (deltaTime / _animationSpeed);
+				_timePassed -=  Engine.getFrameStep();
 				_newIndex = this.getCurrentFrameInfo() + 1;
 				if(_newIndex >= this.getRenderInfo().getFramesLength())
 				{

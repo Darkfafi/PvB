@@ -1,6 +1,7 @@
 package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
@@ -20,22 +21,22 @@ import com.mygdx.game.ui.ButtonEvent;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
-	private RenderInfo _menuBG = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
-	private RenderInfo _menuLogo = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO);
+	private RenderInfo _menuBG = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
+	private RenderInfo _menuLogo = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO);
 	private ButtonEntity _playBtn = new ButtonEntity(GameTextureResources.SPRITE_GAME_MENU_PLAY_BTN);
 	
 	@Override
 	public void destroyed() {
-		MyGdxGame.getAudioResources().stopAllMusic();
-		MyGdxGame.getAudioResources().stopAllSounds();
+		Engine.getAudioResources().stopAllMusic();
+		Engine.getAudioResources().stopAllSounds();
 		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
 		_playBtn.removeEventListener(ButtonGlobals.BUTTON_EVENT, this);
 		_menuBG = null;
 		_menuLogo = null;
 		_playBtn = null;
 
-		MyGdxGame.getAudioResources().stopAllMusic();
-		MyGdxGame.getAudioResources().stopAllSounds();
+		Engine.getAudioResources().stopAllMusic();
+		Engine.getAudioResources().stopAllSounds();
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		getRenderComponents().getSpriteBatch().draw(_menuBG.getTextureToDraw(), 0, 0, _menuBG.getTextureToDraw().getWidth(), _menuBG.getTextureToDraw().getHeight());
 		
 		//Draw the Game Logo on the menu.
-		getRenderComponents().getSpriteBatch().draw(_menuLogo.getTextureToDraw(), 10, MyGdxGame.HEIGHT - (_menuLogo.getTextureToDraw().getHeight() + 80), _menuLogo.getTextureToDraw().getWidth(), _menuLogo.getTextureToDraw().getHeight());
+		getRenderComponents().getSpriteBatch().draw(_menuLogo.getTextureToDraw(), 10, Engine.getHeight() - (_menuLogo.getTextureToDraw().getHeight() + 80), _menuLogo.getTextureToDraw().getWidth(), _menuLogo.getTextureToDraw().getHeight());
 		getRenderComponents().getSpriteBatch().end();
 	}
 
@@ -61,8 +62,8 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	protected void created() 
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
-		MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_MENU_SOUNDTRACK).play();
-		_playBtn.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, MyGdxGame.HEIGHT / 2));
+		Engine.getAudioResources().getMusic(GameAudioResources.MUSIC_MENU_SOUNDTRACK).play();
+		_playBtn.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, Engine.getHeight() / 2));
 		_playBtn.addEventListener(ButtonGlobals.BUTTON_EVENT, this);
 	}
 	

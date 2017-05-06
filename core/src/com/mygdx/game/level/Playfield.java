@@ -1,8 +1,7 @@
 package com.mygdx.game.level;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Engine;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.EventDispatcher;
@@ -29,7 +28,7 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 	{
 		destroyLevel();
 		_blueprint = blueprint;
-		_grid = new Grid(MyGdxGame.WIDTH, MyGdxGame.HEIGHT, blueprint.getGridAmountX(), blueprint.getGridAmountY()); // 6, 15
+		_grid = new Grid(Engine.getWidth(), Engine.getHeight(), blueprint.getGridAmountX(), blueprint.getGridAmountY()); // 6, 15
 		_playerBase = new PlayerBase();
 		_playerBase.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		
@@ -69,8 +68,8 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		
 		rcs.getSpriteBatch().begin();
 		Texture t = _blueprint.getLevelBackground();
-		float offsetX = (t.getWidth() - MyGdxGame.WIDTH) / 2;
-		float offsetY = (t.getHeight() - MyGdxGame.HEIGHT) / 2;
+		float offsetX = (t.getWidth() - Engine.getWidth()) / 2;
+		float offsetY = (t.getHeight() - Engine.getHeight()) / 2;
 		if(offsetX <= 0) { offsetX = 0;}
 		if(offsetY <= 0) { offsetY = 0;}
 		rcs.getSpriteBatch().draw(t, -offsetX, -offsetY, t.getWidth(), t.getHeight());

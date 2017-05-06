@@ -3,6 +3,8 @@ package com.mygdx.game.components;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.GridTile;
@@ -42,7 +44,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		super.updated(dt);
 		if(_currentState == AIState.Movement)
 		{
-			movementLogics();
+			movementLogics(dt);
 		}
 		else if(_currentState == AIState.Attack)
 		{
@@ -59,7 +61,7 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 		super.destroyed();
 	}
 
-	private void movementLogics() 
+	private void movementLogics(float dt) 
 	{
 		if(!this.isLocated()) { return; }
 		
@@ -100,8 +102,8 @@ public class EnemyPlayfieldAIComponent extends GridUserComponent
 			_enemy.setEnemyState(Enemy.EnemyState.WalkState);
 			Vector2 dif = new Vector2(_currentTargetPosition.x - ownPos.x, _currentTargetPosition.y - ownPos.y);
 			dif.nor();
-			dif.x *= (_movementSpeed * 1.5f);
-			dif.y *= _movementSpeed;
+			dif.x *= (_movementSpeed * 1.5f) * (dt * Engine.getFrameRate());
+			dif.y *= _movementSpeed * (dt * Engine.getFrameRate());
 			this.getParentOfComponent().getTransformComponent().translatePosition(dif);
 		}
 	}

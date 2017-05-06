@@ -249,11 +249,12 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param x Position to tween to
 	 * @param y Position to tween to
 	 * @param duration in seconds on how long to take until reaching the position.
+	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doPosition(float x, float y, float duration)
+	public EngineTween doPosition(float x, float y, float duration, boolean gameTime)
 	{
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.POSITION, duration).target(x, y));
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.POSITION, duration).target(x, y), gameTime);
 	}
 	
 	/**
@@ -263,12 +264,13 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param degrees To lerp to
 	 * @param duration in seconds on how long to take until reaching the rotation.
 	 * @param shortestRotation indicates whether it should take a long or a short turn when dealing with from 350 -> 10. True means rotating right and false means rotating left.
+	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doRotation(float degrees, float duration, boolean shortestRotation)
+	public EngineTween doRotation(float degrees, float duration, boolean shortestRotation, boolean gameTime)
 	{
 		float newValue = (!shortestRotation) ? degrees : this.getLocalRotation() + getShortestAngleDistance(this.getLocalRotation(), degrees, 1);
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.ROTATION, duration).target(newValue));
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.ROTATION, duration).target(newValue), gameTime);
 	}
 	
 	/**
@@ -278,11 +280,12 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param x scale to tween to
 	 * @param y scale to tween to
 	 * @param duration in seconds on how long to take until reaching the scale.
+	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doScale(float x, float y, float duration)
+	public EngineTween doScale(float x, float y, float duration, boolean gameTime)
 	{
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.SCALE, duration).target(x, y));
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.SCALE, duration).target(x, y), gameTime);
 	}
 	
 	/**

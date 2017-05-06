@@ -1,7 +1,5 @@
 package com.mygdx.game.engine.entities.components;
 
-import java.util.Stack;
-
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.engine.events.GlobalDispatcher;
@@ -41,9 +39,9 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	
 	private EngineTweenTracker _tweenTracker = new EngineTweenTracker();
 	
-	public EngineTween startTweenOnComponent(Tween tween)
+	public EngineTween startTweenOnComponent(Tween tween, boolean updateInGameTime)
 	{
-		EngineTween t = EngineTweener.startTween(tween, EngineTweener.COMPONENT_CHANNEL);
+		EngineTween t = EngineTweener.startTween(tween, (updateInGameTime) ? EngineTweener.GAME_TIME_CHANNEL : EngineTweener.REAL_TIME_CHANNEL);
 		_tweenTracker.registerTween(t);
 		return t;
 	}

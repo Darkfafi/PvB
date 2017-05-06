@@ -2,6 +2,7 @@ package com.mygdx.game.level;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
@@ -46,13 +47,13 @@ public class DesertLevel implements ILevelBlueprint
 	@Override
 	public Texture getLevelBackground() 
 	{
-		return MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
+		return Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_BACKGROUND_01).getTextureToDraw();
 	}
 
 	@Override
 	public Music getLevelMusic() 
 	{
-		return MyGdxGame.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK);
+		return Engine.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK);
 	}
 	
 	@Override

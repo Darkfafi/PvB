@@ -3,6 +3,7 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
@@ -50,7 +51,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 			hc.damage(dmg);
 			this.setHeightStage(HeightStage.Idle);
 			this.destroy();
-			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_ENEMY).play(0.8f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), ((float)Math.random() * 0.3f) + 0.9f, 0f);
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_ENEMY).play(0.8f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), ((float)Math.random() * 0.3f) + 0.9f, 0f);
 		}
 	}
 
@@ -102,7 +103,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), false)).setSortingLayer(3);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 
 		
@@ -146,7 +147,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 						this.getComponent(RenderComponent.class).setCurrentFrameInfo(this.getComponent(RenderComponent.class).getRenderInfo().getFramesLength() - 1);
 						this.getComponent(RenderComponent.class).setSortingLayer(1);
 						getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0.7f), true);
-						MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_NOTHING).play(0.4f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), (float)Math.random() + 0.8f, 0f);
+						Engine.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_NOTHING).play(0.4f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), (float)Math.random() + 0.8f, 0f);
 					}
 				}
 			}

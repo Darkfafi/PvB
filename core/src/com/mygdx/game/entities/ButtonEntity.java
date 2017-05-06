@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -25,7 +26,7 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 	
 	public ButtonEntity(String buttonAtlas)
 	{
-		_renderComponent = this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(buttonAtlas), true));
+		_renderComponent = this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(buttonAtlas), true));
 	}
 	
 	/**

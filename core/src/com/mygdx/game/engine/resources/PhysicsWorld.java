@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Engine;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.EntitySystem;
@@ -45,7 +46,7 @@ public class PhysicsWorld implements IEventReceiver
 		_world = new World(new Vector2(0, 0), false);
 		_world.setContactListener(new CollisionComponentListener());
 		_physicsCam = new OrthographicCamera();
-		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)MyGdxGame.WIDTH), CollisionResources.convertToPPM((float)MyGdxGame.HEIGHT));
+		_physicsCam.setToOrtho(false, CollisionResources.convertToPPM((float)Engine.getWidth()), CollisionResources.convertToPPM((float)Engine.getHeight()));
 		
 		_debugRenderer = new Box2DDebugRenderer();
 		checkAllExistingCollisionComponents();

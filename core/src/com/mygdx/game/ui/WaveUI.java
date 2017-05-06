@@ -1,7 +1,7 @@
 package com.mygdx.game.ui;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -24,7 +24,7 @@ public class WaveUI extends BaseEntity
 	{
 		this.addComponent(new RenderComponent(null, true));
 		_waveText = new TextEntity(true);
-		_waveText.getTransformComponent().setPosition(new Vector2((MyGdxGame.WIDTH / 2), MyGdxGame.HEIGHT - 10));
+		_waveText.getTransformComponent().setPosition(new Vector2((Engine.getWidth() / 2), Engine.getHeight() - 10));
 		_waveText.getRenderComponent().setPivot(new Vector2(0.5f, 0), false);
 		_waveText.setFontSize(18);
 	}

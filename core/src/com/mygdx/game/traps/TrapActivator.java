@@ -3,8 +3,8 @@ package com.mygdx.game.traps;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
@@ -38,7 +38,7 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		this.addComponent(new RenderComponent(MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false));
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false));
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
 		

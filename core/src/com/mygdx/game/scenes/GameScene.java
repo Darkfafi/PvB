@@ -2,6 +2,7 @@ package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.events.Event;
@@ -51,7 +52,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
 		
 		BowWeapon bow = new BowWeapon();
-		bow.getTransformComponent().setPosition(new Vector2(MyGdxGame.WIDTH / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
+		bow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, bow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 		
 		// UI
 		WaveUI waveUI = new WaveUI(_waveSystem);
@@ -60,8 +61,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	public void destroyed() 
 	{
-		MyGdxGame.getAudioResources().stopAllMusic();
-		MyGdxGame.getAudioResources().stopAllSounds();
+		Engine.getAudioResources().stopAllMusic();
+		Engine.getAudioResources().stopAllSounds();
 		
 		_playfield.destroyLevel();
 		_playfield.removeEventListener(Playfield.EVENT_BASE_DESTROYED, this);

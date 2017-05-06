@@ -1,6 +1,5 @@
 package com.mygdx.game.scenes;
 
-import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.engine.scenes.BaseScenesManager;
 import com.mygdx.game.engine.scenes.RenderComponents;
@@ -27,19 +26,4 @@ public class GameScenesManager extends BaseScenesManager {
 		
 		return null;
 	}
-	
-	@Override
-	public void update(float dt)
-	{
-		super.update(dt);
-		EntitySystem.getInstance().updateEntities(dt);
-	}
-	
-	@Override
-	public void render()
-	{
-		super.render();
-		EntitySystem.getInstance().renderEntities(this.getRenderComponents());
-	}
-
 }

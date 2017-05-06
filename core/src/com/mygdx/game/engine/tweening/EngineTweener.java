@@ -15,9 +15,10 @@ import aurelienribon.tweenengine.TweenManager;
  */
 public class EngineTweener 
 {
-	public static final int COMPONENT_CHANNEL = 0;
+	public static final int GAME_TIME_CHANNEL = 0;
+	public static final int REAL_TIME_CHANNEL = 1;
 	
-	private static TweenManager[] _tweenManagers = new TweenManager[1]; 
+	private static TweenManager[] _tweenManagers = new TweenManager[2]; 
 	
 	private static Stack<ChannelTween> _tweensToStartStack = new Stack<ChannelTween>();
 	
@@ -56,7 +57,7 @@ public class EngineTweener
 		return _tweenManagers[channel];
 	}
 	
-	public static void updateTweenEngine(float dt)
+	public static void updateTweenEngine(float unScaledDeltaTime, float timeScale)
 	{
 		while(!_tweensToStartStack.isEmpty())
 		{
@@ -70,6 +71,7 @@ public class EngineTweener
 		
 		for(int i = 0; i < _tweenManagers.length; i++)
 		{
+			float dt = (i == 1) ? unScaledDeltaTime : unScaledDeltaTime * timeScale;
 			if(_tweenManagers[i] != null)
 				_tweenManagers[i].update(dt);
 		}

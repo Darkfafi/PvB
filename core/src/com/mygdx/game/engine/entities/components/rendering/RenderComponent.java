@@ -203,11 +203,12 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * The Tween will be updated in the Component channel. (EngineTweener)
 	 * @param value indicates the alpha to tween to. 1 is fully visible and 0 is not visible
 	 * @param duration in seconds on how long to take until reaching the alpha value
+	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @returnThe Tween which will be executed.
 	 */
-	public EngineTween doAlpha(float value, float duration)
+	public EngineTween doAlpha(float value, float duration, boolean gameTime)
 	{
-		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.ALPHA, duration).target(value));
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.ALPHA, duration).target(value), gameTime);
 	}
 	
 	/**
@@ -216,11 +217,12 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * The Tween will be updated in the Component channel. (EngineTweener)
 	 * @param color indicates the color to tween to.
 	 * @param duration in seconds on how long to take until reaching the color value
+	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @returnThe Tween which will be executed.
 	 */
-	public EngineTween doColor(Color color, float duration)
+	public EngineTween doColor(Color color, float duration, boolean gameTime)
 	{
-		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.COLOR, duration).target(color.r, color.g, color.b, color.a));
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.COLOR, duration).target(color.r, color.g, color.b, color.a), gameTime);
 	}
 	
 	/**

@@ -2,6 +2,7 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
@@ -51,9 +52,9 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void awake() 
 	{
-		_aimTexture = MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
+		_aimTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
 		_bowDrawSoundInstance = -1;
-		Animations animations = new Animations("draw", MyGdxGame.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
+		Animations animations = new Animations("draw", Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
@@ -68,8 +69,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 			//getTransformComponent().lookAt(aimLocation, 0.2f);
 			this.getTransformComponent().setRotation(_aimAngle);
 			
-			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
-			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setPitch(_bowDrawSoundInstance, _drawStrength);
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setPitch(_bowDrawSoundInstance, _drawStrength);
 			_volumeDraw = 0.1f;
 		}
 		handleProjectilePlacement();
@@ -119,7 +120,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		if(strengthPercentage < minimum)
 			strengthPercentage = minimum;
 		
-		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
 		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
 		setBowIdle();
 	}
@@ -135,7 +136,7 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		this.getComponent(AnimationComponent.class).reset(); // Reset bow
 		_currentProjectile = new ArrowProjectile();
 		if(_bowDrawSoundInstance != -1)
-			MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
 		
 		_bowDrawSoundInstance = -1;
 	}
@@ -236,8 +237,8 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(), 0);
 		_currentBowStage = BowStage.Draw;
 		
-		_bowDrawSoundInstance = MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
-		MyGdxGame.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
+		_bowDrawSoundInstance = Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
 	}
 
 	@Override
