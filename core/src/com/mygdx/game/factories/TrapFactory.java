@@ -29,13 +29,24 @@ public class TrapFactory
 	
 	
 	/**
+	 * This enum represents the Direction the Trap will be facing.
+	 * @author Ramses Di Perna
+	 *
+	 */
+	public enum Direction
+	{
+		Left,
+		Right
+	}
+	
+	/**
 	 * This creates an instance of the given trap type
 	 * @param trapType to create an instance for
 	 * @return the trap instance of the given type.
 	 */
-	public static BaseTrap createTrap(TrapType trapType, Grid grid)
+	public static BaseTrap createTrap(TrapType trapType, Direction direction, Grid grid)
 	{
-		BaseTrap trap = createTrapInstance(trapType, grid);
+		BaseTrap trap = createTrapInstance(trapType, direction, grid);
 		return trap;
 	}
 
@@ -45,12 +56,12 @@ public class TrapFactory
 	 * @param trapType to create an instance for
 	 * @return the trap instance of the given type.
 	 */
-	private static BaseTrap createTrapInstance(TrapType trapType, Grid grid) 
+	private static BaseTrap createTrapInstance(TrapType trapType, Direction direction, Grid grid) 
 	{
 		switch(trapType)
 		{
 			case Block_BarrelTrap:
-				return new TestBlockTrap(grid);
+				return new TestBlockTrap(grid, direction);
 			default:
 				return null;
 		}

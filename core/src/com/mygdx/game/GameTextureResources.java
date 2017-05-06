@@ -30,6 +30,10 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_LIGHT_BANDIT_0_ATTACK = "light_Bandit_0_Attack";
 	public static final String ANIMATION_LIGHT_BANDIT_1_ATTACK = "light_Bandit_1_Attack";
 	
+	public static final String ANIMATIO_TRAIN_WHEELS = "TrainWheels";
+	public static final String SPRITE_TRAIN_BASE = "TrainBase";
+	public static final String SPRITE_CART_BASE = "CartBase";
+	
 	@Override
 	public void load() 
 	{
@@ -40,12 +44,14 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(SPRITE_GAME_MENU_BACKGROUND, "menu_bg.png");
 		this.loadResource(SPRITE_GAME_MENU_LOGO, "menu_logo.png");
 		
-		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
-		
 		this.loadResource(SPRITE_GAME_MENU_PLAY_BTN, "button_play.png");
 		
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
 		this.loadResource(SPRITE_HP_BAR, "hpBarPlaceholder.png");
+		
+		this.loadResource(ANIMATIO_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
+		this.loadResource(SPRITE_TRAIN_BASE, "train/train_base.png");
+		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
@@ -63,6 +69,9 @@ public class GameTextureResources extends BaseTextureResources
 
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_ATTACK,"enemies/banditAAttack.png", "enemies/banditAAttack.xml");
 		this.loadResource(ANIMATION_LIGHT_BANDIT_1_ATTACK,"enemies/banditBAttack.png", "enemies/banditBAttack.xml");
-
+		
+		// Traps
+		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
+		
 	}
 }

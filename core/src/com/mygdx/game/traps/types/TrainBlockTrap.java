@@ -1,16 +1,14 @@
 package com.mygdx.game.traps.types;
 
-import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Engine;
-import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
-import com.mygdx.game.factories.TrapFactory;
+import com.mygdx.game.factories.TrapFactory.Direction;
 import com.mygdx.game.level.Grid;
 
-public class TestBlockTrap extends BaseBlockTrap {
+public class TrainBlockTrap extends BaseBlockTrap 
+{
 
-	public TestBlockTrap(Grid grid, TrapFactory.Direction direction) {
+	public TrainBlockTrap(Grid grid, Direction direction) 
+	{
 		super(grid, direction);
 		// TODO Auto-generated constructor stub
 	}
@@ -18,19 +16,19 @@ public class TestBlockTrap extends BaseBlockTrap {
 	@Override
 	public int getSizeX() {
 		// TODO Auto-generated method stub
-		return 4;
+		return 0;
 	}
 
 	@Override
 	public int getSizeY() {
 		// TODO Auto-generated method stub
-		return 1;
+		return 0;
 	}
 
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), false)).setPivot(new Vector2(0f, 0f), false);
+
 	}
 
 	@Override

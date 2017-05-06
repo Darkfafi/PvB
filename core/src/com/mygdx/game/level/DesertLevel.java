@@ -61,7 +61,7 @@ public class DesertLevel implements ILevelBlueprint
 	{
 		return new TrapSpawnInfo[]
 		{
-				new TrapSpawnInfo(0, 4, TrapSpawnInfo.Direction.Right, 
+				new TrapSpawnInfo(0, 4, TrapFactory.Direction.Right, 
 						new TrapFactory.TrapType[]{
 								TrapFactory.TrapType.Block_BarrelTrap
 				})

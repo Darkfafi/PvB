@@ -91,6 +91,8 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 
 	private void onCollisionEvent(CollisionEvent event) 
 	{
+		if(event.getOtherCollisionComponent() == null || event.getOtherCollisionComponent().getParentOfComponent() == null) { return; }
+		
 		if(event.getOtherCollisionComponent().getParentOfComponent().hasTag(Tags.TAG_PROJECTILE))
 		{
 			if(_linkedTrap != null)

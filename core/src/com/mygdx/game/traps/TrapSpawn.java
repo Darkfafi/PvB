@@ -37,10 +37,18 @@ public class TrapSpawn extends BaseEntity
 	 */
 	public void spawnTrap()
 	{
-		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _grid);
-		t.place(_info.getGridPosX(), _info.getGridPosY());
+		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _info.getTrapFaceDirection(), _grid);
+		int farLeftSide = t.place(_info.getGridPosX(), _info.getGridPosY());
+		
+		float _activatorXPos = (t.getSizeX() / 2) * _grid.getTileWidth();
+		if(_info.getGridPosX() != farLeftSide)
+		{
+			_activatorXPos *= -1;
+			_activatorXPos += _grid.getTileWidth();
+		}
+		
 		_activator.linkToTrap(t);
-		_activator.getTransformComponent().setPosition((t.getSizeX() / 2) * _grid.getTileWidth(), -35);
+		_activator.getTransformComponent().setPosition(_activatorXPos, -35);
 	}
 
 	@Override

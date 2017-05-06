@@ -10,21 +10,10 @@ import com.mygdx.game.factories.TrapFactory;
  *
  */
 public class TrapSpawnInfo 
-{
-	/**
-	 * This enum represents the Direction the Trap will be facing.
-	 * @author Ramses Di Perna
-	 *
-	 */
-	public enum Direction
-	{
-		Left,
-		Right
-	}
-	
+{	
 	private int _gridPosX;
 	private int _gridPosY;
-	private Direction _trapFaceDirection;
+	private TrapFactory.Direction _trapFaceDirection;
 	private TrapFactory.TrapType[] _typesAbleToSpawn;
 	
 	/**
@@ -34,7 +23,7 @@ public class TrapSpawnInfo
 	 * @param trapFaceDirection represents the direction the trap will be facing. At the end of this direction the an activator is adviced to be placed.
 	 * @param trapTypes contains the different Trap Types which are able to be spawned on this spawn location
 	 */
-	public TrapSpawnInfo(int gridPosX, int gridPosY, Direction trapFaceDirection, TrapFactory.TrapType[] trapTypes)
+	public TrapSpawnInfo(int gridPosX, int gridPosY, TrapFactory.Direction trapFaceDirection, TrapFactory.TrapType[] trapTypes)
 	{
 		_gridPosX = gridPosX;
 		_gridPosY = gridPosY;
@@ -55,7 +44,7 @@ public class TrapSpawnInfo
 	 * Returns the direction the trap is requested to face when spawned
 	 * @return Direction for trap
 	 */
-	public Direction getTrapFaceDirection()
+	public TrapFactory.Direction getTrapFaceDirection()
 	{
 		return _trapFaceDirection;
 	}

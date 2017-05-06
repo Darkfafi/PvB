@@ -3,7 +3,7 @@ package com.mygdx.game.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.entities.Train;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
@@ -38,6 +38,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	public void render() 
 	{
 		_playfield.render(this.getRenderComponents(), false);
+		//_physicsWorld.render(getRenderComponents());
 	}
 
 	@Override
