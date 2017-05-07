@@ -11,6 +11,7 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.entities.weapons.BowWeapon;
+import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
 import com.mygdx.game.ui.WaveUI;
@@ -26,9 +27,6 @@ import tutorial.BowDemonstrationTutorial;
 public class GameScene extends BaseScene implements IEventReceiver
 {
 	public static final boolean DEVELOPMENT_RESET_GAME_PREFS_EVERY_PLAY = true;
-	
-	public static final String PREFERENCES_GAME = "GamePreferences";
-	public static final String PREF_KEY_BOOLEAN_TUTORIAL_DONE = "TutorialDonePrefBooleanKey";
 	
 	public static float TUTORIAL_DURATION = 8f;
 	
@@ -73,7 +71,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	protected void created() 
 	{
-		_preferences = Gdx.app.getPreferences(PREFERENCES_GAME);
+		_preferences = Gdx.app.getPreferences(PreferencesGlobals.PREFERENCES_GAME);
 		
 		Gdx.gl.glClearColor(0, 0.1f, 0, 1);
 		_physicsWorld = new PhysicsWorld();
@@ -87,12 +85,12 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 		
 		// Tutorial or direct play?
-		if(!_preferences.getBoolean(PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
+		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
 			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_playerBow);
 			bdt.startTutorial(TUTORIAL_DURATION);
 			_waitForTutorial = 0;
-			_preferences.putBoolean(PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);
+			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);
 		}
 		else
 		{

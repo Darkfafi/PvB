@@ -2,6 +2,7 @@ package com.mygdx.game.score;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.mygdx.game.globals.PreferencesGlobals;
 
 /**
  * This a class which can be used to track score and save / load highscore data.
@@ -9,11 +10,7 @@ import com.badlogic.gdx.Preferences;
  *
  */
 public class ScoreSystem 
-{
-	public static final String PREFERENCES_SCORE = "ScorePreferences";
-	public static final String PREF_KEY_INT_BEST_SCORE = "BestScorePrefIntKey";
-	public static final String PREF_KEY_INT_BEST_MULTIPLIER = "BestMultiplierPrefIntKey";
-	
+{	
 	private static int DEFAULT_SCORE = 0;
 	private static int DEFAULT_MULTIPLIER = 1;
 	
@@ -27,7 +24,7 @@ public class ScoreSystem
 	
 	public ScoreSystem()
 	{
-		_scorePrefs = Gdx.app.getPreferences(PREFERENCES_SCORE);
+		_scorePrefs = Gdx.app.getPreferences(PreferencesGlobals.PREFERENCES_SCORE);
 		loadBestData();
 		startNewScoreSession();
 	}
@@ -153,8 +150,8 @@ public class ScoreSystem
 	 */
 	public void loadBestData() 
 	{
-		_bestScore = _scorePrefs.getInteger(PREF_KEY_INT_BEST_SCORE, DEFAULT_SCORE);
-		_bestMultiplier = _scorePrefs.getInteger(PREF_KEY_INT_BEST_MULTIPLIER, DEFAULT_MULTIPLIER);
+		_bestScore = _scorePrefs.getInteger(PreferencesGlobals.PREF_KEY_INT_BEST_SCORE, DEFAULT_SCORE);
+		_bestMultiplier = _scorePrefs.getInteger(PreferencesGlobals.PREF_KEY_INT_BEST_MULTIPLIER, DEFAULT_MULTIPLIER);
 	}
 
 	/**
@@ -172,8 +169,8 @@ public class ScoreSystem
 	 */
 	private void insideSaveData(int score, int multiplier)
 	{
-		_scorePrefs.putInteger(PREF_KEY_INT_BEST_SCORE, score);
-		_scorePrefs.putInteger(PREF_KEY_INT_BEST_MULTIPLIER, multiplier);
+		_scorePrefs.putInteger(PreferencesGlobals.PREF_KEY_INT_BEST_SCORE, score);
+		_scorePrefs.putInteger(PreferencesGlobals.PREF_KEY_INT_BEST_MULTIPLIER, multiplier);
 		_scorePrefs.flush();
 	}
 }
