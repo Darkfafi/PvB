@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
@@ -126,6 +127,8 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 	{
 		super.doEffect();
 		_train = new Train((int)Math.ceil(DURATION * SPEED), this.getDirection() == TrapFactory.Direction.Left);
+		
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_TRAP_TRAIN_EFFECT).play();
 		
 		float startX = (this.getDirection() == TrapFactory.Direction.Left) ? Engine.getWidth() + _train.getTrainSize() : this.getTransformComponent().getPositionX() - _train.getTrainSize();
 		float endX = (this.getDirection() == TrapFactory.Direction.Left) ? 0 - _train.getFullTrainSize() : Engine.getWidth() + _train.getFullTrainSize();
