@@ -75,6 +75,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 	
 	protected void onCollisionEvent(CollisionEvent event)
 	{
+		if(event.getOtherCollisionComponent() == null || event.getOtherCollisionComponent().getParentOfComponent() == null) { return ;}
 		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
 		if(hc != null)
 		{

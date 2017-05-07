@@ -161,6 +161,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		if(event.getAnimationName() == "death")
 		{
 			this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+			this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f, 1f), true);
 			_deathTime = 0;
 		}
 	}
