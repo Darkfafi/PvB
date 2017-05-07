@@ -10,9 +10,9 @@ import com.badlogic.gdx.Preferences;
  */
 public class ScoreSystem 
 {
-	public static String PREFERENCES_SCORE = "ScorePreferences";
-	public static String PREF_KEY_INT_BEST_SCORE = "BestScorePrefIntKey";
-	public static String PREF_KEY_INT_BEST_MULTIPLIER = "BestMultiplierPrefIntKey";
+	public static final String PREFERENCES_SCORE = "ScorePreferences";
+	public static final String PREF_KEY_INT_BEST_SCORE = "BestScorePrefIntKey";
+	public static final String PREF_KEY_INT_BEST_MULTIPLIER = "BestMultiplierPrefIntKey";
 	
 	private static int DEFAULT_SCORE = 0;
 	private static int DEFAULT_MULTIPLIER = 1;

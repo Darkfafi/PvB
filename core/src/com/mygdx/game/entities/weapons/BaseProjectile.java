@@ -1,4 +1,4 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.weapons;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.BaseEntity;

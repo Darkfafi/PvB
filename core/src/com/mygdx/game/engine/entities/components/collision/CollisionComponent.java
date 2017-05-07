@@ -112,7 +112,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	@Override
 	protected void updated(float deltaTime) 
 	{
-		if(!_fixDefs.isEmpty())
+		if(!_fixDefs.isEmpty() && _body != null)
 		{
 			createFixtureForBody(_fixDefs.pop(), _body);
 		}

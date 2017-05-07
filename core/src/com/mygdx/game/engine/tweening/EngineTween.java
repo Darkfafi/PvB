@@ -53,10 +53,12 @@ public class EngineTween extends EventDispatcher
 	/**
 	 * Sets a method which will be triggered on the different callback events which are set in the tween itself.
 	 * @param method container to trigger when an event occures.
+	 * @return This EngineTween
 	 */
-	public void setCallbackMethod(IEngineTweenMethod method)
+	public EngineTween setCallbackMethod(IEngineTweenMethod method)
 	{
-		_method = method;	
+		_method = method;
+		return this;
 	}
 	
 	/**

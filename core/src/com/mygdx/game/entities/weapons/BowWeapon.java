@@ -1,21 +1,16 @@
-package com.mygdx.game.entities;
+package com.mygdx.game.entities.weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
-import com.mygdx.game.engine.events.Event;
-import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
-import com.mygdx.game.globals.InputGlobals;
-import com.mygdx.game.touchinput.TouchEvent;
 
-public class BowWeapon extends BaseEntity implements IEventReceiver
+public class BowWeapon extends BaseEntity implements IWeapon
 {
 	public enum BowStage
 	{
@@ -31,7 +26,6 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
 	private float _aimAngle = 0f;
 	private float _radiusToTargetLoc = 0f;
-	private int _pointerControllingTouch = -1;
 	
 	private ArrowProjectile _currentProjectile;
 	
@@ -41,14 +35,23 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	private Texture _aimTexture;
 	
 	@Override
-	public void onReceiveEvent(Event event) 
+	public void startControl(int x, int y) 
 	{
-		if(event.getType() == InputGlobals.TOUCH_EVENT)
-		{
-			onTouchEvent((TouchEvent)event);
-		}
+		selectTarget(x, y);
 	}
 
+	@Override
+	public void inControl(int x, int y) 
+	{
+		drawMechanic(x, y);
+	}
+
+	@Override
+	public void endControl(int x, int y) 
+	{
+		shoot(_drawStrength, 0.1f);
+	}
+	
 	@Override
 	protected void awake() 
 	{
@@ -56,14 +59,13 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		_bowDrawSoundInstance = -1;
 		Animations animations = new Animations("draw", Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
-		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		this.setBowIdle();
 	}
 
 	@Override
 	protected void updated(float dt) 
 	{
-		if(_currentBowStage == BowStage.Draw && _pointerControllingTouch != -1)
+		if(_currentBowStage == BowStage.Draw)
 		{
 			//Vector2 aimLocation = new Vector2(_aimLocation.x, _aimLocation.y);
 			//getTransformComponent().lookAt(aimLocation, 0.2f);
@@ -79,7 +81,6 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	@Override
 	protected void destroyed() 
 	{
-		MyGdxGame.getInputHandler().removeEventListener(InputGlobals.TOUCH_EVENT, this);
 		_targetLocation = null;
 		_currentProjectile.destroy();
 		_currentProjectile = null;
@@ -87,58 +88,42 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	}
 	
 	/**
-	 * Redirection of the Event to TouchEvent
-	 * @param event received which is casted to a TouchEvent
+	 * Returns the distance the bow can shoot in pixels with its draw strength.
+	 * @return Max distance in pixels
 	 */
-	private void onTouchEvent(TouchEvent event) 
+	private float powerToDistancePower()
 	{
-		if(_currentBowStage == BowStage.Idle && event.getTouchType() == TouchEvent.TouchType.Started)
+		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
+	}
+	
+	
+
+	@Override
+	protected void rendered(RenderComponents renderComponents) 
+	{
+		if(_currentProjectile == null || _aimTexture == null) { return;}
+		if(_currentBowStage == BowStage.Draw)
 		{
-			selectTarget(event.getTouchX(), event.getTouchY());
-			_pointerControllingTouch = event.getPointer();
-		}
-		else if(_currentBowStage == BowStage.Draw && event.getPointer() == _pointerControllingTouch)
-		{
-			if(event.getTouchType() == TouchEvent.TouchType.Dragged)
-			{
-				drawMechanic(event.getTouchX(), event.getTouchY());
-			}
-			else if(event.getTouchType() == TouchEvent.TouchType.Ended)
-			{
-				shoot(_drawStrength, 0.1f);
-			}
+			Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
+			renderComponents.getSpriteBatch().draw(_aimTexture, landLocation.x - _aimTexture.getWidth() / 2, landLocation.y - _aimTexture.getHeight() / 2, _aimTexture.getWidth(), _aimTexture.getHeight());
 		}
 	}
 	
-	/**
-	 * Fires the current arrow from the bow with the strength given.
-	 * @param strengthPercentage makes the arrow shoot in distance of powerToDistancePower() * the value and the strength of MAX_DRAW_STRENGTH * the value
-	 * @param minimum is the minimum the shooting strength should be. If its below that it will be put onto the minimum value
-	 */
-	private void shoot(float strengthPercentage, float minimum) 
-	{
-		if(strengthPercentage < minimum)
-			strengthPercentage = minimum;
-		
-		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
-		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
-		setBowIdle();
-	}
+	// Bow stage handling
 	
 	/**
-	 * Sets the bow back to its idle state
+	 * Selects a start touch position before draw. This will be used as the start position of the draw value.
+	 * @param posX is the x position of the position value.
+	 * @param posY is the y position o the position value.
 	 */
-	private void setBowIdle()
+	private void selectTarget(int posX, int posY) 
 	{
-		_currentBowStage = BowStage.Idle;
-		_pointerControllingTouch = -1;
-		_drawStrength = 0;
-		this.getComponent(AnimationComponent.class).reset(); // Reset bow
-		_currentProjectile = new ArrowProjectile();
-		if(_bowDrawSoundInstance != -1)
-			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
+		_targetLocation = new Vector2(posX, posY);
+		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(), 0);
+		_currentBowStage = BowStage.Draw;
 		
-		_bowDrawSoundInstance = -1;
+		_bowDrawSoundInstance = Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
 	}
 	
 	/**
@@ -189,6 +174,38 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 	}
 	
 	/**
+	 * Fires the current arrow from the bow with the strength given.
+	 * @param strengthPercentage makes the arrow shoot in distance of powerToDistancePower() * the value and the strength of MAX_DRAW_STRENGTH * the value
+	 * @param minimum is the minimum the shooting strength should be. If its below that it will be put onto the minimum value
+	 */
+	private void shoot(float strengthPercentage, float minimum) 
+	{
+		if(strengthPercentage < minimum)
+			strengthPercentage = minimum;
+		
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
+		_currentProjectile.fire((powerToDistancePower() * strengthPercentage), MAX_DRAW_STRENGTH * strengthPercentage);
+		setBowIdle();
+	}
+	
+	/**
+	 * Sets the bow back to its idle state
+	 */
+	private void setBowIdle()
+	{
+		_currentBowStage = BowStage.Idle;
+		_drawStrength = 0;
+		this.getComponent(AnimationComponent.class).reset(); // Reset bow
+		_currentProjectile = new ArrowProjectile();
+		if(_bowDrawSoundInstance != -1)
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
+		
+		_bowDrawSoundInstance = -1;
+	}
+	
+	// Bow & Projectile animation handling
+	
+	/**
 	 * Places the arrow in the correct orientation on the bow.
 	 * This orientation includes position and rotation.
 	 * It gets the position form the 'projectilePullDistance' method 
@@ -215,40 +232,5 @@ public class BowWeapon extends BaseEntity implements IEventReceiver
 		v.x *= amount;
 		v.y *= amount;
 		return v;
-	}
-	
-	/**
-	 * Returns the distance the bow can shoot in pixels with its draw strength.
-	 * @return Max distance in pixels
-	 */
-	private float powerToDistancePower()
-	{
-		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
-	}
-	
-	/**
-	 * Selects a start touch position before draw. This will be used as the start position of the draw value.
-	 * @param posX is the x position of the position value.
-	 * @param posY is the y position o the position value.
-	 */
-	private void selectTarget(int posX, int posY) 
-	{
-		_targetLocation = new Vector2(posX, posY);
-		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(), 0);
-		_currentBowStage = BowStage.Draw;
-		
-		_bowDrawSoundInstance = Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
-		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
-	}
-
-	@Override
-	protected void rendered(RenderComponents renderComponents) 
-	{
-		if(_currentProjectile == null || _aimTexture == null) { return;}
-		if(_currentBowStage == BowStage.Draw && _pointerControllingTouch != -1)
-		{
-			Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
-			renderComponents.getSpriteBatch().draw(_aimTexture, landLocation.x - _aimTexture.getWidth() / 2, landLocation.y - _aimTexture.getHeight() / 2, _aimTexture.getWidth(), _aimTexture.getHeight());
-		}
 	}
 }

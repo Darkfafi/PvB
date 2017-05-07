@@ -35,10 +35,13 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String SPRITE_CART_BASE = "CartBase";
 	public static final String SPRITE_TRAIN_RAIL = "TrainRail";
 	
+
+	public static final String SPRITE_TOUCH_UP = "Touch_Up";
+	public static final String SPRITE_TOUCH_DOWN = "Touch_Down";
+	
 	@Override
 	public void load() 
 	{
-		this.loadResource("testImage", "badlogic.jpg");
 		
 		// Other
 		this.loadResource(SPRITE_GAME_BACKGROUND_01, "background_01.png");
@@ -48,12 +51,17 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(SPRITE_GAME_MENU_PLAY_BTN, "button_play.png");
 		
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
-		this.loadResource(SPRITE_HP_BAR, "hpBarPlaceholder.png");
 		
 		this.loadResource(ANIMATIO_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
 		this.loadResource(SPRITE_TRAIN_BASE, "train/train_base.png");
 		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
 		this.loadResource(SPRITE_TRAIN_RAIL, "train/rails.png");
+		
+		// Placeholders
+		this.loadResource("testImage", "placeholders/badlogic.jpg");
+		this.loadResource(SPRITE_HP_BAR, "placeholders/hpBarPlaceholder.png");
+		this.loadResource(SPRITE_TOUCH_UP, "placeholders/touchFree.png");
+		this.loadResource(SPRITE_TOUCH_DOWN, "placeholders/touchPress.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
