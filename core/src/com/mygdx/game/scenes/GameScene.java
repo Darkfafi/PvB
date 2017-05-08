@@ -37,7 +37,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	
 	private float _waitForTutorial = -1;
 	
-	Preferences _preferences;
+	private Preferences _preferences;
 	
 	@Override
 	public void update(float dt) 
@@ -80,7 +80,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playfield.addEventListener(Playfield.EVENT_BASE_DESTROYED, this);
 		
 		// player spawn
-		_playerBow = new BowWeapon();
+		_playerBow = new BowWeapon(_physicsWorld.getWorld());
 		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 		
 		// Tutorial or direct play?

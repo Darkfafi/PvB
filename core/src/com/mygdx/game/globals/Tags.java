@@ -9,4 +9,5 @@ public final class Tags
 {
 	public static final String TAG_ENEMY = "EnemyTag";
 	public static final String TAG_PROJECTILE = "ProjectileTag";
+	public static final String TAG_TRAP_ACTIVATOR = "TrapActivator";
 }

@@ -1,14 +1,25 @@
 package com.mygdx.game.entities.weapons;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
+import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.globals.Tags;
 
 public class BowWeapon extends BaseEntity implements IWeapon
 {
@@ -33,7 +44,16 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	private float _volumeDraw = 0;
 	
 	private Texture _aimTexture;
+	private ShapeRenderer _shapeRenderer;
+	private World _world;
 	
+	public BowWeapon(World world) 
+	{
+		_world = world;
+		_shapeRenderer = new ShapeRenderer();
+		_shapeRenderer.setAutoShapeType(true);
+	}
+
 	@Override
 	public void startControl(int x, int y) 
 	{
@@ -85,6 +105,9 @@ public class BowWeapon extends BaseEntity implements IWeapon
 		_currentProjectile.destroy();
 		_currentProjectile = null;
 		_aimTexture = null;
+		_world = null;
+		_shapeRenderer.dispose();
+		_shapeRenderer = null;
 	}
 	
 	/**
@@ -104,8 +127,74 @@ public class BowWeapon extends BaseEntity implements IWeapon
 		if(_currentProjectile == null || _aimTexture == null) { return;}
 		if(_currentBowStage == BowStage.Draw)
 		{
-			Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
+			final Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
+			
+			Vector2 turnVec = new Vector2(_currentProjectile.getTransformComponent().getUpwards());
+			turnVec.setLength(_currentProjectile.getComponent(RenderComponent.class).getRealHeight() / 2);
+			final Vector2 startPosition = new Vector2(_currentProjectile.getTransformComponent().getPositionX() + turnVec.x, _currentProjectile.getTransformComponent().getPositionY() + turnVec.y);
+			final Vector2 endPos = new Vector2(landLocation);
+			
+			// Draw target
 			renderComponents.getSpriteBatch().draw(_aimTexture, landLocation.x - _aimTexture.getWidth() / 2, landLocation.y - _aimTexture.getHeight() / 2, _aimTexture.getWidth(), _aimTexture.getHeight());
+			
+			// Draw Hit line
+			_world.rayCast(new RayCastCallback(){
+
+				@Override
+				public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) 
+				{
+					if(fixture.getUserData().getClass() != CollisionComponent.class) { return -1; }
+					CollisionComponent cc = (CollisionComponent)fixture.getUserData();
+					if(!cc.getParentOfComponent().hasTag(Tags.TAG_ENEMY) && !cc.getParentOfComponent().hasTag(Tags.TAG_TRAP_ACTIVATOR)) { return -1;}
+					
+					Vector2 convertedPoint = CollisionResources.convertFromPPM(point);
+					
+					if(convertedPoint.len() < endPos.len())
+					{
+						Vector2 sizeFixture = new Vector2(50, 50);
+						endPos.x = convertedPoint.x + (normal.x * -1) * (sizeFixture.x * 0.5f);
+						endPos.y = convertedPoint.y + (normal.y * -1) * (sizeFixture.y * 0.5f);
+					}
+					
+					return -1; // ends ray
+				}}, CollisionResources.convertToPPM(startPosition), CollisionResources.convertToPPM(landLocation));
+			
+			renderComponents.getSpriteBatch().end();
+
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Gdx.gl.glLineWidth(3);
+			
+			_shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+			Color c;
+			
+			if(endPos.len() != landLocation.len())
+				c = new Color(0.1f, 0.75f, 0.1f, 1f);
+			else
+				c = new Color(0.75f, 0.1f, 0.1f, 1f);
+				
+			_shapeRenderer.setColor(c.r, c.g, c.b, 0.5f);
+			Vector2 diff = new Vector2(endPos.x - startPosition.x, endPos.y - startPosition.y);
+			Vector2 cx1 = new Vector2(diff);
+			Vector2 cx2 = new Vector2(diff);
+			
+			cx1.x += 70;
+			cx2.x += 20;
+			
+			cx1.setLength(cx1.len() * 0.2f);
+			cx2.setLength(cx2.len() * 0.8f);
+			
+			cx1.x += startPosition.x;
+			cx1.y += startPosition.y;
+			cx2.x += startPosition.x;
+			cx2.y += startPosition.y;
+			
+			_shapeRenderer.curve(startPosition.x, startPosition.y, cx1.x, cx1.y, cx2.x, cx2.y, endPos.x, endPos.y, 50);
+			_shapeRenderer.end();
+
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+			
+			renderComponents.getSpriteBatch().begin();
 		}
 	}
 	
