@@ -14,10 +14,9 @@ import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
+import com.mygdx.game.tutorial.BowDemonstrationTutorial;
 import com.mygdx.game.ui.WaveUI;
 import com.mygdx.game.waves.WaveSystem;
-
-import tutorial.BowDemonstrationTutorial;
 
 /**
  * This scene is the main game scene. 
@@ -87,7 +86,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
-			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_playerBow);
+			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_playerBow, _playfield);
 			bdt.startTutorial(TUTORIAL_DURATION);
 			_waitForTutorial = 0;
 			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);

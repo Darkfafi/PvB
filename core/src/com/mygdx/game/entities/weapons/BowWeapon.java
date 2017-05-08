@@ -133,16 +133,8 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	 */
 	private void drawMechanic(int posX, int posY) 
 	{	
-		float realBowY = this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 1.5f;
 		Vector2 lineToTouch = new Vector2(posX - this.getTransformComponent().getPositionX(), posY);
 		Vector2 drawTouch = new Vector2(lineToTouch.x, lineToTouch.y);
-		lineToTouch.y -= realBowY;
-		
-		if(posY < realBowY)
-		{
-			lineToTouch.y *= -1;
-			drawTouch.x += (-(Math.abs(drawTouch.x) / drawTouch.x)) * Math.abs(posX - this.getTransformComponent().getPositionX());
-		}
 		
 		Vector2 lineToRealTarget = new Vector2(drawTouch.x, drawTouch.y);
 		lineToRealTarget.setLength(_radiusToTargetLoc);
