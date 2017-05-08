@@ -34,6 +34,15 @@ public class AnimationComponent extends RenderComponent
 	}
 	
 	/**
+	 * Returns the name of the current animation
+	 * @return The name of the current animation
+	 */
+	public String getCurrentAnimation()
+	{
+		return _currentAnimation;
+	}
+	
+	/**
 	 * Sets the current animation to the animation with the given name. 
 	 * The animations are defined in the Animations class given in the constructor.
 	 * @param animationName of the animation which should be set as current animation
@@ -41,6 +50,7 @@ public class AnimationComponent extends RenderComponent
 	 */
 	public void setCurrentAnimation(String animationName, boolean playOnSet)
 	{
+		if(animationName == getCurrentAnimation()) { return; }
 		stop();
 		this.setRenderInfo(_animations.getAnimation(animationName));
 		_currentAnimation = animationName;

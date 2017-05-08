@@ -16,7 +16,7 @@ public abstract class BaseBlockTrap extends BaseTrap
 	@Override
 	protected void doEffect()
 	{
-		this.getGridUserComponent().addGridOccupyTag(GridTags.OCCUPY_TAG_BLOCKED);
+		this.getGridUserComponent().addGridOccupyTag(GridTags.OCCUPY_TAG_DAMAGING);
 		canBeTriggered = false;
 	}
 	

@@ -54,7 +54,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 					@Override
 					public void onMethod(int tweenEventType, EngineTween tween) 
 					{
-						enemy1.setEnemyState(Enemy.EnemyState.IdleState);
+						enemy1.setEnemyState(Enemy.EnemyState.IdleState, true);
 
 						getTransformComponent().setPosition(-100, -100);
 						getComponent(RenderComponent.class).setActiveState(true);

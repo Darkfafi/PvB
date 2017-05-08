@@ -3,8 +3,11 @@ package com.mygdx.game.factories;
 import static com.mygdx.game.Engine.getTextureResources;
 
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.globals.GridTags;
+import com.mygdx.game.level.Playfield;
 
 /**
  * This class contains static methods which can be used to create enemies. 
@@ -36,9 +39,29 @@ public class EnemyFactory
 		Enemy enemy = new Enemy(
 				getRandomSkinForType(enemyType), 
 				getHealthAmountForType(enemyType),
-				getScoreAmountForType(enemyType)
+				getScoreAmountForType(enemyType),
+				getDamageAmountForType(enemyType),
+				getDamageRateForType(enemyType)
 		);
 					
+		
+		return enemy;
+	}
+	
+	/**
+	 * This creates an instance of the enemy type given with its set AI onto it.
+	 * @param enemyType to create
+	 * @return The instance of the given type with a random skin
+	 */
+	public static Enemy createEnemyOfTypeWithAI(EnemyType enemyType, Playfield playfield)
+	{
+		Enemy enemy = createEnemyOfType(enemyType);
+		
+		enemy.addComponent( new BasicEnemyAIComponent(
+				playfield, 
+				getMovementSpeedForType(enemyType),
+				getUnwalkableTagsForType(enemyType))
+		);
 		
 		return enemy;
 	}
@@ -140,6 +163,64 @@ public class EnemyFactory
 		default:
 			System.out.println("Type score not set! Please do in the EnemyFactory");
 			return 0;
+		}
+	}
+	
+	/**
+	 * Returns the unwalkable tiles for the given enemy type
+	 * @param enemyType to get the unwalkable tile tags for
+	 * @return GridOccupyTags of the unwalkable tiles for this enemy 
+	 */
+	public static String[] getUnwalkableTagsForType(EnemyType enemyType)
+	{
+		String[] tags;
+		switch(enemyType)
+		{
+		case LightBandit:
+			tags = new String[] {GridTags.OCCUPY_TAG_DAMAGING, GridTags.OCCUPY_TAG_ENEMY, GridTags.OCCUPY_TAG_BLOCKED };
+			break;
+		default:
+			System.out.println("Type unwalkable tags not set! Please do in the EnemyFactory");
+			tags = null;
+			break;
+		
+		}
+		return tags;
+	}
+	
+	/**
+	 * Returns the damage amount this enemy does with its attacks
+	 * @param enemyType to get damage amount from
+	 * @return The amount of damage this enemy does every damage tik.
+	 */
+	public static float getDamageAmountForType(EnemyType enemyType)
+	{
+		switch(enemyType)
+		{
+		case LightBandit:
+			return 1f;
+		default:
+			System.out.println("Type damage amount not set! Please do in the EnemyFactory");
+			return 0f;
+		
+		}
+	}
+	
+	/**
+	 * Returns the frequency this enemy type does damage in seconds (dmg : DamageRate).
+	 * @param enemyType to get damage rate from
+	 * @return The frequency of damage this EnemyType does
+	 */
+	public static float getDamageRateForType(EnemyType enemyType)
+	{
+		switch(enemyType)
+		{
+		case LightBandit:
+			return 0.25f;
+		default:
+			System.out.println("Type damage rate not set! Please do in the EnemyFactory");
+			return 0f;
+		
 		}
 	}
 }
