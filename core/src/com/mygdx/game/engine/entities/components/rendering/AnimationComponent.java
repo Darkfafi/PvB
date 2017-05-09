@@ -34,6 +34,24 @@ public class AnimationComponent extends RenderComponent
 	}
 	
 	/**
+	 * Returns the animation speed in comparison to the frame rate (DEFAULT: 0.5 (30 fps on 60 fps game))
+	 * @return Animation speed in normalized value
+	 */
+	public float getAnimationSpeed()
+	{
+		return _animationSpeed;
+	}
+	
+	/**
+	 * Sets the animation speed in comparison to the frame rate (DEFAULT: 0.5 (30 fps on 60 fps game))
+	 * @param animationSpeed normalized value to set the new animation speed on
+	 */
+	public void setAnimationSpeed(float animationSpeed)
+	{
+		_animationSpeed = animationSpeed;
+	}
+	
+	/**
 	 * Returns the name of the current animation
 	 * @return The name of the current animation
 	 */

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
@@ -248,7 +249,20 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
 		_hitEffectTimeTracker = 0;
 		
-		Effect hitEffect = new Effect();
+		Effect hitEffect = new Effect(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_EFFECT_HIT), false);
+		
+		hitEffect.getAnimationComponent().setColor(new Color(174f/255f, 0, 0, 1));
+		hitEffect.getTransformComponent().setPosition(
+				this.getTransformComponent().getPositionX(), 
+				this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 2
+		);
+		
+		hitEffect.getAnimationComponent().setSortingLayer(this.getComponent(AnimationComponent.class).getSortingLayer() + 1);
+		
+		float hitScale = (event.getNewHealth() == 0) ? 1.5f : 1f;
+		
+		hitEffect.getTransformComponent().setScale(new Vector2(hitScale, hitScale));
+		hitEffect.getAnimationComponent().setAnimationSpeed(0.35f);
 		
 		if(event.getNewHealth() == 0)
 		{

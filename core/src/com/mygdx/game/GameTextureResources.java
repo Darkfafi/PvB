@@ -30,7 +30,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_LIGHT_BANDIT_0_ATTACK = "light_Bandit_0_Attack";
 	public static final String ANIMATION_LIGHT_BANDIT_1_ATTACK = "light_Bandit_1_Attack";
 	
-	public static final String ANIMATIO_TRAIN_WHEELS = "TrainWheels";
+	public static final String ANIMATION_TRAIN_WHEELS = "TrainWheels";
 	public static final String SPRITE_TRAIN_BASE = "TrainBase";
 	public static final String SPRITE_CART_BASE = "CartBase";
 	public static final String SPRITE_TRAIN_RAIL = "TrainRail";
@@ -38,6 +38,9 @@ public class GameTextureResources extends BaseTextureResources
 
 	public static final String SPRITE_TOUCH_UP = "Touch_Up";
 	public static final String SPRITE_TOUCH_DOWN = "Touch_Down";
+
+
+	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
 	
 	@Override
 	public void load() 
@@ -52,7 +55,7 @@ public class GameTextureResources extends BaseTextureResources
 		
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
 		
-		this.loadResource(ANIMATIO_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
+		this.loadResource(ANIMATION_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
 		this.loadResource(SPRITE_TRAIN_BASE, "train/train_base.png");
 		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
 		this.loadResource(SPRITE_TRAIN_RAIL, "train/rails.png");
@@ -82,9 +85,10 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
 		
 		// Tutorial
-
 		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");
 		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
 		
+		// Effects
+		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffect.png", "effects/hitEffect.xml");
 	}
 }
