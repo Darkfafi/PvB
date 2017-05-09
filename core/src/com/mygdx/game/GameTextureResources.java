@@ -42,6 +42,8 @@ public class GameTextureResources extends BaseTextureResources
 
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
 	
+	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
+	
 	@Override
 	public void load() 
 	{
@@ -89,6 +91,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
 		
 		// Effects
-		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffect.png", "effects/hitEffect.xml");
+		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffectEpic.png", "effects/hitEffectEpic.xml");
+		this.loadResource(SHEET_BLOOD_POOL, "effects/bloodPool.png", "effects/bloodPool.xml");
 	}
 }

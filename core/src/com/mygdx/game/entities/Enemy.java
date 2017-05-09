@@ -13,11 +13,15 @@ import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
 import com.mygdx.game.score.GameScoreSystem;
 
@@ -249,20 +253,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
 		_hitEffectTimeTracker = 0;
 		
-		Effect hitEffect = new Effect(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_EFFECT_HIT), false);
-		
-		hitEffect.getAnimationComponent().setColor(new Color(174f/255f, 0, 0, 1));
-		hitEffect.getTransformComponent().setPosition(
-				this.getTransformComponent().getPositionX(), 
-				this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 2
-		);
-		
-		hitEffect.getAnimationComponent().setSortingLayer(this.getComponent(AnimationComponent.class).getSortingLayer() + 1);
-		
-		float hitScale = (event.getNewHealth() == 0) ? 1.5f : 1f;
-		
-		hitEffect.getTransformComponent().setScale(new Vector2(hitScale, hitScale));
-		hitEffect.getAnimationComponent().setAnimationSpeed(0.35f);
+		spawnHitEffect((event.getNewHealth() == 0) ? 1.35f : 1f);
 		
 		if(event.getNewHealth() == 0)
 		{
@@ -270,6 +261,15 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		}
 	}
 
+	private void spawnHitEffect(float scale)
+	{
+		EffectFactory.createHitEffect(
+				this.getTransformComponent().getPositionX(), 
+				this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 2, scale, 
+				new Color(174f/255f, 0, 0, 1)
+				).getAnimationComponent().setSortingLayer(this.getComponent(AnimationComponent.class).getSortingLayer() + 1);
+	}
+	
 	private void onAnimationStopped(AnimationEvent event) 
 	{
 		if(event.getAnimationName() == "death")
@@ -289,12 +289,19 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		}
 		this.setEnemyState(EnemyState.DeathState, true);
 		
+		createBloodPool();
+		
 		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
 		this.removeComponent(CollisionComponent.class);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 	}
-
+	
+	private void createBloodPool()
+	{
+		EffectFactory.createBloodPool(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.25f, 1, 4f);
+	}
+	
 	@Override
 	protected void rendered(RenderComponents renderComponents) {
 		// TODO Auto-generated method stub
