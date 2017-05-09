@@ -59,7 +59,6 @@ public class HealthComponent extends BaseEntityComponent
 		}
 		
 		if(amount <= 0 || !isAlive()) { return; }
-		
 		_currentHealth -= amount;
 		
 		this.dispatchEvent(new HealthEvent(EVENT_HEALTH_DAMAGED, amount, _currentHealth));

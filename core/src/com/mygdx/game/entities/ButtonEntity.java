@@ -8,10 +8,10 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.events.ButtonEvent;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.InputGlobals;
 import com.mygdx.game.touchinput.TouchEvent;
-import com.mygdx.game.ui.ButtonEvent;
 
 /**
  * An entity for a Button. This can be used for whenever a button is needed.

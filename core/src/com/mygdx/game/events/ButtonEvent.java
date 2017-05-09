@@ -1,4 +1,4 @@
-package com.mygdx.game.ui;
+package com.mygdx.game.events;
 
 import com.mygdx.game.engine.events.Event;
 

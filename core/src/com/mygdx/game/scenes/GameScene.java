@@ -4,16 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.PlayerWeaponControlComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
+import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.entities.weapons.BowWeapon;
+import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
+import com.mygdx.game.ui.HealthUI;
+import com.mygdx.game.ui.ScoreUI;
 import com.mygdx.game.ui.WaveUI;
 import com.mygdx.game.waves.WaveSystem;
 
@@ -33,6 +39,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	private PhysicsWorld _physicsWorld;
 	private Playfield _playfield;
 	private WaveSystem _waveSystem;
+	private ButtonEntity _pauseBtn;
 	
 	private BowWeapon _playerBow;
 	
@@ -84,6 +91,14 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playerBow = new BowWeapon();
 		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 		
+		// pause button
+		_pauseBtn = new ButtonEntity(GameTextureResources.UI_INGAME_PAUSE_BTN);
+		_pauseBtn.getTransformComponent().setPosition(
+				(Engine.getWidth() - (_pauseBtn.getRenderComponent().getCurrentTexture().getWidth() / 2)) - 10, 
+				(Engine.getHeight() - (_pauseBtn.getRenderComponent().getCurrentTexture().getHeight() / 2)) - 10
+		);
+		_pauseBtn.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
+		
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
@@ -122,6 +137,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		_playerBow = null;
 		
+		_pauseBtn.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
+		_pauseBtn = null;
 	}
 
 	@Override
@@ -130,6 +147,11 @@ public class GameScene extends BaseScene implements IEventReceiver
 		if(event.getType() == Playfield.EVENT_BASE_DESTROYED)
 		{
 			onBaseDestroyedEvent(event);
+		}
+		
+		if(event.getType() == ButtonGlobals.BUTTON_DOWN_EVENT)
+		{
+			//
 		}
 	}
 	
@@ -140,6 +162,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		// UI
 		WaveUI waveUI = new WaveUI(_waveSystem);
+		ScoreUI scoreUI = new ScoreUI();
+		HealthUI healthUI = new HealthUI(_playfield.getPlayerBase().getComponent(HealthComponent.class));
 	}
 	
 	private void onBaseDestroyedEvent(Event event) 

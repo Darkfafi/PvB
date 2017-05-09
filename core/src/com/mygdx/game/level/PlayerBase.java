@@ -36,9 +36,7 @@ public class PlayerBase extends BaseEntity
 	@Override
 	protected void rendered(RenderComponents renderComponents) 
 	{
-		float nHealth = this.getComponent(HealthComponent.class).getNormalizedHealth();
-		renderComponents.getSpriteBatch().setColor(new Color(1,1 - (1 - nHealth),1 - (1 -nHealth),1));
-		renderComponents.getSpriteBatch().draw(_healthBarTexture, 0, 10, Engine.getWidth() * nHealth, 25);
+		
 	}
 
 }

@@ -4,11 +4,22 @@ import com.mygdx.game.engine.resources.BaseTextureResources;
 
 public class GameTextureResources extends BaseTextureResources 
 {
-	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
-	public static final String SPRITE_GAME_MENU_BACKGROUND = "menu_bg";
-	public static final String SPRITE_GAME_MENU_LOGO = "menu_logo";
+	public static final String UI_GAME_MENU_BACKGROUND = "menu_bg";
+	public static final String UI_GAME_MENU_LOGO = "menu_logo";
+	public static final String UI_GAME_MENU_PLAY_BTN = "button_play";
+	public static final String UI_GAME_MENU_PLAY_BTN_PRESSED = "button_play_pressed";
 	
-	public static final String SPRITE_GAME_MENU_PLAY_BTN = "button_play";
+	public static final String UI_INGAME_PAUSE_BTN = "button_pause";
+	public static final String UI_INGAME_RETRY_BTN = "button_retry";
+	public static final String UI_INGAME_RETRY_BTN_PRESSED = "button_retry_pressed";
+	public static final String UI_INGAME_GAMEOVER_FIELD = "gameover_field";
+	public static final String UI_INGAME_INTERFACE_GRADIENT = "interface_gradient";
+	public static final String UI_INGAME_NEW_HIGHSCORE = "new_highscore_icon";
+	public static final String UI_INGAME_SCORE_FIELD = "scorefield";
+	public static final String UI_INGAME_WAVE_FIELD = "wavefield";
+	public static final String UI_INGAME_HEALTHBAR = "health_bar";
+	
+	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
 	
 	public static final String SPRITE_BOW_AIM_TARGET = "bowAimTargetSprite";
 	public static final String SPRITE_HP_BAR = "hpBarSprite";
@@ -30,7 +41,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_LIGHT_BANDIT_0_ATTACK = "light_Bandit_0_Attack";
 	public static final String ANIMATION_LIGHT_BANDIT_1_ATTACK = "light_Bandit_1_Attack";
 	
-	public static final String ANIMATIO_TRAIN_WHEELS = "TrainWheels";
+	public static final String ANIMATION_TRAIN_WHEELS = "TrainWheels";
 	public static final String SPRITE_TRAIN_BASE = "TrainBase";
 	public static final String SPRITE_CART_BASE = "CartBase";
 	public static final String SPRITE_TRAIN_RAIL = "TrainRail";
@@ -43,16 +54,27 @@ public class GameTextureResources extends BaseTextureResources
 	public void load() 
 	{
 		
-		// Other
+		// UI
 		this.loadResource(SPRITE_GAME_BACKGROUND_01, "background_01.png");
-		this.loadResource(SPRITE_GAME_MENU_BACKGROUND, "menu_bg.png");
-		this.loadResource(SPRITE_GAME_MENU_LOGO, "menu_logo.png");
+		this.loadResource(UI_GAME_MENU_BACKGROUND, "menu_bg.png");
+		this.loadResource(UI_GAME_MENU_LOGO, "menu_logo.png");
 		
-		this.loadResource(SPRITE_GAME_MENU_PLAY_BTN, "button_play.png");
+		this.loadResource(UI_GAME_MENU_PLAY_BTN, "ui/button_play_02.png");
+		this.loadResource(UI_GAME_MENU_PLAY_BTN_PRESSED, "ui/button_play_02_onpush.png");
+		this.loadResource(UI_INGAME_PAUSE_BTN, "ui/button_pause.png");
+		this.loadResource(UI_INGAME_RETRY_BTN, "ui/button_retry.png");
+		this.loadResource(UI_INGAME_RETRY_BTN_PRESSED, "ui/button_retry_onpush.png");
+		this.loadResource(UI_INGAME_GAMEOVER_FIELD, "ui/gameover_field.png");
+		this.loadResource(UI_INGAME_INTERFACE_GRADIENT, "ui/interface_gradient.png");
+		this.loadResource(UI_INGAME_NEW_HIGHSCORE, "ui/new_highscore_icon.png");
+		this.loadResource(UI_INGAME_SCORE_FIELD, "ui/scorefield.png");
+		this.loadResource(UI_INGAME_WAVE_FIELD, "ui/wavefield.png");
+		this.loadResource(UI_INGAME_HEALTHBAR, "ui/game_healthbar.png");
 		
+		//Other
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
 		
-		this.loadResource(ANIMATIO_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
+		this.loadResource(ANIMATION_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");
 		this.loadResource(SPRITE_TRAIN_BASE, "train/train_base.png");
 		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
 		this.loadResource(SPRITE_TRAIN_RAIL, "train/rails.png");

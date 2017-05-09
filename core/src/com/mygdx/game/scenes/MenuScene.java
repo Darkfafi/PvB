@@ -10,9 +10,9 @@ import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.entities.ButtonEntity;
+import com.mygdx.game.events.ButtonEvent;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.InputGlobals;
-import com.mygdx.game.ui.ButtonEvent;
 
 /**
  * This scene is the main menu scene. 
@@ -21,9 +21,9 @@ import com.mygdx.game.ui.ButtonEvent;
  */
 public class MenuScene extends BaseScene implements IEventReceiver
 {
-	private RenderInfo _menuBG = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_BACKGROUND);
-	private RenderInfo _menuLogo = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_MENU_LOGO);
-	private ButtonEntity _playBtn = new ButtonEntity(GameTextureResources.SPRITE_GAME_MENU_PLAY_BTN);
+	private RenderInfo _menuBG = Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_GAME_MENU_BACKGROUND);
+	private RenderInfo _menuLogo = Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_GAME_MENU_LOGO);
+	private ButtonEntity _playBtn = new ButtonEntity(GameTextureResources.UI_GAME_MENU_PLAY_BTN);
 	
 	@Override
 	public void destroyed() {
