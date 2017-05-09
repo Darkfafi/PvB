@@ -29,7 +29,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 	
 	public BowDemonstrationTutorial(IWeapon bow, Playfield playfield)
 	{
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0.3f, 1), false);
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0f, 1), false);
 		this.getComponent(RenderComponent.class).setActiveState(false);
 		_bowWeapon = bow;
 		_playfield = playfield;

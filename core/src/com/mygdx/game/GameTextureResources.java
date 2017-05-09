@@ -60,8 +60,6 @@ public class GameTextureResources extends BaseTextureResources
 		// Placeholders
 		this.loadResource("testImage", "placeholders/badlogic.jpg");
 		this.loadResource(SPRITE_HP_BAR, "placeholders/hpBarPlaceholder.png");
-		this.loadResource(SPRITE_TOUCH_UP, "placeholders/touchFree.png");
-		this.loadResource(SPRITE_TOUCH_DOWN, "placeholders/touchPress.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
@@ -82,6 +80,11 @@ public class GameTextureResources extends BaseTextureResources
 		
 		// Traps
 		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
+		
+		// Tutorial
+
+		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");
+		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
 		
 	}
 }
