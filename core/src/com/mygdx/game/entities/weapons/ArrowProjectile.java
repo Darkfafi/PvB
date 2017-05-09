@@ -21,7 +21,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	private final float _SPEED = 1.3f;								// The speed of the arrow.
 	private final float _GROUND_LIFE_TIME = 3f; 					// The duration the arrow is alive on the ground
 	private final float _DAMAGE = 25f; 								// The arrow its damage on full potential
-	private final float _FULL_DAMAGE_DRAW_POWER_POTENTIAL = 22f; 	// On what draw power does this arrow do its full damage?
+	private final float _FULL_DAMAGE_DRAW_POWER_POTENTIAL = 15f; 	// On what draw power does this arrow do its full damage?
 	
 	// Track data
 	private float _currentSpeed = 0;

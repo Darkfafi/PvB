@@ -1,10 +1,8 @@
 package com.mygdx.game.entities.weapons;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
@@ -19,7 +17,10 @@ import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.globals.Tags;
+
+import aurelienribon.tweenengine.Tween;
 
 public class BowWeapon extends BaseEntity implements IWeapon
 {
@@ -43,9 +44,10 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	private long _bowDrawSoundInstance = -10;
 	private float _volumeDraw = 0;
 	
-	private Texture _aimTexture;
 	private ShapeRenderer _shapeRenderer;
 	private World _world;
+	
+	private BasicEntity _aimTarget;
 	
 	public BowWeapon(World world) 
 	{
@@ -75,7 +77,12 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	@Override
 	protected void awake() 
 	{
-		_aimTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET).getTextureToDraw();
+
+		_aimTarget = new BasicEntity();
+		_aimTarget.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), true)).setActiveState(false);
+		_aimTarget.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
+		_aimTarget.getTransformComponent().doScale(0.8f, 1.2f, 0.8f, true).getTween().repeatYoyo(Tween.INFINITY, 0.1f);
+		
 		_bowDrawSoundInstance = -1;
 		Animations animations = new Animations("draw", Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW), false);
 		this.addComponent(new AnimationComponent(animations, false, false)).setSortingLayer(2);
@@ -87,14 +94,13 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	{
 		if(_currentBowStage == BowStage.Draw)
 		{
-			//Vector2 aimLocation = new Vector2(_aimLocation.x, _aimLocation.y);
-			//getTransformComponent().lookAt(aimLocation, 0.2f);
 			this.getTransformComponent().setRotation(_aimAngle);
 			
 			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setVolume(_bowDrawSoundInstance, _volumeDraw);
 			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setPitch(_bowDrawSoundInstance, _drawStrength);
 			_volumeDraw = 0.1f;
 		}
+		
 		handleProjectilePlacement();
 	}
 	
@@ -104,7 +110,8 @@ public class BowWeapon extends BaseEntity implements IWeapon
 		_targetLocation = null;
 		_currentProjectile.destroy();
 		_currentProjectile = null;
-		_aimTexture = null;
+		_aimTarget.destroy();
+		_aimTarget = null;
 		_world = null;
 		_shapeRenderer.dispose();
 		_shapeRenderer = null;
@@ -124,20 +131,20 @@ public class BowWeapon extends BaseEntity implements IWeapon
 	@Override
 	protected void rendered(RenderComponents renderComponents) 
 	{
-		if(_currentProjectile == null || _aimTexture == null) { return;}
+		if(_currentProjectile == null || _aimTarget == null || _currentProjectile.getTransformComponent() == null) { return;}
 		if(_currentBowStage == BowStage.Draw)
 		{
 			final Vector2 landLocation = _currentProjectile.getLandingPositionWithDrawWeight(powerToDistancePower() * (_drawStrength * 0.88f));
 			
 			Vector2 turnVec = new Vector2(_currentProjectile.getTransformComponent().getUpwards());
 			turnVec.setLength(_currentProjectile.getComponent(RenderComponent.class).getRealHeight() / 2);
-			final Vector2 startPosition = new Vector2(_currentProjectile.getTransformComponent().getPositionX() + turnVec.x, _currentProjectile.getTransformComponent().getPositionY() + turnVec.y);
+			final Vector2 startPosition = new Vector2(_currentProjectile.getTransformComponent().getPositionX() + turnVec.x - 2f, _currentProjectile.getTransformComponent().getPositionY() + turnVec.y);
 			final Vector2 endPos = new Vector2(landLocation);
 			
-			// Draw target
-			renderComponents.getSpriteBatch().draw(_aimTexture, landLocation.x - _aimTexture.getWidth() / 2, landLocation.y - _aimTexture.getHeight() / 2, _aimTexture.getWidth(), _aimTexture.getHeight());
+			_aimTarget.getTransformComponent().setPosition(landLocation);
+			_aimTarget.getTransformComponent().setRotation((-turnVec.angle()) + 90);
+			_aimTarget.getComponent(RenderComponent.class).setAlpha(_drawStrength);
 			
-			// Draw Hit line
 			_world.rayCast(new RayCastCallback(){
 
 				@Override
@@ -160,39 +167,8 @@ public class BowWeapon extends BaseEntity implements IWeapon
 				}}, CollisionResources.convertToPPM(startPosition), CollisionResources.convertToPPM(landLocation));
 			
 			renderComponents.getSpriteBatch().end();
-
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			Gdx.gl.glLineWidth(3);
 			
-			_shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			Color c;
-			
-			if(endPos.len() != landLocation.len())
-				c = new Color(0.1f, 0.75f, 0.1f, 1f);
-			else
-				c = new Color(0.75f, 0.1f, 0.1f, 1f);
-				
-			_shapeRenderer.setColor(c.r, c.g, c.b, 0.5f);
-			Vector2 diff = new Vector2(endPos.x - startPosition.x, endPos.y - startPosition.y);
-			Vector2 cx1 = new Vector2(diff);
-			Vector2 cx2 = new Vector2(diff);
-			
-			cx1.x += 70;
-			cx2.x += 20;
-			
-			cx1.setLength(cx1.len() * 0.2f);
-			cx2.setLength(cx2.len() * 0.8f);
-			
-			cx1.x += startPosition.x;
-			cx1.y += startPosition.y;
-			cx2.x += startPosition.x;
-			cx2.y += startPosition.y;
-			
-			_shapeRenderer.curve(startPosition.x, startPosition.y, cx1.x, cx1.y, cx2.x, cx2.y, endPos.x, endPos.y, 50);
-			_shapeRenderer.end();
-
-			Gdx.gl.glDisable(GL20.GL_BLEND);
+			this.drawDottedLine(_shapeRenderer,(int)(5 + (15 * _drawStrength)), 1 + 1 *_drawStrength, startPosition.x, startPosition.y, endPos.x, endPos.y);
 			
 			renderComponents.getSpriteBatch().begin();
 		}
@@ -210,6 +186,8 @@ public class BowWeapon extends BaseEntity implements IWeapon
 		_targetLocation = new Vector2(posX, posY);
 		_radiusToTargetLoc = Vector2.dst(_targetLocation.x, _targetLocation.y, this.getTransformComponent().getPositionX(), 0);
 		_currentBowStage = BowStage.Draw;
+		
+		_aimTarget.getComponent(RenderComponent.class).setActiveState(true);
 		
 		_bowDrawSoundInstance = Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
 		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
@@ -282,6 +260,8 @@ public class BowWeapon extends BaseEntity implements IWeapon
 			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
 		
 		_bowDrawSoundInstance = -1;
+		
+		_aimTarget.getComponent(RenderComponent.class).setActiveState(false);
 	}
 	
 	// Bow & Projectile animation handling
@@ -313,5 +293,34 @@ public class BowWeapon extends BaseEntity implements IWeapon
 		v.x *= amount;
 		v.y *= amount;
 		return v;
+	}
+	
+	/**
+	 * Draws a dotted line between to points (x1,y1) and (x2,y2).
+	 * @param shapeRenderer which it needs to draw dots with
+	 * @param dotDist (distance between dots)
+	 * @param dotScaler indicates the extra scaling it gets towards the middle (0 == original, 1 == 2 times its original size)
+	 * @param x1 start x position line
+	 * @param y1 start y position line
+	 * @param x2 end x position line
+	 * @param y2 end y position line
+	 */
+	private void drawDottedLine(ShapeRenderer shapeRenderer, int dotDist, float dotScaler, float x1, float y1, float x2, float y2) {
+	    shapeRenderer.begin(ShapeType.Filled);
+	    Vector2 vec2 = new Vector2(x2, y2).sub(new Vector2(x1, y1));
+	    float length = vec2.len();
+	    for(int i = dotDist; i < length; i += dotDist) {
+	        vec2.clamp(length - i, length - i);
+	        float x = x1 + vec2.x;
+	        float y = y1 + vec2.y;
+	        
+	        float norm = i / length;
+	        if(norm > 0.5f)
+	        	norm = 1 - norm;
+	        
+	        shapeRenderer.circle(x, y, 2 + (2 * dotScaler) * (norm));
+	    }
+
+	    shapeRenderer.end();
 	}
 }
