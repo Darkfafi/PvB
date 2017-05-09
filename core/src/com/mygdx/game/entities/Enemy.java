@@ -26,8 +26,10 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		IdleState,
 		WalkState,
-		AttackState
+		AttackState,
+		DeathState
 	}
+	
 	private Animations _animations;
 	private float _deathTime = -1f;
 	private EnemyState _currentEnemyState = null;
@@ -87,6 +89,8 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	public void setEnemyState(EnemyState state, boolean setAnimation)
 	{
+		if(_currentEnemyState == EnemyState.DeathState) { return; } // Can't switch state when dead
+		
 		if(this.getComponent(AnimationComponent.class) == null) { return; }
 		
 		_currentEnemyState = state;
@@ -102,6 +106,9 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			break;
 		case WalkState:
 			this.getComponent(AnimationComponent.class).setCurrentAnimation("run", true);
+			break;
+		case DeathState:
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 			break;
 		default:
 			break;
@@ -240,6 +247,9 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
 		_hitEffectTimeTracker = 0;
+		
+		Effect hitEffect = new Effect();
+		
 		if(event.getNewHealth() == 0)
 		{
 			die();
@@ -263,11 +273,11 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		{
 			this.removeComponent(BasicEnemyAIComponent.class);
 		}
+		this.setEnemyState(EnemyState.DeathState, true);
 		
 		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
 		this.removeComponent(CollisionComponent.class);
-		this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 	}
 
