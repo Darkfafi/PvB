@@ -151,6 +151,7 @@ public class BowWeapon extends BaseEntity implements IWeapon
 				{
 					if(fixture.getUserData().getClass() != CollisionComponent.class) { return -1; }
 					CollisionComponent cc = (CollisionComponent)fixture.getUserData();
+					if(cc == null || cc.getParentOfComponent() == null) { return -1; }
 					if(!cc.getParentOfComponent().hasTag(Tags.TAG_ENEMY) && !cc.getParentOfComponent().hasTag(Tags.TAG_TRAP_ACTIVATOR)) { return -1;}
 					
 					Vector2 convertedPoint = CollisionResources.convertFromPPM(point);

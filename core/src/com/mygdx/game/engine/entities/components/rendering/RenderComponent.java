@@ -17,14 +17,13 @@ import aurelienribon.tweenengine.Tween;
  */
 public class RenderComponent extends BaseEntityComponent implements Comparable<RenderComponent>
 {
-	
 	private RenderInfo _renderInfo = null;
 	private int _currentFrameInfo = 0;
 	private Vector2 _pivot = new Vector2(0.5f, 0.5f);
 	private boolean _flipX = false;
 	private boolean _flipY = false;
 	private int _sortingLayer = 0;
-	private float _innerSortingLayer = 0f;
+	private double _innerSortingLayer = 0f;
 	private boolean _isUserInterface = false;
 	private boolean _isSortedOnY = false;
 	private Color _color = new Color(Color.WHITE);
@@ -87,7 +86,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * Returns the sorting value in the entity its layer which it is sorted on.
 	 * @return The higher the value the later it is rendered (The opposite of the normal Sort Layer)
 	 */
-	public float getInnerSortingLayer()
+	public double getInnerSortingLayer()
 	{
 		return _innerSortingLayer;
 	}
@@ -316,8 +315,8 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	// Overriding the compare method to sort the layer
 	public int compare(RenderComponent d, RenderComponent d1)
 	{
-		int value = (int)Math.floor(d.getCompareValue() - d1.getCompareValue());
-	  	value = (value == 0) ? 1 : value;
+		if(d.isDestroyed()) { return -1; }
+		int value = compare(d.getCompareValue(), d1.getCompareValue());
 		return value;
 	}
 	
@@ -326,8 +325,8 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	@Override
 	public int compareTo(RenderComponent comp) 
 	{
-		int value = (int)Math.floor(getCompareValue() - comp.getCompareValue());
-		value = (value == 0) ? 1 : value;
+		if(this.isDestroyed() || comp == null) { return 0; }
+		int value = compare(getCompareValue(), comp.getCompareValue());
 		return value;
 	}
 	
@@ -343,7 +342,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	{
 		if(isSortedOnY())
 		{
-			this.setInnerSortingLayer(this.getParentOfComponent().getTransformComponent().getPositionY() * 0.0001f);
+			this.setInnerSortingLayer(this.getParentOfComponent().getTransformComponent().getPositionY() * 0.000001);
 		}
 	}
 
@@ -359,12 +358,12 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * Sets the inner layer sorting value and clamps it between 0 and 0.95f.
 	 * @param value indicates the depth the entity should be rendered in its layer. The higher the value, the later it will be rendered.
 	 */
-	private void setInnerSortingLayer(float value)
+	private void setInnerSortingLayer(double value)
 	{
 		if(value < 0)
 			value = 0;
-		if(value > 0.95f)
-			value = 0.95f;
+		if(value >= 1)
+			value = 0.999999999999999999;
 		
 		_innerSortingLayer = value;
 	}
@@ -376,8 +375,23 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		
 	}
 	
-	private float getCompareValue()
+	private double getCompareValue()
 	{
-		return (((this.isUserInterface() ? 999f : 0f) + _sortingLayer + 0.95f) - _innerSortingLayer);
+		return (((this.isUserInterface() ? 999f : 0) + _sortingLayer + 0.95) - _innerSortingLayer);
+	}
+	
+	private int compare(double d1, double d2)
+	{
+         if (d1 < d2)
+             return -1;		// Neither val is NaN, thisVal is smaller
+         if (d1 > d2)
+             return 1;     	// Neither val is NaN, thisVal is larger
+ 
+         long thisBits = Double.doubleToLongBits(d1);
+         long anotherBits = Double.doubleToLongBits(d2);
+ 
+         return (thisBits == anotherBits ?  0 : // Values are equal
+                 (thisBits < anotherBits ? -1 : // (-0.0, 0.0) or (!NaN, NaN)
+                  1));                          // (0.0, -0.0) or (NaN, !NaN)
 	}
 }
