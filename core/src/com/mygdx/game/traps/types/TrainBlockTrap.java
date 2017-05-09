@@ -159,7 +159,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 			_train.destroy();
 			_train = null;
 		}
-		this.getGridUserComponent().removeGridOccupyTag(GridTags.OCCUPY_TAG_BLOCKED);
+		this.getGridUserComponent().removeGridOccupyTag(GridTags.OCCUPY_TAG_DAMAGING);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
 	}
 }

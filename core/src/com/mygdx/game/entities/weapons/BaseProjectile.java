@@ -43,15 +43,15 @@ public abstract class BaseProjectile extends BaseEntity
 		
 		if(heightStage == HeightStage.AboveGround)
 		{
-			multi = 1.1f;
+			multi = 1.05f;
 		}
 		else if(heightStage == HeightStage.GoodAir)
 		{
-			multi = 1.3f;
+			multi = 1.1f;
 		}
 		else if(heightStage == HeightStage.AboveAir)
 		{
-			multi = 1.33f;
+			multi = 1.15f;
 		}
 		else
 		{

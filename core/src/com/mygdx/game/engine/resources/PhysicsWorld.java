@@ -77,6 +77,15 @@ public class PhysicsWorld implements IEventReceiver
 		createNewBodies();
 	}
 
+	/**
+	 * Returns the world of the PhysicsWorld
+	 * @return World instance created by this PhysicsWorld class 
+	 */
+	public World getWorld()
+	{
+		return _world;
+	}
+	
 	public void render(RenderComponents rcs)
 	{
 		rcs.getSpriteBatch().setProjectionMatrix(_physicsCam.combined);

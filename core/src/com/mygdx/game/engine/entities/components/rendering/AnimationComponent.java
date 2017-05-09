@@ -34,6 +34,33 @@ public class AnimationComponent extends RenderComponent
 	}
 	
 	/**
+	 * Returns the animation speed in comparison to the frame rate (DEFAULT: 0.5 (30 fps on 60 fps game))
+	 * @return Animation speed in normalized value
+	 */
+	public float getAnimationSpeed()
+	{
+		return _animationSpeed;
+	}
+	
+	/**
+	 * Sets the animation speed in comparison to the frame rate (DEFAULT: 0.5 (30 fps on 60 fps game))
+	 * @param animationSpeed normalized value to set the new animation speed on
+	 */
+	public void setAnimationSpeed(float animationSpeed)
+	{
+		_animationSpeed = animationSpeed;
+	}
+	
+	/**
+	 * Returns the name of the current animation
+	 * @return The name of the current animation
+	 */
+	public String getCurrentAnimation()
+	{
+		return _currentAnimation;
+	}
+	
+	/**
 	 * Sets the current animation to the animation with the given name. 
 	 * The animations are defined in the Animations class given in the constructor.
 	 * @param animationName of the animation which should be set as current animation
@@ -41,6 +68,7 @@ public class AnimationComponent extends RenderComponent
 	 */
 	public void setCurrentAnimation(String animationName, boolean playOnSet)
 	{
+		if(animationName == getCurrentAnimation()) { return; }
 		stop();
 		this.setRenderInfo(_animations.getAnimation(animationName));
 		_currentAnimation = animationName;

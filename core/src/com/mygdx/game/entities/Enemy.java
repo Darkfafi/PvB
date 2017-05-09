@@ -4,18 +4,24 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.mygdx.game.components.EnemyPlayfieldAIComponent;
+import com.mygdx.game.Engine;
+import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
 import com.mygdx.game.score.GameScoreSystem;
 
@@ -25,18 +31,30 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		IdleState,
 		WalkState,
-		AttackState
+		AttackState,
+		DeathState
 	}
+	
 	private Animations _animations;
 	private float _deathTime = -1f;
-	private EnemyState _currentEnemyState = EnemyState.WalkState;
+	private EnemyState _currentEnemyState = null;
 	
 	private float _hitEffectTimeTracker = 0f;
-	
 	private int _baseScoreWorth = 0;
 	
-	public Enemy(Animations animations, float health, int baseScoreWorth)
+	private float _damageAmount;
+	
+	private Vector2 _targetLocation = new Vector2();
+	private HealthComponent _healthHitting;
+	private boolean _idleAnimationWhenReached = false;
+	private float _movementSpeed = 0;
+	private float _dmgDelayTime;
+	private float _timePassedUntilDmg = 0;
+	
+	public Enemy(Animations animations, float health, int baseScoreWorth, float damageAmount, float damageRate)
 	{
+		_damageAmount = damageAmount;
+		_dmgDelayTime = damageRate;
 		_animations = animations;
 		_baseScoreWorth = baseScoreWorth;
 		this.addComponent(new AnimationComponent(_animations, true, false));
@@ -47,10 +65,41 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.addComponent(new HealthComponent(health)).addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 	}
 	
-	public void setEnemyState(EnemyState state)
+	public EnemyState getEnemyState()
 	{
-		if(state == _currentEnemyState) { return; }
+		return _currentEnemyState;
+	}
+	
+	public void move(float x, float y, float movementSpeed, boolean idleAnimationWhenReached)
+	{
+		setEnemyState(EnemyState.WalkState, true);
+		_targetLocation.x = x;
+		_targetLocation.y = y;
+		_movementSpeed = movementSpeed;
+		_idleAnimationWhenReached = idleAnimationWhenReached;
+	}
+	
+	public void stopAction(boolean playIdleAnimation)
+	{
+		setEnemyState(EnemyState.IdleState, playIdleAnimation);
+	}
+	
+	public void attack(HealthComponent hc)
+	{
+		if(this._currentEnemyState == Enemy.EnemyState.AttackState) { return; }
+		stopAction(true);
+		setEnemyState(EnemyState.AttackState, true);
+		_healthHitting = hc;
+	}
+	
+	public void setEnemyState(EnemyState state, boolean setAnimation)
+	{
+		if(_currentEnemyState == EnemyState.DeathState) { return; } // Can't switch state when dead
+		
+		if(this.getComponent(AnimationComponent.class) == null) { return; }
+		
 		_currentEnemyState = state;
+		if(!setAnimation) { return; }
 		
 		switch(_currentEnemyState)
 		{
@@ -62,6 +111,9 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			break;
 		case WalkState:
 			this.getComponent(AnimationComponent.class).setCurrentAnimation("run", true);
+			break;
+		case DeathState:
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 			break;
 		default:
 			break;
@@ -80,7 +132,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		{
 			onAnimationStopped((AnimationEvent)event);
 		}
-		
 	}
 
 	@Override
@@ -136,6 +187,57 @@ public class Enemy extends BaseEntity implements IEventReceiver
 				_hitEffectTimeTracker = -1;
 			}
 		}
+		
+		// Movement
+		if(_currentEnemyState == EnemyState.WalkState && 
+				!(this.getTransformComponent().getPositionX() == _targetLocation.x 
+			&& this.getTransformComponent().getPositionY() == _targetLocation.y))
+		{
+			Vector2 dif = new Vector2(_targetLocation.x - this.getTransformComponent().getLocalPositionX(), _targetLocation.y - this.getTransformComponent().getPositionY());
+			
+			float realDif = dif.len();
+			
+			dif.nor();
+			dif.x *= (_movementSpeed * 1.5f) * (dt * Engine.getFrameRate());
+			dif.y *= _movementSpeed * (dt * Engine.getFrameRate());
+			
+			if(dif.len() > realDif)
+			{
+				dif.setLength(realDif);
+			}
+			
+			getTransformComponent().translatePosition(dif);
+			
+			if(this.getTransformComponent().getPositionX() == _targetLocation.x 
+			&& this.getTransformComponent().getPositionY() == _targetLocation.y)
+			{
+				this.stopAction(_idleAnimationWhenReached);
+			}
+		}
+		
+		// Attack
+		if(_currentEnemyState == EnemyState.AttackState)
+		{
+			_timePassedUntilDmg += dt;
+			if(_timePassedUntilDmg >= _dmgDelayTime)
+			{
+				_timePassedUntilDmg = 0;
+				
+				if(	this._healthHitting == null 
+					|| 	this._healthHitting.isDestroyed()
+					|| !this._healthHitting.isAlive()) 
+				{
+					this.stopAction(true); 
+				}
+				
+				this._healthHitting.damage(_damageAmount);
+				
+				if(!this._healthHitting.isAlive())
+				{
+					this.stopAction(true); 
+				}
+			}
+		}
 	}
 
 	@Override
@@ -150,12 +252,24 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
 		_hitEffectTimeTracker = 0;
+		
+		spawnHitEffect((event.getNewHealth() == 0) ? 1.35f : 1f);
+		
 		if(event.getNewHealth() == 0)
 		{
 			die();
 		}
 	}
 
+	private void spawnHitEffect(float scale)
+	{
+		EffectFactory.createHitEffect(
+				this.getTransformComponent().getPositionX(), 
+				this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() / 2, scale, 
+				new Color(174f/255f, 0, 0, 1)
+				).getAnimationComponent().setSortingLayer(this.getComponent(AnimationComponent.class).getSortingLayer() + 1);
+	}
+	
 	private void onAnimationStopped(AnimationEvent event) 
 	{
 		if(event.getAnimationName() == "death")
@@ -168,19 +282,26 @@ public class Enemy extends BaseEntity implements IEventReceiver
 
 	private void die() 
 	{
-		EnemyPlayfieldAIComponent c = this.getComponent(EnemyPlayfieldAIComponent.class);
+		BasicEnemyAIComponent c = this.getComponent(BasicEnemyAIComponent.class);
 		if(c != null)
 		{
-			this.removeComponent(EnemyPlayfieldAIComponent.class);
+			this.removeComponent(BasicEnemyAIComponent.class);
 		}
+		this.setEnemyState(EnemyState.DeathState, true);
+		
+		createBloodPool();
 		
 		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
 		this.removeComponent(CollisionComponent.class);
-		this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 	}
-
+	
+	private void createBloodPool()
+	{
+		EffectFactory.createBloodPool(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.25f, 1, 4f);
+	}
+	
 	@Override
 	protected void rendered(RenderComponents renderComponents) {
 		// TODO Auto-generated method stub

@@ -32,6 +32,7 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	 */
 	public TrapActivator(ITrap trapToLink)
 	{
+		this.addTag(Tags.TAG_TRAP_ACTIVATOR);
 		linkToTrap(trapToLink);
 	}
 	

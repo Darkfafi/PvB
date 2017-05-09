@@ -20,10 +20,9 @@ import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
 import com.mygdx.game.ui.HealthUI;
 import com.mygdx.game.ui.ScoreUI;
+import com.mygdx.game.tutorial.BowDemonstrationTutorial;
 import com.mygdx.game.ui.WaveUI;
 import com.mygdx.game.waves.WaveSystem;
-
-import tutorial.BowDemonstrationTutorial;
 
 /**
  * This scene is the main game scene. 
@@ -45,7 +44,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	
 	private float _waitForTutorial = -1;
 	
-	Preferences _preferences;
+	private Preferences _preferences;
 	
 	@Override
 	public void update(float dt) 
@@ -88,7 +87,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playfield.addEventListener(Playfield.EVENT_BASE_DESTROYED, this);
 		
 		// player spawn
-		_playerBow = new BowWeapon();
+		_playerBow = new BowWeapon(_physicsWorld.getWorld());
 		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
 		
 		// pause button
@@ -102,7 +101,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
-			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_playerBow);
+			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_playerBow, _playfield);
 			bdt.startTutorial(TUTORIAL_DURATION);
 			_waitForTutorial = 0;
 			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);

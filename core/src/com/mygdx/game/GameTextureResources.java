@@ -49,6 +49,11 @@ public class GameTextureResources extends BaseTextureResources
 
 	public static final String SPRITE_TOUCH_UP = "Touch_Up";
 	public static final String SPRITE_TOUCH_DOWN = "Touch_Down";
+
+
+	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
+	
+	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
 	
 	@Override
 	public void load() 
@@ -82,8 +87,6 @@ public class GameTextureResources extends BaseTextureResources
 		// Placeholders
 		this.loadResource("testImage", "placeholders/badlogic.jpg");
 		this.loadResource(SPRITE_HP_BAR, "placeholders/hpBarPlaceholder.png");
-		this.loadResource(SPRITE_TOUCH_UP, "placeholders/touchFree.png");
-		this.loadResource(SPRITE_TOUCH_DOWN, "placeholders/touchPress.png");
 		
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
@@ -105,5 +108,12 @@ public class GameTextureResources extends BaseTextureResources
 		// Traps
 		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
 		
+		// Tutorial
+		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");
+		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
+		
+		// Effects
+		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffectEpic.png", "effects/hitEffectEpic.xml");
+		this.loadResource(SHEET_BLOOD_POOL, "effects/bloodPool.png", "effects/bloodPool.xml");
 	}
 }

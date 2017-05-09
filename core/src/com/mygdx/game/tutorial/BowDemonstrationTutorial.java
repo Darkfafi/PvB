@@ -1,4 +1,4 @@
-package tutorial;
+package com.mygdx.game.tutorial;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
@@ -12,6 +12,7 @@ import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.entities.weapons.IWeapon;
 import com.mygdx.game.factories.EnemyFactory;
+import com.mygdx.game.level.Playfield;
 
 /**
  * This entity will handle the full course of a bow demonstration animation
@@ -21,24 +22,26 @@ import com.mygdx.game.factories.EnemyFactory;
 public class BowDemonstrationTutorial extends BaseEntity
 {
 	private IWeapon _bowWeapon;
+	private Playfield _playfield;
 	
 	private boolean _pulling = false;
 	private boolean _release = false;
 	
-	public BowDemonstrationTutorial(IWeapon bow)
+	public BowDemonstrationTutorial(IWeapon bow, Playfield playfield)
 	{
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0.3f, 1), false);
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0f, 1), false);
 		this.getComponent(RenderComponent.class).setActiveState(false);
 		_bowWeapon = bow;
+		_playfield = playfield;
 	}
 	
 	/**
 	 * Starts the tutorial which displays the computer taking over bow control, spawning and killing an enemy and spawning and killing an enemy with a trap.
 	 * @param duration on how long this tutorial animation must take.
 	 */
-	public void startTutorial(float duration)
+	public void startTutorial(final float duration)
 	{
-		Enemy enemy1;
+		final Enemy enemy1;
 		enemy1 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
 		enemy1.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
 		
@@ -51,11 +54,10 @@ public class BowDemonstrationTutorial extends BaseEntity
 					@Override
 					public void onMethod(int tweenEventType, EngineTween tween) 
 					{
-						enemy1.setEnemyState(Enemy.EnemyState.IdleState);
+						enemy1.setEnemyState(Enemy.EnemyState.IdleState, true);
 
 						getTransformComponent().setPosition(-100, -100);
 						getComponent(RenderComponent.class).setActiveState(true);
-						
 						// Enemy kill
 						shootUsingTarget(Engine.getWidth() / 2, Engine.getHeight() / 1f, duration * 0.333f, 0);
 
@@ -64,7 +66,9 @@ public class BowDemonstrationTutorial extends BaseEntity
 						
 						enemy2.getTransformComponent().doPosition(Engine.getWidth() / 1.2f, Engine.getHeight() / 1.4f, duration * 0.4166f, true).getTween().delay(duration * 0.275f);
 						
-						shootUsingTarget(100, Engine.getHeight() / 1f, duration * 0.333f, (duration * 0.333f) + 0.1f);
+						// Shooting train target
+						shootUsingTarget(_playfield.getLevelBlueprint().getTrapSpawnInfos()[0].getActivatorPosition() * Engine.getWidth(), 
+								Engine.getHeight() / 1f, duration * 0.333f, (duration * 0.333f) + 0.1f);
 						
 						getTransformComponent().doPosition(-100, -100, 2, true).getTween().delay(duration * 0.75f);
 					}
@@ -81,7 +85,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 	 * @param duration to how long the shot must take
 	 * @param delay on how long to wait until it does this animation.
 	 */
-	public void shootUsingTarget(float x, float y, float duration, float delay)
+	public void shootUsingTarget(final float x, final float y, final float duration, float delay)
 	{
 		_release = false;
 		_pulling = false;
@@ -147,6 +151,6 @@ public class BowDemonstrationTutorial extends BaseEntity
 	protected void destroyed() 
 	{
 		_bowWeapon = null;
+		_playfield = null;
 	}
-	
 }
