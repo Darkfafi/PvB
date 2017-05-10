@@ -35,6 +35,7 @@ public class TouchEvent extends Event
 	private int _pointer = -1;
 	private Vector2 _location;
 	private TouchType _touchType;
+	private int _touchLayer;
 	
 	/**
 	 * The touch event with all info
@@ -43,12 +44,13 @@ public class TouchEvent extends Event
 	 * @param touchType to identify what kind of touch it is.
 	 * @param type of event which the event represents.
 	 */
-	public TouchEvent(Vector2 location, int pointer, TouchType touchType, String type) 
+	public TouchEvent(Vector2 location, int pointer, TouchType touchType, String type, int touchLayer) 
 	{
 		super(type);
 		_pointer = pointer;
 		_location = location;
 		_touchType = touchType;
+		_touchLayer = touchLayer;
 	}
 	
 	/**
@@ -85,6 +87,15 @@ public class TouchEvent extends Event
 	public TouchType getTouchType()
 	{
 		return _touchType;
+	}
+	
+	/**
+	 * Returns the layer in which the touch occured.
+	 * @return The Touch layer as integer.
+	 */
+	public int getTouchLayer()
+	{
+		return _touchLayer;
 	}
 	
 	@Override

@@ -250,7 +250,10 @@ public class EntitySystem implements IEventReceiver
 		SpriteBatch sb = gameRenderComponents.getSpriteBatch();
 		RenderInfo ri = rc.getRenderInfo();
 		BaseEntity ce = rc.getParentOfComponent();
-
+		
+		if(!rc.getCallsRenderAfterEntityRender())
+			ce.render(gameRenderComponents);
+		
 		sb.setColor(rc.getColor());
 		if(ri != null)
 			sb.draw(
@@ -272,7 +275,9 @@ public class EntitySystem implements IEventReceiver
 				    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
 		
 		sb.setColor(new Color(Color.WHITE));
-		ce.render(gameRenderComponents);
+		
+		if(rc.getCallsRenderAfterEntityRender())
+			ce.render(gameRenderComponents);
 	}
 	
 	/**

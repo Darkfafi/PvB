@@ -27,6 +27,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	private boolean _isUserInterface = false;
 	private boolean _isSortedOnY = false;
 	private Color _color = new Color(Color.WHITE);
+	private boolean _callRenderMethodAfter = true;
 	
 	public RenderComponent(RenderInfo startRenderInfo, boolean isUI)
 	{
@@ -176,6 +177,25 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public RenderInfo getRenderInfo()
 	{
 		return _renderInfo;
+	}
+	
+	/**
+	 * Returns If true, that means the 'Rendered' method in the Entity is called after this component is rendered. Else, if false, it will be called before
+	 * @return True if rendered is called after, else false
+	 */
+	public boolean getCallsRenderAfterEntityRender()
+	{
+		return _callRenderMethodAfter;
+	}
+	
+	/**
+	 * Sets render order.
+	 * If true, that means the 'Rendered' method in the Entity is called after this component is rendered. Else, if false, it will be called before
+	 * @param renderAfterEntityRender means: True, it will call the 'rendered' method after the entity is rendered, else false
+	 */
+	public void setCallsRenderAfterEntityRender(boolean renderAfterEntityRender)
+	{
+		_callRenderMethodAfter = renderAfterEntityRender;
 	}
 	
 	/**
@@ -375,11 +395,21 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		
 	}
 	
+	/**
+	 * Returns the sort value of this RenderComponent
+	 * @return Compare value as Double
+	 */
 	private double getCompareValue()
 	{
 		return (((this.isUserInterface() ? 999f : 0) + _sortingLayer + 0.95) - _innerSortingLayer);
 	}
 	
+	/**
+	 * The compare logics for the sorting algorithm
+	 * @param d1 first value to compare
+	 * @param d2 second value to compare
+	 * @return 1 if d1 is preferred, else -1
+	 */
 	private int compare(double d1, double d2)
 	{
          if (d1 < d2)

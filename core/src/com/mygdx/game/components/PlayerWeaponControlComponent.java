@@ -56,9 +56,10 @@ public class PlayerWeaponControlComponent extends BaseEntityComponent implements
 	
 	protected void onTouchEvent(TouchEvent event) 
 	{
+		if(event.getTouchLayer() != 0) { return; } 
+		
 		int x = event.getTouchX();
 		int y = event.getTouchY();
-		
 		switch(event.getTouchType())
 		{
 		case Dragged:

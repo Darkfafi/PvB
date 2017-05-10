@@ -11,6 +11,7 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 {
 	private int _screenHeight = 0;
 	private int _screenWidth = 0;
+	private int _currentTouchLayer = 0;
 	
 	/**
 	 * The info for the touchInputHandler requires the screen size to calculate the position and bounds.
@@ -57,8 +58,8 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	{
 		if(!inScreenBounds(screenX, screenY)){return false;}
 		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_STARTED_EVENT));
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_STARTED_EVENT, getCurrentTouchLayer()));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Started, InputGlobals.TOUCH_EVENT, getCurrentTouchLayer()));
 		return true;
 	}
 
@@ -67,8 +68,8 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	{
 		if(!inScreenBounds(screenX, screenY)){return false;}
 		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_ENDED_EVENT));
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_ENDED_EVENT, getCurrentTouchLayer()));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Ended, InputGlobals.TOUCH_EVENT, getCurrentTouchLayer()));
 		return true;
 	}
 
@@ -77,9 +78,27 @@ public class TouchInputHandler extends EventDispatcher implements ApplicationLis
 	{
 		if(!inScreenBounds(screenX, screenY)){return false;}
 		Vector2 pos = new Vector2(screenX,_screenHeight - screenY);
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_DRAGGED_EVENT));
-		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_EVENT));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_DRAGGED_EVENT, getCurrentTouchLayer()));
+		this.dispatchEvent(new TouchEvent(pos, pointer, TouchEvent.TouchType.Dragged, InputGlobals.TOUCH_EVENT, getCurrentTouchLayer()));
 		return true;
+	}
+	
+	/**
+	 * Sets the touch layer in which all the following touches will occur. This can be used to make certain parts of the game 'Not intractable'
+	 * @param layer to set the following touches to.
+	 */
+	public void setCurrentTouchLayer(int layer)
+	{
+		_currentTouchLayer = layer;
+	}
+	
+	/**
+	 * Returns the touch layer in which all the touches occur. This can be used to make certain parts of the game 'Not intractable'
+	 * @return Touch layer as integer.
+	 */
+	public int getCurrentTouchLayer()
+	{
+		return _currentTouchLayer;
 	}
 	
 	public float getX(int pointer)
