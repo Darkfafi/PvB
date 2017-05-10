@@ -66,4 +66,21 @@ public class TrapFactory
 				return null;
 		}
 	}
+	
+	/**
+	 * Returns the amount of counts an activator for this trap needs in order to reset.
+	 * @param trapType which the activator represents
+	 * @return the amount of counts needed as integer.
+	 */
+	public static int getCountAmountForTrapReset(TrapType trapType)
+	{
+		switch(trapType)
+		{
+			case Block_TrainTrap:
+				return 1;
+			default:
+				System.out.println("Type count amount for reset not set! Please do in the TrapFactory");
+				return 0;
+		}
+	}
 }

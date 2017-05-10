@@ -39,16 +39,18 @@ public class TrapSpawn extends BaseEntity
 	/**
 	 * Spawns a trap and trap activator and positions them and links them.
 	 */
-	public void spawnTrap(float activatorPosition, int countsToReset)
+	public void spawnTrap(float activatorPosition)
 	{
-		_countsNeededToReset = countsToReset;
 		_countsSinceReset = 0;
 		if(_trapSpawned != null)
 		{
 			_trapSpawned.destroy();
-		}
+		} 
 		
-		_trapSpawned = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _info.getTrapFaceDirection(), _grid);
+		TrapFactory.TrapType typeSpawning = _info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)];
+		_trapSpawned = TrapFactory.createTrap(typeSpawning, _info.getTrapFaceDirection(), _grid);
+		_countsNeededToReset = TrapFactory.getCountAmountForTrapReset(typeSpawning);
+		
 		int farLeftSide = _trapSpawned.place(_info.getGridPosX(), _info.getGridPosY());
 		
 		int tileSide = (int)((farLeftSide + Math.ceil(_trapSpawned.getSizeX() * activatorPosition)) * _grid.getTileWidth());

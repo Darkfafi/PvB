@@ -10,6 +10,7 @@ import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
+import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.traps.TrapSpawn;
 import com.mygdx.game.traps.TrapSpawnInfo;
 
@@ -45,7 +46,7 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		for(int i = 0; i < infos.length; i++)
 		{
 			_trapSpawns.add(new TrapSpawn(infos[i], _grid));
-			_trapSpawns.get(i).spawnTrap(infos[i].getActivatorPosition(), 1);
+			_trapSpawns.get(i).spawnTrap(infos[i].getActivatorPosition());
 		}
 	}
 	
