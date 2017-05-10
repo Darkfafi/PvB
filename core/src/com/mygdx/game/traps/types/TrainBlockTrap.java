@@ -71,6 +71,12 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		}	
 	}
 	
+	@Override
+	public boolean canBeActive()
+	{
+		return _train == null;
+	}
+	
 	protected void onCollisionEvent(CollisionEvent event)
 	{
 		if(event.getOtherCollisionComponent() == null || event.getOtherCollisionComponent().getParentOfComponent() == null) { return ;}

@@ -60,7 +60,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		{
 			_waitForTutorial += dt;
 			
-			if(_waitForTutorial >= TUTORIAL_DURATION + 4)
+			if(_waitForTutorial >= TUTORIAL_DURATION + 1)
 			{
 				_waitForTutorial = -1;
 				startGame();

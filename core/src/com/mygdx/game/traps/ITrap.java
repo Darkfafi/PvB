@@ -21,4 +21,10 @@ public interface ITrap
 	 * @return Y size in tile amount
 	 */
 	public int getSizeY();
+	
+	/**
+	 * Indicates whether this trap is allowed to be active. This can be false due to it still running or other reasons the trap gives it
+	 * @return Whether the trap can be activated. True if it can, else false
+	 */
+	public boolean canBeActive();
 }

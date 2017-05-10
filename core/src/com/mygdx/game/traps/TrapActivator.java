@@ -29,6 +29,7 @@ import com.mygdx.game.globals.Tags;
 public class TrapActivator extends BaseEntity implements IEventReceiver
 {
 	private ITrap _linkedTrap;
+	private boolean _requestedActivateTrap = false;
 	
 	/**
 	 * The trap activator needs to be linked to a trap in order to trigger it on activation.
@@ -47,6 +48,7 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	public void linkToTrap(ITrap trapToLink)
 	{
 		_linkedTrap = trapToLink;
+		activateTrap();
 	}
 	
 	public boolean isActivatorActive()
@@ -63,23 +65,34 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 		}
 	}
 	
+	/**
+	 * Returns the local position of the target of this activator (The bullseye)
+	 * @return The target location in its local space.
+	 */
 	public Vector2 getLocalTargetLocation()
 	{
 		return new Vector2(-this.getComponent(AnimationComponent.class).getRealWidth() * 0.25f, this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 	}
 	
+	/**
+	 * Activates the trap activator. Making it able to be hit & triggered. 
+	 * If the trap is not able to be activated at this frame, this activator will wait until it is and then activate itself.
+	 */
 	public void activateTrap()
 	{
 		if(isActivatorActive()) { return; }
-		this.getComponent(AnimationComponent.class).setCurrentAnimation("activate", true);
-		this.getComponent(CollisionComponent.class).setActiveState(true);
+		_requestedActivateTrap = true;
 	}
 	
+	/**
+	 * Deactivates the trap activator. Making it unable to be hit & triggered. 
+	 */
 	public void deactivateTrap()
 	{
 		if(!isActivatorActive()) { return;}
 		this.getComponent(AnimationComponent.class).setCurrentAnimation("trigger", true);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
+		_requestedActivateTrap = false;
 	}
 	
 	@Override
@@ -103,13 +116,23 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 		_fixDef.shape = shape;
 		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_TRAP_ACTIVATOR);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
-		activateTrap();
 	}
 	
 	@Override
 	protected void updated(float dt) 
 	{
-		
+		if(_requestedActivateTrap)
+		{
+			if(_linkedTrap == null) {_requestedActivateTrap = false; return; }
+			
+			if(_linkedTrap.canBeActive())
+			{
+				this.getComponent(AnimationComponent.class).setCurrentAnimation("activate", true);
+				this.getComponent(CollisionComponent.class).setActiveState(true);
+			}
+			
+			_requestedActivateTrap = !isActivatorActive();
+		}
 	}
 
 	@Override
