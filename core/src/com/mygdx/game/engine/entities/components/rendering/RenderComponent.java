@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
+import com.mygdx.game.engine.entities.components.TransformComponent;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 
@@ -99,7 +100,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	public int getSortingLayer()
 	{
-		return _sortingLayer;
+		int value = _sortingLayer;
+		
+		
+		return value;
 	}
 	
 	/**
@@ -401,7 +405,24 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 */
 	private double getCompareValue()
 	{
-		return (((this.isUserInterface() ? 999f : 0) + _sortingLayer + 0.95) - _innerSortingLayer);
+		int sl = _sortingLayer;
+		TransformComponent parent = this.getParentOfComponent().getTransformComponent().getParent();
+		RenderComponent rc = null;
+		if(parent != null)
+		{
+			rc = parent.getParentOfComponent().getComponent(RenderComponent.class);
+			if(rc == null)
+			{
+				rc = parent.getParentOfComponent().getComponent(AnimationComponent.class);
+			}
+			
+			if(rc != null)
+			{
+				sl += rc.getSortingLayer();
+			}
+		}
+		
+		return (((this.isUserInterface() ? 999f : 0) + sl + 0.95) - _innerSortingLayer);
 	}
 	
 	/**

@@ -21,12 +21,33 @@ import com.mygdx.game.touchinput.TouchEvent;
  */
 public class ButtonEntity extends BaseEntity implements IEventReceiver 
 {
+	public static final int ANY_TOUCH_LAYER = -1337;
+	
+	private int _touchLayer = ANY_TOUCH_LAYER;
 	private RenderComponent _renderComponent;
 	private boolean _isButtonPressed;
 	
 	public ButtonEntity(String buttonAtlas)
 	{
 		_renderComponent = this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(buttonAtlas), true));
+	}
+	
+	/**
+	 * Sets the touch layer in which the button can be interacted with.
+	 * @param layer of the button (DEFAULT: ButtonEntity.ANY_TOUCH_LAYER (-1337))
+	 */
+	public void setButtonTouchLayer(int layer)
+	{
+		_touchLayer = layer;
+	}
+	
+	/**
+	 * Gets the touch layer in which the button can be interacted with.
+	 * @return layer of the button (DEFAULT: ButtonEntity.ANY_TOUCH_LAYER (-1337))
+	 */
+	public int getButtonTouchLayer()
+	{
+		return _touchLayer;
 	}
 	
 	/**
@@ -101,8 +122,9 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 	
 	private void onTouchEvent(TouchEvent event)
 	{
-		Vector2 touchPos = new Vector2();
+		if(this.getButtonTouchLayer() != ANY_TOUCH_LAYER && this.getButtonTouchLayer() != event.getTouchLayer()) { return; }
 		
+		Vector2 touchPos = new Vector2();
 		if(event.getTouchType() == TouchEvent.TouchType.Started)
 		{
 			touchPos.x = event.getTouchX();
@@ -114,9 +136,9 @@ public class ButtonEntity extends BaseEntity implements IEventReceiver
 			float buttonTextureWidth = getRenderComponent().getCurrentTexture().getWidth();
 			float buttonTextureHeight = getRenderComponent().getCurrentTexture().getHeight();
 			
-			if(touchPos.x > (position.x - buttonTextureWidth * pivotX) && touchPos.x < position.x + buttonTextureWidth)
+			if(touchPos.x > (position.x - buttonTextureWidth * pivotX) && touchPos.x < position.x + buttonTextureWidth * pivotX)
 			{
-				if(touchPos.y > (position.y - buttonTextureHeight * pivotY) && touchPos.y < position.y + buttonTextureHeight)
+				if(touchPos.y > (position.y - buttonTextureHeight * pivotY) && touchPos.y < position.y + buttonTextureHeight * pivotY)
 				{
 					if(getRenderComponent().getRenderInfo().getFramesLength() > 1)
 					{

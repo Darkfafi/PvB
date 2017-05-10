@@ -19,6 +19,9 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String UI_INGAME_WAVE_FIELD = "wavefield";
 	public static final String UI_INGAME_HEALTHBAR = "health_bar";
 	
+	public static final String UI_POP_UP_PAUSE = "PausePopUp";
+	public static final String UI_BUTTON_CONTINUE = "ContinueButton";
+	
 	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
 	
 	public static final String SPRITE_BOW_AIM_TARGET = "bowAimTargetSprite";
@@ -52,6 +55,7 @@ public class GameTextureResources extends BaseTextureResources
 
 
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
+	public static final String ANIMATION_EFFECT_EXPLOSION = "ExplosionEffect_Animation";
 	
 	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
 	
@@ -75,6 +79,8 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(UI_INGAME_SCORE_FIELD, "ui/scorefield.png");
 		this.loadResource(UI_INGAME_WAVE_FIELD, "ui/wavefield.png");
 		this.loadResource(UI_INGAME_HEALTHBAR, "ui/game_healthbar.png");
+		this.loadResource(UI_BUTTON_CONTINUE, "ui/button_continue.png");
+		
 		
 		//Other
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
@@ -115,5 +121,9 @@ public class GameTextureResources extends BaseTextureResources
 		// Effects
 		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffectEpic.png", "effects/hitEffectEpic.xml");
 		this.loadResource(SHEET_BLOOD_POOL, "effects/bloodPool.png", "effects/bloodPool.xml");
+		this.loadResource(ANIMATION_EFFECT_EXPLOSION, "effects/explosion.png", "effects/explosion.xml");
+		
+		// Pop Ups
+		this.loadResource(UI_POP_UP_PAUSE, "popups/paused_field.png");
 	}
 }

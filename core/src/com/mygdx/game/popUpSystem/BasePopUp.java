@@ -43,6 +43,9 @@ public abstract class BasePopUp extends BaseEntity
 		}
 		
 		PopUpSystem.getInstance().registerPopUp(this);
+		
+
+		onPopUpAwake();
 	}
 	
 	/**
@@ -119,6 +122,7 @@ public abstract class BasePopUp extends BaseEntity
 	@Override
 	protected void awake() 
 	{
+		
 	}
 
 	@Override
@@ -147,6 +151,7 @@ public abstract class BasePopUp extends BaseEntity
 	@Override
 	protected void destroyed() 
 	{
+		onPopUpDestroyed();
 		if(_shapeRenderer != null)
 		{
 			_shapeRenderer.dispose();
@@ -158,4 +163,6 @@ public abstract class BasePopUp extends BaseEntity
 		PopUpSystem.getInstance().unregisterPopUp(this);
 	}
 
+	protected abstract void onPopUpDestroyed();
+	protected abstract void onPopUpAwake();
 }

@@ -18,10 +18,12 @@ import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
+import com.mygdx.game.popUpSystem.BasePopUp;
+import com.mygdx.game.popUps.PausePopUp;
 import com.mygdx.game.score.GameScoreSystem;
+import com.mygdx.game.tutorial.BowDemonstrationTutorial;
 import com.mygdx.game.ui.HealthUI;
 import com.mygdx.game.ui.ScoreUI;
-import com.mygdx.game.tutorial.BowDemonstrationTutorial;
 import com.mygdx.game.ui.WaveUI;
 import com.mygdx.game.waves.WaveSystem;
 
@@ -33,7 +35,6 @@ import com.mygdx.game.waves.WaveSystem;
 public class GameScene extends BaseScene implements IEventReceiver
 {
 	public static final boolean DEVELOPMENT_RESET_GAME_PREFS_EVERY_PLAY = true;
-	
 	public static float TUTORIAL_DURATION = 8f;
 	
 	private PhysicsWorld _physicsWorld;
@@ -93,6 +94,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		// pause button
 		_pauseBtn = new ButtonEntity(GameTextureResources.UI_INGAME_PAUSE_BTN);
+		_pauseBtn.setButtonTouchLayer(0);
 		_pauseBtn.getTransformComponent().setPosition(
 				(Engine.getWidth() - (_pauseBtn.getRenderComponent().getCurrentTexture().getWidth() / 2)) - 10, 
 				(Engine.getHeight() - (_pauseBtn.getRenderComponent().getCurrentTexture().getHeight() / 2)) - 10
@@ -152,7 +154,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		if(event.getType() == ButtonGlobals.BUTTON_DOWN_EVENT)
 		{
-			//
+			PausePopUp ppu = new PausePopUp(true);
+			ppu.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() / 2);
 		}
 		
 		if(event.getType() == WaveSystem.EVENT_WAVE_STARTED)
@@ -182,6 +185,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 	
 	private void onBaseDestroyedEvent(Event event) 
 	{
+		_playerBow.removeComponent(PlayerWeaponControlComponent.class);
+		//TODO: Spawn End Screen
 		this.getScenesManager().setScene(GameScenesManager.MENU_SCENE);
 	}
 	
