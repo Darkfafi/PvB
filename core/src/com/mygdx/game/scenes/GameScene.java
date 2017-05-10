@@ -71,8 +71,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	public void render() 
 	{
-		_playfield.render(this.getRenderComponents(), true);
-		_physicsWorld.render(getRenderComponents());
+		_playfield.render(this.getRenderComponents(), false);
+		//_physicsWorld.render(getRenderComponents());
 	}
 
 	@Override
