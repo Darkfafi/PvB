@@ -48,10 +48,11 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		{
 			float dmg = (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL) * _DAMAGE;
 			hc.damage(dmg);
-			this.setHeightStage(HeightStage.Idle);
-			this.destroy();
 			Engine.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_ENEMY).play(0.8f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), ((float)Math.random() * 0.3f) + 0.9f, 0f);
 		}
+
+		this.setHeightStage(HeightStage.Idle);
+		this.destroy();
 	}
 
 	public Vector2 getLandingPositionWithDrawWeight(float drawWeight)

@@ -15,7 +15,6 @@ public class AnimationComponent extends RenderComponent
 	public static final String EVENT_ANIMATION_STOPPED = "AnimationStoppedEvent";
 	
 	// Trackers
-	private int _newIndex = 0;
 	private float _timePassed = 0;
 	private boolean _isRunning = false;
 	private boolean _isPaused = false;
@@ -25,6 +24,7 @@ public class AnimationComponent extends RenderComponent
 	// Options
 	private float _animationSpeed = 0.5f; // At 60 fps this will be 30 fps
 	private boolean _isLooping = true;
+	private boolean _isBackwards = false;
 	
 	public AnimationComponent(Animations animations, boolean playOnCreation, boolean isUI) 
 	{
@@ -71,8 +71,13 @@ public class AnimationComponent extends RenderComponent
 		if(animationName == getCurrentAnimation()) { return; }
 		stop();
 		this.setRenderInfo(_animations.getAnimation(animationName));
+		
 		_currentAnimation = animationName;
-		_isLooping = _animations.getLoopAnimation(animationName);
+		_isLooping = _animations.isLoopAnimation(animationName);
+		_isBackwards = _animations.isBackwardsAnimation(animationName);
+		
+		this.reset();
+		
 		if(playOnSet)
 			play();
 	}
@@ -172,7 +177,10 @@ public class AnimationComponent extends RenderComponent
 	 */
 	public void reset()
 	{
-		this.setCurrentFrameInfo(0);
+		if(!_isBackwards)
+			this.setCurrentFrameInfo(0);
+		else
+			this.setCurrentFrameInfo(getAnimationLength() - 1);
 	}
 	
 	@Override
@@ -185,15 +193,20 @@ public class AnimationComponent extends RenderComponent
 	public void update(float deltaTime) 
 	{
 		super.update(deltaTime);
-		
 		if(isPlaying())
 		{
 			_timePassed += deltaTime * _animationSpeed;
 			if(_timePassed >= Engine.getFrameStep())
 			{
+				int newIndex;
 				_timePassed -=  Engine.getFrameStep();
-				_newIndex = this.getCurrentFrameInfo() + 1;
-				if(_newIndex >= this.getRenderInfo().getFramesLength())
+				
+				if(!_isBackwards)
+					newIndex = this.getCurrentFrameInfo() + 1;
+				else
+					newIndex = this.getCurrentFrameInfo() - 1;
+				
+				if(isEndFrame(newIndex))
 				{
 					if(_isLooping)
 					{
@@ -207,7 +220,7 @@ public class AnimationComponent extends RenderComponent
 						return;
 					}
 				}
-				this.setCurrentFrameInfo(_newIndex);
+				this.setCurrentFrameInfo(newIndex);
 			}
 		}
 	}
@@ -229,5 +242,13 @@ public class AnimationComponent extends RenderComponent
 			this.unpause();
 		else
 			this.pause();
+	}
+	
+	private boolean isEndFrame(int indexFrame)
+	{
+		if(!_isBackwards)
+			return indexFrame >= this.getRenderInfo().getFramesLength();
+		
+		return indexFrame < 0;
 	}
 }

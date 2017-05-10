@@ -32,8 +32,6 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 	
 	private Train _train;
 	
-	private float _cooldownWaited = 0;
-	
 	public TrainBlockTrap(Grid grid, Direction direction) 
 	{
 		super(grid, direction);
@@ -92,15 +90,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 	@Override
 	protected void updated(float dt) 
 	{
-		if(!this.canBeTriggered())
-		{
-			_cooldownWaited += dt;
-			if(_cooldownWaited >= COOLDOWN_TIME)
-			{
-				_cooldownWaited = 0f;
-				canBeTriggered = true;
-			}
-		}
+		
 	}
 
 	@Override

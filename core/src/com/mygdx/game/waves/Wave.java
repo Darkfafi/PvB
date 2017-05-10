@@ -81,6 +81,10 @@ public class Wave implements IEventReceiver
 	{
 		if(_waveInfos.size() > 0)
 		{
+			_timeInSection = 0;
+			_currentSection = 0;
+			_amountSpawnedThisSection = 0;
+			clearTrackingEnemies();
 			_isRunningWave = true;
 		}
 		else
@@ -142,13 +146,19 @@ public class Wave implements IEventReceiver
 		_waveInfos = null;
 		_waveSystem = null;
 		
+		clearTrackingEnemies();
+		
+		_enemiesTracking = null;
+	}
+	
+	private void clearTrackingEnemies()
+	{
 		for(int i = _enemiesTracking.size() - 1; i >= 0; i--)
 		{
 			removeFromTrack(_enemiesTracking.get(i));
 		}
 		
 		_enemiesTracking.clear();
-		_enemiesTracking = null;
 	}
 	
 	/**

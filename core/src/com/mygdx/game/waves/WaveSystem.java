@@ -2,9 +2,10 @@ package com.mygdx.game.waves;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.components.BasicEnemyAIComponent;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.factories.EnemyFactory;
-import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.GridTile;
 import com.mygdx.game.level.Playfield;
 
@@ -14,8 +15,10 @@ import com.mygdx.game.level.Playfield;
  * @author Ramses Di Perna
  *
  */
-public class WaveSystem 
+public class WaveSystem extends EventDispatcher
 {
+	public static final String EVENT_WAVE_STARTED = "WaveStartedEvent";
+	
 	private Playfield _playfield;
 	private int _currentWave = 1;
 	
@@ -34,6 +37,7 @@ public class WaveSystem
 		_designs = waveDesigns;
 		_wave = _designs.getWaveDesign(this, _currentWave, 0);
 		_wave.startWave();
+		this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
 	}
 	
 	/**
@@ -60,6 +64,7 @@ public class WaveSystem
 				_currentWave++;
 				_wave = _designs.getWaveDesign(this, _currentWave, 1);
 				_wave.startWave();
+				this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
 			}
 		}
 	}

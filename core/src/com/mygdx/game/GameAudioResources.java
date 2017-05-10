@@ -12,6 +12,7 @@ public class GameAudioResources extends BaseAudioResources
 	
 	public static final String SOUND_ARROW_HIT_NOTHING = "ArrowHitNothing";
 	public static final String SOUND_ARROW_HIT_ENEMY = "ArrowHitEnemy";
+	public static final String SOUND_ARROW_HIT_TARGET = "ArrowHitTarget";
 	
 	public static final String SOUND_TRAP_TRAIN_EFFECT = "TrainEffect";
 	
@@ -26,6 +27,7 @@ public class GameAudioResources extends BaseAudioResources
 		
 		this.loadResourceSound(SOUND_ARROW_HIT_NOTHING, "audio/effects/AUD_SG_ArrowHit_Wood.wav");
 		this.loadResourceSound(SOUND_ARROW_HIT_ENEMY, "audio/effects/AUD_SG_ArrowHit_Enemy.wav");
+		this.loadResourceSound(SOUND_ARROW_HIT_TARGET, "audio/effects/AUD_SG_ArrowHit_Target.wav");
 		
 		this.loadResourceSound(SOUND_TRAP_TRAIN_EFFECT, "audio/effects/trainSoundEffect.mp3");
 	}

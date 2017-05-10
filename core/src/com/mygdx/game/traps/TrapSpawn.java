@@ -1,7 +1,6 @@
 package com.mygdx.game.traps;
 
 import com.mygdx.game.engine.entities.BaseEntity;
-import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.level.Grid;
@@ -17,7 +16,11 @@ public class TrapSpawn extends BaseEntity
 {
 	private TrapSpawnInfo _info;
 	private TrapActivator _activator;
+	private BaseTrap _trapSpawned;
 	private Grid _grid;
+	
+	private int _countsSinceReset = 0;
+	private int _countsNeededToReset = 0;
 	
 	/**
 	 * The TrapSpawn needs get information on what traps its able to spawn and on what grid. It positions itself using the info given.
@@ -36,24 +39,50 @@ public class TrapSpawn extends BaseEntity
 	/**
 	 * Spawns a trap and trap activator and positions them and links them.
 	 */
-	public void spawnTrap(float activatorPosition)
+	public void spawnTrap(float activatorPosition, int countsToReset)
 	{
-		BaseTrap t = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _info.getTrapFaceDirection(), _grid);
-		int farLeftSide = t.place(_info.getGridPosX(), _info.getGridPosY());
+		_countsNeededToReset = countsToReset;
+		_countsSinceReset = 0;
+		if(_trapSpawned != null)
+		{
+			_trapSpawned.destroy();
+		}
 		
-		int tileSide = (int)((farLeftSide + Math.ceil(t.getSizeX() * activatorPosition)) * _grid.getTileWidth());
+		_trapSpawned = TrapFactory.createTrap(_info.getTrapsAbleToSpawn()[(int) Math.ceil(Math.random() * _info.getTrapsAbleToSpawn().length - 1)], _info.getTrapFaceDirection(), _grid);
+		int farLeftSide = _trapSpawned.place(_info.getGridPosX(), _info.getGridPosY());
 		
-		float _activatorXPos = tileSide - _activator.getComponent(RenderComponent.class).getRealWidth() / 2;
+		int tileSide = (int)((farLeftSide + Math.ceil(_trapSpawned.getSizeX() * activatorPosition)) * _grid.getTileWidth());
+		
+		float _activatorXPos = tileSide;
 		if(_info.getGridPosX() != farLeftSide)
 		{
 			_activatorXPos *= -1;
 			_activatorXPos += _grid.getTileWidth();
 		}
 		
-		_activator.linkToTrap(t);
+		_activator.linkToTrap(_trapSpawned);
 		_activator.getTransformComponent().setPosition(_activatorXPos, -45);
 	}
-
+	
+	public void countForResetTrap()
+	{
+		_countsSinceReset++;
+		if(_countsSinceReset >= _countsNeededToReset)
+		{
+			resetTrap();
+		}
+	}
+	
+	public void forceResetTrap()
+	{
+		resetTrap();
+	}
+	
+	public TrapActivator getTrapActivator()
+	{
+		return _activator;
+	}
+	
 	@Override
 	protected void awake() 
 	{
@@ -77,6 +106,24 @@ public class TrapSpawn extends BaseEntity
 	{
 		_info = null;
 		_grid = null;
+		
+		if(_activator != null)
+			_activator.destroy();
+		
 		_activator = null;
+		
+		if(_trapSpawned != null)
+			_trapSpawned.destroy();
+		
+		_trapSpawned = null;
+	}
+	
+	private void resetTrap()
+	{
+		_countsSinceReset = 0;
+		if(_activator != null)
+		{
+			_activator.activateTrap();
+		}
 	}
 }

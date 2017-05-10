@@ -18,6 +18,7 @@ import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
+import com.mygdx.game.score.GameScoreSystem;
 import com.mygdx.game.ui.HealthUI;
 import com.mygdx.game.ui.ScoreUI;
 import com.mygdx.game.tutorial.BowDemonstrationTutorial;
@@ -59,7 +60,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		{
 			_waitForTutorial += dt;
 			
-			if(_waitForTutorial >= TUTORIAL_DURATION)
+			if(_waitForTutorial >= TUTORIAL_DURATION + 4)
 			{
 				_waitForTutorial = -1;
 				startGame();
@@ -70,8 +71,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	public void render() 
 	{
-		_playfield.render(this.getRenderComponents(), false);
-		//_physicsWorld.render(getRenderComponents());
+		_playfield.render(this.getRenderComponents(), true);
+		_physicsWorld.render(getRenderComponents());
 	}
 
 	@Override
@@ -127,7 +128,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		_physicsWorld.clean();
 		_physicsWorld = null;
-		
+
+		_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
 		_waveSystem.clean();
 		_waveSystem = null;
 		
@@ -152,12 +154,25 @@ public class GameScene extends BaseScene implements IEventReceiver
 		{
 			//
 		}
+		
+		if(event.getType() == WaveSystem.EVENT_WAVE_STARTED)
+		{
+			if(_playfield != null)
+				_playfield.countForResetTraps();
+		}
 	}
 	
 	private void startGame()
 	{
+		_playfield.forceResetTraps();
+		
 		_playerBow.addComponent(new PlayerWeaponControlComponent(_playerBow));
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
+
+		_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
+		_waveSystem.addEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
+		
+		GameScoreSystem.getInstance().endScoreSession(false);
 		
 		// UI
 		WaveUI waveUI = new WaveUI(_waveSystem);

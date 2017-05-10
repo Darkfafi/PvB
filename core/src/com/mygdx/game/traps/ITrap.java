@@ -21,10 +21,4 @@ public interface ITrap
 	 * @return Y size in tile amount
 	 */
 	public int getSizeY();
-	
-	/**
-	 * Indicates if the trap is able to be triggered or not.
-	 * @return True if it is able to be triggered, else false
-	 */
-	public boolean canBeTriggered();
 }

@@ -27,7 +27,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_BOW_DRAW = "bowDraw";
 	public static final String ANIMATION_BOW_ARROW = "arrowFly";
 	
-	public static final String SPRITE_TRAP_ACTIVATOR = "TrapActivator";
+	public static final String ANIMATION_TRAP_ACTIVATOR_TURN = "TrapActivatorTrunAnim";
 	
 	public static final String ANIMATION_LIGHT_BANDIT_0_IDLE = "light_Bandit_0_Idle";
 	public static final String ANIMATION_LIGHT_BANDIT_1_IDLE = "light_Bandit_1_Idle";
@@ -106,7 +106,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_LIGHT_BANDIT_1_ATTACK,"enemies/banditBAttack.png", "enemies/banditBAttack.xml");
 		
 		// Traps
-		this.loadResource(SPRITE_TRAP_ACTIVATOR, "traps/target_03.png");
+		this.loadResource(ANIMATION_TRAP_ACTIVATOR_TURN, "traps/targetTurn.png", "traps/targetTurn.xml");
 		
 		// Tutorial
 		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");

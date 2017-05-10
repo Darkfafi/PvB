@@ -76,8 +76,7 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	@Override
 	public void trigger()
 	{
-		if(this.canBeTriggered())
-			doEffect();
+		doEffect();
 	}
 	
 	/**

@@ -22,8 +22,19 @@ public class Animations
 	 */
 	public Animations(String defaultAnimationName, RenderInfo defaultAnimationRenderInfo, boolean loopAnimation)
 	{
-		_defaultAnimationName = defaultAnimationName;
-		setAnimation(defaultAnimationName, defaultAnimationRenderInfo, loopAnimation);
+		initialize(defaultAnimationName, defaultAnimationRenderInfo, loopAnimation, false);
+	}
+	
+	/**
+	 * The animation needs a default starting point. This starting point can be overwritten by 'setAnimation' but can not be removed with 'removeAnimation'
+	 * @param defaultAnimationName to call the default animation by. This can be requested by the method 'getDefaultAnimationName'
+	 * @param defaultAnimationRenderInfo which is used as animation. This can be requested by the method 'getDefaultAnimation'
+	 * @param loopAnimation indicates whether this animation should loop when it has reached its end frame
+	 * @param backwards indicates whether this animation should be played from the last from to the first or not. True is last to first, false is first to last.
+	 */
+	public Animations(String defaultAnimationName, RenderInfo defaultAnimationRenderInfo, boolean loopAnimation, boolean backwards)
+	{
+		initialize(defaultAnimationName, defaultAnimationRenderInfo, loopAnimation, backwards);
 	}
 	
 	/**
@@ -33,11 +44,21 @@ public class Animations
 	 */
 	public void setAnimation(String name, RenderInfo renderInfo, boolean loopAnimation)
 	{
+		setAnimation(name, renderInfo, loopAnimation, false);
+	}
+	
+	/**
+	 * Creates or replaces an animation under the given name with the given RenderInfo
+	 * @param name to call the animation by
+	 * @param renderInfo which is used as animation
+	 */
+	public void setAnimation(String name, RenderInfo renderInfo, boolean loopAnimation, boolean backwards)
+	{
 		if(_animations.containsKey(name))
 		{
 			_animations.get(name).clear();
 		}
-		_animations.put(name, new Animation(renderInfo, loopAnimation));
+		_animations.put(name, new Animation(renderInfo, loopAnimation, backwards));
 	}
 	
 	/**
@@ -72,7 +93,7 @@ public class Animations
 	 * @param name of the needed animation to get loop information for
 	 * @return If the animation was meant to be played as a loop or not.
 	 */
-	public boolean getLoopAnimation(String name)
+	public boolean isLoopAnimation(String name)
 	{
 		if(_animations.containsKey(name))
 			return _animations.get(name).LoopAnimation;
@@ -80,6 +101,20 @@ public class Animations
 		System.out.println("WARNING: Animation with name '" + name + "' not defined!");
 		return false;
 			
+	}
+	
+	/**
+	 * Returns the original backwards purpose set for the animation
+	 * @param name of the needed animation to get backwards information for
+	 * @return Of the animations was meant to be played backwards or not
+	 */
+	public boolean isBackwardsAnimation(String name)
+	{
+		if(_animations.containsKey(name))
+			return _animations.get(name).BackWardsAnimation;
+		
+		System.out.println("WARNING: Animation with name '" + name + "' not defined!");
+		return false;
 	}
 	
 	/**
@@ -115,15 +150,30 @@ public class Animations
 		_defaultAnimationName = null;
 	}
 	
+	/**
+	 * The animation needs a default starting point. This starting point can be overwritten by 'setAnimation' but can not be removed with 'removeAnimation'
+	 * @param defaultAnimationName to call the default animation by. This can be requested by the method 'getDefaultAnimationName'
+	 * @param defaultAnimationRenderInfo which is used as animation. This can be requested by the method 'getDefaultAnimation'
+	 * @param loopAnimation indicates whether this animation should loop when it has reached its end frame
+	 * @param backwards indicates whether this animation should be played from the last from to the first or not. True is last to first, false is first to last.
+	 */
+	private void initialize(String defaultAnimationName, RenderInfo defaultAnimationRenderInfo, boolean loopAnimation, boolean backwards)
+	{
+		_defaultAnimationName = defaultAnimationName;
+		setAnimation(defaultAnimationName, defaultAnimationRenderInfo, loopAnimation, backwards);
+	}
+	
 	private class Animation
 	{
 		public RenderInfo RenderInfo;
 		public boolean LoopAnimation;
+		public boolean BackWardsAnimation;
 		
-		public Animation(RenderInfo renderInfo, boolean loopAnimation)
+		public Animation(RenderInfo renderInfo, boolean loopAnimation, boolean backwards)
 		{
 			RenderInfo = renderInfo;
 			LoopAnimation = loopAnimation;
+			BackWardsAnimation = backwards;
 		}
 		
 		public void clear()
