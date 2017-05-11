@@ -20,12 +20,16 @@ public class DesertLevel implements ILevelBlueprint
 		
 		Wave wave = new Wave(waveSystem, isKillTillEndWave);
 		
-		wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(2, currentWave), 2 + countForEachOnWave(2, currentWave) * 1.5f);
+		wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
 		
 		if(waveType > 0)
 		{
-			wave.addSection(EnemyFactory.EnemyType.LightBandit, 2, 8);
-			wave.addSection(EnemyFactory.EnemyType.LightBandit, 5, 20);
+			wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(3, currentWave), 4 + countForEachOnWave(3, currentWave) * 1.5f);
+			if(currentWave % 5 == 0)
+			{
+				wave.addSection(EnemyFactory.EnemyType.LightBandit, 5, 0);				
+			}
+			wave.addSection(EnemyFactory.EnemyType.LightBandit, 1 + countForEachOnWave(2, currentWave), 4 + countForEachOnWave(2, currentWave) * 1.5f);			
 		}
 		
 		return wave;
