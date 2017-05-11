@@ -51,7 +51,10 @@ public class MenuScene extends BaseScene implements IEventReceiver
 		getRenderComponents().getSpriteBatch().begin();
 		
 		//Draw the Background on the menu.
-		getRenderComponents().getSpriteBatch().draw(_menuBG.getTextureToDraw(), 0, 0, _menuBG.getTextureToDraw().getWidth(), _menuBG.getTextureToDraw().getHeight());
+		float offsetX = _menuBG.getTextureToDraw().getWidth() - Engine.getWidth();
+		float offsetY = _menuBG.getTextureToDraw().getHeight() - Engine.getHeight();
+		
+		getRenderComponents().getSpriteBatch().draw(_menuBG.getTextureToDraw(), -offsetX / 2, -offsetY / 2, _menuBG.getTextureToDraw().getWidth(), _menuBG.getTextureToDraw().getHeight());
 		
 		//Draw the Game Logo on the menu.
 		getRenderComponents().getSpriteBatch().draw(_menuLogo.getTextureToDraw(), 10, Engine.getHeight() - (_menuLogo.getTextureToDraw().getHeight() + 80), _menuLogo.getTextureToDraw().getWidth(), _menuLogo.getTextureToDraw().getHeight());
