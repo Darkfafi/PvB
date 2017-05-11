@@ -7,6 +7,13 @@ package com.mygdx.game.entities.weapons;
  */
 public interface IWeapon 
 {
+	public enum WeaponType
+	{
+		BowType
+	}
+	
+	public WeaponType getWeaponType();
+	
 	/**
 	 * Where the touch is when it starts controlling the weapon
 	 * @param x position of the touch
@@ -27,4 +34,6 @@ public interface IWeapon
 	 * @param y position of the touch
 	 */
 	public void endControl(int x, int y);
+	
+	public void clean();
 }

@@ -7,7 +7,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.PlayerWeaponControlComponent;
-import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
@@ -18,7 +18,6 @@ import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
-import com.mygdx.game.popUpSystem.BasePopUp;
 import com.mygdx.game.popUps.PausePopUp;
 import com.mygdx.game.score.GameScoreSystem;
 import com.mygdx.game.tutorial.BowDemonstrationTutorial;
@@ -90,7 +89,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		// player spawn
 		_playerBow = new BowWeapon(_physicsWorld.getWorld());
-		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(AnimationComponent.class).getRealHeight() / 2 + 20));
+		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(RenderComponent.class).getRealHeight() / 2 + 20));
 		
 		// pause button
 		_pauseBtn = new ButtonEntity(GameTextureResources.UI_INGAME_PAUSE_BTN);
