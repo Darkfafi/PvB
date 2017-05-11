@@ -33,7 +33,7 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	 */
 	public int place(int gridXPos, int gridYPos)
 	{
-		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - (this.getSizeX());
+		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - (this.getSizeX() - 1);
 		getTransformComponent().setPosition(_grid.getTileWorldPosition(xPosGrid, gridYPos));
 		_gridUserComponent.placeSelfOnLocation(xPosGrid, gridYPos);
 		return xPosGrid;

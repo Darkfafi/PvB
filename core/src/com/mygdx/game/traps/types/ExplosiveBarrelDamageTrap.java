@@ -34,6 +34,14 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 	}
 	
 	@Override
+	public int place(int x, int y)
+	{
+		int value = super.place(x, y);
+		this.getTransformComponent().translatePosition(new Vector2(this.getGrid().getTileWidth() / 2, this.getGrid().getTileHeight() / 2));
+		return value;
+	}
+	
+	@Override
 	public int getSizeX() {
 		// TODO Auto-generated method stub
 		return 1;
