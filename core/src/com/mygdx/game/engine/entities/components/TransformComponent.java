@@ -181,13 +181,14 @@ public class TransformComponent extends BaseEntityComponent
 	public void setParent(TransformComponent parent)
 	{
 		if(_parent == parent) { return; }
-		
 		if(_parent != null)
 			_parent._childeren.remove(this);
 		
 		_parent = parent;
 		if(_parent != null)
+		{
 			_parent._childeren.add(this);
+		}
 	}
 	
 	/**
@@ -219,8 +220,8 @@ public class TransformComponent extends BaseEntityComponent
 	public void translatePosition(Vector2 delta)
 	{
 		Vector2 deltaToPosition = new Vector2(delta.x, delta.y);
-		deltaToPosition.x += this.getPositionX();
-		deltaToPosition.y += this.getPositionY();
+		deltaToPosition.x += this.getLocalPositionX();
+		deltaToPosition.y += this.getLocalPositionY();
 		setPosition(deltaToPosition);
 	}
 	
@@ -230,14 +231,14 @@ public class TransformComponent extends BaseEntityComponent
 	 */
 	public void translateRotation(float deltaRotation)
 	{
-		setRotation(_rotation + deltaRotation);
+		setRotation(this.getLocalRotation() + deltaRotation);
 	}
 	
 	public void translateScale(Vector2 delta)
 	{
 		Vector2 deltaToScale = new Vector2(delta.x, delta.y);
-		deltaToScale.x += this.getScaleX();
-		deltaToScale.y += this.getScaleY();
+		deltaToScale.x += this.getLocalScaleX();
+		deltaToScale.y += this.getLocalScaleY();
 		this.setScale(deltaToScale);	
 	}
 	

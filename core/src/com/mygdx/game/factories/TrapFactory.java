@@ -2,6 +2,7 @@ package com.mygdx.game.factories;
 
 import com.mygdx.game.level.Grid;
 import com.mygdx.game.traps.types.BaseTrap;
+import com.mygdx.game.traps.types.ExplosiveBarrelDamageTrap;
 import com.mygdx.game.traps.types.TrainBlockTrap;
 
 /**
@@ -24,7 +25,8 @@ public class TrapFactory
 	 */
 	public enum TrapType
 	{
-		Block_TrainTrap
+		Block_TrainTrap,
+		Damage_BarrelExplosionTrap
 	}
 	
 	
@@ -62,6 +64,8 @@ public class TrapFactory
 		{
 			case Block_TrainTrap:
 				return new TrainBlockTrap(grid, direction);
+			case Damage_BarrelExplosionTrap:
+				return new ExplosiveBarrelDamageTrap(grid, direction, 100, 150);
 			default:
 				return null;
 		}
@@ -77,6 +81,8 @@ public class TrapFactory
 		switch(trapType)
 		{
 			case Block_TrainTrap:
+				return 1;
+			case Damage_BarrelExplosionTrap:
 				return 1;
 			default:
 				System.out.println("Type count amount for reset not set! Please do in the TrapFactory");

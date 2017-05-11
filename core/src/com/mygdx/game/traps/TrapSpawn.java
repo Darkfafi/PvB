@@ -51,12 +51,12 @@ public class TrapSpawn extends BaseEntity
 		_trapSpawned = TrapFactory.createTrap(typeSpawning, _info.getTrapFaceDirection(), _grid);
 		_countsNeededToReset = TrapFactory.getCountAmountForTrapReset(typeSpawning);
 		
-		int farLeftSide = _trapSpawned.place(_info.getGridPosX(), _info.getGridPosY());
+		_trapSpawned.place(_info.getGridPosX(), _info.getGridPosY());
 		
-		int tileSide = (int)((farLeftSide + Math.ceil(_trapSpawned.getSizeX() * activatorPosition)) * _grid.getTileWidth());
+		int tileSide = (int)((Math.ceil(_trapSpawned.getSizeX() * activatorPosition)) * _grid.getTileWidth());
 		
 		float _activatorXPos = tileSide;
-		if(_info.getGridPosX() != farLeftSide)
+		if(_trapSpawned.getDirection() == TrapFactory.Direction.Left)
 		{
 			_activatorXPos *= -1;
 			_activatorXPos += _grid.getTileWidth();

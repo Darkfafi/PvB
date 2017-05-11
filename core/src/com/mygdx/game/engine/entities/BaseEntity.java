@@ -227,6 +227,15 @@ public abstract class BaseEntity extends EventDispatcher
 	}
 	
 	/**
+	 * Returns true if this entity has been destroyed this frame, else false
+	 * @return true if this entity has been destroyed this frame, else false
+	 */
+	public boolean isDestroyed()
+	{
+		return _isDestroyed;
+	}
+	
+	/**
 	 * Is called when the Entity is instantiated. 
 	 */
 	protected abstract void awake();

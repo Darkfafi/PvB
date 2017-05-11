@@ -128,7 +128,8 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 			if(_linkedTrap.canBeActive())
 			{
 				this.getComponent(AnimationComponent.class).setCurrentAnimation("activate", true);
-				this.getComponent(CollisionComponent.class).setActiveState(true);
+				this.getComponent(CollisionComponent.class).setActiveState(true);	
+				_linkedTrap.refresh();
 			}
 			
 			_requestedActivateTrap = !isActivatorActive();

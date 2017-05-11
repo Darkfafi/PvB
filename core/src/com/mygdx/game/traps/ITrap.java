@@ -27,4 +27,9 @@ public interface ITrap
 	 * @return Whether the trap can be activated. True if it can, else false
 	 */
 	public boolean canBeActive();
+	
+	/**
+	 * Is called when the trap is requested to be available again.
+	 */
+	public void refresh();
 }

@@ -158,4 +158,10 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		this.getGridUserComponent().removeGridOccupyTag(GridTags.OCCUPY_TAG_DAMAGING);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
 	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
 }

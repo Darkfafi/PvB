@@ -55,9 +55,11 @@ public class GameTextureResources extends BaseTextureResources
 
 
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
+	public static final String ANIMATION_EFFECT_EXPLOSION_SMALL = "ExplosionEffectSmall_Animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_BIG = "ExplosionEffectBig_Animation";
 	
 	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
+	public static final String SHEET_EXPLOSIVE_BARREL_TRAP = "ExplosiveBarrelSheetTrap";
 	
 	@Override
 	public void load() 
@@ -113,7 +115,7 @@ public class GameTextureResources extends BaseTextureResources
 		
 		// Traps
 		this.loadResource(ANIMATION_TRAP_ACTIVATOR_TURN, "traps/targetTurn.png", "traps/targetTurn.xml");
-		
+		this.loadResource(SHEET_EXPLOSIVE_BARREL_TRAP, "traps/explosiveBarrel.png", "traps/explosiveBarrel.xml");
 		// Tutorial
 		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");
 		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
@@ -122,6 +124,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffectEpic.png", "effects/hitEffectEpic.xml");
 		this.loadResource(SHEET_BLOOD_POOL, "effects/bloodPool.png", "effects/bloodPool.xml");
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_BIG, "effects/bigExplosion.png", "effects/bigExplosion.xml");
+		this.loadResource(ANIMATION_EFFECT_EXPLOSION_SMALL, "effects/smallExplosion.png", "effects/smallExplosion.xml");
 		
 		// Pop Ups
 		this.loadResource(UI_POP_UP_PAUSE, "popups/paused_field.png");

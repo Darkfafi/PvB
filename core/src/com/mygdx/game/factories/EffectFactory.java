@@ -18,6 +18,17 @@ import com.mygdx.game.entities.Effect;
 public class EffectFactory 
 {
 	/**
+	 * The type of the explosion for explosion effects
+	 * @author Ramses Di Perna
+	 *
+	 */
+	public enum ExplosionType
+	{
+		SmallExplosion,
+		BigExplosion
+	}
+	
+	/**
 	 * Creates a hit effect and deletes it when its finished.
 	 * @param xPosition to spawn hit effect
 	 * @param yPosition to spawn hit effect
@@ -64,5 +75,48 @@ public class EffectFactory
 			}}).getTween().delay(0.25f);
 		
 		return bloodBlood;
+	}
+	
+	public static Effect createExplosionEffect(ExplosionType explosionType, float xPosition, float yPosition, final float scale)
+	{
+		float shakeValue = 0;
+		String explosionRenderInfoKey = null;
+		float scaleMultiplier = 1;
+		switch(explosionType)
+		{
+		case BigExplosion:
+			shakeValue = 7;
+			scaleMultiplier = 1.5f;
+			explosionRenderInfoKey = GameTextureResources.ANIMATION_EFFECT_EXPLOSION_BIG;
+			break;
+		case SmallExplosion:
+			shakeValue = 3.5f;
+			scaleMultiplier = 1.5f;
+			explosionRenderInfoKey = GameTextureResources.ANIMATION_EFFECT_EXPLOSION_SMALL;
+			break;
+		default:
+			System.out.println("Warning: ExplosionType: " + explosionType + " not defined. Please do in the EffectFactory!");
+			shakeValue = 0;
+			explosionRenderInfoKey = null;
+			break;
+		
+		}
+		
+		Effect explosionEffect = new Effect(Engine.getTextureResources().getRenderInfo(explosionRenderInfoKey), false);
+		
+		explosionEffect.getTransformComponent().setPosition(xPosition, yPosition);
+		
+		explosionEffect.getTransformComponent().setScale(new Vector2(scale * scaleMultiplier, scale * scaleMultiplier));
+		explosionEffect.getAnimationComponent().setPivot(new Vector2(0.5f, 0f),  false);
+		explosionEffect.getAnimationComponent().setAnimationSpeed(0.4f);
+		shakeValue *= scale;
+		
+		if(shakeValue > 20)
+		{
+			shakeValue = 20;
+		}
+		
+		Engine.getSceneManager().getRenderComponents().getMainCamera().doShake(shakeValue, 0.7f);
+		return explosionEffect;	
 	}
 }

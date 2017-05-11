@@ -33,7 +33,7 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	 */
 	public int place(int gridXPos, int gridYPos)
 	{
-		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - (this.getSizeX() - 1);
+		int xPosGrid = (_direction == TrapFactory.Direction.Right) ? gridXPos : gridXPos - (this.getSizeX());
 		getTransformComponent().setPosition(_grid.getTileWorldPosition(xPosGrid, gridYPos));
 		_gridUserComponent.placeSelfOnLocation(xPosGrid, gridYPos);
 		return xPosGrid;
@@ -59,7 +59,7 @@ public abstract class BaseTrap extends BaseEntity implements ITrap
 	 * Returns the direction which the trap is facing.
 	 * @return The direction the trap is facing
 	 */
-	protected TrapFactory.Direction getDirection()
+	public TrapFactory.Direction getDirection()
 	{
 		return _direction;
 	}
