@@ -93,7 +93,7 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 			{
 				_explosiveBarrels[_currentIndex].triggerBarrel();
 				_currentIndex++;
-				_delayExplosionTracker = 0;
+				_delayExplosionTracker = 0.05f;
 				if(_currentIndex >= _explosiveBarrels.length)
 				{
 					_delayExplosionTracker = -1;

@@ -25,6 +25,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String UI_ELEMENT_NEW_HIGHSCORE_MARK = "NewHighscoreMark";
 	
 	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
+	public static final String SPRITE_GAME_ROOF = "roofLevel";
 	
 	public static final String SPRITE_BOW_AIM_TARGET = "bowAimTargetSprite";
 	public static final String SPRITE_HP_BAR = "hpBarSprite";
@@ -87,6 +88,7 @@ public class GameTextureResources extends BaseTextureResources
 		
 		
 		//Other
+		this.loadResource(SPRITE_GAME_ROOF, "Roof_01.png");
 		this.loadResource(SPRITE_BOW_AIM_TARGET, "target.png");
 		
 		this.loadResource(ANIMATION_TRAIN_WHEELS,"train/trainWheels.png", "train/trainWheels.xml");

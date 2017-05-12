@@ -63,7 +63,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		{
 			_waitForTutorial += dt;
 			
-			if(_waitForTutorial >= TUTORIAL_DURATION + 1)
+			if(_waitForTutorial >= TUTORIAL_DURATION + 2f)
 			{
 				_waitForTutorial = -1;
 				startGame();
@@ -179,6 +179,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 	{
 		_playfield.forceResetTraps();
 		
+		_playfield.getLevelBlueprint().getLevelMusic().setVolume(0.3f);
+		_playfield.getLevelBlueprint().getLevelMusic().play();
+		
 		_playerBow.addComponent(new PlayerWeaponControlComponent(_playerBow));
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
 
@@ -213,6 +216,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 
 		EndScreenPopUp espp = new EndScreenPopUp(true);
 		espp.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() / 2);
+		espp.displayEndScreen(GameScoreSystem.getInstance().getScore(), _waveSystem.getCurrentWave(), GameScoreSystem.getInstance().getBestScore());
+
+		GameScoreSystem.getInstance().endScoreSession(true);
 	}
 	
 	private void resetGamePrefs()

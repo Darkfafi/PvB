@@ -1,10 +1,15 @@
 package com.mygdx.game.popUps;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.scenes.GameScenesManager;
@@ -12,10 +17,30 @@ import com.mygdx.game.scenes.GameScenesManager;
 public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 {
 	private ButtonEntity _continueButton;
+	private TextEntity _scoreValueText;
+	private TextEntity _wavesValueText;
+	private TextEntity _highscoreValueText;
 	
+	private int _scoreToDisplay, _waveToDisplay, _highscoreToDisplay;
+	private boolean _isDisplaying = false;
 	public EndScreenPopUp(boolean isCoverPopUp) 
 	{
 		super(isCoverPopUp);
+	}
+
+	public void displayEndScreen(int score, int wave, int highscore)
+	{
+		if(_isDisplaying) { return; }
+		_scoreToDisplay = score;
+		_waveToDisplay = wave;
+		_highscoreToDisplay = highscore;
+		startDisplay();
+ 	}
+	
+	private void startDisplay() 
+	{
+		_isDisplaying = true;
+		spawnTexts();
 	}
 
 	@Override
@@ -34,19 +59,86 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		this.getRenderComponent().setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_POP_UP_GAME_OVER));
 		
 		// Button
-		_continueButton = new ButtonEntity(GameTextureResources.UI_BUTTON_CONTINUE);
+		_continueButton = new ButtonEntity(GameTextureResources.UI_INGAME_RETRY_BTN);
 		_continueButton.getTransformComponent().setParent(getTransformComponent());
 		_continueButton.getTransformComponent().translatePosition(new Vector2(0, -this.getRenderComponent().getRealHeight() * 0.34f));
-		super.onPopUpAwake();
 		
 		_continueButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
+		super.onPopUpAwake();
 	}
 	
+	private void spawnTexts() 
+	{
+		_scoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), Integer.toString(_scoreToDisplay), true);
+		_wavesValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS), Integer.toString(_waveToDisplay), true);
+		_highscoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), Integer.toString(_highscoreToDisplay), true);
+		
+		int fontSize = 7;
+		int titleFontSize = 4;
+		
+		Color highscoreColor = new Color(1f, 228f/255f, 0, 1);
+		
+		TextEntity scoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "SCORE:", true);
+		TextEntity waveTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "WAVE:", true);
+		TextEntity highscoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "HIGHSCORE:", true);
+		
+		_scoreValueText.getTransformComponent().setParent(getTransformComponent());
+		_wavesValueText.getTransformComponent().setParent(getTransformComponent());
+		_highscoreValueText.getTransformComponent().setParent(getTransformComponent());
+		
+		scoreTitle.getTransformComponent().setParent(getTransformComponent());
+		waveTitle.getTransformComponent().setParent(getTransformComponent());
+		highscoreTitle.getTransformComponent().setParent(getTransformComponent());
+		
+		scoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
+		waveTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
+		highscoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
+		
+		scoreTitle.setFontSize(titleFontSize);
+		waveTitle.setFontSize(titleFontSize);
+		highscoreTitle.setFontSize(titleFontSize);
+		
+		highscoreTitle.getRenderComponent().setColor(highscoreColor);
+		_highscoreValueText.getRenderComponent().setColor(highscoreColor);
+		
+		_scoreValueText.setFontSize(fontSize);
+		_wavesValueText.setFontSize(fontSize);
+		_highscoreValueText.setFontSize(fontSize);
+		
+		_scoreValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
+		_wavesValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
+		_highscoreValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
+		
+		float yDeltaScore = this.getRenderComponent().getCurrentTexture().getHeight() * 0.08f; 
+		
+		_scoreValueText.getTransformComponent().translatePosition(new Vector2(-10,yDeltaScore));
+		_wavesValueText.getTransformComponent().translatePosition(new Vector2(-10,yDeltaScore - (_scoreValueText.getTextBounds().y / 2 + 22)));
+		_highscoreValueText.getTransformComponent().setPosition(new Vector2(-10, _wavesValueText.getTransformComponent().getLocalPositionY() - 100));
+		
+		scoreTitle.getTransformComponent().setPosition(_scoreValueText.getTransformComponent().getLocalPositionX() - 30, _scoreValueText.getTransformComponent().getLocalPositionY());
+		waveTitle.getTransformComponent().setPosition(_wavesValueText.getTransformComponent().getLocalPositionX() - 30, _wavesValueText.getTransformComponent().getLocalPositionY());
+		highscoreTitle.getTransformComponent().setPosition(_highscoreValueText.getTransformComponent().getLocalPositionX() - 30, _highscoreValueText.getTransformComponent().getLocalPositionY());
+		
+		
+		if(_highscoreToDisplay == _scoreToDisplay)
+		{
+			BasicEntity newHighscoreSprite = new BasicEntity();
+			newHighscoreSprite.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_ELEMENT_NEW_HIGHSCORE_MARK), true));
+			newHighscoreSprite.getTransformComponent().setParent(getTransformComponent());
+			newHighscoreSprite.getTransformComponent().setPosition(this.getRenderComponent().getCurrentTexture().getWidth() * 0.36f,  -this.getRenderComponent().getCurrentTexture().getHeight() * 0.25f);
+		}
+	}
+
 	@Override
 	protected void onPopUpDestroyed() 
 	{
 		_continueButton.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_continueButton = null;
-		Engine.getSceneManager().setScene(GameScenesManager.MENU_SCENE);
+		
+		_scoreValueText = null;
+		_wavesValueText = null;
+		_highscoreValueText = null;
+		
+		Engine.getSceneManager().setScene(GameScenesManager.GAME_SCENE);
 	}
 }

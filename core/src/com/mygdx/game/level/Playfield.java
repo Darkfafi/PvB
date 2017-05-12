@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.EventDispatcher;
@@ -37,9 +38,6 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		_grid = new Grid(Engine.getWidth(), Engine.getHeight(), blueprint.getGridAmountX(), blueprint.getGridAmountY());
 		_playerBase = new PlayerBase();
 		_playerBase.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
-		
-		_blueprint.getLevelMusic().setVolume(0.3f);
-		_blueprint.getLevelMusic().play();
 		
 		TrapSpawnInfo[] infos = _blueprint.getTrapSpawnInfos();
 		
@@ -105,11 +103,13 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		
 		rcs.getSpriteBatch().begin();
 		Texture t = _blueprint.getLevelBackground();
+		Texture roof = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_ROOF).getTextureToDraw();
 		float offsetX = (t.getWidth() - Engine.getWidth()) / 2;
 		float offsetY = (t.getHeight() - Engine.getHeight()) / 2;
 		if(offsetX <= 0) { offsetX = 0;}
 		if(offsetY <= 0) { offsetY = 0;}
 		rcs.getSpriteBatch().draw(t, -offsetX, -offsetY, t.getWidth(), t.getHeight());
+		rcs.getSpriteBatch().draw(roof, 0, -15, roof.getWidth(), roof.getHeight());
 		rcs.getSpriteBatch().end();
 	}
 	

@@ -3,6 +3,7 @@ package com.mygdx.game.engine.entities;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
@@ -102,6 +103,11 @@ public class TextEntity extends BaseEntity
 		return _renderComponent;
 	}
 	
+	public Vector2 getTextBounds()
+	{
+		return new Vector2(_bitMapFontData.getBounds(_currentText).width, _bitMapFontData.getBounds(_currentText).height);
+	}
+	
 	@Override
 	protected void awake() {
 		// TODO Auto-generated method stub
@@ -121,7 +127,17 @@ public class TextEntity extends BaseEntity
 		_mx4Font.trn(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY(), 0);
 		renderComponents.getSpriteBatch().setTransformMatrix(_mx4Font);
 		_bitMapFontData.setColor(this.getRenderComponent().getColor());
-		_bitMapFontData.setScale(this.getTransformComponent().getScaleX() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE), this.getTransformComponent().getScaleY() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE));
+		
+		float scaleX = this.getTransformComponent().getScaleX() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE);
+		float scaleY = this.getTransformComponent().getScaleY() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE);
+		
+		if(scaleX <= 0)
+			scaleX = 0.1f;
+		
+		if(scaleY <= 0)
+			scaleY = 0.1f;
+		
+		_bitMapFontData.setScale(scaleX, scaleY);
 		
 		_bitMapFontData.draw(renderComponents.getSpriteBatch(), 
 				_currentText,

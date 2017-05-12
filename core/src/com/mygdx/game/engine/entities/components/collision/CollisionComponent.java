@@ -88,6 +88,7 @@ public class CollisionComponent extends BaseEntityComponent {
 	 */
 	public void setVelocity(float xVelocity, float yVelocity)
 	{
+		if(this.getBody() == null) { return; }
 		this.getBody().setLinearVelocity(xVelocity, yVelocity);
 		_velocity.x = xVelocity;
 		_velocity.y = yVelocity;

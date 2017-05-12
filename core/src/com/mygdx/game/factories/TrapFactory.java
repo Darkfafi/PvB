@@ -81,9 +81,9 @@ public class TrapFactory
 		switch(trapType)
 		{
 			case Block_TrainTrap:
-				return 1;
+				return 3;
 			case Damage_BarrelExplosionTrap:
-				return 1;
+				return 2;
 			default:
 				System.out.println("Type count amount for reset not set! Please do in the TrapFactory");
 				return 0;
