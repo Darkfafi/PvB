@@ -41,11 +41,10 @@ public class WaveUI extends BaseEntity
 		_waveText.getRenderComponent().setPivot(new Vector2(0.5f, 0.5f), false);
 		_waveText.getTransformComponent().setPosition(
 			new Vector2(
-				15, 
+				22, 
 				5
 			)
 		);
-		_waveText.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
 		_waveText.setFontSize(9);
 		_waveText.setFont(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS));
 	}

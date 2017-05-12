@@ -76,6 +76,7 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		int fontSize = 7;
 		int titleFontSize = 4;
 		
+		Color titleColor = new Color(0.99f, 1f, 213f/255f, 1f);
 		Color highscoreColor = new Color(1f, 228f/255f, 0, 1);
 		
 		TextEntity scoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "SCORE:", true);
@@ -90,6 +91,12 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		waveTitle.getTransformComponent().setParent(getTransformComponent());
 		highscoreTitle.getTransformComponent().setParent(getTransformComponent());
 		
+		scoreTitle.getRenderComponent().setColor(titleColor);
+		waveTitle.getRenderComponent().setColor(titleColor);
+		
+		highscoreTitle.getRenderComponent().setColor(titleColor);
+		_highscoreValueText.getRenderComponent().setColor(titleColor);
+		
 		scoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
 		waveTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
 		highscoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
@@ -97,9 +104,6 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		scoreTitle.setFontSize(titleFontSize);
 		waveTitle.setFontSize(titleFontSize);
 		highscoreTitle.setFontSize(titleFontSize);
-		
-		highscoreTitle.getRenderComponent().setColor(highscoreColor);
-		_highscoreValueText.getRenderComponent().setColor(highscoreColor);
 		
 		_scoreValueText.setFontSize(fontSize);
 		_wavesValueText.setFontSize(fontSize);
@@ -126,6 +130,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 			newHighscoreSprite.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_ELEMENT_NEW_HIGHSCORE_MARK), true));
 			newHighscoreSprite.getTransformComponent().setParent(getTransformComponent());
 			newHighscoreSprite.getTransformComponent().setPosition(this.getRenderComponent().getCurrentTexture().getWidth() * 0.36f,  -this.getRenderComponent().getCurrentTexture().getHeight() * 0.25f);
+			
+			highscoreTitle.getRenderComponent().setColor(highscoreColor);
+			_highscoreValueText.getRenderComponent().setColor(highscoreColor);
 		}
 	}
 
