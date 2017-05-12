@@ -27,7 +27,7 @@ public class TrapSpawn extends BaseEntity
 	 * @param info containing the information of the traps it can spawn.
 	 * @param grid to spawn the traps on and to give to the traps.
 	 */
-	public TrapSpawn(TrapSpawnInfo info, Grid grid) 
+	public TrapSpawn(TrapSpawnInfo info, Grid grid)
 	{
 		_info = info;	
 		_grid = grid;

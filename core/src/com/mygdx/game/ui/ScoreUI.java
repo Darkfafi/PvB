@@ -18,8 +18,15 @@ import com.mygdx.game.score.GameScoreSystem;
  */
 public class ScoreUI extends BaseEntity
 {
+	public static float SCORE_COUNT_DURATION = 0.8f;
+	
 	private TextEntity _scoreText;
 	private BasicEntity _scoreIndicatorUI;
+	private int _scoreDisplaying = 0;
+	private float _countingTracker = -1;
+	private int _oldScoreDisplayed = 0;
+	private int _lastScoreRecording = 0;
+	private int _changeTracker = 0;
 	
 	@Override
 	protected void awake() {
@@ -48,7 +55,32 @@ public class ScoreUI extends BaseEntity
 	@Override
 	protected void updated(float dt) 
 	{
-		_scoreText.setText(Integer.toString(GameScoreSystem.getInstance().getScore()));
+		int gameScore = GameScoreSystem.getInstance().getScore();
+		if(_scoreDisplaying != gameScore)
+		{
+			if(_oldScoreDisplayed == _scoreDisplaying)
+			{
+				_countingTracker = 0;
+				_changeTracker = _oldScoreDisplayed;
+			}
+			
+			if(_lastScoreRecording != gameScore)
+			{
+				_countingTracker = 0;
+				_changeTracker = _scoreDisplaying;
+			}
+			
+			_countingTracker += dt;
+			float differents = gameScore - _changeTracker;
+			_scoreDisplaying = _changeTracker + (int)Math.ceil(differents * (_countingTracker/SCORE_COUNT_DURATION));
+			if(_scoreDisplaying >= gameScore)
+			{
+				_scoreDisplaying = gameScore;
+				_oldScoreDisplayed = _scoreDisplaying;
+			}
+		}
+		_lastScoreRecording = gameScore;
+		_scoreText.setText(Integer.toString(_scoreDisplaying));
 	}
 
 	@Override

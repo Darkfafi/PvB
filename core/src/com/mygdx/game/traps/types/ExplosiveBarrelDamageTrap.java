@@ -13,6 +13,8 @@ import com.mygdx.game.level.Grid;
 
 public class ExplosiveBarrelDamageTrap extends BaseTrap 
 {
+	private static final boolean DEVELOPMENT_DEBUG_RADIUS_DRAW = false; 
+	
 	private ShapeRenderer _shapeRenderer;
 	private float _radius;
 	private float _damage;
@@ -42,14 +44,14 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 	}
 	
 	@Override
-	public int getSizeX() {
-		// TODO Auto-generated method stub
+	public int getSizeX() 
+	{
 		return 1;
 	}
 
 	@Override
-	public int getSizeY() {
-		// TODO Auto-generated method stub
+	public int getSizeY() 
+	{
 		return 1;
 	}
 
@@ -68,8 +70,6 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 		
 		return true;
 	}
-
-	// TODO: On Trigger request
 	
 	@Override
 	protected void doEffect() 
@@ -104,7 +104,9 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 
 	@Override
 	protected void rendered(RenderComponents renderComponents) 
-	{
+	{	
+		if(!DEVELOPMENT_DEBUG_RADIUS_DRAW) { return; }
+		
 		renderComponents.getSpriteBatch().end();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
