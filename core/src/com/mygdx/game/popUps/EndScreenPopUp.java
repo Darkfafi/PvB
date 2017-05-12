@@ -7,13 +7,13 @@ import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
+import com.mygdx.game.scenes.GameScenesManager;
 
-public class PausePopUp extends BaseGamePopUp implements IEventReceiver 
+public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 {
-	private float _timeScaleOnOpen;
 	private ButtonEntity _continueButton;
 	
-	public PausePopUp(boolean isCoverPopUp) 
+	public EndScreenPopUp(boolean isCoverPopUp) 
 	{
 		super(isCoverPopUp);
 	}
@@ -25,31 +25,28 @@ public class PausePopUp extends BaseGamePopUp implements IEventReceiver
 		{
 			this.closePopUp();
 		}
-	}
-
-	@Override
-	protected void onPopUpAwake() 
-	{
-		_timeScaleOnOpen = Engine.TimeScale;
-		Engine.TimeScale = 0;
-		this.getRenderComponent().setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_POP_UP_PAUSE));
 		
+	}
+	
+	@Override
+	protected void onPopUpAwake()
+	{
+		this.getRenderComponent().setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_POP_UP_GAME_OVER));
+		
+		// Button
 		_continueButton = new ButtonEntity(GameTextureResources.UI_BUTTON_CONTINUE);
 		_continueButton.getTransformComponent().setParent(getTransformComponent());
-		_continueButton.getTransformComponent().translatePosition(new Vector2(0, -this.getRenderComponent().getCurrentTexture().getHeight() * 0.1f));
+		_continueButton.getTransformComponent().translatePosition(new Vector2(0, -this.getRenderComponent().getRealHeight() * 0.34f));
+		super.onPopUpAwake();
 		
 		_continueButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
-		super.onPopUpAwake();
 	}
-	
-	
 	
 	@Override
 	protected void onPopUpDestroyed() 
 	{
 		_continueButton.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_continueButton = null;
-		Engine.TimeScale = _timeScaleOnOpen;
+		Engine.getSceneManager().setScene(GameScenesManager.MENU_SCENE);
 	}
-
 }

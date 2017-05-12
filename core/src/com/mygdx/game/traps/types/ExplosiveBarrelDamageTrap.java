@@ -60,7 +60,7 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 		
 		for(int i = 0; i < _explosiveBarrels.length; i++)
 		{
-			if(_explosiveBarrels[i].hasExploded() && !_explosiveBarrels[i].isDestroyed())
+			if((_explosiveBarrels[i].hasExploded() && !_explosiveBarrels[i].isDestroyed()) || !_explosiveBarrels[i].hasExploded())
 			{
 				return false;
 			}

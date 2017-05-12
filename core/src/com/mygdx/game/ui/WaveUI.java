@@ -7,8 +7,8 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
-import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.waves.WaveSystem;
 
 /**
@@ -18,7 +18,7 @@ import com.mygdx.game.waves.WaveSystem;
  */
 public class WaveUI extends BaseEntity 
 {
-	private RenderInfo _waveIndicatorUI;
+	private BasicEntity _waveIndicatorUI;
 	private WaveSystem _waveSystem;
 	private TextEntity _waveText;
 	
@@ -32,13 +32,17 @@ public class WaveUI extends BaseEntity
 	protected void awake()
 	{
 		this.addComponent(new RenderComponent(null, true));
-		_waveIndicatorUI = Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_INGAME_WAVE_FIELD);
+		_waveIndicatorUI = new BasicEntity();
+		_waveIndicatorUI.addComponent(new RenderComponent( Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_INGAME_WAVE_FIELD), true));
+		_waveIndicatorUI.getTransformComponent().setParent(this.getTransformComponent());
 		
 		_waveText = new TextEntity(true);
+		_waveText.getTransformComponent().setParent(_waveIndicatorUI.getTransformComponent());
+		_waveText.getRenderComponent().setPivot(new Vector2(0.5f, 0.5f), false);
 		_waveText.getTransformComponent().setPosition(
 			new Vector2(
-				(0.5f * _waveIndicatorUI.getTextureToDraw().getWidth()) + 15, 
-				Engine.getHeight() - (_waveIndicatorUI.getTextureToDraw().getHeight() / 2) - 5
+				15, 
+				5
 			)
 		);
 		_waveText.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
@@ -46,6 +50,11 @@ public class WaveUI extends BaseEntity
 		_waveText.setFont(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS));
 	}
 
+	public Vector2 getBackgroundSize()
+	{
+		return new Vector2(_waveIndicatorUI.getComponent(RenderComponent.class).getRealWidth(), _waveIndicatorUI.getComponent(RenderComponent.class).getRealHeight());
+	}
+	
 	@Override
 	protected void updated(float dt) 
 	{
@@ -56,20 +65,13 @@ public class WaveUI extends BaseEntity
 	@Override
 	protected void rendered(RenderComponents renderComponents) 
 	{
-		renderComponents.getSpriteBatch().draw(
-				_waveIndicatorUI.getTextureToDraw(), 
-				10, 
-				(Engine.getHeight() - _waveIndicatorUI.getTextureToDraw().getHeight()) - 10, 
-				_waveIndicatorUI.getTextureToDraw().getWidth(), 
-				_waveIndicatorUI.getTextureToDraw().getHeight()
-		);
+		
 	}
 
 	@Override
 	protected void destroyed() 
 	{
 		_waveSystem = null;
-		_waveText.destroy();
 		_waveText = null;
 		_waveIndicatorUI = null;
 	}

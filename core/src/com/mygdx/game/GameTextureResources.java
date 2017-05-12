@@ -20,7 +20,9 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String UI_INGAME_HEALTHBAR = "health_bar";
 	
 	public static final String UI_POP_UP_PAUSE = "PausePopUp";
+	public static final String UI_POP_UP_GAME_OVER = "GameOverPopUp";
 	public static final String UI_BUTTON_CONTINUE = "ContinueButton";
+	public static final String UI_ELEMENT_NEW_HIGHSCORE_MARK = "NewHighscoreMark";
 	
 	public static final String SPRITE_GAME_BACKGROUND_01 = "gameBackground01Sprite";
 	
@@ -92,6 +94,8 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(SPRITE_CART_BASE, "train/cart_base.png");
 		this.loadResource(SPRITE_TRAIN_RAIL, "train/rails.png");
 		
+		this.loadResource(UI_ELEMENT_NEW_HIGHSCORE_MARK, "popups/new_highscore_icon.png");
+		
 		// Placeholders
 		this.loadResource("testImage", "placeholders/badlogic.jpg");
 		this.loadResource(SPRITE_HP_BAR, "placeholders/hpBarPlaceholder.png");
@@ -116,6 +120,7 @@ public class GameTextureResources extends BaseTextureResources
 		// Traps
 		this.loadResource(ANIMATION_TRAP_ACTIVATOR_TURN, "traps/targetTurn.png", "traps/targetTurn.xml");
 		this.loadResource(SHEET_EXPLOSIVE_BARREL_TRAP, "traps/explosiveBarrel.png", "traps/explosiveBarrel.xml");
+		
 		// Tutorial
 		this.loadResource(SPRITE_TOUCH_UP, "tutorial/tutorial_hand_01.png");
 		this.loadResource(SPRITE_TOUCH_DOWN, "tutorial/tutorial_hand_02.png");
@@ -128,5 +133,6 @@ public class GameTextureResources extends BaseTextureResources
 		
 		// Pop Ups
 		this.loadResource(UI_POP_UP_PAUSE, "popups/paused_field.png");
+		this.loadResource(UI_POP_UP_GAME_OVER, "popups/gameover_field.png");
 	}
 }

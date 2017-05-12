@@ -12,12 +12,14 @@ import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
+import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
+import com.mygdx.game.popUps.EndScreenPopUp;
 import com.mygdx.game.popUps.PausePopUp;
 import com.mygdx.game.score.GameScoreSystem;
 import com.mygdx.game.tutorial.BowDemonstrationTutorial;
@@ -33,6 +35,7 @@ import com.mygdx.game.waves.WaveSystem;
  */
 public class GameScene extends BaseScene implements IEventReceiver
 {
+	public static final boolean DEVELOPMENT_SKIP_TUTORIAL = false;
 	public static final boolean DEVELOPMENT_RESET_GAME_PREFS_EVERY_PLAY = true;
 	public static float TUTORIAL_DURATION = 8f;
 	
@@ -100,6 +103,11 @@ public class GameScene extends BaseScene implements IEventReceiver
 		);
 		_pauseBtn.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		
+		if(DEVELOPMENT_SKIP_TUTORIAL)
+		{
+			startGame();
+			return;
+		}
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
@@ -129,9 +137,12 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		_physicsWorld.clean();
 		_physicsWorld = null;
-
-		_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
-		_waveSystem.clean();
+		
+		if(_waveSystem != null)
+		{
+			_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
+			_waveSystem.clean();
+		}
 		_waveSystem = null;
 		
 		_preferences.flush(); // saves the prefs
@@ -176,17 +187,32 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		GameScoreSystem.getInstance().endScoreSession(false);
 		
-		// UI
+		spawnGameUI();
+	}
+	
+	private void spawnGameUI() 
+	{
 		WaveUI waveUI = new WaveUI(_waveSystem);
 		ScoreUI scoreUI = new ScoreUI();
 		HealthUI healthUI = new HealthUI(_playfield.getPlayerBase().getComponent(HealthComponent.class));
+		
+		waveUI.getTransformComponent().translatePosition(new Vector2(waveUI.getBackgroundSize().x / 2 + 10, Engine.getHeight() - (waveUI.getBackgroundSize().y / 2) - 10));
+		scoreUI.getTransformComponent().translatePosition(new Vector2(Engine.getWidth() / 2, Engine.getHeight() - scoreUI.getBackgroundSize().y / 2 - 10));
+		
+		
+		waveUI.getTransformComponent().setScale(new Vector2(0, 0));
+		scoreUI.getTransformComponent().setScale(new Vector2(0, 0));
+		
+		waveUI.getTransformComponent().doScale(1, 1, 0.8f, true).ease(EaseType.BackOut);
+		scoreUI.getTransformComponent().doScale(1, 1, 0.8f, true).ease(EaseType.BackOut);
 	}
-	
+
 	private void onBaseDestroyedEvent(Event event) 
 	{
 		_playerBow.removeComponent(PlayerWeaponControlComponent.class);
-		//TODO: Spawn End Screen
-		this.getScenesManager().setScene(GameScenesManager.MENU_SCENE);
+
+		EndScreenPopUp espp = new EndScreenPopUp(true);
+		espp.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() / 2);
 	}
 	
 	private void resetGamePrefs()
