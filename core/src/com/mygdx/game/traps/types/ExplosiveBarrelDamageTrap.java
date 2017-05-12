@@ -139,6 +139,8 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 	
 	private void spawnBarrels()
 	{
+		float fallHeight = 50;
+		
 		_delayExplosionTracker = -1;
 		for(int i = 0; i < _explosiveBarrels.length; i++)
 		{
@@ -161,11 +163,16 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 				break;
 			}
 			
+			deltaBarrel.y += fallHeight;
 			deltaBarrel.y -= _explosiveBarrels[i].getComponent(RenderComponent.class).getRealHeight() / 2;
 			
 			_explosiveBarrels[i].getTransformComponent().translatePosition(deltaBarrel);
-			_explosiveBarrels[i].getTransformComponent().setScale(new Vector2(0,0));
-			_explosiveBarrels[i].getTransformComponent().doScale(1, 1, 0.65f, true).ease(EaseType.BackOut);
+
+			_explosiveBarrels[i].getComponent(RenderComponent.class).setAlpha(0);
+			_explosiveBarrels[i].getComponent(RenderComponent.class).doAlpha(1, 0.75f, true);
+			_explosiveBarrels[i].getTransformComponent().doPosition(
+					_explosiveBarrels[i].getTransformComponent().getLocalPositionX(), 
+					_explosiveBarrels[i].getTransformComponent().getLocalPositionY() - fallHeight, 1.15f, true).ease(EaseType.BounceOut);
 		}
 	}
 	
