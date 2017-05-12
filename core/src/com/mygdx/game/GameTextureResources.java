@@ -35,17 +35,24 @@ public class GameTextureResources extends BaseTextureResources
 	
 	public static final String ANIMATION_TRAP_ACTIVATOR_TURN = "TrapActivatorTrunAnim";
 	
-	public static final String ANIMATION_LIGHT_BANDIT_0_IDLE = "light_Bandit_0_Idle";
-	public static final String ANIMATION_LIGHT_BANDIT_1_IDLE = "light_Bandit_1_Idle";
+	
+	public static final String ANIMATION_MEDIUM_BANDIT_0_IDLE = "MEDIUM_Bandit_0_Idle";
+	public static final String ANIMATION_MEDIUM_BANDIT_1_IDLE = "MEDIUM_Bandit_1_Idle";
 
-	public static final String ANIMATION_LIGHT_BANDIT_0_RUN = "light_Bandit_0_Run";
-	public static final String ANIMATION_LIGHT_BANDIT_1_RUN = "light_Bandit_1_Run";
+	public static final String ANIMATION_MEDIUM_BANDIT_0_RUN = "MEDIUM_Bandit_0_Run";
+	public static final String ANIMATION_MEDIUM_BANDIT_1_RUN = "MEDIUM_Bandit_1_Run";
 
-	public static final String ANIMATION_LIGHT_BANDIT_0_DEATH = "light_Bandit_0_Death";
-	public static final String ANIMATION_LIGHT_BANDIT_1_DEATH = "light_Bandit_1_Death";
+	public static final String ANIMATION_MEDIUM_BANDIT_0_DEATH = "MEDIUM_Bandit_0_Death";
+	public static final String ANIMATION_MEDIUM_BANDIT_1_DEATH = "MEDIUM_Bandit_1_Death";
 
-	public static final String ANIMATION_LIGHT_BANDIT_0_ATTACK = "light_Bandit_0_Attack";
-	public static final String ANIMATION_LIGHT_BANDIT_1_ATTACK = "light_Bandit_1_Attack";
+	public static final String ANIMATION_MEDIUM_BANDIT_0_ATTACK = "MEDIUM_Bandit_0_Attack";
+	public static final String ANIMATION_MEDIUM_BANDIT_1_ATTACK = "MEDIUM_Bandit_1_Attack";
+	
+	public static final String ANIMATION_HEAVY_BANDIT_0_IDLE = "HEAVY_bandit_0_Idle";
+	public static final String ANIMATION_HEAVY_BANDIT_0_RUN = "HEAVY_bandit_0_Run";
+	public static final String ANIMATION_HEAVY_BANDIT_0_DEATH = "HEAVY_bandit_0_Death";
+	public static final String ANIMATION_HEAVY_BANDIT_0_ATTACK = "HEAVY_bandit_0_Attack";
+	public static final String ANIMATION_HEAVY_BANDIT_0_CHARGE = "HEAVY_bandit_0_Charge";
 	
 	public static final String ANIMATION_TRAIN_WHEELS = "TrainWheels";
 	public static final String SPRITE_TRAIN_BASE = "TrainBase";
@@ -107,17 +114,23 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_BOW_ARROW, "weapon/arrowFly.png", "weapon/arrowFly.xml");
 		
 		// Enemies
-		this.loadResource(ANIMATION_LIGHT_BANDIT_0_IDLE,"enemies/banditAIdle.png", "enemies/banditAIdle.xml");
-		this.loadResource(ANIMATION_LIGHT_BANDIT_1_IDLE,"enemies/banditBIdle.png", "enemies/banditBIdle.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_IDLE,"enemies/mediumBanditA/banditAIdle.png", "enemies/mediumBanditA/banditAIdle.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_IDLE,"enemies/mediumBanditB/banditBIdle.png", "enemies/mediumBanditB/banditBIdle.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_IDLE, "enemies/heavyBanditA/heavyBanditAIdle.png", "enemies/heavyBanditA/heavyBanditAIdle.xml");
 		
-		this.loadResource(ANIMATION_LIGHT_BANDIT_0_RUN,"enemies/banditARun.png", "enemies/banditARun.xml");
-		this.loadResource(ANIMATION_LIGHT_BANDIT_1_RUN,"enemies/banditBRun.png", "enemies/banditBRun.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_RUN,"enemies/mediumBanditA/banditARun.png", "enemies/mediumBanditA/banditARun.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_RUN,"enemies/mediumBanditB/banditBRun.png", "enemies/mediumBanditB/banditBRun.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_RUN, "enemies/heavyBanditA/heavyBanditARun.png", "enemies/heavyBanditA/heavyBanditARun.xml");
 		
-		this.loadResource(ANIMATION_LIGHT_BANDIT_0_DEATH,"enemies/banditADeath.png", "enemies/banditADeath.xml");
-		this.loadResource(ANIMATION_LIGHT_BANDIT_1_DEATH,"enemies/banditBDeath.png", "enemies/banditBDeath.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_DEATH,"enemies/mediumBanditA/banditADeath.png", "enemies/mediumBanditA/banditADeath.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_DEATH,"enemies/mediumBanditB/banditBDeath.png", "enemies/mediumBanditB/banditBDeath.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_DEATH, "enemies/heavyBanditA/heavyBanditADeath.png", "enemies/heavyBanditA/heavyBanditADeath.xml");
 
-		this.loadResource(ANIMATION_LIGHT_BANDIT_0_ATTACK,"enemies/banditAAttack.png", "enemies/banditAAttack.xml");
-		this.loadResource(ANIMATION_LIGHT_BANDIT_1_ATTACK,"enemies/banditBAttack.png", "enemies/banditBAttack.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_ATTACK,"enemies/mediumBanditA/banditAAttack.png", "enemies/mediumBanditA/banditAAttack.xml");
+		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_ATTACK,"enemies/mediumBanditB/banditBAttack.png", "enemies/mediumBanditB/banditBAttack.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_ATTACK, "enemies/heavyBanditA/heavyBanditAAttack.png", "enemies/heavyBanditA/heavyBanditAAttack.xml").setInnerOffset(0f, -0.26f);
+
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_CHARGE, "enemies/heavyBanditA/heavyBanditACharge.png", "enemies/heavyBanditA/heavyBanditACharge.xml");
 		
 		// Traps
 		this.loadResource(ANIMATION_TRAP_ACTIVATOR_TURN, "traps/targetTurn.png", "traps/targetTurn.xml");

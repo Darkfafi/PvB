@@ -25,7 +25,8 @@ public class EnemyFactory
 	 */
 	public enum EnemyType
 	{
-		LightBandit
+		MediumBandit,
+		HeavyBandit
 	}
 	
 	
@@ -57,7 +58,7 @@ public class EnemyFactory
 	{
 		Enemy enemy = createEnemyOfType(enemyType);
 		
-		enemy.addComponent( new BasicEnemyAIComponent(
+		enemy.addComponent(new BasicEnemyAIComponent(
 				playfield, 
 				getMovementSpeedForType(enemyType),
 				getUnwalkableTagsForType(enemyType))
@@ -81,20 +82,35 @@ public class EnemyFactory
 		Animations animations = new Animations("run", null, true);
 		switch(enemyType)
 		{
-		case LightBandit:
+		case MediumBandit:
 			idleKeys = 	new String[]{ 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_IDLE, 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_IDLE 	};
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_0_IDLE, 
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_1_IDLE 	};
 			runKeys = 	new String[]{ 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_RUN, 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_RUN 	};
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_0_RUN, 
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_1_RUN 	};
 			deathKeys = new String[]{ 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_DEATH, 
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_DEATH };
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_0_DEATH, 
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_1_DEATH };
 			
 			attackKeys = new String[]{
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_ATTACK,
-					GameTextureResources.ANIMATION_LIGHT_BANDIT_1_ATTACK
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_0_ATTACK,
+					GameTextureResources.ANIMATION_MEDIUM_BANDIT_1_ATTACK
+			};
+			break;
+		case HeavyBandit:
+			idleKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_IDLE	
+					};
+			runKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_RUN	
+					};
+			deathKeys = new String[]{ 
+					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_DEATH
+					};
+			
+			attackKeys = new String[]{
+					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_ATTACK
 			};
 			break;
 		default:
@@ -124,8 +140,10 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
-		case LightBandit:
-			return 20f;
+		case MediumBandit:
+			return 25f;
+		case HeavyBandit:
+			return 200;
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;
@@ -141,8 +159,10 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
-		case LightBandit:
-			return 1.5f;
+		case MediumBandit:
+			return 2f;
+		case HeavyBandit:
+			return 0.85f;
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;
@@ -158,8 +178,10 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
-		case LightBandit:
+		case MediumBandit:
 			return 50;
+		case HeavyBandit:
+			return 200;
 		default:
 			System.out.println("Type score not set! Please do in the EnemyFactory");
 			return 0;
@@ -176,7 +198,10 @@ public class EnemyFactory
 		String[] tags;
 		switch(enemyType)
 		{
-		case LightBandit:
+		case MediumBandit:
+			tags = new String[] {GridTags.OCCUPY_TAG_DAMAGING, GridTags.OCCUPY_TAG_ENEMY, GridTags.OCCUPY_TAG_BLOCKED };
+			break;
+		case HeavyBandit:
 			tags = new String[] {GridTags.OCCUPY_TAG_DAMAGING, GridTags.OCCUPY_TAG_ENEMY, GridTags.OCCUPY_TAG_BLOCKED };
 			break;
 		default:
@@ -197,8 +222,10 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
-		case LightBandit:
+		case MediumBandit:
 			return 1f;
+		case HeavyBandit:
+			return 0.5f;
 		default:
 			System.out.println("Type damage amount not set! Please do in the EnemyFactory");
 			return 0f;
@@ -215,8 +242,10 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
-		case LightBandit:
+		case MediumBandit:
 			return 0.25f;
+		case HeavyBandit:
+			return 0.05f;
 		default:
 			System.out.println("Type damage rate not set! Please do in the EnemyFactory");
 			return 0f;

@@ -65,13 +65,15 @@ public abstract class BaseTextureResources extends BaseResource
 	 * @param key to link the texture to
 	 * @param path to where the texture is located
 	 */
-	protected void loadResource(String key, String path)
+	protected RenderInfo loadResource(String key, String path)
 	{
 		Texture texture = new Texture(Gdx.files.internal(path));
-		_texturesUnderKeys.put(key, new RenderInfo(texture));
+		RenderInfo ri = new RenderInfo(texture);
+		_texturesUnderKeys.put(key, ri);
+		return ri;
 	}
 	
-	protected void loadResource(String key, String pathSheet, String pathXml)
+	protected RenderInfo loadResource(String key, String pathSheet, String pathXml)
 	{
 		XmlReader reader = new XmlReader();
 		Texture texture = new Texture(Gdx.files.internal(pathSheet));
@@ -101,10 +103,12 @@ public abstract class BaseTextureResources extends BaseResource
 			
 			renderInfo = new RenderInfo(texture, frameInfos);
 			_texturesUnderKeys.put(key, renderInfo);
+			return renderInfo;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	/**

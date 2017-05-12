@@ -42,7 +42,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 	public void startTutorial(final float duration)
 	{
 		final Enemy enemy1;
-		enemy1 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
+		enemy1 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
 		enemy1.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
 		
 		
@@ -61,7 +61,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 						// Enemy kill
 						shootUsingTarget(Engine.getWidth() / 2, Engine.getHeight() / 1f, duration * 0.333f, 0);
 
-						Enemy enemy2 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.LightBandit);
+						Enemy enemy2 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
 						enemy2.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
 						
 						enemy2.getTransformComponent().doPosition(Engine.getWidth() / 1.2f, Engine.getHeight() / 1.4f, duration * 0.4166f, true).getTween().delay(duration * 0.275f);

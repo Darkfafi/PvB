@@ -19,17 +19,25 @@ public class DesertLevel implements ILevelBlueprint
 		boolean isKillTillEndWave = waveType != 2;
 		
 		Wave wave = new Wave(waveSystem, isKillTillEndWave);
+
+		if(currentWave % 10 == 0)
+		{
+			wave.addSection(EnemyFactory.EnemyType.HeavyBandit, countForEachOnWave(10, currentWave), 5.5f);
+		}
 		
-		wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
+		wave.addSection(EnemyFactory.EnemyType.MediumBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
 		
 		if(waveType > 0)
-		{
-			wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(3, currentWave), 4 + countForEachOnWave(3, currentWave) * 1.5f);
+		{	
+			wave.addSection(EnemyFactory.EnemyType.MediumBandit, 2 + countForEachOnWave(3, currentWave), 4 + countForEachOnWave(3, currentWave) * 1.5f);
+			
 			if(currentWave % 5 == 0)
 			{
-				wave.addSection(EnemyFactory.EnemyType.LightBandit, 5, 0);				
+				wave.addSection(EnemyFactory.EnemyType.MediumBandit, 5, 0);			
+				wave.addSection(EnemyFactory.EnemyType.HeavyBandit, countForEachOnWave(5, currentWave), 4f);
 			}
-			wave.addSection(EnemyFactory.EnemyType.LightBandit, 1 + countForEachOnWave(2, currentWave), 4 + countForEachOnWave(2, currentWave) * 1.5f);			
+			
+			wave.addSection(EnemyFactory.EnemyType.MediumBandit, 1 + countForEachOnWave(2, currentWave), 4 + countForEachOnWave(2, currentWave) * 1.5f);			
 		}
 		
 		return wave;
@@ -68,7 +76,7 @@ public class DesertLevel implements ILevelBlueprint
 						new TrapFactory.TrapType[]{
 								TrapFactory.TrapType.Block_TrainTrap
 				}),
-				new TrapSpawnInfo(4, 7, TrapFactory.Direction.Left, 0f,
+				new TrapSpawnInfo(4, 8, TrapFactory.Direction.Left, 0f,
 						new TrapFactory.TrapType[]{
 								TrapFactory.TrapType.Damage_BarrelExplosionTrap
 				})
