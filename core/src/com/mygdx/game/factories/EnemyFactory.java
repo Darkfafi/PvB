@@ -3,6 +3,7 @@ package com.mygdx.game.factories;
 import static com.mygdx.game.Engine.getTextureResources;
 
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.BaseEnemyAIComponent;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.entities.Enemy;
@@ -52,21 +53,45 @@ public class EnemyFactory
 	/**
 	 * This creates an instance of the enemy type given with its set AI onto it.
 	 * @param enemyType to create
+	 * @param playfield to give to the AI component
 	 * @return The instance of the given type with a random skin
 	 */
 	public static Enemy createEnemyOfTypeWithAI(EnemyType enemyType, Playfield playfield)
 	{
 		Enemy enemy = createEnemyOfType(enemyType);
-		
-		enemy.addComponent(new BasicEnemyAIComponent(
-				playfield, 
-				getMovementSpeedForType(enemyType),
-				getUnwalkableTagsForType(enemyType))
-		);
-		
+		enemy.addComponent(createEnemyAIInstance(enemyType, playfield));
 		return enemy;
 	}
 	
+	/**
+	 * Returns an instance of the AI Component for the given EnemyType
+	 * @param enemyType to create AI Component instance for.
+	 * @param playfield to give to the AI component
+	 * @return The instance of the AI Component for the given EnemyType
+	 */
+	private static BaseEnemyAIComponent createEnemyAIInstance(EnemyType enemyType, Playfield playfield) 
+	{
+		float movementSpeed = getMovementSpeedForType(enemyType);
+		String[] unwalkableTags = getUnwalkableTagsForType(enemyType);
+		switch(enemyType)
+		{
+		case HeavyBandit:
+			return new BasicEnemyAIComponent(
+					playfield, 
+					movementSpeed,
+					unwalkableTags);
+		case MediumBandit:
+			return new BasicEnemyAIComponent(
+					playfield, 
+					movementSpeed,
+					unwalkableTags);
+		default:
+			System.out.println("Type AI Component not set! Please do in the EnemyFactory");
+			return null;
+		
+		}
+	}
+
 	/**
 	 * Returns an animations class with All the animations for the given type.
 	 * @param enemyType to get animations for

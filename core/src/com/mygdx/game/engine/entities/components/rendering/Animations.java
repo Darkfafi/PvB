@@ -38,6 +38,16 @@ public class Animations
 	}
 	
 	/**
+	 * Returns whether there is an animation in this Animations class which has the name given as parameter.
+	 * @param name of animation to check on existence in this class.
+	 * @return True is this animation is set in this class, else false
+	 */
+	public boolean hasAnimation(String name)
+	{
+		return _animations.containsKey(name);
+	}
+	
+	/**
 	 * Creates or replaces an animation under the given name with the given RenderInfo
 	 * @param name to call the animation by
 	 * @param renderInfo which is used as animation
