@@ -1,6 +1,7 @@
 package com.mygdx.game.engine.entities.components.rendering;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * This is a class holding a texture to display and what part of the texture to display
@@ -11,6 +12,7 @@ public class RenderInfo
 {	
 	private Texture _textureToDraw = null;
 	private FrameInfo[] _frameInfos;
+	private Vector2 _innerOffset = new Vector2();
 	
 	/**
 	 * Shows the entire picture given
@@ -101,11 +103,33 @@ public class RenderInfo
 	}
 	
 	/**
+	 * Affects the rendering. Default (0,0) keeps the RenderInfo at normal space. 1 draws it its mass to one side, and -1 to the opposite.
+	 * @return The inner offset value for the rendering.
+	 */
+	public Vector2 getInnerOffset()
+	{
+		return _innerOffset;
+	}
+	
+	/**
+	 * Sets the inner offset of this RenderInfo
+	 * If its 0,0. Its unaffected. If the x is set to 0.5. The texture will be drawn half his width offset to the right. etc
+	 * @param xOffset normalized value of how much to put offset in the x axis using the value of the texture width
+	 * @param yOffset normalized value of how much to put offset in the y axis using the value of the texture height
+	 */
+	public void setInnerOffset(float xOffset, float yOffset)
+	{
+		_innerOffset.x = xOffset;
+		_innerOffset.y = yOffset;
+	}
+	
+	/**
 	 * Cleans the data in the RenderInfo Class.
 	 */
 	public void clean()
 	{
 		_textureToDraw = null;
 		_frameInfos = null;
+		_innerOffset = null;
 	}
 }

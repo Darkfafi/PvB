@@ -81,7 +81,7 @@ public class Animations
 	public RenderInfo getAnimation(String name)
 	{
 		if(_animations.containsKey(name))
-			return new RenderInfo(_animations.get(name).RenderInfo.getTextureToDraw(), _animations.get(name).RenderInfo.getAllFrameInfos());
+			return _animations.get(name).RenderInfo;
 		
 		System.out.println("WARNING: Animation with name '" + name + "' not defined!");
 		return null;

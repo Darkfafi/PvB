@@ -258,8 +258,8 @@ public class EntitySystem implements IEventReceiver
 		if(ri != null)
 			sb.draw(
 					ri.getTextureToDraw(),
-					ce.getTransformComponent().getPositionX() - rc.getRealWidth() * rc.getPivotX(),  	/* x the x-coordinate in screen space                                            */
-					ce.getTransformComponent().getPositionY() - rc.getRealHeight() * rc.getPivotY(),  	/* y the y-coordinate in screen space                                            */
+					ce.getTransformComponent().getPositionX() - (rc.getRealWidth() * rc.getPivotX()) +  (ri.getInnerOffset().x * rc.getRealWidth()),  	/* x the x-coordinate in screen space                                            */
+					ce.getTransformComponent().getPositionY() - (rc.getRealHeight() * rc.getPivotY())+  (ri.getInnerOffset().y * rc.getRealHeight()),  	/* y the y-coordinate in screen space                                            */
 				    rc.getRealWidth() * (1 - rc.getPivotX()),          /* originX the x-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
 				    rc.getRealHeight() * (rc.getPivotY()),         /* originY the y-coordinate of the scaling and rotation origin relative to the screen space coordinates   */
 				    rc.getRealWidth(),           			 		/* width the width in pixels                                                     */
