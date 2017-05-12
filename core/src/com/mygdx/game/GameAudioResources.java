@@ -16,6 +16,8 @@ public class GameAudioResources extends BaseAudioResources
 	
 	public static final String SOUND_TRAP_TRAIN_EFFECT = "TrainEffect";
 	
+	public static final String SOUND_SMALL_EXPLOSION_EFFECT = "ExplosionEffectSmall";
+	
 	@Override
 	public void load() 
 	{
@@ -30,6 +32,8 @@ public class GameAudioResources extends BaseAudioResources
 		this.loadResourceSound(SOUND_ARROW_HIT_TARGET, "audio/effects/AUD_SG_ArrowHit_Target.wav");
 		
 		this.loadResourceSound(SOUND_TRAP_TRAIN_EFFECT, "audio/effects/trainSoundEffect.mp3");
+		
+		this.loadResourceSound(SOUND_SMALL_EXPLOSION_EFFECT, "audio/effects/AUD_SG_Explosion_Small.wav");
 	}
 
 }

@@ -3,6 +3,7 @@ package com.mygdx.game.factories;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
+import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.tweening.EngineTween;
@@ -81,6 +82,7 @@ public class EffectFactory
 	{
 		float shakeValue = 0;
 		String explosionRenderInfoKey = null;
+		String explosionSoundKey = null;
 		float scaleMultiplier = 1;
 		switch(explosionType)
 		{
@@ -88,15 +90,18 @@ public class EffectFactory
 			shakeValue = 7;
 			scaleMultiplier = 1.5f;
 			explosionRenderInfoKey = GameTextureResources.ANIMATION_EFFECT_EXPLOSION_BIG;
+			explosionSoundKey = GameAudioResources.SOUND_SMALL_EXPLOSION_EFFECT;
 			break;
 		case SmallExplosion:
 			shakeValue = 3.5f;
 			scaleMultiplier = 1.5f;
 			explosionRenderInfoKey = GameTextureResources.ANIMATION_EFFECT_EXPLOSION_SMALL;
+			explosionSoundKey = GameAudioResources.SOUND_SMALL_EXPLOSION_EFFECT;
 			break;
 		default:
 			System.out.println("Warning: ExplosionType: " + explosionType + " not defined. Please do in the EffectFactory!");
 			shakeValue = 0;
+			explosionSoundKey = null;
 			explosionRenderInfoKey = null;
 			break;
 		
@@ -109,6 +114,9 @@ public class EffectFactory
 		explosionEffect.getTransformComponent().setScale(new Vector2(scale * scaleMultiplier, scale * scaleMultiplier));
 		explosionEffect.getAnimationComponent().setPivot(new Vector2(0.5f, 0f),  false);
 		explosionEffect.getAnimationComponent().setAnimationSpeed(0.4f);
+		
+		Engine.getAudioResources().getSound(explosionSoundKey).play(1, 0.95f + (float)Math.random() + 0.10f, 0);
+		
 		shakeValue *= scale;
 		
 		if(shakeValue > 20)
