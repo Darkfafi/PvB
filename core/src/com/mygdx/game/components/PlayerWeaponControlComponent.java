@@ -54,6 +54,10 @@ public class PlayerWeaponControlComponent extends BaseEntityComponent implements
 		}
 	}
 	
+	/**
+	 * Handles touch events in the 0 touch layer and controls the attached weapon with the information of the touch.
+	 * @param event which has been received.
+	 */
 	protected void onTouchEvent(TouchEvent event) 
 	{
 		if(event.getTouchLayer() != 0) { return; } 

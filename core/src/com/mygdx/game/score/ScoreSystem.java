@@ -22,6 +22,9 @@ public class ScoreSystem
 	
 	private Preferences _scorePrefs; 
 	
+	/**
+	 * Instantiates the ScoreSystem, loads the last best score data and starts a new score session 
+	 */
 	public ScoreSystem()
 	{
 		_scorePrefs = Gdx.app.getPreferences(PreferencesGlobals.PREFERENCES_SCORE);

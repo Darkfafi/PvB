@@ -2,6 +2,11 @@ package com.mygdx.game.level;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents a tile on the Grid class.
+ * @author Ramses Di Perna
+ *
+ */
 public class GridTile 
 {
 	private int _xPos, _yPos;

@@ -99,6 +99,8 @@ public class HealthUI extends BaseEntity
 		_shapeRenderer = null;
 		
 		_healthComponent = null;
+		
+		_healthBar = null;
 	}
 	
 }

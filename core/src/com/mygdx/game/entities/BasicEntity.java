@@ -3,7 +3,12 @@ package com.mygdx.game.entities;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
-public class BasicEntity extends BaseEntity {
+/**
+ * This is an empty Entity which can be used to make quick entities in code.
+ * @author Ramses Di Perna
+ *
+ */
+public final class BasicEntity extends BaseEntity {
 
 	@Override
 	protected void awake() {

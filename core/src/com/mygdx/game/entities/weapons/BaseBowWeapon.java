@@ -28,6 +28,10 @@ public abstract class BaseBowWeapon extends BaseEntity implements IWeapon
 	private float _radiusToTargetLoc = 0f;
 	private ArrowProjectile _currentProjectile;
 	
+	/**
+	 * In order to work, the bow needs a RenderInfo which contain different frames of "Pulling the string"
+	 * @param renderInfoBow Of a bow with all the frames of pulling the string
+	 */
 	public BaseBowWeapon(RenderInfo renderInfoBow)
 	{
 		this.addComponent(new RenderComponent(renderInfoBow, false)).setSortingLayer(2);

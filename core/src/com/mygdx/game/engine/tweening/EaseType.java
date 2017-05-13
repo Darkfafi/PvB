@@ -80,6 +80,10 @@ public enum EaseType
 		_equation = equation;
     }
 
+	/**
+	 * Returns the TweenEquation this Enum item represents.
+	 * @return
+	 */
     public TweenEquation getTweenEquation()
     {
     	return _equation;

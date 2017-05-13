@@ -8,6 +8,11 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
 
+/**
+ * This is a pause pop-up. It will cause the Time Scale to hit 0 when opened and puts it back to its original value when closed.
+ * @author Ramses Di Perna
+ *
+ */
 public class PausePopUp extends BaseGamePopUp implements IEventReceiver 
 {
 	private float _timeScaleOnOpen;

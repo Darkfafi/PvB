@@ -9,6 +9,11 @@ import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.entities.Effect;
 import com.mygdx.game.factories.EffectFactory;
 
+/**
+ * This component, when triggered, makes an explosion effect of the given type and damages all entities in radius with the 'HealthComponent' attached and if they are any of the given tags to effect
+ * @author Ramses Di Perna
+ *
+ */
 public class ExplosiveComponent extends BaseEntityComponent 
 {
 	private String[] _tagsToEffect;
@@ -23,6 +28,14 @@ public class ExplosiveComponent extends BaseEntityComponent
 		_tagsToEffect = new String[]{ tagToEffect };
 	}
 	
+	/**
+	 * This method triggers an explosion by this component on the location of the entity its attached to.
+	 * @param explosionType is the type of explosion effect to spawn
+	 * @param dmg is the damage which should be caused to the hit entities holding an HealthComponent
+	 * @param radius is the radius in which the entities should stand from this entity in distance in order to be affected by the explosion.
+	 * @param scale is the scale of the explosion, this affects the explosion effect, damage and radius. 
+	 * @return The explosion effect created.
+	 */
 	public Effect triggerExplosion(EffectFactory.ExplosionType explosionType, float dmg, float radius, float scale)
 	{
 		Effect explosion = EffectFactory.createExplosionEffect(explosionType, 
@@ -61,6 +74,11 @@ public class ExplosiveComponent extends BaseEntityComponent
 
 	}
 	
+	/**
+	 * Damages all the entities in the given radius when they hold any of the tags which where given in this component's constructor and hold a 'HealthComponent'
+	 * @param radius in which to damage entities
+	 * @param dmg is the damage to inflict to the HealthComponent of the affected entities.
+	 */
 	private void damageEffect(float radius, float dmg)
 	{
 		ArrayList<BaseEntity> allEntities = EntitySystem.getInstance().getAllEntities();
@@ -85,6 +103,11 @@ public class ExplosiveComponent extends BaseEntityComponent
 		}
 	}
 	
+	/**
+	 * Returns whether the given entity holds any of the tags which should be affected by the explosion.
+	 * @param entity to check for tags
+	 * @return True if it should be affected by the hit, else false.
+	 */
 	private boolean hasTagToHit(BaseEntity entity)
 	{
 		for(int i = 0; i < this._tagsToEffect.length; i++)
