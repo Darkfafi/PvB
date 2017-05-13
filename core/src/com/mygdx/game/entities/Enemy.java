@@ -21,6 +21,11 @@ import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
 import com.mygdx.game.score.GameScoreSystem;
 
+/**
+ * This class is the holder of Enemy Data which is formed by the EnemyFactory
+ * @author Ramses Di Perna
+ *
+ */
 public class Enemy extends BaseEntity implements IEventReceiver
 {
 	public enum EnemyState
