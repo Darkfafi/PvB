@@ -7,7 +7,10 @@ import com.mygdx.game.engine.globals.EngineGlobals;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.EngineTweenTracker;
 import com.mygdx.game.engine.tweening.EngineTweener;
+import com.mygdx.game.engine.tweening.FloatAccessor;
+import com.mygdx.game.engine.tweening.TweenableFloat;
 
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 
 /**
@@ -39,6 +42,12 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	
 	private EngineTweenTracker _tweenTracker = new EngineTweenTracker();
 	
+	/**
+	 * Starts a tween on this component which will be ended automatically when this component is destroyed.
+	 * @param tween to start on component
+	 * @param updateInGameTime if true, the speed will be affected by the Engine.TimeScale, if false, it will run on real time seconds
+	 * @return The EngineTween which is created out of the tween & started on this component.
+	 */
 	public EngineTween startTweenOnComponent(Tween tween, boolean updateInGameTime)
 	{
 		EngineTween t = EngineTweener.startTween(tween, (updateInGameTime) ? EngineTweener.GAME_TIME_CHANNEL : EngineTweener.REAL_TIME_CHANNEL);
@@ -46,6 +55,27 @@ public abstract class BaseEntityComponent extends EventDispatcher
 		return t;
 	}
 	
+	/**
+	 * Starts a timeline on this component which will be ended automatically when this component is destroyed
+	 * @param timeline to start on component
+	 * @param updateInGameTime if true, the speed will be affected by the Engine.TimeScale, if false, it will run on real time seconds
+	 * @return The Timeline which was started on this component.
+	 */
+	public Timeline startTimelineOnComponent(Timeline timeline, boolean updateInGameTime)
+	{
+		Timeline t = EngineTweener.startTimeline(timeline, (updateInGameTime) ? EngineTweener.GAME_TIME_CHANNEL : EngineTweener.REAL_TIME_CHANNEL);
+		_tweenTracker.registerTimeline(t);
+		return t;
+	}
+	
+	public EngineTween doFloat(TweenableFloat floatToTween, float newValue, float duration, boolean updateInGameTime)
+	{
+		return startTweenOnComponent(Tween.to(floatToTween, FloatAccessor.CHANGE, duration).target(newValue), updateInGameTime);
+	}
+	
+	/**
+	 * Stops all the tweens & TimeLines started on this component.
+	 */
 	public void stopAllComponentTweens()
 	{
 		_tweenTracker.stopAllTweens();

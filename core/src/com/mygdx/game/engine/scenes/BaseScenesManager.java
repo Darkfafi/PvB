@@ -8,8 +8,10 @@ import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.entities.components.TransformComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.tweening.EngineTweener;
+import com.mygdx.game.engine.tweening.FloatAccessor;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 import com.mygdx.game.engine.tweening.TransformAccessor;
+import com.mygdx.game.engine.tweening.TweenableFloat;
 import com.mygdx.game.engine.tweening.Vector2Accessor;
 
 import aurelienribon.tweenengine.Tween;
@@ -39,7 +41,7 @@ public abstract class BaseScenesManager
 		Tween.registerAccessor(TransformComponent.class, new TransformAccessor());
 		Tween.registerAccessor(RenderComponent.class, new RenderAccessor());
 		Tween.registerAccessor(Vector2.class, new Vector2Accessor());
-		
+		Tween.registerAccessor(TweenableFloat.class, new FloatAccessor());
 		Tween.setCombinedAttributesLimit(4);
 	}
 	
