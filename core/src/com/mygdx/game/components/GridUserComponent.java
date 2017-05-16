@@ -7,8 +7,17 @@ import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.level.Grid;
 import com.mygdx.game.level.GridTile;
 
+/**
+ * This class is a component which can be used to place the entity in grid data on 1 or multiple tiles depending on the given size.
+ * The way it represents something standing on a tile is by adding the grid occupy tags to the tile it is placed on. This way the tags can be used to determine their current occupy status.
+ * @author Ramses Di Perna
+ *
+ */
 public class GridUserComponent extends BaseEntityComponent
 {
+	/**
+	 * The value of a location if it has not been located on the grid.
+	 */
 	public static final int NOT_LOCATED_VALUE = -1337;
 	
 	private ArrayList<String> _gridOccupyTags = new ArrayList<String>();
@@ -17,8 +26,13 @@ public class GridUserComponent extends BaseEntityComponent
 	private int _locationX = NOT_LOCATED_VALUE;
 	private int _locationY = NOT_LOCATED_VALUE;
 	
-	
-	
+	/**
+	 * Creates the grid user component. It needs a grid to be linked to, starter tags to represent its being and a size to know how many tiles to cover when located.
+	 * @param grid to link with the grid user
+	 * @param gridOccupyTag tag it represents to indicate its id when placed on a tile.
+	 * @param xSize how many tiles it should cover in the x axis. If the size x is > 1, then the tiles right to the given tile are also set. 
+	 * @param ySize how many tiles it should cover in the y axis. If the size y is > 1, then the tiles below the given tile are also set. 
+	 */
 	public GridUserComponent(Grid grid, String gridOccupyTag, int xSize, int ySize)
 	{
 		_grid = grid;
@@ -55,16 +69,28 @@ public class GridUserComponent extends BaseEntityComponent
 		return _grid.getTile(_locationX, _locationY);
 	}
 	
+	/**
+	 * Returns whether this component is placed on the grid, true if it is, else false.
+	 * @return True if it has been placed on the grid using the 'placeSelfOnLocation', else false
+	 */
 	public boolean isLocated()
 	{
 		return _locationX != NOT_LOCATED_VALUE;
 	}
 	
+	/**
+	 * Grid space x axis location this entity stands on.
+	 * @return Grid space x axis location this entity stands on. (if not placed it has the value of 'NOT_LOCATED_VALUE')
+	 */
 	public int getLocationX()
 	{
 		return _locationX;
 	}
 	
+	/**
+	 * Grid space y axis location this entity stands on.
+	 * @return Grid space y axis location this entity stands on. (if not placed it has the value of 'NOT_LOCATED_VALUE')
+	 */
 	public int getLocationY()
 	{
 		return _locationY;

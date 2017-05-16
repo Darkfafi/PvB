@@ -71,6 +71,12 @@ public class EngineTweener
 		return _tweenManagers[channel];
 	}
 	
+	/**
+	 * Updates the tween engine including all the tween channels. 
+	 * NOTE: This must be called every frame in order for the EngineTweener to work!
+	 * @param unScaledDeltaTime is the value of the delta time without any time scale affecting it.
+	 * @param timeScale is the time scale which should be affecting the Delta Time
+	 */
 	public static void updateTweenEngine(float unScaledDeltaTime, float timeScale)
 	{
 		while(!_tweensToStartStack.isEmpty())
@@ -98,6 +104,11 @@ public class EngineTweener
 		}
 	}
 	
+	/**
+	 * This class plays the role of an info container which holds the information on which tween should be played on which tween channel
+	 * @author Ramses Di Perna
+	 *
+	 */
 	private static class ChannelTween
 	{
 		public EngineTween Tween = null;

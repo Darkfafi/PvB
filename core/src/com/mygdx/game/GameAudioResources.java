@@ -2,6 +2,11 @@ package com.mygdx.game;
 
 import com.mygdx.game.engine.resources.BaseAudioResources;
 
+/**
+ * All the game specific Audio Resources are loaded here
+ * @author Ramses Di Perna
+ *
+ */
 public class GameAudioResources extends BaseAudioResources 
 {
 	public static final String SOUND_WAVE_SOUNDTRACK = "MusicWaveSoundtrack";

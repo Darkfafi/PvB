@@ -52,7 +52,7 @@ public abstract class BaseGridNavigationComponent extends GridUserComponent
 	
 	/**
 	 * Looks for a new target tile from its current location, here it will keep in account the side stepping, forward stepping and row searching in order to find an open tile.
-	 * @return
+	 * @return The next tile in grid space
 	 */
 	protected Vector2 getNewTargetTile(float sideStepChance) 
 	{
@@ -161,6 +161,11 @@ public abstract class BaseGridNavigationComponent extends GridUserComponent
 		return null;
 	}
 	
+	/**
+	 * Returns whether this component holds any of the occupy tags the given tile has as 'Unwalkable'
+	 * @param tile to check if its unwalkable in form of tags
+	 * @return True if it has any of the unwalkable tags of this component, else false (true means unwalkable, false means walkable)
+	 */
 	protected boolean hasAnyUnwalkableOccupyTag(GridTile tile)
 	{
 		for(int i = 0; i < _unwalkableOccupyTags.size(); i++)

@@ -14,9 +14,14 @@ import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.scenes.GameScenesManager;
-
 import aurelienribon.tweenengine.Timeline;
 
+/**
+ * This is the pop-up which represents the Game Over screen at the end of a play.
+ * It shows the score it has to display when requested with the 'displayEndScreen' method
+ * @author Ramses Di Perna
+ *
+ */
 public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 {
 	private ButtonEntity _continueButton;
@@ -35,7 +40,13 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 	{
 		super(isCoverPopUp);
 	}
-
+	
+	/**
+	 * Displays the End screen stats. This can only be triggered once for every EndScreenPopUp instance
+	 * @param score to display
+	 * @param wave to display
+	 * @param highscore to display (Will show extra effects when the score == the highscore)
+	 */
 	public void displayEndScreen(int score, int wave, int highscore)
 	{
 		if(_isDisplaying) { return; }
@@ -45,6 +56,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		startDisplay();
  	}
 	
+	/**
+	 * Starts the display
+	 */
 	private void startDisplay() 
 	{
 		_isDisplaying = true;
@@ -75,6 +89,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		super.onPopUpAwake();
 	}
 	
+	/**
+	 * Spawns the texts for the pop-up
+	 */
 	private void spawnTexts() 
 	{
 		_scoreValue = new TweenableFloat(0);

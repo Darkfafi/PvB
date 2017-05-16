@@ -12,18 +12,33 @@ import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
 
+/**
+ * This entity is an explosive barrel which can be triggered once to explode and will remove itself when it has been triggered after x amount of time
+ * The barrel will only damage enemies.
+ * @author Ramses Di Perna
+ *
+ */
 public class ExplosiveBarrel extends BaseEntity 
 {
 	private float _damage = 0;
 	private float _radius = 0;
 	private boolean _exploded = false;
 	
+	/**
+	 * Creates an Explosive barrel with its stats in tact from the start
+	 * @param dmg represents the damage this barrel will do to all enemies in his explosion radius
+	 * @param radius to check for enemies to damage with the given damage amount
+	 */
 	public ExplosiveBarrel(float dmg, float radius)
 	{
 		_damage = dmg;
 		_radius = radius;
 	}
 	
+	/**
+	 * Triggers the barrel to explode.
+	 * Note: This can only be triggered once for each instance.
+	 */
 	public void triggerBarrel()
 	{
 		if(_exploded) { return; }
@@ -31,7 +46,7 @@ public class ExplosiveBarrel extends BaseEntity
 		_exploded = true;
 		
 		this.getComponent(RenderComponent.class).setCurrentFrameInfo(1);
-		this.getComponent(RenderComponent.class).doAlpha(0, 3f, true).setCallbackMethod(new IEngineTweenMethod()
+		this.getComponent(RenderComponent.class).doAlpha(0, 4f, true).setCallbackMethod(new IEngineTweenMethod()
 		{
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
@@ -41,6 +56,10 @@ public class ExplosiveBarrel extends BaseEntity
 		});
 	}
 	
+	/**
+	 * Returns whether this barrel has exploded.
+	 * @return True if it has else false
+	 */
 	public boolean hasExploded()
 	{
 		return _exploded;

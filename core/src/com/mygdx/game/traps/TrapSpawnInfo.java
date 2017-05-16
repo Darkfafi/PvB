@@ -6,7 +6,7 @@ import com.mygdx.game.factories.TrapFactory;
  * This class contains all the info for a specific trap spawn location on 
  * - Which traps can be spawned on that location
  * - Which direction the trap will be facing
- * @author Darkfafi
+ * @author Ramses Di Perna
  *
  */
 public class TrapSpawnInfo 

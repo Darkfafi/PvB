@@ -114,6 +114,10 @@ public abstract class BasePopUp extends BaseEntity
 		return _layer;
 	}
 	
+	/**
+	 * Returns the RenderComponent of this pop-up
+	 * @return RenderComponent attached to this PopUp
+	 */
 	public RenderComponent getRenderComponent()
 	{
 		return _renderComponent;
@@ -162,7 +166,14 @@ public abstract class BasePopUp extends BaseEntity
 		
 		PopUpSystem.getInstance().unregisterPopUp(this);
 	}
-
+	
+	/**
+	 * Triggered when the pop-up has been destroyed
+	 */
 	protected abstract void onPopUpDestroyed();
+	
+	/**
+	 * Triggered when the pop-up has been instantiated.
+	 */
 	protected abstract void onPopUpAwake();
 }

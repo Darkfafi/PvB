@@ -11,6 +11,12 @@ import com.mygdx.game.factories.TrapFactory.Direction;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Grid;
 
+/**
+ * Spawns 3 explosive barrels which all do 1/3 of the total damage given to this trap.
+ * They will all explode with a short delay of 0.2 seconds dealing the given damage in total.
+ * @author Ramses Di Perna
+ *
+ */
 public class ExplosiveBarrelDamageTrap extends BaseTrap 
 {
 	private static final boolean DEVELOPMENT_DEBUG_RADIUS_DRAW = false; 
@@ -137,6 +143,9 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 		spawnBarrels();
 	}
 	
+	/**
+	 * Spawns the barrels with a nice fade bounce effect.
+	 */
 	private void spawnBarrels()
 	{
 		float fallHeight = 50;
@@ -176,6 +185,9 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 		}
 	}
 	
+	/**
+	 * Removes the barrels.
+	 */
 	private void clearBarrels()
 	{
 		for(int i = 0; i < _explosiveBarrels.length; i++)

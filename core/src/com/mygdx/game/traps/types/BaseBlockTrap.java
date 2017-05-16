@@ -4,6 +4,12 @@ import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Grid;
 
+/**
+ * This is the Base of a blocking trap.
+ * It will block all the tiles it is placed on when activated.
+ * @author Ramses Di Perna
+ *
+ */
 public abstract class BaseBlockTrap extends BaseTrap
 {
 	protected boolean canBeTriggered = true;

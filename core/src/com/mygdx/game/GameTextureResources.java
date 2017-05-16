@@ -2,6 +2,11 @@ package com.mygdx.game;
 
 import com.mygdx.game.engine.resources.BaseTextureResources;
 
+/**
+ * All the Game Specific Texture resources are loaded here
+ * @author Ramses Di Perna
+ *
+ */
 public class GameTextureResources extends BaseTextureResources 
 {
 	public static final String UI_GAME_MENU_BACKGROUND = "menu_bg";

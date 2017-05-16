@@ -194,6 +194,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 		spawnGameUI();
 	}
 	
+	/**
+	 * Spawns the UI and makes it do an effect when spawned
+	 */
 	private void spawnGameUI() 
 	{
 		WaveUI waveUI = new WaveUI(_waveSystem);

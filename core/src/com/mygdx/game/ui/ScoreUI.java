@@ -46,7 +46,11 @@ public class ScoreUI extends BaseEntity
 		_scoreText.setFontSize(9);
 		_scoreText.setFont(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS));
 	}
-
+	
+	/**
+	 * Returns the size of the background which was set for this score ui.
+	 * @return The background size of this UI 
+	 */
 	public Vector2 getBackgroundSize()
 	{
 		return new Vector2(_scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth(), _scoreIndicatorUI.getComponent(RenderComponent.class).getRealHeight());

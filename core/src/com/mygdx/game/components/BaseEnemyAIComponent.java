@@ -5,6 +5,12 @@ import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Playfield;
 
+/**
+ * This is the Base class for all the AI Components. This component holds info on the field and handles navigation to the player base.
+ * NOTE: This Component can only be attached to an entity of the class 'Enemy', else this component will give a runtime error.
+ * @author Ramses Di Perna
+ *
+ */
 public abstract class BaseEnemyAIComponent extends BaseGridNavigationComponent 
 {
 	private float _movementSpeed;
@@ -74,21 +80,38 @@ public abstract class BaseEnemyAIComponent extends BaseGridNavigationComponent
 		super.destroyed();
 	}
 	
+	/**
+	 * Returns the movement speed set for this AI Component.
+	 * @return A float which represents the movement speed of this Enemy AI
+	 */
 	protected float getMovementSpeed()
 	{
 		return _movementSpeed;
 	}
 	
+	/**
+	 * Returns the Playfield which was given to this component to be orientated on.
+	 * @return The playfield given in its constructor.
+	 */
 	protected Playfield getPlayfield()
 	{
 		return _playfield;
 	}
 	
+	/**
+	 * Returns the Enemy which this component is attached to
+	 * @return The enemy this component is attached to.
+	 */
 	protected Enemy getAffectedEnemy()
 	{
 		return _enemy;
 	}
 	
+	/**
+	 * This method will cause the enemy this component is attached to, to move up until the given y row to stop moving. (Moving downwards)
+	 * NOTE: This should be called every frame in order to keep processing. 
+	 * @param yRowToStop is the Y row in grid space to stop moving.
+	 */
 	protected void moveToPlayerBase(int yRowToStop)
 	{
 		if(!this.isLocated()) { return; }

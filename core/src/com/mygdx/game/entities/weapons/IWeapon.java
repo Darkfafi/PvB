@@ -7,11 +7,24 @@ package com.mygdx.game.entities.weapons;
  */
 public interface IWeapon 
 {
+	/**
+	 * Weapon types. Every type has a different way of handling and UI drawing.
+	 * @author Ramses Di Perna
+	 *
+	 */
 	public enum WeaponType
 	{
+		/**
+		 * Pulling mechanism, projectile which is shown on the weapon and which can be fired at different speeds.
+		 * The projectile is of ArrowProjectile type and lands after x amount of distance traveled.
+		 */
 		BowType
 	}
 	
+	/**
+	 * Returns the weapon type of this weapon instance.
+	 * @return WeaponType of this weapon.
+	 */
 	public WeaponType getWeaponType();
 	
 	/**
@@ -35,5 +48,8 @@ public interface IWeapon
 	 */
 	public void endControl(int x, int y);
 	
+	/**
+	 * Makes the class ready for garbage collection.
+	 */
 	public void clean();
 }

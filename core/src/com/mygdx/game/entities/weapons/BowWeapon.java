@@ -18,6 +18,11 @@ import com.mygdx.game.globals.Tags;
 
 import aurelienribon.tweenengine.Tween;
 
+/**
+ * A Normal Bow Weapon.
+ * @author Ramses Di Perna
+ *
+ */
 public class BowWeapon extends BaseBowWeapon
 {
 	private long _bowDrawSoundInstance = -10;
@@ -28,6 +33,10 @@ public class BowWeapon extends BaseBowWeapon
 	
 	private BasicEntity _aimTarget;
 	
+	/**
+	 * In order to be able to draw its line of aim, it needs to have a world to raycast in.
+	 * @param world which all the physics are handled in.
+	 */
 	public BowWeapon(World world) {
 		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_DRAW));
 		_world = world;
@@ -142,6 +151,7 @@ public class BowWeapon extends BaseBowWeapon
 		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_RELEASE).play(strengthPercentage, ((float)Math.random() * 0.3f) + 0.95f, 0);
 	}
 	
+	@Override
 	protected void bowSetToStage(BowStage stage)
 	{
 		if(stage == BowStage.Idle)

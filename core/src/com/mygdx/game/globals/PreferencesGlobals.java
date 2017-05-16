@@ -2,6 +2,11 @@ package com.mygdx.game.globals;
 
 import com.badlogic.gdx.Gdx;
 
+/**
+ * This class holds all the Preferences information. It also has an option to reset all the data.
+ * @author Ramses Di Perna
+ *
+ */
 public class PreferencesGlobals 
 {
 	// Game
@@ -13,7 +18,9 @@ public class PreferencesGlobals
 	public static final String PREF_KEY_INT_BEST_SCORE = "BestScorePrefIntKey";
 	public static final String PREF_KEY_INT_BEST_MULTIPLIER = "BestMultiplierPrefIntKey";
 	
-	
+	/**
+	 * Resets all the saved data of this game
+	 */
 	public void resetAllSaveData()
 	{
 		Gdx.app.getPreferences(PREFERENCES_GAME).clear();

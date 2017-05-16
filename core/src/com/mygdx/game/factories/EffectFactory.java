@@ -78,6 +78,14 @@ public class EffectFactory
 		return bloodBlood;
 	}
 	
+	/**
+	 * Creates an explosion effect on the given position and deletes when it is finished playing
+	 * @param explosionType is the type of explosion effect to spawn
+	 * @param xPosition is the x position to spawn the explosion effect on
+	 * @param yPosition is the y position to spawn the explosion effect on
+	 * @param scale is how big the explosion effect should be scaled. This will also affect the screen shake of this effect
+	 * @return The explosion effect instance.
+	 */
 	public static Effect createExplosionEffect(ExplosionType explosionType, float xPosition, float yPosition, final float scale)
 	{
 		float shakeValue = 0;

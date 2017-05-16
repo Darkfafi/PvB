@@ -24,6 +24,11 @@ import com.mygdx.game.factories.TrapFactory.Direction;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Grid;
 
+/**
+ * This spawns a train track which will spawn a passing train when triggered. Which blocks the way and kills all in its path of fury <3
+ * @author Ramses Di Perna
+ *
+ */
 public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 {
 	public static final float DURATION = 4f;
@@ -147,7 +152,10 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		this.getComponent(CollisionComponent.class).setActiveState(true);
 		Engine.getSceneManager().getRenderComponents().getMainCamera().doShake(3f, DURATION);
 	}
-
+	
+	/**
+	 * After the train is gone, the train will be destroyed and the grid will be not occupied anymore.
+	 */
 	protected void endOfEffect() 
 	{
 		if(_train != null)
