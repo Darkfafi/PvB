@@ -1,6 +1,6 @@
 package com.mygdx.game.level;
 
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
@@ -62,9 +62,9 @@ public class DesertLevel implements ILevelBlueprint
 	}
 
 	@Override
-	public Music getLevelMusic() 
+	public Sound getLevelMusic() 
 	{
-		return Engine.getAudioResources().getMusic(GameAudioResources.MUSIC_WAVE_SOUNDTRACK);
+		return Engine.getAudioResources().getSound(GameAudioResources.SOUND_WAVE_SOUNDTRACK);
 	}
 	
 	@Override

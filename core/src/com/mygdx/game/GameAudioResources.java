@@ -4,7 +4,7 @@ import com.mygdx.game.engine.resources.BaseAudioResources;
 
 public class GameAudioResources extends BaseAudioResources 
 {
-	public static final String MUSIC_WAVE_SOUNDTRACK = "MusicWaveSoundtrack";
+	public static final String SOUND_WAVE_SOUNDTRACK = "MusicWaveSoundtrack";
 	public static final String MUSIC_MENU_SOUNDTRACK = "MusicMenuSoundtrack";
 	
 	public static final String SOUND_BOW_DRAW = "bowDraw";
@@ -22,7 +22,7 @@ public class GameAudioResources extends BaseAudioResources
 	public void load() 
 	{
 		this.loadResourceMusic(MUSIC_MENU_SOUNDTRACK, "audio/AUD_MU_MenuLoop.wav");
-		this.loadResourceMusic(MUSIC_WAVE_SOUNDTRACK, "audio/AUD_MU_WaveMusicSpecial.wav");
+		this.loadResourceSound(SOUND_WAVE_SOUNDTRACK, "audio/AUD_MU_WaveMusicSpecial.wav");
 		
 		this.loadResourceSound(SOUND_BOW_RELEASE, "audio/effects/AUD_SG_BowRelease_Light.wav");
 		this.loadResourceSound(SOUND_BOW_DRAW, "audio/effects/AUD_SG_BowPull_Loop.wav");

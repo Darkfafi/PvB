@@ -179,8 +179,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 	{
 		_playfield.forceResetTraps();
 		
-		_playfield.getLevelBlueprint().getLevelMusic().setVolume(0.3f);
-		_playfield.getLevelBlueprint().getLevelMusic().play();
+		long s = _playfield.getLevelBlueprint().getLevelMusic().play();
+		_playfield.getLevelBlueprint().getLevelMusic().setLooping(s, true);
+		_playfield.getLevelBlueprint().getLevelMusic().setVolume(s, 0.3f);
 		
 		_playerBow.addComponent(new PlayerWeaponControlComponent(_playerBow));
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
