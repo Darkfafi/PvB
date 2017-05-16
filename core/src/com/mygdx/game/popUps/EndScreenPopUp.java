@@ -9,10 +9,13 @@ import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.tweening.TweenableFloat;
 import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.scenes.GameScenesManager;
+
+import aurelienribon.tweenengine.Timeline;
 
 public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 {
@@ -21,8 +24,13 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 	private TextEntity _wavesValueText;
 	private TextEntity _highscoreValueText;
 	
+	private TweenableFloat _scoreValue;
+	private TweenableFloat _waveValue;
+	private TweenableFloat _highscoreValue;
+	
 	private int _scoreToDisplay, _waveToDisplay, _highscoreToDisplay;
 	private boolean _isDisplaying = false;
+	
 	public EndScreenPopUp(boolean isCoverPopUp) 
 	{
 		super(isCoverPopUp);
@@ -69,6 +77,10 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 	
 	private void spawnTexts() 
 	{
+		_scoreValue = new TweenableFloat(0);
+		_waveValue = new TweenableFloat(0);
+		_highscoreValue = new TweenableFloat(0);
+		
 		_scoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), Integer.toString(_scoreToDisplay), true);
 		_wavesValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS), Integer.toString(_waveToDisplay), true);
 		_highscoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), Integer.toString(_highscoreToDisplay), true);
@@ -134,8 +146,47 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 			highscoreTitle.getRenderComponent().setColor(highscoreColor);
 			_highscoreValueText.getRenderComponent().setColor(highscoreColor);
 		}
+		
+		// Animation
+		
+		scoreTitle.getRenderComponent().setAlpha(0);
+		waveTitle.getRenderComponent().setAlpha(0);
+		highscoreTitle.getRenderComponent().setAlpha(0);
+		
+		_scoreValueText.getRenderComponent().setAlpha(0);
+		_wavesValueText.getRenderComponent().setAlpha(0);
+		_highscoreValueText.getRenderComponent().setAlpha(0);
+		
+		Timeline tl = Timeline.createSequence();
+		tl.beginSequence();
+
+		tl.push(scoreTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(_scoreValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(this.getTransformComponent().doFloat(_scoreValue, _scoreToDisplay, 1f, false).getTween());
+		
+		tl.push(waveTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(_wavesValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(this.getTransformComponent().doFloat(_waveValue, _waveToDisplay, 1f, false).getTween());
+		
+		tl.push(highscoreTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(_highscoreValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
+		tl.push(this.getTransformComponent().doFloat(_highscoreValue, _highscoreToDisplay, 1f, false).getTween());
+		
+		tl.end();
+		
+		this.getTransformComponent().startTimelineOnComponent(tl, false);
 	}
 
+	@Override
+	protected void updated(float dt)
+	{
+		super.updated(dt);
+		if(!_isDisplaying) { return; }
+		_scoreValueText.setText(Integer.toString((int)_scoreValue.getValue()));
+		_wavesValueText.setText(Integer.toString((int)_waveValue.getValue()));
+		_highscoreValueText.setText(Integer.toString((int)_highscoreValue.getValue()));
+	}
+	
 	@Override
 	protected void onPopUpDestroyed() 
 	{
@@ -145,6 +196,10 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		_scoreValueText = null;
 		_wavesValueText = null;
 		_highscoreValueText = null;
+		
+		_scoreValue = null;
+		_waveValue = null;
+		_highscoreValue = null;
 		
 		Engine.getSceneManager().setScene(GameScenesManager.GAME_SCENE);
 	}
