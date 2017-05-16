@@ -10,7 +10,7 @@ import com.mygdx.game.touchinput.TouchInputHandler;
 
 public class MyGdxGame extends ApplicationAdapter 
 {	
-	public static final String TITLE = "Archery Game";
+	public static final String TITLE = "Bandidos";
 	public static final int SCALE = 2;
 	public static final int WIDTH = 300;
 	public static final int HEIGHT = 480;

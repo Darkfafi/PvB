@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class EngineTweenTracker 
 {
-	public ArrayList<EngineTween> _activeTweens = new ArrayList<EngineTween>();
+	private ArrayList<EngineTween> _activeTweens = new ArrayList<EngineTween>();
 	
 	/**
 	 * Registers a Tween to track.
