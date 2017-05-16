@@ -2,6 +2,7 @@ package com.mygdx.game.engine.tweening;
 
 import java.util.Stack;
 
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 
@@ -34,6 +35,19 @@ public class EngineTweener
 		_tweensToStartStack.add(new ChannelTween(t, channel));
 		return t;
 	}
+	
+	/**
+	 * Starts a Timeline on the given channel and returns it.
+	 * @param timeline to start through the Engine.
+	 * @param channel to start the timeline on
+	 * @return The timeline instance given to the method.
+	 */
+	public static Timeline startTimeline(Timeline timeLine, int channel)
+	{
+		_tweensToStartStack.add(new ChannelTween(timeLine, channel));
+		return timeLine;
+	}
+	
 	
 	/**
 	 * Gets a TweenManager which represetns the given channel.
@@ -69,10 +83,17 @@ public class EngineTweener
 		{
 			ChannelTween ct = _tweensToStartStack.pop();
 			
-			if(ct.Tween.isCleaned()) { continue; }
-			
-			ct.Tween.getTween().start(getTweenManager(ct.Channel));
-			ct.Tween = null;
+			if(ct.Tween != null)
+			{
+				if(ct.Tween.isCleaned()) { continue; }
+				ct.Tween.getTween().start(getTweenManager(ct.Channel));
+				ct.Tween = null;
+			}
+			else
+			{
+				ct.Timeline.start(getTweenManager(ct.Channel));
+				ct.Timeline = null;
+			}
 		}
 		
 		for(int i = 0; i < _tweenManagers.length; i++)
@@ -90,12 +111,19 @@ public class EngineTweener
 	 */
 	private static class ChannelTween
 	{
-		public EngineTween Tween;
-		public int Channel;
+		public EngineTween Tween = null;
+		public Timeline Timeline = null;
+		public int Channel = 0;
 		
 		public ChannelTween(EngineTween t, int c)
 		{
 			Tween = t;
+			Channel = c;
+		}
+		
+		public ChannelTween(Timeline t, int c)
+		{
+			Timeline = t;
 			Channel = c;
 		}
 	}
