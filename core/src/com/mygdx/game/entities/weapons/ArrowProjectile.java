@@ -90,7 +90,12 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		diff.nor();
 		diff.x *= _currentSpeed;
 		diff.y *= _currentSpeed;
-		this.getComponent(CollisionComponent.class).setVelocity(diff.x, diff.y);
+		
+		CollisionComponent cc = this.getComponent(CollisionComponent.class);
+		if(cc.getBody() != null)
+			cc.setVelocity(diff.x, diff.y);
+		else
+			this.destroy();
 	}
 	
 	@Override

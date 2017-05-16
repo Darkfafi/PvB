@@ -294,7 +294,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		
 		createBloodPool();
 		
-		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
+		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX() + this.getComponent(AnimationComponent.class).getRealWidth() * 0.3f, this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
 		this.removeComponent(CollisionComponent.class);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);

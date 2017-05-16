@@ -100,7 +100,7 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		
 		_scoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), Integer.toString(_scoreToDisplay), true);
 		_wavesValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS), Integer.toString(_waveToDisplay), true);
-		_highscoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), Integer.toString(_highscoreToDisplay), true);
+		_highscoreValueText = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS), Integer.toString(_highscoreToDisplay), true);
 		
 		int fontSize = 7;
 		int titleFontSize = 4;
@@ -108,9 +108,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		Color titleColor = new Color(0.99f, 1f, 213f/255f, 1f);
 		Color highscoreColor = new Color(1f, 228f/255f, 0, 1);
 		
-		TextEntity scoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "SCORE:", true);
-		TextEntity waveTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "WAVE:", true);
-		TextEntity highscoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), "HIGHSCORE:", true);
+		TextEntity scoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS), "SCORE:", true);
+		TextEntity waveTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS), "WAVE:", true);
+		TextEntity highscoreTitle = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS), "HIGHSCORE:", true);
 		
 		_scoreValueText.getTransformComponent().setParent(getTransformComponent());
 		_wavesValueText.getTransformComponent().setParent(getTransformComponent());

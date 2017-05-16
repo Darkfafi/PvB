@@ -35,13 +35,13 @@ public class GameScoreSystem extends ScoreSystem implements IEventReceiver
 	public void addScore(int score, float effectXPos, float effectYPos)
 	{
 		int scoreAdded = this.addScore(score);
-		TextEntity te = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS), scoreAdded + "+", true);
-		te.setFontSize(4);
+		TextEntity te = new TextEntity(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS),  "+" +scoreAdded, true);
+		te.setFontSize(6);
 		te.getTransformComponent().setPosition(effectXPos, effectYPos);
-		te.getTransformComponent().doPosition(effectXPos, effectYPos + 20, 0.8f, true).ease(EaseType.BackOut);
-		te.getRenderComponent().doAlpha(0.1f, 0.7f, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
+		te.getTransformComponent().doPosition(effectXPos, effectYPos + 22, 1f, true).ease(EaseType.BackOut);
+		te.getRenderComponent().doAlpha(0.1f, 0.9f, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
 	}
-
+	
 
 	@Override
 	public void onReceiveEvent(Event event) 
