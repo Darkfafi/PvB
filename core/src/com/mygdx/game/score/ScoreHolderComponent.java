@@ -16,6 +16,7 @@ public class ScoreHolderComponent extends BaseEntityComponent
 	public ScoreHolderComponent(ScoreGainType scoreGainType, int scoreWorth)
 	{
 		_scoreWorth = scoreWorth;
+		_gainType = scoreGainType;
 	}
 	
 	public int getScoreWorth()
