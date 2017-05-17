@@ -152,7 +152,7 @@ public class EffectFactory
 	 */
 	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y)
 	{
-		return createTextEffect(font, text, size, startX, startY, x, y, 0, 0);
+		return createTextEffect(font, text, size, startX, startY, x, y, 0, 0, 0);
 	}
 	
 	/**
@@ -168,9 +168,10 @@ public class EffectFactory
 	 * @param offsetY is the forced offset despite the bounds onto the y param
 	 * @return The TextEntity instance which was created to do the effect with.
 	 */
-	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y, float offsetX, float offsetY)
+	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y, float offsetX, float offsetY, float waitTillFade)
 	{	
 		final TextEntity te = new TextEntity(font, text, true);
+		
 		te.setFontSize(size);
 		te.getTransformComponent().setPosition(startX, startY);
 		
@@ -196,13 +197,14 @@ public class EffectFactory
 		
 		te.getTransformComponent().setScale(new Vector2(0,0));
 		te.getTransformComponent().doScale(1, 1, 0.2f, true);
+		te.getRenderComponent().setSortingLayer(-1);
 		te.getTransformComponent().doPosition(x, y, 0.4f, true).ease(EaseType.QuadOut).setCallbackMethod(new IEngineTweenMethod()
 		{	
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
 			{
-				te.getTransformComponent().doPosition(te.getTransformComponent().getPositionX(), te.getTransformComponent().getPositionY() + 35, 0.8f, true).ease(EaseType.CubicIn);
-				te.getRenderComponent().doAlpha(0.1f, 0.4f, true).delay(0.4f).setCallbackMethod(new IEngineTweenMethod()
+				te.getTransformComponent().doPosition(te.getTransformComponent().getPositionX(), te.getTransformComponent().getPositionY() + 35, 0.8f, true).delay(waitTillFade).ease(EaseType.CubicIn);
+				te.getRenderComponent().doAlpha(0.1f, 0.4f, true).delay(0.4f + waitTillFade).setCallbackMethod(new IEngineTweenMethod()
 				{
 					@Override
 					public void onMethod(int tweenEventType, EngineTween tween) 

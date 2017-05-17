@@ -28,7 +28,7 @@ public class Player extends BaseEntity
 
 	}
 	
-	public IWeapon getCurrentWeapon()
+	public BaseWeapon getCurrentWeapon()
 	{
 		return _currentWeapon;
 	}

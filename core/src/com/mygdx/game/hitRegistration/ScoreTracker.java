@@ -118,12 +118,21 @@ public class ScoreTracker implements IEventReceiver
 
 	private void bonusScoreEffects(ArrayList<BonusScoreToGainInfo> bonusScoreInfo, float startX, float startY, float x, float y) 
 	{
-		float newY = y;
+		float orY = y;
+		float newY = orY;
+		boolean under = false;
+		
 		for(int i = 0; i < bonusScoreInfo.size(); i++)
 		{
-			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 6, startX, startY, x, newY);
-			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 4f, startX, startY,  x, newY, 0, -30);
-			newY += 55;
+			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 6, startX, startY, x, newY, 0, 0, 0.3f + (0.1f * i));
+			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 4f, startX, startY,  x, newY, 0, -30, 0.3f + (0.1f * i));
+			newY += 55 * ((under) ? -1 : 1);
+			
+			if(newY >= Engine.getHeight() - 80)
+			{
+				newY = orY - 55;
+				under = true;
+			}
 		}
 	}
 	

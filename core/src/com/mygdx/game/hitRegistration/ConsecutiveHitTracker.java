@@ -1,10 +1,15 @@
 package com.mygdx.game.hitRegistration;
 
+import com.badlogic.gdx.graphics.Color;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
+import com.mygdx.game.engine.tweening.EaseType;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.factories.EffectFactory;
 
@@ -67,17 +72,32 @@ public class ConsecutiveHitTracker implements IEventReceiver
 	{
 		String font = GameFontResources.MULTIPLIER_FONT_BANDIDOS;
 		float size = 7;
+		float wait = 10;
 		if(type == ConsecutiveHitType.Hit)
 		{
 			_consecutiveHits ++;
 			if(_consecutiveHits % CONSECUTIVE_HITS_FOR_UPGRADE == 0)
 			{
-				_player.giveSpecial();
 				font = GameFontResources.WAVE_FONT_BANDIDOS;
 				size = 8;
+				wait = 10;
 			}
 			
-			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(font),  _consecutiveHits + " Hits", size, x - 30, y + 50, x - 60, y + 80);
+			final TextEntity e = EffectFactory.createTextEffect(Engine.getFontResources().getFontData(font),  _consecutiveHits + " Hits", size, x - 30, y + 50, x - 60, y + 80, 0, 0, wait);
+			if(wait != 0)
+			{
+				e.getTransformComponent().doPosition(_player.getCurrentWeapon().getTransformComponent().getPositionX(), _player.getCurrentWeapon().getTransformComponent().getPositionY(), 1f, true).ease(EaseType.CubicIn).delay(0.5f).setCallbackMethod(new IEngineTweenMethod()
+				{
+					@Override
+					public void onMethod(int tweenEventType, EngineTween tween) 
+					{
+						EffectFactory.createHitEffect(e.getTransformComponent().getPositionX(), e.getTransformComponent().getPositionY() + 30, 1.2f, Color.YELLOW).getAnimationComponent().setSortingLayer(10);
+						e.destroy();
+						_player.giveSpecial();
+					}
+				}
+				);
+			}
 		}
 		else if(type == ConsecutiveHitType.Exit)
 		{
