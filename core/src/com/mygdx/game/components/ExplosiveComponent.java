@@ -97,7 +97,7 @@ public class ExplosiveComponent extends BaseEntityComponent
 						   current.getTransformComponent().getPositionY()) <= radius)
 			{
 				HealthComponent hc = current.getComponent(HealthComponent.class);
-				if(hc != null)
+				if(hc != null && hc.isAlive())
 				{
 					hc.damage(dmg);
 					HitRegistrationPoint.getInstance().register(hc.getParentOfComponent(), toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT });

@@ -106,8 +106,9 @@ public class ScoreTracker implements IEventReceiver
 
 	private ArrayList<BonusScoreToGainInfo> getBonusScoresToGain(int hitTool, int[] hitTypes) {
 		ArrayList<BonusScoreToGainInfo> infos = new ArrayList<BonusScoreToGainInfo>();
-
-		if (hitTool == HitGlobals.TOOL_TRAP) {
+		
+		if (hitTool == HitGlobals.TOOL_TRAP) 
+		{
 			infos.add(new BonusScoreToGainInfo(25, "Trap Kill!"));
 		}
 
@@ -119,11 +120,18 @@ public class ScoreTracker implements IEventReceiver
 		textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + score, 6, x, y);
 	}
 
-	private void bonusScoreEffects(ArrayList<BonusScoreToGainInfo> bonusScoreInfo, float x, float y) {
-
+	private void bonusScoreEffects(ArrayList<BonusScoreToGainInfo> bonusScoreInfo, float x, float y) 
+	{
+		float newY = y;
+		for(int i = 0; i < bonusScoreInfo.size(); i++)
+		{
+			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 5, x, newY);
+			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 3, x, newY - 20);
+			newY += 50;
+		}
 	}
 	
-	private void textEffect(FontData font, String text, int size, float x, float y)
+	private TextEntity textEffect(FontData font, String text, int size, float x, float y)
 	{
 		TextEntity te = new TextEntity(font,
 				text, true);
@@ -131,14 +139,18 @@ public class ScoreTracker implements IEventReceiver
 		te.getTransformComponent().setPosition(x, y);
 		te.getTransformComponent().doPosition(x, y + 22, 1f, true).ease(EaseType.BackOut);
 		te.getRenderComponent().doAlpha(0.1f, 0.9f, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
+		return te;
 	}
 
-	private class BonusScoreToGainInfo {
+	private class BonusScoreToGainInfo 
+	{
 		public String Description;
 		public int Score;
 
-		public BonusScoreToGainInfo(int score, String description) {
-
+		public BonusScoreToGainInfo(int score, String description) 
+		{
+			Score = score;
+			Description = description;
 		}
 	}
 

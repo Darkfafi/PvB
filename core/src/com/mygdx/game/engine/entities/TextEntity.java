@@ -71,8 +71,7 @@ public class TextEntity extends BaseEntity
 	public void setFont(FontData fontData)
 	{
 		_bitMapFontData.dispose();
-		_bitMapFontData = new BitmapFont(fontData.getFont(), fontData.getFontPng(), false);
-		_bitMapFontData.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		_bitMapFontData = fontData.getFont();
 	}
 	
 	/**
@@ -153,7 +152,6 @@ public class TextEntity extends BaseEntity
 	protected void destroyed() 
 	{
 		_renderComponent = null;
-		_bitMapFontData.dispose();
 		_bitMapFontData = null;
 		_currentText = null;
 		_mx4Font = null;
