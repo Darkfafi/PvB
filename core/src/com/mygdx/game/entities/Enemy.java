@@ -284,7 +284,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	}
 
 	private void die() 
-	{
+	{	
 		BasicEnemyAIComponent c = this.getComponent(BasicEnemyAIComponent.class);
 		if(c != null)
 		{

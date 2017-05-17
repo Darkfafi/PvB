@@ -72,6 +72,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_SMALL = "ExplosionEffectSmall_Animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_BIG = "ExplosionEffectBig_Animation";
+//	public static final String ANIMATION_EFFECT_EXPLOSION = "ExplosionEffect_Animation";
 	
 	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
 	public static final String SHEET_EXPLOSIVE_BARREL_TRAP = "ExplosiveBarrelSheetTrap";
@@ -148,6 +149,7 @@ public class GameTextureResources extends BaseTextureResources
 		// Effects
 		this.loadResource(ANIMATION_EFFECT_HIT, "effects/hitEffectEpic.png", "effects/hitEffectEpic.xml");
 		this.loadResource(SHEET_BLOOD_POOL, "effects/bloodPool.png", "effects/bloodPool.xml");
+
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_BIG, "effects/bigExplosion.png", "effects/bigExplosion.xml");
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_SMALL, "effects/smallExplosion.png", "effects/smallExplosion.xml");
 		

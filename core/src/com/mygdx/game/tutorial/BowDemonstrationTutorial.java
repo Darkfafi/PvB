@@ -3,79 +3,217 @@ package com.mygdx.game.tutorial;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.components.PlayerWeaponControlComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
+import com.mygdx.game.engine.events.Event;
+import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.weapons.BowWeapon;
-import com.mygdx.game.entities.weapons.IWeapon;
+import com.mygdx.game.events.TutorialEvent;
 import com.mygdx.game.factories.EnemyFactory;
 import com.mygdx.game.level.Playfield;
 
+import aurelienribon.tweenengine.Timeline;
+
 /**
  * This entity will handle the full course of a bow demonstration animation
- * @author Ramses Di Oerna
+ * @author Djamali Jones
  *
  */
-public class BowDemonstrationTutorial extends BaseEntity
+public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiver
 {
-	private IWeapon _bowWeapon;
+	/*
+	 * This Event is Fired by the Tutorial when it is done.
+	 * */
+	public static final String TUTORIAL_DONE = "TutorialDone";
+	
+	private enum TutorialStates
+	{
+		TutorialNotRunningState, 
+		ShootEnemyState, 
+		ShootTrapState, 
+		TutorialOverState
+	}
+	
+	private BowWeapon _bowWeapon;
 	private Playfield _playfield;
 	
+	private TutorialStates _tutorialStates;
+	
+	private boolean _tutorialOver = false;
+	private boolean _checkedForState = false;
 	private boolean _pulling = false;
 	private boolean _release = false;
+
+	private int _enemyCounter = 3;
 	
-	public BowDemonstrationTutorial(IWeapon bow, Playfield playfield)
+	private Enemy _enemy1;
+	private Enemy _enemy2;
+	private Enemy _enemy3;
+	
+	public boolean isTutorialOver()
+	{
+		return _tutorialOver;
+	}
+	
+	public BowDemonstrationTutorial(BowWeapon bow, Playfield playfield)
 	{
 		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0f, 1), false);
 		this.getComponent(RenderComponent.class).setActiveState(false);
 		_bowWeapon = bow;
 		_playfield = playfield;
+		_tutorialStates = TutorialStates.TutorialNotRunningState;
+		_bowWeapon.getComponent(PlayerWeaponControlComponent.class).setActiveState(false);
 	}
 	
 	/**
 	 * Starts the tutorial which displays the computer taking over bow control, spawning and killing an enemy and spawning and killing an enemy with a trap.
 	 * @param duration on how long this tutorial animation must take.
 	 */
-	public void startTutorial(final float duration)
+	public void startTutorial()
 	{
-		final Enemy enemy1;
-		enemy1 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
-		enemy1.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
+		_tutorialStates = TutorialStates.ShootEnemyState;		
+		tutorialOrder();
+	}
+	
+	private void tutorialOrder()
+	{
+		if(_checkedForState == true) { return; }
 		
+		switch(_tutorialStates)
+		{
+		case TutorialNotRunningState:
+			return;
+		case ShootEnemyState:
+			shootEnemyState();
+			break;
+		case ShootTrapState:
+			shootTrapState();
+			break;
+		case TutorialOverState:
+			_tutorialOver = true;
+			this.dispatchEvent(new TutorialEvent(TUTORIAL_DONE, _tutorialOver));
+			break;
+		default:
+			break;
+		}
+	}
+	
+	private void shootEnemyState()
+	{
+		_enemy1 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
+		_enemy1.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
 		
+		Timeline tl = Timeline.createSequence();
+		tl.beginSequence();
 		
-		enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, Engine.getHeight() / 2, duration * 0.25f, true).setCallbackMethod(
-				new IEngineTweenMethod()	
+		//Tween Enemy to specific position.
+		tl.push(_enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, 600, 2, true).setCallbackMethod(
+			new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween) 
 				{
-
-					@Override
-					public void onMethod(int tweenEventType, EngineTween tween) 
-					{
-						enemy1.setEnemyState(Enemy.EnemyState.IdleState, true);
-
-						getTransformComponent().setPosition(-100, -100);
-						getComponent(RenderComponent.class).setActiveState(true);
-						// Enemy kill
-						shootUsingTarget(Engine.getWidth() / 2, Engine.getHeight() / 1f, duration * 0.333f, 0);
-
-						Enemy enemy2 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
-						enemy2.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
-						
-						enemy2.getTransformComponent().doPosition(Engine.getWidth() / 1.2f, Engine.getHeight() / 1.4f, duration * 0.4166f, true).getTween().delay(duration * 0.275f);
-						
-						// Shooting train target
-						shootUsingTarget(_playfield.getLevelBlueprint().getTrapSpawnInfos()[0].getActivatorPosition() * Engine.getWidth(), 
-								Engine.getHeight() / 1f, duration * 0.333f, (duration * 0.333f) + 0.1f);
-						
-						getTransformComponent().doPosition(-100, -100, 2, true).getTween().delay(duration * 0.75f);
-					}
-			
-			
+					_enemy1.setEnemyState(Enemy.EnemyState.IdleState, true);
 				}
-		);
+			}
+		).getTween());
+		
+		//Wait for 1 second.
+		tl.delay(1f);
+		
+		//Show Finger Dragging on the Screen.
+		getTransformComponent().setPosition(-100, -100);
+		getComponent(RenderComponent.class).setActiveState(true);
+		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900, 2, true).setCallbackMethod(
+			new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween) 
+				{
+					//Activate Player Bow Input
+					_bowWeapon.getComponent(PlayerWeaponControlComponent.class).setActiveState(true);
+					//Change Hand Sprite to Dragging Hand Sprite.
+					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_DOWN));
+				}	
+			}
+		).getTween());
+		//Wait for 2 seconds.
+		tl.delay(2f);
+		//Tween Hand to yPos - Max Draw Length.
+		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900 - BowWeapon.MAX_DRAW_LENGTH, 4, true).setCallbackMethod(
+			new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween)
+				{
+					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
+				}
+			}
+		).getTween().repeat(3, 1f));
+		
+		tl.delay(1f);
+		tl.push(this.getTransformComponent().doPosition(-100, -100, 2, true).getTween());
+		
+		_enemy1.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+		
+		tl.end();
+		this.getTransformComponent().startTimelineOnComponent(tl, true);
+	}
+	
+	private void shootTrapState()
+	{		
+		Vector2 enemy2Pos = new Vector2(Engine.getWidth() / 2 + 200, Engine.getHeight() + 100);
+		Vector2 enemy3Pos = new Vector2(Engine.getWidth() / 2 + 250, Engine.getHeight() + 100);
+		
+		_enemy2 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
+		_enemy2.getTransformComponent().setPosition(enemy2Pos);
+		
+		_enemy3 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
+		_enemy3.getTransformComponent().setPosition(enemy3Pos);
+		
+		Timeline tl = Timeline.createSequence();
+		tl.beginSequence();
+		
+		tl.push(_enemy2.getTransformComponent().doPosition(enemy2Pos.x, 500, 2, true).setCallbackMethod(
+			new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween) {
+					_enemy2.setEnemyState(Enemy.EnemyState.IdleState, true);
+				}
+			}
+		).getTween());
+		
+		tl.push(_enemy3.getTransformComponent().doPosition(enemy3Pos.x, 450, 2, true).setCallbackMethod(
+			new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween) {
+					_enemy3.setEnemyState(Enemy.EnemyState.IdleState, true);
+				}
+			}
+		).getTween());
+		
+		_enemy2.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+		_enemy3.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+		
+		tl.end();
+		this.getTransformComponent().startTimelineOnComponent(tl, true);
+	}
+	
+	/**
+	 * Changes the State of the Tutorial to the one given in the parameter.
+	 * @param ts
+	 */
+	private void changeState(TutorialStates ts)
+	{
+		_tutorialStates = ts;
 	}
 	
 	/**
@@ -139,6 +277,19 @@ public class BowDemonstrationTutorial extends BaseEntity
 				_pulling = false;
 			}
 		}
+		
+		if(_enemyCounter == 2)
+		{
+			changeState(TutorialStates.ShootTrapState);
+			tutorialOrder();
+			_checkedForState = true;
+		}
+		else if(_enemyCounter <= 0)
+		{
+			changeState(TutorialStates.TutorialOverState);
+			tutorialOrder();
+			_checkedForState = true;
+		}
 	}
 
 	@Override
@@ -152,5 +303,18 @@ public class BowDemonstrationTutorial extends BaseEntity
 	{
 		_bowWeapon = null;
 		_playfield = null;
+		_enemy1 = null;
+		_enemy2 = null;
+		_enemy3 = null;
+	}
+
+	@Override
+	public void onReceiveEvent(Event event) 
+	{
+		if(event.getType() == HealthComponent.EVENT_HEALTH_DIED)
+		{
+			_enemyCounter--;
+			_checkedForState = false;
+		}
 	}
 }
