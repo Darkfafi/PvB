@@ -109,7 +109,7 @@ public class ScoreTracker implements IEventReceiver
 		
 		if (hitTool == HitGlobals.TOOL_TRAP) 
 		{
-			infos.add(new BonusScoreToGainInfo(25, "Trap Kill!"));
+			infos.add(new BonusScoreToGainInfo(25, "Trap Bonus"));
 		}
 
 		return infos;
@@ -125,13 +125,13 @@ public class ScoreTracker implements IEventReceiver
 		float newY = y;
 		for(int i = 0; i < bonusScoreInfo.size(); i++)
 		{
-			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 5, x, newY);
-			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 3, x, newY - 20);
-			newY += 50;
+			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 6, x, newY);
+			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 3.6f, x, newY - 30);
+			newY += 55;
 		}
 	}
 	
-	private TextEntity textEffect(FontData font, String text, int size, float x, float y)
+	private TextEntity textEffect(FontData font, String text, float size, float x, float y)
 	{
 		TextEntity te = new TextEntity(font,
 				text, true);
