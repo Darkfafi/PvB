@@ -22,6 +22,8 @@ import com.mygdx.game.entities.Train;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.factories.TrapFactory.Direction;
 import com.mygdx.game.globals.GridTags;
+import com.mygdx.game.hitRegistration.HitGlobals;
+import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 import com.mygdx.game.level.Grid;
 
 /**
@@ -89,6 +91,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		if(hc != null)
 		{
 			hc.kill();
+			HitRegistrationPoint.getInstance().register(event.getOtherCollisionComponent().getParentOfComponent(), HitGlobals.TOOL_TRAP, new int[]{ HitGlobals.TYPE_DIRECT_HIT });
 		}
 	}
 	
