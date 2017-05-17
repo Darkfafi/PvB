@@ -91,7 +91,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		if(hc != null)
 		{
 			hc.kill();
-			HitRegistrationPoint.getInstance().register(event.getOtherCollisionComponent().getParentOfComponent(), HitGlobals.TOOL_TRAP, new int[]{ HitGlobals.TYPE_DIRECT_HIT });
+			HitRegistrationPoint.getInstance().register(event.getOtherCollisionComponent().getParentOfComponent().getTransformComponent().getPositionX(), event.getOtherCollisionComponent().getParentOfComponent().getTransformComponent().getPositionY(), event.getOtherCollisionComponent().getParentOfComponent(), HitGlobals.TOOL_TRAP, new int[]{ HitGlobals.TYPE_DIRECT_HIT });
 		}
 	}
 	

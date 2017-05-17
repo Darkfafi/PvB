@@ -29,9 +29,9 @@ public class HitRegistrationPoint extends EventDispatcher
 	 * @param toolType indicates the object which hit the entity (Check HitGlobals for all the tools)
 	 * @param hitTypes indicates the types of hits these presented (Explosion, Fire etc) (Check HitGlobals for all the types)
 	 */
-	public void register(BaseEntity hitEntity, int toolType, int[] hitTypes)
+	public void register(float x, float y, BaseEntity hitEntity, int toolType, int[] hitTypes)
 	{
-		this.dispatchEvent(new HitRegistrationEvent(HIT_REGISTRATED_EVENT, hitEntity, toolType, hitTypes));
+		this.dispatchEvent(new HitRegistrationEvent(HIT_REGISTRATED_EVENT, x, y, hitEntity, toolType, hitTypes));
 	}
 	
 	/**
@@ -40,8 +40,8 @@ public class HitRegistrationPoint extends EventDispatcher
 	 * @param toolType indicates the object which hit the entity (Check HitGlobals for all the tools)
 	 * @param hitType indicates the type of hit this presented (Explosion, Fire etc) (Check HitGlobals for all the types)
 	 */
-	public void register(BaseEntity hitEntity, int toolType, int hitType)
+	public void register(float x, float y, BaseEntity hitEntity, int toolType, int hitType)
 	{
-		register(hitEntity, toolType, new int[]{hitType});
+		register(x, y, hitEntity, toolType, new int[]{hitType});
 	}
 }

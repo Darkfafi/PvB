@@ -1,7 +1,6 @@
 package com.mygdx.game.entities.weapons;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 
@@ -10,7 +9,7 @@ import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
  * @author Ramses Di Perna
  *
  */
-public abstract class BaseBowWeapon extends BaseEntity implements IWeapon
+public abstract class BaseBowWeapon extends BaseWeapon
 {
 	public enum BowStage
 	{

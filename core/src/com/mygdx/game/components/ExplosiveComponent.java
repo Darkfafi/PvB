@@ -100,7 +100,7 @@ public class ExplosiveComponent extends BaseEntityComponent
 				if(hc != null && hc.isAlive())
 				{
 					hc.damage(dmg);
-					HitRegistrationPoint.getInstance().register(hc.getParentOfComponent(), toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT });
+					HitRegistrationPoint.getInstance().register(current.getTransformComponent().getPositionX(), current.getTransformComponent().getPositionY(), hc.getParentOfComponent(), toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT });
 				}
 			}
 		}

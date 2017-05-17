@@ -2,18 +2,15 @@ package com.mygdx.game.hitRegistration;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.components.HealthComponent;
-import com.mygdx.game.engine.entities.FontData;
-import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
-import com.mygdx.game.engine.tweening.EaseType;
-import com.mygdx.game.engine.tweening.EngineTween;
-import com.mygdx.game.engine.tweening.TweenEvent;
+import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.score.GameScoreSystem;
 import com.mygdx.game.score.ScoreHolderComponent;
 
@@ -41,11 +38,6 @@ public class ScoreTracker implements IEventReceiver
 		if (event.getType() == HitRegistrationPoint.HIT_REGISTRATED_EVENT) 
 		{
 			onHitRegistrationEvent((HitRegistrationEvent) event);
-		}
-		
-		if(event.getType() == EngineTween.ENGINE_TWEEN_EVENT)
-		{
-			onTextEffectEndEvent((TweenEvent)event);
 		}
 	}
 
@@ -94,14 +86,14 @@ public class ScoreTracker implements IEventReceiver
 
 	private void doScore(int score, int hitTool, int[] hitTypes, float x, float y, float width, float height) {
 		ArrayList<BonusScoreToGainInfo> scoresToGain = getBonusScoresToGain(hitTool, hitTypes);
-		normalScoreEffects(GameScoreSystem.getInstance().addScore(score), x + width * 0.8f, y + height / 2); 
+		normalScoreEffects(GameScoreSystem.getInstance().addScore(score), x + width / 2, y + height / 2, x + width * 0.8f, y + height * 0.75f); 
 
 		for (int i = 0; i < scoresToGain.size(); i++) {
 			int s = GameScoreSystem.getInstance().addScore(scoresToGain.get(i).Score);
 			scoresToGain.get(i).Score = s;
 		}
 		
-		bonusScoreEffects(scoresToGain, x + width / 2, y + height);
+		bonusScoreEffects(scoresToGain, x, y, x + width / 2, y + height + 15);
 	}
 
 	private ArrayList<BonusScoreToGainInfo> getBonusScoresToGain(int hitTool, int[] hitTypes) {
@@ -109,38 +101,33 @@ public class ScoreTracker implements IEventReceiver
 		
 		if (hitTool == HitGlobals.TOOL_TRAP) 
 		{
-			infos.add(new BonusScoreToGainInfo(25, "Trap Bonus"));
+			infos.add(new BonusScoreToGainInfo(10, "Trap Bonus"));
 		}
-
+		else if(hitTool == HitGlobals.TOOL_SPECIAL_ARROW)
+		{
+			infos.add(new BonusScoreToGainInfo(15, "Special Bonus"));
+		}
+		
 		return infos;
 	}
 
-	private void normalScoreEffects(int score, float x, float y) 
+	private void normalScoreEffects(int score, float startX, float startY, float x, float y) 
 	{
-		textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + score, 6, x, y);
+		EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + score, 6, startX, startY, x, y);
 	}
 
-	private void bonusScoreEffects(ArrayList<BonusScoreToGainInfo> bonusScoreInfo, float x, float y) 
+	private void bonusScoreEffects(ArrayList<BonusScoreToGainInfo> bonusScoreInfo, float startX, float startY, float x, float y) 
 	{
 		float newY = y;
 		for(int i = 0; i < bonusScoreInfo.size(); i++)
 		{
-			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 6, x, newY);
-			textEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 3.6f, x, newY - 30);
+			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), "+" + bonusScoreInfo.get(i).Score, 6, startX, startY, x, newY);
+			EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS), bonusScoreInfo.get(i).Description, 4f, startX, startY,  x, newY, 0, -30);
 			newY += 55;
 		}
 	}
 	
-	private TextEntity textEffect(FontData font, String text, float size, float x, float y)
-	{
-		TextEntity te = new TextEntity(font,
-				text, true);
-		te.setFontSize(size);
-		te.getTransformComponent().setPosition(x, y);
-		te.getTransformComponent().doPosition(x, y + 22, 1f, true).ease(EaseType.BackOut);
-		te.getRenderComponent().doAlpha(0.1f, 0.9f, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
-		return te;
-	}
+	
 
 	private class BonusScoreToGainInfo 
 	{
@@ -152,11 +139,5 @@ public class ScoreTracker implements IEventReceiver
 			Score = score;
 			Description = description;
 		}
-	}
-
-	private void onTextEffectEndEvent(TweenEvent event) 
-	{
-		RenderComponent rc = (RenderComponent)event.getEngineTween().getTween().getTarget();
-		rc.getParentOfComponent().destroy();
 	}
 }

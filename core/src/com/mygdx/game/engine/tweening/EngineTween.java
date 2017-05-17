@@ -83,6 +83,17 @@ public class EngineTween extends EventDispatcher
 	}
 	
 	/**
+	 * This tween will wait the amount of seconds given as value until it starts.
+	 * @param delay in seconds to wait before starting tween.
+	 * @return This EngineTween
+	 */
+	public EngineTween delay(float delay)
+	{
+		_tween.delay(delay);
+		return this;
+	}
+	
+	/**
 	 * Returns the Tween Type of the Accessor.
 	 * For Example the POSITION type of the 'TransformAccessor'
 	 * @return The type of the tween accessor linked to the tween

@@ -13,6 +13,7 @@ public class HitRegistrationEvent extends Event
 	private BaseEntity _hitEntity;
 	private int _hitTool;
 	private int[] _hitTypes;
+	private float _x, _y;
 	
 	/**
 	 * Repairs the event for launch.
@@ -21,14 +22,34 @@ public class HitRegistrationEvent extends Event
 	 * @param hitTool represents the object which hit the entity
 	 * @param hitTypes represents the types this hit was (Explosion, fire etc.)
 	 */
-	public HitRegistrationEvent(String type, BaseEntity hitEntity, int hitTool, int[] hitTypes) 
+	public HitRegistrationEvent(String type, float x, float y, BaseEntity hitEntity, int hitTool, int[] hitTypes) 
 	{
 		super(type);
 		_hitEntity = hitEntity;
 		_hitTool = hitTool;
 		_hitTypes = hitTypes;
+		_x = x;
+		_y = y;
 	}
 	
+	/**
+	 * Returns the x coordinate where the hit took place
+	 * @return The X
+	 */
+	public float getRegistrationX()
+	{
+		return _x;
+	}
+	
+	public float getRegistrationY()
+	{
+		return _y;
+	}
+	
+	/**
+	 * Returns the hit entity instance
+	 * @return The Entity which was hit.
+	 */
 	public BaseEntity getHitEntity()
 	{
 		return _hitEntity;

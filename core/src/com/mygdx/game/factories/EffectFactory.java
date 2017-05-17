@@ -5,7 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.entities.FontData;
+import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
+import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.BasicEntity;
@@ -134,5 +137,81 @@ public class EffectFactory
 		
 		Engine.getSceneManager().getRenderComponents().getMainCamera().doShake(shakeValue, 0.7f);
 		return explosionEffect;	
+	}
+	
+	/**
+	 * Creates a text effect which pops out of a position and fades away afterwards.
+	 * @param font to give the text
+	 * @param text is the string to give the text
+	 * @param size as fontsize
+	 * @param startX where the effect will start
+	 * @param startY where the effect will start
+	 * @param x where the effect will lerp to
+	 * @param y where the effect will lerp to
+	 * @return The TextEntity instance which was created to do the effect with.
+	 */
+	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y)
+	{
+		return createTextEffect(font, text, size, startX, startY, x, y, 0, 0);
+	}
+	
+	/**
+	 * Creates a text effect which pops out of a position and fades away afterwards.
+	 * @param font to give the text
+	 * @param text is the string to give the text
+	 * @param size as fontsize
+	 * @param startX where the effect will start
+	 * @param startY where the effect will start
+	 * @param x where the effect will lerp to
+	 * @param y where the effect will lerp to
+	 * @param offsetX is the forced offset despite the bounds onto the x param
+	 * @param offsetY is the forced offset despite the bounds onto the y param
+	 * @return The TextEntity instance which was created to do the effect with.
+	 */
+	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y, float offsetX, float offsetY)
+	{	
+		final TextEntity te = new TextEntity(font, text, true);
+		te.setFontSize(size);
+		te.getTransformComponent().setPosition(startX, startY);
+		
+		if(x < 0 + te.getTextBounds().x / 2)
+		{
+			x = te.getTextBounds().x / 2;
+		}
+		else if(x > Engine.getWidth() - te.getTextBounds().x / 2)
+		{
+			x = Engine.getWidth() - te.getTextBounds().x / 2;
+		}
+		if(y < 0 + te.getTextBounds().y / 2)
+		{
+			y = te.getTextBounds().y / 2;
+		}
+		else if(y > Engine.getHeight() - 80 - te.getTextBounds().y / 2)
+		{
+			y = Engine.getHeight() - 80 - te.getTextBounds().y / 2;
+		}
+		
+		x += offsetX;
+		y += offsetY;
+		
+		te.getTransformComponent().setScale(new Vector2(0,0));
+		te.getTransformComponent().doScale(1, 1, 0.2f, true);
+		te.getTransformComponent().doPosition(x, y, 0.4f, true).ease(EaseType.QuadOut).setCallbackMethod(new IEngineTweenMethod()
+		{	
+			@Override
+			public void onMethod(int tweenEventType, EngineTween tween) 
+			{
+				te.getTransformComponent().doPosition(te.getTransformComponent().getPositionX(), te.getTransformComponent().getPositionY() + 35, 0.8f, true).ease(EaseType.CubicIn);
+				te.getRenderComponent().doAlpha(0.1f, 0.4f, true).delay(0.4f).setCallbackMethod(new IEngineTweenMethod()
+				{
+					@Override
+					public void onMethod(int tweenEventType, EngineTween tween) 
+					{
+						te.destroy();
+					}}
+				);
+			}}
+		);
+		return te;
 	}
 }
