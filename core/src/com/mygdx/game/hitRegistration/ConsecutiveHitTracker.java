@@ -13,6 +13,7 @@ import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.factories.EffectFactory;
+import com.mygdx.game.score.GameScoreSystem;
 
 /**
  * This class tracks all the consecutive hits.
@@ -82,6 +83,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 				font = GameFontResources.WAVE_FONT_BANDIDOS;
 				size = 8;
 				wait = 10;
+				GameScoreSystem.getInstance().setMultiplier(GameScoreSystem.getInstance().getMultiplier() + 1);
 			}
 			
 			final TextEntity e = EffectFactory.createTextEffect(Engine.getFontResources().getFontData(font),  _consecutiveHits + " Hits", size, x - 30, y + 50, x - 60, y + 80, 0, 0, wait);
@@ -103,6 +105,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 		else if(type == ConsecutiveHitType.Exit)
 		{
 			resetConsecutiveHitCounter();
+			GameScoreSystem.getInstance().setMultiplier(1);
 		}
 	}
 }
