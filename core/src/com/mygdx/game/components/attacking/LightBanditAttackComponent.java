@@ -1,5 +1,7 @@
 package com.mygdx.game.components.attacking;
 
+import com.mygdx.game.Engine;
+import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
@@ -30,6 +32,7 @@ public class LightBanditAttackComponent extends BaseEnemyAttackComponent impleme
 		this.getAnimationComponent().setCurrentAnimation("attack", true);
 		this.getAnimationComponent().removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 		this.getAnimationComponent().addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOMBER_SCREAM).play(1, 0.90f + (float)Math.random() * 0.15f, 0);
 	}
 
 	@Override

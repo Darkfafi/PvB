@@ -23,6 +23,8 @@ public class GameAudioResources extends BaseAudioResources
 	
 	public static final String SOUND_SMALL_EXPLOSION_EFFECT = "ExplosionEffectSmall";
 	
+	public static final String SOUND_BOMBER_SCREAM = "BomberScreamEffect";
+	
 	@Override
 	public void load() 
 	{
@@ -39,6 +41,8 @@ public class GameAudioResources extends BaseAudioResources
 		this.loadResourceSound(SOUND_TRAP_TRAIN_EFFECT, "audio/effects/trainSoundEffect.mp3");
 		
 		this.loadResourceSound(SOUND_SMALL_EXPLOSION_EFFECT, "audio/effects/AUD_SG_Explosion_Small.wav");
+		
+		this.loadResourceSound(SOUND_BOMBER_SCREAM, "audio/effects/screams/bombPlaceholderScreem.mp3");
 	}
 
 }
