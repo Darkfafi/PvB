@@ -107,6 +107,7 @@ public abstract class EventDispatcher
 	
 	public void clean()
 	{
+		destroyAllListeners();
 		_allListeners.clear();
 		_allListeners = null;
 	}

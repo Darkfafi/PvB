@@ -46,10 +46,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 	private Playfield _playfield;
 	private WaveSystem _waveSystem;
 	private ButtonEntity _pauseBtn;
+	private BowDemonstrationTutorial _bdt;
 	
 	private Player _player;
-	
-	private float _waitForTutorial = -1;
 	
 	private Preferences _preferences;
 	
@@ -66,16 +65,16 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_physicsWorld.update(dt);
 		_playfield.update(dt);
 		
-		if(_waitForTutorial != -1)
-		{
-			_waitForTutorial += dt;
-			
-			if(_waitForTutorial >= TUTORIAL_DURATION + 2f)
-			{
-				_waitForTutorial = -1;
-				startGame();
-			}
-		}
+//		if(_waitForTutorial != -1)
+//		{
+//			_waitForTutorial += dt;
+//			
+//			if(_waitForTutorial >= TUTORIAL_DURATION + 2f)
+//			{
+//				_waitForTutorial = -1;
+//				startGame();
+//			}
+//		}
 	}
 
 	@Override
@@ -120,9 +119,11 @@ public class GameScene extends BaseScene implements IEventReceiver
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
-			BowDemonstrationTutorial bdt = new BowDemonstrationTutorial(_player.getCurrentWeapon(), _playfield);
-			bdt.startTutorial(TUTORIAL_DURATION);
-			_waitForTutorial = 0;
+			_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
+			_bdt = new BowDemonstrationTutorial(_player, _player.getCurrentWeapon(), _playfield);
+			_bdt.addEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+			_bdt.startTutorial();
+
 			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);
 		}
 		else
@@ -162,6 +163,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_pauseBtn.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_pauseBtn = null;
 		
+		_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+		_bdt = null;
+
 		_scoreTracker.clean();
 		_scoreTracker = null;
 		
@@ -172,6 +176,11 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	public void onReceiveEvent(Event event)
 	{
+		if(event.getType() == BowDemonstrationTutorial.TUTORIAL_DONE)
+		{
+			startGame();
+		}
+		
 		if(event.getType() == Playfield.EVENT_BASE_DESTROYED)
 		{
 			onBaseDestroyedEvent(event);
@@ -200,6 +209,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playfield.getLevelBlueprint().getLevelMusic().setVolume(s, 0.3f);
 		
 		_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
+
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
 
 		_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
