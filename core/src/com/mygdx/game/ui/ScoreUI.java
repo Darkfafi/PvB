@@ -18,9 +18,10 @@ import com.mygdx.game.score.GameScoreSystem;
  */
 public class ScoreUI extends BaseEntity
 {
-	public static float SCORE_COUNT_DURATION = 0.8f;
+	public static float SCORE_COUNT_DURATION = 0.45f;
 	
 	private TextEntity _scoreText;
+	private TextEntity _multiplierText;
 	private BasicEntity _scoreIndicatorUI;
 	private int _scoreDisplaying = 0;
 	private float _countingTracker = -1;
@@ -34,17 +35,29 @@ public class ScoreUI extends BaseEntity
 		_scoreIndicatorUI = new BasicEntity(); 
 		_scoreIndicatorUI.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_INGAME_SCORE_FIELD), true)); 
 		_scoreIndicatorUI.getTransformComponent().setParent(this.getTransformComponent());
+		
 		_scoreText = new TextEntity(true);
 		_scoreText.getTransformComponent().setParent(_scoreIndicatorUI.getTransformComponent());
 		_scoreText.getTransformComponent().setPosition(
 			new Vector2(
-				(- (0.1f * _scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth())), 
+				(- (0.17f * _scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth())), 
 				5
 			)
 		);
 		_scoreText.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
 		_scoreText.setFontSize(9);
 		_scoreText.setFont(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS));
+		
+		_multiplierText = new TextEntity(true);
+		_multiplierText.getTransformComponent().setParent(_scoreIndicatorUI.getTransformComponent());
+		_multiplierText.getTransformComponent().setPosition(
+			new Vector2(
+				((_scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth() / 2) * 0.65f), 
+				5
+			)
+		);
+		_multiplierText.setFontSize(6.5f);
+		_multiplierText.setFont(Engine.getFontResources().getFontData(GameFontResources.MULTIPLIER_FONT_BANDIDOS));
 	}
 	
 	/**
@@ -85,6 +98,7 @@ public class ScoreUI extends BaseEntity
 		}
 		_lastScoreRecording = gameScore;
 		_scoreText.setText(Integer.toString(_scoreDisplaying));
+		_multiplierText.setText("x"+Integer.toString(GameScoreSystem.getInstance().getMultiplier()));
 	}
 
 	@Override

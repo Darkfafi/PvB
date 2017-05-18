@@ -230,7 +230,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		HealthUI healthUI = new HealthUI(_playfield.getPlayerBase().getComponent(HealthComponent.class));
 		
 		waveUI.getTransformComponent().translatePosition(new Vector2(waveUI.getBackgroundSize().x / 2 + 10, Engine.getHeight() - (waveUI.getBackgroundSize().y / 2) - 10));
-		scoreUI.getTransformComponent().translatePosition(new Vector2(Engine.getWidth() / 2, Engine.getHeight() - scoreUI.getBackgroundSize().y / 2 - 10));
+		scoreUI.getTransformComponent().translatePosition(new Vector2(Engine.getWidth() / 1.85f, Engine.getHeight() - scoreUI.getBackgroundSize().y / 2 - 10));
 		
 		
 		waveUI.getTransformComponent().setScale(new Vector2(0, 0));
