@@ -70,11 +70,14 @@ public class LightBanditAttackComponent extends BaseEnemyAttackComponent impleme
 	{
 		if(event.getAnimationName() == "attack")
 		{
+			HealthComponent ownHc = this.getParentOfComponent().getComponent(HealthComponent.class);
+			if(ownHc == null || !ownHc.isAlive()) { return; }
+			
 			Effect e = EffectFactory.createExplosionEffect(EffectFactory.ExplosionType.BigExplosion, this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY() - 2f, 1);
 			e.getAnimationComponent().setSortingLayer(1);
 			e.getAnimationComponent().setSortOnY(true);
 			_healthComponentTarget.damage(getDamage());
-			this.getParentOfComponent().getComponent(HealthComponent.class).kill();
+			ownHc.kill();
 		}
 	}
 
