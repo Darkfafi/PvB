@@ -51,19 +51,20 @@ public class MediumBanditAttackComponent extends BaseEnemyAttackComponent
 			if(_timePassedUntilDmg >= _dmgDelayTime)
 			{
 				_timePassedUntilDmg = 0;
-				
+
 				if(	this._healthHitting == null 
 					|| 	this._healthHitting.isDestroyed()
 					|| !this._healthHitting.isAlive()) 
 				{
 					this.stopAttacking();
+					return;
 				}
-				
 				this._healthHitting.damage(this.getDamage());
 				
 				if(!this._healthHitting.isAlive())
 				{
 					this.stopAttacking();
+					return;
 				}
 			}
 		}

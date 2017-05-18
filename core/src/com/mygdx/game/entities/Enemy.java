@@ -87,7 +87,8 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	public void stopAction(boolean playIdleAnimation)
 	{
 		setEnemyState(EnemyState.IdleState, playIdleAnimation);
-		_attackComponent.stopAttacking();
+		if(_attackComponent != null)
+			_attackComponent.stopAttacking();
 	}
 	
 	public void attack(HealthComponent hc)

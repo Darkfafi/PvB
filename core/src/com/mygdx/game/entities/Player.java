@@ -56,8 +56,9 @@ public class Player extends BaseEntity
 	}
 
 	@Override
-	protected void destroyed() {
-		// TODO Auto-generated method stub
+	protected void destroyed() 
+	{
+		_currentWeapon = null;
 
 	}
 
