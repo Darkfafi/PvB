@@ -70,7 +70,6 @@ public class TextEntity extends BaseEntity
 	 */
 	public void setFont(FontData fontData)
 	{
-		_bitMapFontData.dispose();
 		_bitMapFontData = fontData.getFont();
 	}
 	

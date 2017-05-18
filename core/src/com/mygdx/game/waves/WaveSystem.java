@@ -29,11 +29,11 @@ public class WaveSystem extends EventDispatcher
 	
 	private Playfield _playfield;
 	private int _currentWave = 0;
-	
+	private int _currentWaveType = 0;
 	private Wave _wave = null;
 	private IWaveDesigns _designs = null;
 	
-	private float _timeWaitedForNextWave = 0;
+	private float _timeWaitedForNextWave = -1;
 	private float _waitTimeBetweenWaves = 2f;
 	
 	private Train _train;
@@ -59,7 +59,9 @@ public class WaveSystem extends EventDispatcher
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
 			{
-				startNewWave(0);
+				createNewWave(0);
+				dispatchEvent(new Event(EVENT_WAVE_STARTED));
+				_timeWaitedForNextWave = 0;
 			}}
 		);
 	}
@@ -72,6 +74,16 @@ public class WaveSystem extends EventDispatcher
 	{
 		return _currentWave;
 	}
+	
+	/**
+	 * Gets the type of wave currently active
+	 * @return Wave Type as integer
+	 */
+	public int getCurrentWaveType()
+	{
+		return _currentWaveType;
+	}
+	
 	/**
 	 * Updates the system and makes it so all functionalities work perfectly together.
 	 * NOTE: This method should be called every frame in order for the system to work! 
@@ -84,26 +96,37 @@ public class WaveSystem extends EventDispatcher
 			_wave.updateWave(deltaTime);
 			if(_wave.isWaveOver())
 			{
+				createNewWave((_currentWave + 1) % 5 == 0 ? 2 : 1);
+				
+				if(getCurrentWaveType() != 2)
+				{
+					dispatchEvent(new Event(EVENT_WAVE_STARTED));
+				}
+				
+				_timeWaitedForNextWave = 0;
+			}
+			
+			if(_timeWaitedForNextWave >= 0)
+			{
 				_timeWaitedForNextWave += deltaTime;
 				if(_timeWaitedForNextWave >=_waitTimeBetweenWaves)
 				{
-					_timeWaitedForNextWave = 0;
-					if((_currentWave + 1) % 5 == 0)
+					_timeWaitedForNextWave = -1;
+					if(getCurrentWaveType() == 2)
 					{
-						_wave.clean();
-						_wave = null;
 						trainDriveOut().setCallbackMethod(new IEngineTweenMethod(){
 
 							@Override
 							public void onMethod(int tweenEventType, EngineTween tween) 
 							{
 								resetTrainPosition();
+								dispatchEvent(new Event(EVENT_WAVE_STARTED));
 								trainDriveIn().delay(1f).setCallbackMethod(new IEngineTweenMethod(){
 
 									@Override
 									public void onMethod(int tweenEventType, EngineTween tween) 
 									{
-										startNewWave(2);
+										startWave();
 									}}
 								);
 							}
@@ -111,7 +134,7 @@ public class WaveSystem extends EventDispatcher
 					}
 					else
 					{
-						startNewWave(1);
+						startWave();
 					}
 				}
 			}
@@ -168,16 +191,20 @@ public class WaveSystem extends EventDispatcher
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
 	}
 	
-	private void startNewWave(int waveType)
+	private void createNewWave(int waveType)
 	{
 		if(_wave != null)
 			_wave.clean();
 		
 		_currentWave++;
+		_currentWaveType = waveType;
 		_wave = _designs.getWaveDesign(this, _currentWave, waveType);
-		_wave.startWave();
-		this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
 		
+	}
+	
+	private void startWave()
+	{
+		_wave.startWave();
 	}
 	
 	private void resetTrainPosition()
