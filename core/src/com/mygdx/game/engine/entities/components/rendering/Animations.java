@@ -99,6 +99,23 @@ public class Animations
 	}
 	
 	/**
+	 * Sets the animation's looping option with the given name with the given value
+	 * @param name of animation to set looping option
+	 * @param loopAnimation to set it to
+	 */
+	public void setLoopForAnimation(String name, boolean loopAnimation)
+	{
+		if(_animations.containsKey(name))
+		{
+			_animations.get(name).LoopAnimation = loopAnimation;
+		}
+		else
+		{
+			System.out.println("WARNING: Animation with name '" + name + "' not defined!");
+		}
+	}
+	
+	/**
 	 * Returns the original loop purpose set for the animation
 	 * @param name of the needed animation to get loop information for
 	 * @return If the animation was meant to be played as a loop or not.

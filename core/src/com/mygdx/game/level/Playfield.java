@@ -24,8 +24,6 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 {
 	public static String EVENT_BASE_DESTROYED = "PlayerBaseDestroyedEvent";
 	
-	public static final int BORDER_TILE_Y_LINE_FROM_END = 3;
-	
 	private PlayerBase _playerBase;
 	private Grid _grid;
 	private ILevelBlueprint _blueprint;

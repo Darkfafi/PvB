@@ -13,6 +13,8 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.weapons.BaseWeapon;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.events.TutorialEvent;
 import com.mygdx.game.factories.EnemyFactory;
@@ -40,7 +42,8 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		TutorialOverState
 	}
 	
-	private BowWeapon _bowWeapon;
+	private Player _player;
+	private BaseWeapon _bowWeapon;
 	private Playfield _playfield;
 	
 	private TutorialStates _tutorialStates;
@@ -61,14 +64,15 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		return _tutorialOver;
 	}
 	
-	public BowDemonstrationTutorial(BowWeapon bow, Playfield playfield)
+	public BowDemonstrationTutorial(Player player, BaseWeapon bow, Playfield playfield)
 	{
 		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0f, 1), false);
 		this.getComponent(RenderComponent.class).setActiveState(false);
+		_player = player;
 		_bowWeapon = bow;
 		_playfield = playfield;
 		_tutorialStates = TutorialStates.TutorialNotRunningState;
-		_bowWeapon.getComponent(PlayerWeaponControlComponent.class).setActiveState(false);
+		_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(false);
 	}
 	
 	/**
@@ -137,7 +141,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				public void onMethod(int tweenEventType, EngineTween tween) 
 				{
 					//Activate Player Bow Input
-					_bowWeapon.getComponent(PlayerWeaponControlComponent.class).setActiveState(true);
+					_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(true);
 					//Change Hand Sprite to Dragging Hand Sprite.
 					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_DOWN));
 				}	
@@ -301,6 +305,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	@Override
 	protected void destroyed() 
 	{
+		_player = null;
 		_bowWeapon = null;
 		_playfield = null;
 		_enemy1 = null;

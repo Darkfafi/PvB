@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
@@ -32,7 +33,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		IdleState,
 		WalkState,
-		AttackState,
 		DeathState
 	}
 	
@@ -42,32 +42,37 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	private float _hitEffectTimeTracker = 0f;
 	
-	private float _damageAmount;
-	
 	private Vector2 _targetLocation = new Vector2();
-	private HealthComponent _healthHitting;
+	private BaseEnemyAttackComponent _attackComponent;
+	
 	private boolean _idleAnimationWhenReached = false;
 	private float _movementSpeed = 0;
-	private float _dmgDelayTime;
-	private float _timePassedUntilDmg = 0;
 	
-	public Enemy(Animations animations, float health, int baseScoreWorth, float damageAmount, float damageRate)
+	public Enemy(Animations animations, float health, int baseScoreWorth, BaseEnemyAttackComponent attackComponentAdded)
 	{
-		_damageAmount = damageAmount;
-		_dmgDelayTime = damageRate;
 		_animations = animations;
+		_attackComponent = attackComponentAdded;
 		this.addComponent(new ScoreHolderComponent(ScoreHolderComponent.ScoreGainType.Destroy, baseScoreWorth));
-		this.addComponent(new AnimationComponent(_animations, true, false));
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
-		this.getComponent(AnimationComponent.class).setSortingLayer(1);
-		this.getComponent(AnimationComponent.class).setSortOnY(true);
+		
+		AnimationComponent ac = this.addComponent(new AnimationComponent(_animations, true, false));
+		ac.setPivot(new Vector2(0.5f,0f), false);
+		ac.setSortingLayer(1);
+		ac.setSortOnY(true);
 		
 		this.addComponent(new HealthComponent(health)).addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		
+		attackComponentAdded.setAnimationComponent(ac);
 	}
 	
 	public EnemyState getEnemyState()
 	{
 		return _currentEnemyState;
+	}
+	
+	public int getAttackRange()
+	{
+		if(_attackComponent == null) { return 0; }
+		return _attackComponent.getRangeInTiles();
 	}
 	
 	public void move(float x, float y, float movementSpeed, boolean idleAnimationWhenReached)
@@ -82,16 +87,17 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	public void stopAction(boolean playIdleAnimation)
 	{
 		setEnemyState(EnemyState.IdleState, playIdleAnimation);
+		if(_attackComponent != null)
+			_attackComponent.stopAttacking();
 	}
 	
 	public void attack(HealthComponent hc)
 	{
-		if(this._currentEnemyState == Enemy.EnemyState.AttackState) { return; }
+		if(_attackComponent.isAttacking() || _currentEnemyState == EnemyState.DeathState) { return; }
 		stopAction(true);
 		if(!hc.isAlive()) { return; }
 		
-		setEnemyState(EnemyState.AttackState, true);
-		_healthHitting = hc;
+		_attackComponent.attack(hc);
 	}
 	
 	public void setEnemyState(EnemyState state, boolean setAnimation)
@@ -105,9 +111,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		
 		switch(_currentEnemyState)
 		{
-		case AttackState:
-			this.getComponent(AnimationComponent.class).setCurrentAnimation("attack", true);
-			break;
 		case IdleState:
 			this.getComponent(AnimationComponent.class).setCurrentAnimation("idle", true);
 			break;
@@ -216,30 +219,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 				this.stopAction(_idleAnimationWhenReached);
 			}
 		}
-		
-		// Attack
-		if(_currentEnemyState == EnemyState.AttackState)
-		{
-			_timePassedUntilDmg += dt;
-			if(_timePassedUntilDmg >= _dmgDelayTime)
-			{
-				_timePassedUntilDmg = 0;
-				
-				if(	this._healthHitting == null 
-					|| 	this._healthHitting.isDestroyed()
-					|| !this._healthHitting.isAlive()) 
-				{
-					this.stopAction(true); 
-				}
-				
-				this._healthHitting.damage(_damageAmount);
-				
-				if(!this._healthHitting.isAlive())
-				{
-					this.stopAction(true); 
-				}
-			}
-		}
 	}
 
 	@Override
@@ -247,6 +226,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		this.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 		this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+		_attackComponent = null;
 		
 	}
 	

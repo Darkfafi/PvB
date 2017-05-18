@@ -7,16 +7,17 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.PlayerWeaponControlComponent;
-import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.entities.ButtonEntity;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
+import com.mygdx.game.hitRegistration.ConsecutiveHitTracker;
 import com.mygdx.game.hitRegistration.ScoreTracker;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
@@ -46,12 +47,13 @@ public class GameScene extends BaseScene implements IEventReceiver
 	private ButtonEntity _pauseBtn;
 	private BowDemonstrationTutorial _bdt;
 	
-	private BowWeapon _playerBow;
+	private Player _player;
 	
 	private Preferences _preferences;
 	
 	// Trackers
 	private ScoreTracker _scoreTracker;
+	private ConsecutiveHitTracker _consecutiveHitTracker;
 	
 	@Override
 	public void update(float dt) 
@@ -94,8 +96,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_playfield.addEventListener(Playfield.EVENT_BASE_DESTROYED, this);
 		
 		// player spawn
-		_playerBow = new BowWeapon(_physicsWorld.getWorld());
-		_playerBow.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _playerBow.getComponent(RenderComponent.class).getRealHeight() / 2 + 20));
+		_player = new Player(new BowWeapon(_physicsWorld.getWorld()));
 		
 		// pause button
 		_pauseBtn = new ButtonEntity(GameTextureResources.UI_INGAME_PAUSE_BTN);
@@ -107,6 +108,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_pauseBtn.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		
 		_scoreTracker = new ScoreTracker();
+		_consecutiveHitTracker = new ConsecutiveHitTracker(_player);
 		
 		if(DEVELOPMENT_SKIP_TUTORIAL)
 		{
@@ -116,10 +118,11 @@ public class GameScene extends BaseScene implements IEventReceiver
 		// Tutorial or direct play?
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
-			_playerBow.addComponent(new PlayerWeaponControlComponent(_playerBow));
-			_bdt = new BowDemonstrationTutorial(_playerBow, _playfield);
+			_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
+			_bdt = new BowDemonstrationTutorial(_player, _player.getCurrentWeapon(), _playfield);
 			_bdt.addEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
 			_bdt.startTutorial();
+
 			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);
 		}
 		else
@@ -154,7 +157,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_preferences.flush(); // saves the prefs
 		_preferences = null;
 		
-		_playerBow = null;
+		_player = null;
 		
 		_pauseBtn.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_pauseBtn = null;
@@ -164,6 +167,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 
 		_scoreTracker.clean();
 		_scoreTracker = null;
+		
+		_consecutiveHitTracker.clean();
+		_consecutiveHitTracker = null;
 	}
 
 	@Override
@@ -195,12 +201,14 @@ public class GameScene extends BaseScene implements IEventReceiver
 	private void startGame()
 	{
 		_playfield.forceResetTraps();
+		_consecutiveHitTracker.resetConsecutiveHitCounter();
 		
 		long s = _playfield.getLevelBlueprint().getLevelMusic().play();
 		_playfield.getLevelBlueprint().getLevelMusic().setLooping(s, true);
 		_playfield.getLevelBlueprint().getLevelMusic().setVolume(s, 0.3f);
 		
-//		_playerBow.addComponent(new PlayerWeaponControlComponent(_playerBow));
+		_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
+
 		_waveSystem = new WaveSystem(_playfield, _playfield.getLevelBlueprint());
 
 		_waveSystem.removeEventListener(WaveSystem.EVENT_WAVE_STARTED, this);
@@ -233,7 +241,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 
 	private void onBaseDestroyedEvent(Event event) 
 	{
-		_playerBow.removeComponent(PlayerWeaponControlComponent.class);
+		_player.removeComponent(PlayerWeaponControlComponent.class);
 
 		EndScreenPopUp espp = new EndScreenPopUp(true);
 		espp.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() / 2);
