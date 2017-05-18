@@ -7,6 +7,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.PlayerWeaponControlComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.PhysicsWorld;
@@ -225,8 +226,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		waveUI.getTransformComponent().setScale(new Vector2(0, 0));
 		scoreUI.getTransformComponent().setScale(new Vector2(0, 0));
 		
-		waveUI.getTransformComponent().doScale(1, 1, 0.8f, true).ease(EaseType.BackOut);
-		scoreUI.getTransformComponent().doScale(1, 1, 0.8f, true).ease(EaseType.BackOut);
+		waveUI.getTransformComponent().doScale(1, 1, 0.8f, TweenStartType.GameTime).ease(EaseType.BackOut);
+		scoreUI.getTransformComponent().doScale(1, 1, 0.8f, TweenStartType.GameTime).ease(EaseType.BackOut);
 	}
 
 	private void onBaseDestroyedEvent(Event event) 

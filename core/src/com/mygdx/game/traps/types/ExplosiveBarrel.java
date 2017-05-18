@@ -5,6 +5,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.ExplosiveComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.engine.tweening.EngineTween;
@@ -47,7 +48,7 @@ public class ExplosiveBarrel extends BaseEntity
 		_exploded = true;
 		
 		this.getComponent(RenderComponent.class).setCurrentFrameInfo(1);
-		this.getComponent(RenderComponent.class).doAlpha(0, 4f, true).setCallbackMethod(new IEngineTweenMethod()
+		this.getComponent(RenderComponent.class).doAlpha(0, 4f, TweenStartType.GameTime).setCallbackMethod(new IEngineTweenMethod()
 		{
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 

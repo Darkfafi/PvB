@@ -5,6 +5,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.tweening.EaseType;
@@ -86,7 +87,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 			final TextEntity e = EffectFactory.createTextEffect(Engine.getFontResources().getFontData(font),  _consecutiveHits + " Hits", size, x - 30, y + 50, x - 60, y + 80, 0, 0, wait);
 			if(wait != 0)
 			{
-				e.getTransformComponent().doPosition(_player.getCurrentWeapon().getTransformComponent().getPositionX(), _player.getCurrentWeapon().getTransformComponent().getPositionY(), 1f, true).ease(EaseType.CubicIn).delay(0.5f).setCallbackMethod(new IEngineTweenMethod()
+				e.getTransformComponent().doPosition(_player.getCurrentWeapon().getTransformComponent().getPositionX(), _player.getCurrentWeapon().getTransformComponent().getPositionY(), 1f, TweenStartType.GameTime).ease(EaseType.CubicIn).delay(0.5f).setCallbackMethod(new IEngineTweenMethod()
 				{
 					@Override
 					public void onMethod(int tweenEventType, EngineTween tween) 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.engine.tweening.EngineTween;
@@ -47,7 +48,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 		
 		
 		
-		enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, Engine.getHeight() / 2, duration * 0.25f, true).setCallbackMethod(
+		enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, Engine.getHeight() / 2, duration * 0.25f, TweenStartType.GameTime).setCallbackMethod(
 				new IEngineTweenMethod()	
 				{
 
@@ -64,13 +65,13 @@ public class BowDemonstrationTutorial extends BaseEntity
 						Enemy enemy2 = EnemyFactory.createEnemyOfType(EnemyFactory.EnemyType.MediumBandit);
 						enemy2.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() + 100);
 						
-						enemy2.getTransformComponent().doPosition(Engine.getWidth() / 1.2f, Engine.getHeight() / 1.4f, duration * 0.4166f, true).getTween().delay(duration * 0.275f);
+						enemy2.getTransformComponent().doPosition(Engine.getWidth() / 1.2f, Engine.getHeight() / 1.4f, duration * 0.4166f, TweenStartType.GameTime).getTween().delay(duration * 0.275f);
 						
 						// Shooting train target
 						shootUsingTarget(_playfield.getLevelBlueprint().getTrapSpawnInfos()[0].getActivatorPosition() * Engine.getWidth(), 
 								Engine.getHeight() / 1f, duration * 0.333f, (duration * 0.333f) + 0.1f);
 						
-						getTransformComponent().doPosition(-100, -100, 2, true).getTween().delay(duration * 0.75f);
+						getTransformComponent().doPosition(-100, -100, 2, TweenStartType.GameTime).getTween().delay(duration * 0.75f);
 					}
 			
 			
@@ -90,7 +91,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 		_release = false;
 		_pulling = false;
 		
-		this.getTransformComponent().doPosition(x, y, duration / 2f, true).setCallbackMethod(
+		this.getTransformComponent().doPosition(x, y, duration / 2f, TweenStartType.GameTime).setCallbackMethod(
 				
 				new IEngineTweenMethod()	
 				{
@@ -102,7 +103,7 @@ public class BowDemonstrationTutorial extends BaseEntity
 						_pulling = true;
 						getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_DOWN));
 						
-						getTransformComponent().doPosition(x, y - BowWeapon.MAX_DRAW_LENGTH, duration / 2f, true).setCallbackMethod(
+						getTransformComponent().doPosition(x, y - BowWeapon.MAX_DRAW_LENGTH, duration / 2f, TweenStartType.GameTime).setCallbackMethod(
 								
 								new IEngineTweenMethod()	
 								{

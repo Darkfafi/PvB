@@ -7,6 +7,7 @@ import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.FontData;
 import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.engine.tweening.EngineTween;
@@ -69,13 +70,13 @@ public class EffectFactory
 		bloodBlood.getComponent(RenderComponent.class).setCurrentFrameInfo((Math.random() < 0.5f) ? 0 : 1);
 		bloodBlood.getTransformComponent().setPosition(xPosition, yPosition);
 		bloodBlood.getTransformComponent().setScale(new Vector2(0, 0));
-		bloodBlood.getTransformComponent().doScale(size, size, 0.2f, true).setCallbackMethod(
+		bloodBlood.getTransformComponent().doScale(size, size, 0.2f, TweenStartType.GameTime).setCallbackMethod(
 		new IEngineTweenMethod() {
 
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
 			{
-				bloodBlood.getComponent(RenderComponent.class).doAlpha(0, 2f, true).getTween().delay(timeOnGround);
+				bloodBlood.getComponent(RenderComponent.class).doAlpha(0, 2f, TweenStartType.GameTime).getTween().delay(timeOnGround);
 			}}).getTween().delay(0.25f);
 		
 		return bloodBlood;
@@ -196,15 +197,15 @@ public class EffectFactory
 		y += offsetY;
 		
 		te.getTransformComponent().setScale(new Vector2(0,0));
-		te.getTransformComponent().doScale(1, 1, 0.2f, true);
+		te.getTransformComponent().doScale(1, 1, 0.2f, TweenStartType.GameTime);
 		te.getRenderComponent().setSortingLayer(-1);
-		te.getTransformComponent().doPosition(x, y, 0.4f, true).ease(EaseType.QuadOut).setCallbackMethod(new IEngineTweenMethod()
+		te.getTransformComponent().doPosition(x, y, 0.4f, TweenStartType.GameTime).ease(EaseType.QuadOut).setCallbackMethod(new IEngineTweenMethod()
 		{	
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
 			{
-				te.getTransformComponent().doPosition(te.getTransformComponent().getPositionX(), te.getTransformComponent().getPositionY() + 35, 0.8f, true).delay(waitTillFade).ease(EaseType.CubicIn);
-				te.getRenderComponent().doAlpha(0.1f, 0.4f, true).delay(0.4f + waitTillFade).setCallbackMethod(new IEngineTweenMethod()
+				te.getTransformComponent().doPosition(te.getTransformComponent().getPositionX(), te.getTransformComponent().getPositionY() + 35, 0.8f, TweenStartType.GameTime).delay(waitTillFade).ease(EaseType.CubicIn);
+				te.getRenderComponent().doAlpha(0.1f, 0.4f, TweenStartType.GameTime).delay(0.4f + waitTillFade).setCallbackMethod(new IEngineTweenMethod()
 				{
 					@Override
 					public void onMethod(int tweenEventType, EngineTween tween) 

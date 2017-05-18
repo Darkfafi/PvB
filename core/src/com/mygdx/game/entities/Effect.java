@@ -1,6 +1,7 @@
 package com.mygdx.game.entities;
 
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
@@ -95,7 +96,7 @@ public class Effect extends BaseEntity implements IEventReceiver
 			}
 			else
 			{
-				this.getAnimationComponent().doAlpha(0, _fadeOutDuration, true).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
+				this.getAnimationComponent().doAlpha(0, _fadeOutDuration, TweenStartType.GameTime).addEventListener(EngineTween.ENGINE_TWEEN_EVENT, this);
 			}
 		}
 		

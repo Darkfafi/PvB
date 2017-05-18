@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.engine.entities.components.TransformComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 
@@ -229,9 +230,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @returnThe Tween which will be executed.
 	 */
-	public EngineTween doAlpha(float value, float duration, boolean gameTime)
+	public EngineTween doAlpha(float value, float duration, TweenStartType tweenStartType)
 	{
-		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.ALPHA, duration).target(value), gameTime);
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.ALPHA, duration).target(value), tweenStartType);
 	}
 	
 	/**
@@ -243,9 +244,9 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @returnThe Tween which will be executed.
 	 */
-	public EngineTween doColor(Color color, float duration, boolean gameTime)
+	public EngineTween doColor(Color color, float duration, TweenStartType tweenStartType)
 	{
-		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.COLOR, duration).target(color.r, color.g, color.b, color.a), gameTime);
+		return this.startTweenOnComponent(Tween.to(this, RenderAccessor.COLOR, duration).target(color.r, color.g, color.b, color.a), tweenStartType);
 	}
 	
 	/**

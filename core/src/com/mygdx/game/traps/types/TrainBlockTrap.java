@@ -7,6 +7,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -139,7 +140,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		float endX = (this.getDirection() == TrapFactory.Direction.Left) ? 0 - _train.getFullTrainSize() : Engine.getWidth() + _train.getFullTrainSize();
 		
 		_train.getTransformComponent().setPosition(startX, this.getTransformComponent().getPositionY() + 12);
-		_train.getTransformComponent().doPosition(endX, _train.getTransformComponent().getPositionY(), DURATION, true).ease(EaseType.Linear)
+		_train.getTransformComponent().doPosition(endX, _train.getTransformComponent().getPositionY(), DURATION, TweenStartType.GameTime).ease(EaseType.Linear)
 			.setCallbackMethod(new IEngineTweenMethod()
 			{
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.EntitySystem;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.TransformAccessor;
 
@@ -252,9 +253,9 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doPosition(float x, float y, float duration, boolean gameTime)
+	public EngineTween doPosition(float x, float y, float duration, TweenStartType tweenStartType)
 	{
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.POSITION, duration).target(x, y), gameTime);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.POSITION, duration).target(x, y), tweenStartType);
 	}
 	
 	/**
@@ -267,10 +268,10 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doRotation(float degrees, float duration, boolean shortestRotation, boolean gameTime)
+	public EngineTween doRotation(float degrees, float duration, boolean shortestRotation, TweenStartType tweenStartType)
 	{
 		float newValue = (!shortestRotation) ? degrees : this.getLocalRotation() + getShortestAngleDistance(this.getLocalRotation(), degrees, 1);
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.ROTATION, duration).target(newValue), gameTime);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.ROTATION, duration).target(newValue), tweenStartType);
 	}
 	
 	/**
@@ -283,9 +284,9 @@ public class TransformComponent extends BaseEntityComponent
 	 * @param gameTime means, when set to true, this tween will be effected by the Time Scale of the game, else it will not (False recommended for UI elements)
 	 * @return The Tween which will be executed.
 	 */
-	public EngineTween doScale(float x, float y, float duration, boolean gameTime)
+	public EngineTween doScale(float x, float y, float duration, TweenStartType tweenStartType)
 	{
-		return startTweenOnComponent(Tween.to(this, TransformAccessor.SCALE, duration).target(x, y), gameTime);
+		return startTweenOnComponent(Tween.to(this, TransformAccessor.SCALE, duration).target(x, y), tweenStartType);
 	}
 	
 	/**

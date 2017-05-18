@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.resources.CollisionResources;
@@ -50,7 +51,7 @@ public class BowWeapon extends BaseBowWeapon
 		_aimTarget = new BasicEntity();
 		_aimTarget.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), true)).setActiveState(false);
 		_aimTarget.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
-		_aimTarget.getTransformComponent().doScale(0.8f, 1.2f, 0.8f, true).getTween().repeatYoyo(Tween.INFINITY, 0.1f);
+		_aimTarget.getTransformComponent().doScale(0.8f, 1.2f, 0.8f, TweenStartType.GameTime).getTween().repeatYoyo(Tween.INFINITY, 0.1f);
 		
 		_bowDrawSoundInstance = -1;
 	}

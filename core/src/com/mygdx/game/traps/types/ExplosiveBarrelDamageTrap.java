@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.engine.tweening.EaseType;
@@ -178,10 +179,10 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 			_explosiveBarrels[i].getTransformComponent().translatePosition(deltaBarrel);
 
 			_explosiveBarrels[i].getComponent(RenderComponent.class).setAlpha(0);
-			_explosiveBarrels[i].getComponent(RenderComponent.class).doAlpha(1, 0.75f, true);
+			_explosiveBarrels[i].getComponent(RenderComponent.class).doAlpha(1, 0.75f, TweenStartType.GameTime);
 			_explosiveBarrels[i].getTransformComponent().doPosition(
 					_explosiveBarrels[i].getTransformComponent().getLocalPositionX(), 
-					_explosiveBarrels[i].getTransformComponent().getLocalPositionY() - fallHeight, 1.15f, true).ease(EaseType.BounceOut);
+					_explosiveBarrels[i].getTransformComponent().getLocalPositionY() - fallHeight, 1.15f, TweenStartType.GameTime).ease(EaseType.BounceOut);
 		}
 	}
 	

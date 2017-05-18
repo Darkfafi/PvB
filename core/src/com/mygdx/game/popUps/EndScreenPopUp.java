@@ -6,6 +6,7 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.entities.TextEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
@@ -177,17 +178,17 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		Timeline tl = Timeline.createSequence();
 		tl.beginSequence();
 
-		tl.push(scoreTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(_scoreValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(this.getTransformComponent().doFloat(_scoreValue, _scoreToDisplay, 1f, false).getTween());
+		tl.push(scoreTitle.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(_scoreValueText.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(this.getTransformComponent().doFloat(_scoreValue, _scoreToDisplay, 1f, TweenStartType.Timeline).getTween());
 		
-		tl.push(waveTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(_wavesValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(this.getTransformComponent().doFloat(_waveValue, _waveToDisplay, 1f, false).getTween());
+		tl.push(waveTitle.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(_wavesValueText.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(this.getTransformComponent().doFloat(_waveValue, _waveToDisplay, 1f, TweenStartType.Timeline).getTween());
 		
-		tl.push(highscoreTitle.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(_highscoreValueText.getRenderComponent().doAlpha(1, 0.6f, false).getTween());
-		tl.push(this.getTransformComponent().doFloat(_highscoreValue, _highscoreToDisplay, 1f, false).getTween());
+		tl.push(highscoreTitle.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(_highscoreValueText.getRenderComponent().doAlpha(1, 0.6f, TweenStartType.Timeline).getTween());
+		tl.push(this.getTransformComponent().doFloat(_highscoreValue, _highscoreToDisplay, 1f, TweenStartType.Timeline).getTween());
 		
 		tl.end();
 		

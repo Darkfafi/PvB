@@ -20,6 +20,13 @@ import aurelienribon.tweenengine.Tween;
  */
 public abstract class BaseEntityComponent extends EventDispatcher
 {
+	public enum TweenStartType
+	{
+		GameTime,
+		RealTime,
+		Timeline
+	}
+	
 	/**
 	 * Indicates whether the component is active or not.
 	 */
@@ -48,10 +55,18 @@ public abstract class BaseEntityComponent extends EventDispatcher
 	 * @param updateInGameTime if true, the speed will be affected by the Engine.TimeScale, if false, it will run on real time seconds
 	 * @return The EngineTween which is created out of the tween & started on this component.
 	 */
-	public EngineTween startTweenOnComponent(Tween tween, boolean updateInGameTime)
+	public EngineTween startTweenOnComponent(Tween tween, TweenStartType tweenStartType)
 	{
-		EngineTween t = EngineTweener.startTween(tween, (updateInGameTime) ? EngineTweener.GAME_TIME_CHANNEL : EngineTweener.REAL_TIME_CHANNEL);
-		_tweenTracker.registerTween(t);
+		EngineTween t = null;
+		if(tweenStartType != TweenStartType.Timeline)
+		{
+			t = EngineTweener.startTween(tween, (tweenStartType == TweenStartType.GameTime) ? EngineTweener.GAME_TIME_CHANNEL : EngineTweener.REAL_TIME_CHANNEL);
+			_tweenTracker.registerTween(t);
+		}
+		else
+		{
+			t = new EngineTween(tween);
+		}
 		return t;
 	}
 	
@@ -68,9 +83,9 @@ public abstract class BaseEntityComponent extends EventDispatcher
 		return t;
 	}
 	
-	public EngineTween doFloat(TweenableFloat floatToTween, float newValue, float duration, boolean updateInGameTime)
+	public EngineTween doFloat(TweenableFloat floatToTween, float newValue, float duration, TweenStartType tweenStartType)
 	{
-		return startTweenOnComponent(Tween.to(floatToTween, FloatAccessor.CHANGE, duration).target(newValue), updateInGameTime);
+		return startTweenOnComponent(Tween.to(floatToTween, FloatAccessor.CHANGE, duration).target(newValue), tweenStartType);
 	}
 	
 	/**
