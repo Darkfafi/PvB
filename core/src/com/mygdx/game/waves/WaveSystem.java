@@ -1,10 +1,18 @@
 package com.mygdx.game.waves;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Engine;
+import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BasicEnemyAIComponent;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
+import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.EventDispatcher;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.IEngineTweenMethod;
+import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.entities.Enemy;
+import com.mygdx.game.entities.Train;
 import com.mygdx.game.factories.EnemyFactory;
 import com.mygdx.game.level.GridTile;
 import com.mygdx.game.level.Playfield;
@@ -20,11 +28,16 @@ public class WaveSystem extends EventDispatcher
 	public static final String EVENT_WAVE_STARTED = "WaveStartedEvent";
 	
 	private Playfield _playfield;
-	private int _currentWave = 1;
+	private int _currentWave = 0;
 	
 	private Wave _wave = null;
 	private IWaveDesigns _designs = null;
 	
+	private float _timeWaitedForNextWave = 0;
+	private float _waitTimeBetweenWaves = 2f;
+	
+	private Train _train;
+	private BasicEntity _track;
 	
 	/**
 	 * This gives the tools needed for the WaveSystem to work
@@ -33,11 +46,22 @@ public class WaveSystem extends EventDispatcher
 	 */
 	public WaveSystem(Playfield playfield, IWaveDesigns waveDesigns)
 	{
+		_track = new BasicEntity();
+		_track.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_RAIL), false));
+		_track.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() - 38);
+		
+		_train = new Train(4, false);
+		resetTrainPosition();
 		_playfield = playfield;
 		_designs = waveDesigns;
-		_wave = _designs.getWaveDesign(this, _currentWave, 0);
-		_wave.startWave();
-		this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
+		trainDriveIn().setCallbackMethod(new IEngineTweenMethod(){
+
+			@Override
+			public void onMethod(int tweenEventType, EngineTween tween) 
+			{
+				startNewWave(0);
+			}}
+		);
 	}
 	
 	/**
@@ -60,11 +84,36 @@ public class WaveSystem extends EventDispatcher
 			_wave.updateWave(deltaTime);
 			if(_wave.isWaveOver())
 			{
-				_wave.clean();
-				_currentWave++;
-				_wave = _designs.getWaveDesign(this, _currentWave, 1);
-				_wave.startWave();
-				this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
+				_timeWaitedForNextWave += deltaTime;
+				if(_timeWaitedForNextWave >=_waitTimeBetweenWaves)
+				{
+					_timeWaitedForNextWave = 0;
+					if((_currentWave + 1) % 5 == 0)
+					{
+						_wave.clean();
+						_wave = null;
+						trainDriveOut().setCallbackMethod(new IEngineTweenMethod(){
+
+							@Override
+							public void onMethod(int tweenEventType, EngineTween tween) 
+							{
+								resetTrainPosition();
+								trainDriveIn().delay(1f).setCallbackMethod(new IEngineTweenMethod(){
+
+									@Override
+									public void onMethod(int tweenEventType, EngineTween tween) 
+									{
+										startNewWave(2);
+									}}
+								);
+							}
+							});
+					}
+					else
+					{
+						startNewWave(1);
+					}
+				}
 			}
 		}
 	}
@@ -89,6 +138,10 @@ public class WaveSystem extends EventDispatcher
 		_designs = null;
 		_wave = null;
 		_playfield = null;
+		_train.destroy();
+		_train = null;
+		_track.destroy();
+		_track = null;
 	}
 	
 	/**
@@ -113,5 +166,32 @@ public class WaveSystem extends EventDispatcher
 	private int getSpawnPointX()
 	{
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
+	}
+	
+	private void startNewWave(int waveType)
+	{
+		if(_wave != null)
+			_wave.clean();
+		
+		_currentWave++;
+		_wave = _designs.getWaveDesign(this, _currentWave, waveType);
+		_wave.startWave();
+		this.dispatchEvent(new Event(EVENT_WAVE_STARTED));
+		
+	}
+	
+	private void resetTrainPosition()
+	{
+		_train.getTransformComponent().setPosition(-_train.getTrainSize(), Engine.getHeight() *  0.95f);
+	}
+	
+	private EngineTween trainDriveIn()
+	{
+		return _train.getTransformComponent().doPosition(Engine.getWidth() + _train.getTrainSize(), _train.getTransformComponent().getPositionY(), 2f, TweenStartType.GameTime);
+	}
+	
+	private EngineTween trainDriveOut()
+	{
+		return _train.getTransformComponent().doPosition(Engine.getWidth() + _train.getFullTrainSize(), _train.getTransformComponent().getPositionY(), 2f, TweenStartType.GameTime);
 	}
 }
