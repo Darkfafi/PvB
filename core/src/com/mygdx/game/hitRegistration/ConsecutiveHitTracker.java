@@ -72,7 +72,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 	{
 		String font = GameFontResources.MULTIPLIER_FONT_BANDIDOS;
 		float size = 7;
-		float wait = 10;
+		float wait = 0;
 		if(type == ConsecutiveHitType.Hit)
 		{
 			_consecutiveHits ++;

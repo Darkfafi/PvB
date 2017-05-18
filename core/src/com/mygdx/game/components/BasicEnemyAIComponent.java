@@ -27,7 +27,7 @@ public class BasicEnemyAIComponent extends BaseEnemyAIComponent
 	 */
 	private void basicAILogics() 
 	{
-		int yLine = this.getGrid().getTileAmountY() - Playfield.BORDER_TILE_Y_LINE_FROM_END;
+		int yLine = this.getGrid().getTileAmountY() - this.getAffectedEnemy().getAttackRange();
 		
 		moveToPlayerBase(yLine);
 		

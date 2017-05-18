@@ -5,6 +5,8 @@ import static com.mygdx.game.Engine.getTextureResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BaseEnemyAIComponent;
 import com.mygdx.game.components.BasicEnemyAIComponent;
+import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
+import com.mygdx.game.components.attacking.MediumBanditAttackComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
@@ -38,14 +40,15 @@ public class EnemyFactory
 	 */
 	public static Enemy createEnemyOfType(EnemyType enemyType)
 	{
+		BaseEnemyAttackComponent attackComponent = getAttackComponentForType(enemyType);
 		Enemy enemy = new Enemy(
 				getRandomSkinForType(enemyType), 
 				getHealthAmountForType(enemyType),
 				getScoreAmountForType(enemyType),
-				getDamageAmountForType(enemyType),
-				getDamageRateForType(enemyType)
+				attackComponent
 		);
-					
+		
+		enemy.addComponent(attackComponent);
 		
 		return enemy;
 	}
@@ -239,41 +242,21 @@ public class EnemyFactory
 	}
 	
 	/**
-	 * Returns the damage amount this enemy does with its attacks
-	 * @param enemyType to get damage amount from
-	 * @return The amount of damage this enemy does every damage tik.
+	 * Returns an attack component instance which contains all the actions has all the information set needed for attack handling
+	 * @param enemyType to get attack component instance for
+	 * @return The created AttackComponent instance
 	 */
-	public static float getDamageAmountForType(EnemyType enemyType)
+	public static BaseEnemyAttackComponent getAttackComponentForType(EnemyType enemyType)
 	{
 		switch(enemyType)
 		{
 		case MediumBandit:
-			return 1f;
+			return new MediumBanditAttackComponent(1f, 3,0.25f);
 		case HeavyBandit:
-			return 0.5f;
+			return new MediumBanditAttackComponent(0.5f, 3,0.05f);
 		default:
-			System.out.println("Type damage amount not set! Please do in the EnemyFactory");
-			return 0f;
-		
-		}
-	}
-	
-	/**
-	 * Returns the frequency this enemy type does damage in seconds (dmg : DamageRate).
-	 * @param enemyType to get damage rate from
-	 * @return The frequency of damage this EnemyType does
-	 */
-	public static float getDamageRateForType(EnemyType enemyType)
-	{
-		switch(enemyType)
-		{
-		case MediumBandit:
-			return 0.25f;
-		case HeavyBandit:
-			return 0.05f;
-		default:
-			System.out.println("Type damage rate not set! Please do in the EnemyFactory");
-			return 0f;
+			System.out.println("Type has no defined attack component! Please do in the EnemyFactory");
+			return null;
 		
 		}
 	}

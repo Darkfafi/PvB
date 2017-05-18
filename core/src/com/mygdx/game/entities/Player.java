@@ -6,7 +6,6 @@ import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.entities.weapons.BaseWeapon;
-import com.mygdx.game.entities.weapons.IWeapon;
 
 public class Player extends BaseEntity 
 {	
