@@ -92,7 +92,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	public void attack(HealthComponent hc)
 	{
-		if(_attackComponent.isAttacking()) { return; }
+		if(_attackComponent.isAttacking() || _currentEnemyState == EnemyState.DeathState) { return; }
 		stopAction(true);
 		if(!hc.isAlive()) { return; }
 		

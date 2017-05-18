@@ -25,7 +25,7 @@ public class DesertLevel implements ILevelBlueprint
 			wave.addSection(EnemyFactory.EnemyType.HeavyBandit, countForEachOnWave(10, currentWave), 5.5f);
 		}
 		
-		wave.addSection(EnemyFactory.EnemyType.MediumBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
+		wave.addSection(EnemyFactory.EnemyType.LightBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
 		
 		if(waveType > 0)
 		{	

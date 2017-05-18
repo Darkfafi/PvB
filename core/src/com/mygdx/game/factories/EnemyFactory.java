@@ -6,6 +6,7 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BaseEnemyAIComponent;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
+import com.mygdx.game.components.attacking.LightBanditAttackComponent;
 import com.mygdx.game.components.attacking.MediumBanditAttackComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.entities.Enemy;
@@ -28,6 +29,7 @@ public class EnemyFactory
 	 */
 	public enum EnemyType
 	{
+		LightBandit,
 		MediumBandit,
 		HeavyBandit
 	}
@@ -88,6 +90,11 @@ public class EnemyFactory
 					playfield, 
 					movementSpeed,
 					unwalkableTags);
+		case LightBandit:
+			return new BasicEnemyAIComponent(
+					playfield, 
+					movementSpeed,
+					unwalkableTags);
 		default:
 			System.out.println("Type AI Component not set! Please do in the EnemyFactory");
 			return null;
@@ -106,6 +113,8 @@ public class EnemyFactory
 		String[] runKeys;
 		String[] deathKeys;
 		String[] attackKeys;
+		
+		boolean isLoopingAttackAnimation = true;
 		
 		Animations animations = new Animations("run", null, true);
 		switch(enemyType)
@@ -141,6 +150,23 @@ public class EnemyFactory
 					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_ATTACK
 			};
 			break;
+		case LightBandit:
+			idleKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_IDLE	
+					};
+			runKeys = 	new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_RUN	
+					};
+			deathKeys = new String[]{ 
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_DEATH
+					};
+			
+			attackKeys = new String[]{
+					GameTextureResources.ANIMATION_LIGHT_BANDIT_0_ATTACK
+			};
+			
+			isLoopingAttackAnimation = false;
+			break;
 		default:
 			System.out.println("Type animations not set! Please do in the EnemyFactory");
 			idleKeys = 	null;
@@ -154,7 +180,7 @@ public class EnemyFactory
 		animations.setAnimation("idle", getTextureResources().getRenderInfo(idleKeys[skinToSelect]), true);
 		animations.setAnimation("run", getTextureResources().getRenderInfo(runKeys[skinToSelect]), true);
 		animations.setAnimation("death", getTextureResources().getRenderInfo(deathKeys[skinToSelect]), false);
-		animations.setAnimation("attack", getTextureResources().getRenderInfo(attackKeys[skinToSelect]), true);
+		animations.setAnimation("attack", getTextureResources().getRenderInfo(attackKeys[skinToSelect]), isLoopingAttackAnimation);
 		
 		return animations;
 	}
@@ -168,6 +194,8 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
+		case LightBandit:
+			return 20f;
 		case MediumBandit:
 			return 25f;
 		case HeavyBandit:
@@ -187,6 +215,8 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
+		case LightBandit:
+			return 3.25f;
 		case MediumBandit:
 			return 2f;
 		case HeavyBandit:
@@ -206,10 +236,12 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
+		case LightBandit:
+			return 5;
 		case MediumBandit:
-			return 50;
+			return 10;
 		case HeavyBandit:
-			return 200;
+			return 20;
 		default:
 			System.out.println("Type score not set! Please do in the EnemyFactory");
 			return 0;
@@ -226,6 +258,9 @@ public class EnemyFactory
 		String[] tags;
 		switch(enemyType)
 		{
+		case LightBandit:
+			tags = new String[] {GridTags.OCCUPY_TAG_DAMAGING, GridTags.OCCUPY_TAG_BLOCKED };
+			break;
 		case MediumBandit:
 			tags = new String[] {GridTags.OCCUPY_TAG_DAMAGING, GridTags.OCCUPY_TAG_ENEMY, GridTags.OCCUPY_TAG_BLOCKED };
 			break;
@@ -250,6 +285,8 @@ public class EnemyFactory
 	{
 		switch(enemyType)
 		{
+		case LightBandit:
+			return new LightBanditAttackComponent(10f, 1);
 		case MediumBandit:
 			return new MediumBanditAttackComponent(1f, 3,0.25f);
 		case HeavyBandit:

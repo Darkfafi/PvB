@@ -1,6 +1,5 @@
 package com.mygdx.game.level;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
@@ -22,7 +21,7 @@ public class PlayerBase extends BaseEntity
 	protected void awake() 
 	{
 		_roofTexture= Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_GAME_ROOF).getTextureToDraw();
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_HP_BAR), false)).setColor(new Color(0,0,0,0));
+		this.addComponent(new RenderComponent(null, false)).setSortingLayer(2);
 		this.addComponent(new HealthComponent(100));
 	}
 

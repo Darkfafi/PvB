@@ -44,7 +44,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 	
 	private void onCollisionEvent(CollisionEvent event) 
 	{
-		if(this.getHeightStage() == HeightStage.Idle) { return; }
+		if(this.getHeightStage() == HeightStage.Idle || this.getComponent(CollisionComponent.class).getVelocity().len() == 0) { return; }
 		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
 		int[] types = new int[]{HitGlobals.TYPE_DIRECT_HIT};
 		if(hc != null)
@@ -99,7 +99,9 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		
 		CollisionComponent cc = this.getComponent(CollisionComponent.class);
 		if(cc.getBody() != null)
+		{
 			cc.setVelocity(diff.x, diff.y);
+		}
 		else
 			this.destroy();
 	}
@@ -124,7 +126,7 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		shape.setAsBox(CollisionResources.convertToPPM(10f), CollisionResources.convertToPPM(30f),
 						new Vector2(0, CollisionResources.convertToPPM((this.getComponent(RenderComponent.class).getRealHeight() / 2) - 30)), 0);
 		_fixDef.shape = shape;
-		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ARROW);
+		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ARROW);this.getComponent(CollisionComponent.class);
 	
 		super.awake();
 		this.getComponent(RenderComponent.class).setSortOnY(true);
