@@ -1,7 +1,8 @@
 package com.mygdx.game.engine.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 /**
  * This class holds the data needed to display a text in the a certain font.
@@ -9,37 +10,27 @@ import com.badlogic.gdx.files.FileHandle;
  *
  */
 public class FontData
-{
-	private FileHandle _font;
-	private FileHandle _fontPng;
+{	
+	private BitmapFont _bitmapFont;
 	
 	/**
-	 * Loads the font data from the given locations
+	 * Loads the font data from the given locations and creates a BitmapFont for it.
 	 * @param fontLocation is the location of the .fnt file for the font
 	 * @param fontPngLocation is the location of the .png file for the font
 	 */
 	public FontData(String fontLocation, String fontPngLocation)
 	{
-		_font = Gdx.files.internal(fontLocation); 
-		_fontPng = Gdx.files.internal(fontPngLocation);
+		_bitmapFont = new BitmapFont(Gdx.files.internal(fontLocation), Gdx.files.internal(fontPngLocation), false); 
+		_bitmapFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 	}
 	
 	/**
-	 * Returns the FileHandle loaded from the .fnt file given in the constructor
-	 * @return FileHandle which was loaded from the given .fnt
+	 * Returns the BitmapFont which was made for the given font.
+	 * @return BitmapFont which was loaded from the given data.
 	 */
-	public FileHandle getFont()
+	public BitmapFont getFont()
 	{
-		return _font;
-	}
-	
-	/**
-	 * Returns the FileHandle loaded from the .png file given in the constructor
-	 * @return FileHandle which was loaded from the given .png
-	 */
-	public FileHandle getFontPng()
-	{
-		return _fontPng;
+		return _bitmapFont;
 	}
 	
 	/**
@@ -47,7 +38,7 @@ public class FontData
 	 */
 	public void clean()
 	{
-		_font = null;
-		_fontPng = null;
+		_bitmapFont.dispose();
+		_bitmapFont = null;
 	}
 }

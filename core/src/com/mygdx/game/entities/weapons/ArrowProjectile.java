@@ -15,6 +15,8 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.globals.EngineGlobals;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.hitRegistration.HitGlobals;
+import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 
 public class ArrowProjectile extends BaseProjectile implements IEventReceiver 
 {
@@ -50,7 +52,9 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 			hc.damage(dmg);
 			Engine.getAudioResources().getSound(GameAudioResources.SOUND_ARROW_HIT_ENEMY).play(0.8f * (_drawPower / _FULL_DAMAGE_DRAW_POWER_POTENTIAL), ((float)Math.random() * 0.3f) + 0.9f, 0f);
 		}
-
+		
+		HitRegistrationPoint.getInstance().register(event.getOtherCollisionComponent().getParentOfComponent(), HitGlobals.TOOL_ARROW, HitGlobals.TYPE_DIRECT_HIT);
+		
 		this.setHeightStage(HeightStage.Idle);
 		this.destroy();
 	}
@@ -90,7 +94,12 @@ public class ArrowProjectile extends BaseProjectile implements IEventReceiver
 		diff.nor();
 		diff.x *= _currentSpeed;
 		diff.y *= _currentSpeed;
-		this.getComponent(CollisionComponent.class).setVelocity(diff.x, diff.y);
+		
+		CollisionComponent cc = this.getComponent(CollisionComponent.class);
+		if(cc.getBody() != null)
+			cc.setVelocity(diff.x, diff.y);
+		else
+			this.destroy();
 	}
 	
 	@Override

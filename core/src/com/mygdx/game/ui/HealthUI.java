@@ -42,13 +42,13 @@ public class HealthUI extends BaseEntity
 		_healthLabel.getTransformComponent().setPosition(new Vector2(30, _healthBar.getTextureToDraw().getHeight()));
 		_healthLabel.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
 		_healthLabel.setFontSize(5);
-		_healthLabel.setFont(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS));
+		_healthLabel.setFont(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS));
 		
 		_healthPercentage = new TextEntity(true);
 		_healthPercentage.getTransformComponent().setPosition(new Vector2((Engine.getWidth() - 30), _healthBar.getTextureToDraw().getHeight()));
 		_healthPercentage.getRenderComponent().setPivot(new Vector2(1f, 0.5f), false);
 		_healthPercentage.setFontSize(5);
-		_healthPercentage.setFont(Engine.getFontResources().getFontData(GameFontResources.REGULAR_WHITE_BANDIDOS));
+		_healthPercentage.setFont(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS));
 	}
 
 	@Override

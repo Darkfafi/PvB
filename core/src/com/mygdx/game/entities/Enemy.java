@@ -19,7 +19,7 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.events.HealthEvent;
 import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
-import com.mygdx.game.score.GameScoreSystem;
+import com.mygdx.game.score.ScoreHolderComponent;
 
 /**
  * This class is the holder of Enemy Data which is formed by the EnemyFactory
@@ -41,7 +41,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	private EnemyState _currentEnemyState = null;
 	
 	private float _hitEffectTimeTracker = 0f;
-	private int _baseScoreWorth = 0;
 	
 	private float _damageAmount;
 	
@@ -57,7 +56,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		_damageAmount = damageAmount;
 		_dmgDelayTime = damageRate;
 		_animations = animations;
-		_baseScoreWorth = baseScoreWorth;
+		this.addComponent(new ScoreHolderComponent(ScoreHolderComponent.ScoreGainType.Destroy, baseScoreWorth));
 		this.addComponent(new AnimationComponent(_animations, true, false));
 		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f,0f), false);
 		this.getComponent(AnimationComponent.class).setSortingLayer(1);
@@ -293,8 +292,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.setEnemyState(EnemyState.DeathState, true);
 		
 		createBloodPool();
-		
-		GameScoreSystem.getInstance().addScore(_baseScoreWorth, this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY() + this.getComponent(AnimationComponent.class).getRealHeight() * 0.7f);
 		
 		this.removeComponent(CollisionComponent.class);
 		this.getComponent(AnimationComponent.class).addEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);

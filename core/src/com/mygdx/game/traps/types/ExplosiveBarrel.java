@@ -11,6 +11,7 @@ import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
+import com.mygdx.game.hitRegistration.HitGlobals;
 
 /**
  * This entity is an explosive barrel which can be triggered once to explode and will remove itself when it has been triggered after x amount of time
@@ -42,7 +43,7 @@ public class ExplosiveBarrel extends BaseEntity
 	public void triggerBarrel()
 	{
 		if(_exploded) { return; }
-		this.getComponent(ExplosiveComponent.class).triggerExplosion(EffectFactory.ExplosionType.BigExplosion, _damage, _radius, 1).getTransformComponent().translatePosition(new Vector2(30, 0));
+		this.getComponent(ExplosiveComponent.class).triggerExplosion(EffectFactory.ExplosionType.BigExplosion, _damage, _radius, 1, HitGlobals.TOOL_TRAP).getTransformComponent().translatePosition(new Vector2(30, 0));
 		_exploded = true;
 		
 		this.getComponent(RenderComponent.class).setCurrentFrameInfo(1);

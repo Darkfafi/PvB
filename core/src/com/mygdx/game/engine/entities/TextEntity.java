@@ -15,13 +15,13 @@ import com.mygdx.game.engine.scenes.RenderComponents;
  */
 public class TextEntity extends BaseEntity 
 {
-	private static final int DEFAULT_FONT_SIZE = 12;
+	private static final float DEFAULT_FONT_SIZE = 12f;
 	
 	private BitmapFont _bitMapFontData = new BitmapFont();
 	private String _currentText = "";
 	private RenderComponent _renderComponent;
 	private Matrix4 _mx4Font = new Matrix4();
-	private int _fontSize = DEFAULT_FONT_SIZE;
+	private float _fontSize = DEFAULT_FONT_SIZE;
 	
 	/**
 	 * Creates an empty text with the default font.
@@ -71,8 +71,7 @@ public class TextEntity extends BaseEntity
 	public void setFont(FontData fontData)
 	{
 		_bitMapFontData.dispose();
-		_bitMapFontData = new BitmapFont(fontData.getFont(), fontData.getFontPng(), false);
-		_bitMapFontData.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		_bitMapFontData = fontData.getFont();
 	}
 	
 	/**
@@ -88,7 +87,7 @@ public class TextEntity extends BaseEntity
 	 * Sets the fontsize for this TextEntity. (Default: 12)
 	 * @param size for font to display as.
 	 */
-	public void setFontSize(int size)
+	public void setFontSize(float size)
 	{
 		_fontSize = size;
 	}
@@ -128,8 +127,8 @@ public class TextEntity extends BaseEntity
 		renderComponents.getSpriteBatch().setTransformMatrix(_mx4Font);
 		_bitMapFontData.setColor(this.getRenderComponent().getColor());
 		
-		float scaleX = this.getTransformComponent().getScaleX() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE);
-		float scaleY = this.getTransformComponent().getScaleY() * ((float)_fontSize / (float)DEFAULT_FONT_SIZE);
+		float scaleX = this.getTransformComponent().getScaleX() * (_fontSize / DEFAULT_FONT_SIZE);
+		float scaleY = this.getTransformComponent().getScaleY() * (_fontSize / DEFAULT_FONT_SIZE);
 		
 		if(scaleX <= 0)
 			scaleX = 0.1f;
@@ -153,7 +152,6 @@ public class TextEntity extends BaseEntity
 	protected void destroyed() 
 	{
 		_renderComponent = null;
-		_bitMapFontData.dispose();
 		_bitMapFontData = null;
 		_currentText = null;
 		_mx4Font = null;

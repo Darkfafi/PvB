@@ -8,6 +8,8 @@ import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.entities.Effect;
 import com.mygdx.game.factories.EffectFactory;
+import com.mygdx.game.hitRegistration.HitGlobals;
+import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 
 /**
  * This component, when triggered, makes an explosion effect of the given type and damages all entities in radius with the 'HealthComponent' attached and if they are any of the given tags to effect
@@ -36,7 +38,7 @@ public class ExplosiveComponent extends BaseEntityComponent
 	 * @param scale is the scale of the explosion, this affects the explosion effect, damage and radius. 
 	 * @return The explosion effect created.
 	 */
-	public Effect triggerExplosion(EffectFactory.ExplosionType explosionType, float dmg, float radius, float scale)
+	public Effect triggerExplosion(EffectFactory.ExplosionType explosionType, float dmg, float radius, float scale, int hitTool)
 	{
 		Effect explosion = EffectFactory.createExplosionEffect(explosionType, 
 				this.getParentOfComponent().getTransformComponent().getPositionX(), 
@@ -45,7 +47,7 @@ public class ExplosiveComponent extends BaseEntityComponent
 		explosion.getAnimationComponent().setSortingLayer(1);
 		explosion.getAnimationComponent().setSortOnY(true);
 		
-		this.damageEffect(radius * scale, dmg * scale);
+		this.damageEffect(radius * scale, dmg * scale, hitTool);
 		
 		return explosion;
 	}
@@ -79,7 +81,7 @@ public class ExplosiveComponent extends BaseEntityComponent
 	 * @param radius in which to damage entities
 	 * @param dmg is the damage to inflict to the HealthComponent of the affected entities.
 	 */
-	private void damageEffect(float radius, float dmg)
+	private void damageEffect(float radius, float dmg, int toolType)
 	{
 		ArrayList<BaseEntity> allEntities = EntitySystem.getInstance().getAllEntities();
 		BaseEntity current;
@@ -95,9 +97,10 @@ public class ExplosiveComponent extends BaseEntityComponent
 						   current.getTransformComponent().getPositionY()) <= radius)
 			{
 				HealthComponent hc = current.getComponent(HealthComponent.class);
-				if(hc != null)
+				if(hc != null && hc.isAlive())
 				{
 					hc.damage(dmg);
+					HitRegistrationPoint.getInstance().register(hc.getParentOfComponent(), toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT });
 				}
 			}
 		}

@@ -17,6 +17,7 @@ import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.globals.PreferencesGlobals;
+import com.mygdx.game.hitRegistration.ScoreTracker;
 import com.mygdx.game.level.DesertLevel;
 import com.mygdx.game.level.Playfield;
 import com.mygdx.game.popUps.EndScreenPopUp;
@@ -48,6 +49,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 	private BowWeapon _playerBow;
 	
 	private Preferences _preferences;
+	
+	// Trackers
+	private ScoreTracker _scoreTracker;
 	
 	@Override
 	public void update(float dt) 
@@ -102,6 +106,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		);
 		_pauseBtn.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		
+		_scoreTracker = new ScoreTracker();
+		
 		if(DEVELOPMENT_SKIP_TUTORIAL)
 		{
 			startGame();
@@ -155,6 +161,9 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
 		_bdt = null;
+
+		_scoreTracker.clean();
+		_scoreTracker = null;
 	}
 
 	@Override
