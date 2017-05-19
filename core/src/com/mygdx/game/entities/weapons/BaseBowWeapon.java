@@ -25,7 +25,7 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	private Vector2 _targetLocation = null; 			// The target location to fire at / where the finger started
 	private float _aimAngle = 0f;
 	private float _radiusToTargetLoc = 0f;
-	private ArrowProjectile _currentProjectile;
+	private BaseProjectile _currentProjectile;
 	
 	/**
 	 * In order to work, the bow needs a RenderInfo which contain different frames of "Pulling the string"
@@ -81,7 +81,7 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	 * Returns the current loaded projectile instance on the bow
 	 * @return The ArrowProjectile instance loaded on the bow.
 	 */
-	public ArrowProjectile getCurrentProjectile()
+	public BaseProjectile getCurrentProjectile()
 	{
 		return _currentProjectile;
 	}
@@ -156,7 +156,7 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	 * Called when the bow needs a new ArrowProjectile.
 	 * @return ArrowProjectile to load on the bow as new current projectile
 	 */
-	protected abstract ArrowProjectile getProjectileInstance();
+	protected abstract BaseProjectile getProjectileInstance();
 	
 	/**
 	 * Selects a start touch position before draw. This will be used as the start position of the draw value.

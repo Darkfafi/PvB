@@ -212,9 +212,9 @@ public class BowWeapon extends BaseBowWeapon
 	}
 
 	@Override
-	protected ArrowProjectile getProjectileInstance() 
+	protected BaseProjectile getProjectileInstance() 
 	{
-		ArrowProjectile ap = new ArrowProjectile(); // TODO: Return other projectile type depending on the streak
+		NormalProjectile ap = new NormalProjectile(); // TODO: Return other projectile type depending on the streak
 		return ap;
 	}
 }
