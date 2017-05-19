@@ -169,7 +169,7 @@ public class EffectFactory
 	 * @param offsetY is the forced offset despite the bounds onto the y param
 	 * @return The TextEntity instance which was created to do the effect with.
 	 */
-	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y, float offsetX, float offsetY, float waitTillFade)
+	public static TextEntity createTextEffect(FontData font, String text, float size, final float startX, final float startY, float x, float y, float offsetX, float offsetY, final float waitTillFade)
 	{	
 		final TextEntity te = new TextEntity(font, text, true);
 		

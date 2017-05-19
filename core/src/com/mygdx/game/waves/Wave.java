@@ -107,14 +107,12 @@ public class Wave implements IEventReceiver
 				Enemy e = _waveSystem.waveCreateEnemy(this, _waveInfos.get(_currentSection).EnemyType);
 				_amountSpawnedThisSection++;
 				
-				if(_isEnemyKillToEndWave)
-				{
-					_enemiesTracking.add(e);
-					e.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
-				}
+				_enemiesTracking.add(e);
+				e.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+				
 			}
 			
-			if(_timeInSection >= _waveInfos.get(_currentSection).TimeForSection)
+			if(_timeInSection >= _waveInfos.get(_currentSection).TimeForSection || (this.hasSpawnedEntireSection() && this._enemiesTracking.size() == 0))
 			{
 				setNextSection();
 			}

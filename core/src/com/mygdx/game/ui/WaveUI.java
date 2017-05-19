@@ -132,20 +132,7 @@ public class WaveUI extends BaseEntity implements IEventReceiver
 
 	private void setCurrentMidScreenTextFont()
 	{
-		String fontKey = GameFontResources.SCORE_FONT_BANDIDOS;
-		switch(_waveSystem.getCurrentWaveType())
-		{
-		case 0:
-			fontKey = GameFontResources.MULTIPLIER_FONT_BANDIDOS;
-			break;
-		case 1:
-			fontKey = GameFontResources.SCORE_FONT_BANDIDOS;
-			break;
-		case 2:
-			fontKey = GameFontResources.WAVE_FONT_BANDIDOS;
-			break;
-		}
-		
+		String fontKey = GameFontResources.WAVE_FONT_BANDIDOS;
 		_waveMidScreenDisplayText.setFont(Engine.getFontResources().getFontData(fontKey));
 		_waveMidScreenDisplayText.getTransformComponent().setPosition(-_waveMidScreenDisplayText.getTextBounds().x, (Engine.getHeight() * 0.55f) + 50);
 	}

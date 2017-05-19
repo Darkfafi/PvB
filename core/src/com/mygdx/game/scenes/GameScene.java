@@ -38,7 +38,7 @@ import com.mygdx.game.waves.WaveSystem;
  */
 public class GameScene extends BaseScene implements IEventReceiver
 {
-	public static final boolean DEVELOPMENT_SKIP_TUTORIAL = false;
+	public static final boolean DEVELOPMENT_SKIP_TUTORIAL = true;
 	public static final boolean DEVELOPMENT_RESET_GAME_PREFS_EVERY_PLAY = true;
 	public static float TUTORIAL_DURATION = 8f;
 	
@@ -163,7 +163,8 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_pauseBtn.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_pauseBtn = null;
 		
-		_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+		if(_bdt != null)
+			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
 		_bdt = null;
 
 		_scoreTracker.clean();
