@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.engine.entities.components.TransformComponent;
-import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.RenderAccessor;
 
@@ -28,7 +27,7 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	private double _innerSortingLayer = 0f;
 	private boolean _isUserInterface = false;
 	private boolean _isSortedOnY = false;
-	private Color _color = new Color(Color.WHITE);
+	private Color _color = new Color(1, 1, 1, 1);
 	private boolean _callRenderMethodAfter = true;
 	
 	public RenderComponent(RenderInfo startRenderInfo, boolean isUI)
@@ -159,20 +158,23 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	 * Sets the pivot point to the new value.
 	 * X = 0 being the far left side and 1 being the far right side of the image.
 	 * Y = 0 being the bottom and 1 being the top of the image
-	 * @param newPivotValue
+	 * @param pivotX the new x Pivot value
+	 * @param pivotY the new y Pivot value
+	 * @param keepPosition means that it will keep its current render position and move the object data position to do so.
 	 */
-	public void setPivot(Vector2 newPivotValue, boolean keepPosition)
+	public void setPivot(float pivotX, float pivotY, boolean keepPosition)
 	{
 		if(keepPosition)
 		{
-			Vector2 differents = new Vector2(_pivot.x, _pivot.y).sub(newPivotValue);
+			Vector2 differents = new Vector2(_pivot.x - pivotX, _pivot.y - pivotY);
 			Vector2 newDelta = this.getParentOfComponent().getTransformComponent().getUpwards();
 			newDelta = new Vector2((-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().x, (-this.getRealWidth() * differents.x) * this.getParentOfComponent().getTransformComponent().getRight().y);
 			newDelta.x += this.getParentOfComponent().getTransformComponent().getUpwards().x * (-this.getRealHeight() * differents.y);
 			newDelta.y += this.getParentOfComponent().getTransformComponent().getUpwards().y * (-this.getRealHeight() * differents.y);
-			this.getParentOfComponent().getTransformComponent().translatePosition(newDelta);
+			this.getParentOfComponent().getTransformComponent().translatePosition(newDelta.x, newDelta.y);
 		}
-		_pivot = new Vector2(newPivotValue.x, newPivotValue.y);
+		_pivot.x = pivotX;
+		_pivot.y = pivotY;
 	}
 	
 	/**
@@ -260,6 +262,23 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 		_color.g = color.g;
 		_color.b = color.b;
 		_color.a = color.a;
+	}
+	
+	
+	/**
+	 * This sets the color which is modifying the current entity.
+	 * The color White equals its original color 
+	 * @param r is the red channel to set (0 - 1)
+	 * @param g is the green channel to set (0 - 1)
+	 * @param b is the blue channel to set (0 - 1)
+	 * @param a is the alpha channel to set (0 - 1)
+	 */
+	public void setColor(float r, float g, float b, float a)
+	{
+		_color.r = r;
+		_color.g = g;
+		_color.b = b;
+		_color.a = a;
 	}
 	
 	/**

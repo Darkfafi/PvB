@@ -1,6 +1,5 @@
 package com.mygdx.game.traps.types;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.ExplosiveComponent;
@@ -44,7 +43,7 @@ public class ExplosiveBarrel extends BaseEntity
 	public void triggerBarrel()
 	{
 		if(_exploded) { return; }
-		this.getComponent(ExplosiveComponent.class).triggerExplosion(EffectFactory.ExplosionType.BigExplosion, _damage, _radius, 1, HitGlobals.TOOL_TRAP).getTransformComponent().translatePosition(new Vector2(30, 0));
+		this.getComponent(ExplosiveComponent.class).triggerExplosion(EffectFactory.ExplosionType.BigExplosion, _damage, _radius, 1, HitGlobals.TOOL_TRAP).getTransformComponent().translatePosition(30, 0);
 		_exploded = true;
 		
 		this.getComponent(RenderComponent.class).setCurrentFrameInfo(1);
@@ -68,12 +67,12 @@ public class ExplosiveBarrel extends BaseEntity
 	}
 	
 	@Override
-	protected void awake() {
-		// TODO Auto-generated method stub
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SHEET_EXPLOSIVE_BARREL_TRAP), false));
-		this.getComponent(RenderComponent.class).setSortingLayer(1);
-		this.getComponent(RenderComponent.class).setSortOnY(true);
-		this.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
+	protected void awake() 
+	{
+		RenderComponent rc = this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SHEET_EXPLOSIVE_BARREL_TRAP), false));
+		rc.setSortingLayer(1);
+		rc.setSortOnY(true);
+		rc.setPivot(0.5f, 0, false);
 		
 		this.addComponent(new ExplosiveComponent(Tags.TAG_ENEMY));
 	}

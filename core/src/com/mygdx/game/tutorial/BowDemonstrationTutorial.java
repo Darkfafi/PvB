@@ -68,7 +68,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	
 	public BowDemonstrationTutorial(Player player, BaseWeapon bow, Playfield playfield)
 	{
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(new Vector2(0f, 1), false);
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP), true)).setPivot(0f, 1, false);
 		this.getComponent(RenderComponent.class).setActiveState(false);
 		_player = player;
 		_bowWeapon = bow;

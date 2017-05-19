@@ -1,6 +1,5 @@
 package com.mygdx.game.engine.tweening;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.TransformComponent;
 
 import aurelienribon.tweenengine.TweenAccessor;
@@ -44,13 +43,13 @@ public class TransformAccessor implements TweenAccessor<TransformComponent>
 		switch(tweenType)
 		{
 		case POSITION:
-			target.setPosition(new Vector2(newValues[0], newValues[1]));
+			target.setPosition(newValues[0], newValues[1]);
 			break;
 		case ROTATION:
 			target.setRotation(newValues[0]);
 			break;
 		case SCALE:
-			target.setScale(new Vector2(newValues[0], newValues[1]));
+			target.setScale(newValues[0], newValues[1]);
 			break;
 		default:
 			assert false;

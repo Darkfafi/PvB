@@ -2,7 +2,6 @@ package com.mygdx.game.ui;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
@@ -39,14 +38,14 @@ public class HealthUI extends BaseEntity
 		_healthBar = Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_INGAME_HEALTHBAR);
 		
 		_healthLabel = new TextEntity(true);
-		_healthLabel.getTransformComponent().setPosition(new Vector2(30, _healthBar.getTextureToDraw().getHeight()));
-		_healthLabel.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
+		_healthLabel.getTransformComponent().setPosition(30, _healthBar.getTextureToDraw().getHeight());
+		_healthLabel.getRenderComponent().setPivot(0f, 0.5f, false);
 		_healthLabel.setFontSize(5);
 		_healthLabel.setFont(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS));
 		
 		_healthPercentage = new TextEntity(true);
-		_healthPercentage.getTransformComponent().setPosition(new Vector2((Engine.getWidth() - 30), _healthBar.getTextureToDraw().getHeight()));
-		_healthPercentage.getRenderComponent().setPivot(new Vector2(1f, 0.5f), false);
+		_healthPercentage.getTransformComponent().setPosition((Engine.getWidth() - 30), _healthBar.getTextureToDraw().getHeight());
+		_healthPercentage.getRenderComponent().setPivot(1f, 0.5f, false);
 		_healthPercentage.setFontSize(5);
 		_healthPercentage.setFont(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS));
 	}

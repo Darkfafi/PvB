@@ -62,13 +62,8 @@ public class WaveUI extends BaseEntity implements IEventReceiver
 		
 		_waveText = new TextEntity(true);
 		_waveText.getTransformComponent().setParent(_waveIndicatorUI.getTransformComponent());
-		_waveText.getRenderComponent().setPivot(new Vector2(0.5f, 0.5f), false);
-		_waveText.getTransformComponent().setPosition(
-			new Vector2(
-				22, 
-				5
-			)
-		);
+		_waveText.getRenderComponent().setPivot(0.5f, 0.5f, false);
+		_waveText.getTransformComponent().setPosition(22, 5);
 		_waveText.setFontSize(9);
 		_waveText.setFont(Engine.getFontResources().getFontData(GameFontResources.WAVE_FONT_BANDIDOS));
 	}

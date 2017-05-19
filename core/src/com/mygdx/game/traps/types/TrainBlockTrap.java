@@ -43,7 +43,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 	public TrainBlockTrap(Grid grid, Direction direction) 
 	{
 		super(grid, direction);
-		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_RAIL), false)).setPivot(new Vector2(0, 0), false);
+		this.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_RAIL), false)).setPivot(0, 0, false);
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 		
 		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);

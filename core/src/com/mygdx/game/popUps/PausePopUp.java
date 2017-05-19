@@ -1,6 +1,5 @@
 package com.mygdx.game.popUps;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.events.Event;
@@ -48,11 +47,11 @@ public class PausePopUp extends BaseGamePopUp implements IEventReceiver
 		
 		_continueButton = new ButtonEntity(GameTextureResources.UI_BUTTON_CONTINUE);
 		_continueButton.getTransformComponent().setParent(getTransformComponent());
-		_continueButton.getTransformComponent().translatePosition(new Vector2(-(this.getRenderComponent().getCurrentTexture().getWidth() / 8), -this.getRenderComponent().getCurrentTexture().getHeight() * 0.175f));
+		_continueButton.getTransformComponent().translatePosition(-(this.getRenderComponent().getCurrentTexture().getWidth() / 8), -this.getRenderComponent().getCurrentTexture().getHeight() * 0.175f);
 		
 		_quitButton = new ButtonEntity(GameTextureResources.UI_INGAME_QUIT_BTN);
 		_quitButton.getTransformComponent().setParent(getTransformComponent());
-		_quitButton.getTransformComponent().translatePosition(new Vector2((this.getRenderComponent().getCurrentTexture().getWidth() / 5.5f), -this.getRenderComponent().getCurrentTexture().getHeight() * 0.19f));
+		_quitButton.getTransformComponent().translatePosition((this.getRenderComponent().getCurrentTexture().getWidth() / 5.5f), -this.getRenderComponent().getCurrentTexture().getHeight() * 0.19f);
 		_quitButton.addTag("quitButton");
 		
 		_continueButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);

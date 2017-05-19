@@ -274,7 +274,7 @@ public class EntitySystem implements IEventReceiver
 				    rc.getFlipX(),                   			/* flipX whether to flip the sprite horizontally                                 */
 				    rc.getFlipY());                  			/* flipY whether to flip the sprite vertically   								 */
 		
-		sb.setColor(new Color(Color.WHITE));
+		sb.setColor(1, 1, 1, 1);
 		
 		if(rc.getCallsRenderAfterEntityRender())
 			ce.render(gameRenderComponents);

@@ -2,7 +2,6 @@ package com.mygdx.game.hitRegistration;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.components.HealthComponent;

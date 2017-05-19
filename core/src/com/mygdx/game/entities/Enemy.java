@@ -9,6 +9,7 @@ import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
 import com.mygdx.game.engine.entities.BaseEntity;
+import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.collision.CollisionComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
@@ -17,6 +18,8 @@ import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
+import com.mygdx.game.engine.tweening.EngineTween;
+import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.events.HealthEvent;
 import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
@@ -37,7 +40,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	}
 	
 	private Animations _animations;
-	private float _deathTime = -1f;
 	private EnemyState _currentEnemyState = null;
 	
 	private float _hitEffectTimeTracker = 0f;
@@ -55,7 +57,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.addComponent(new ScoreHolderComponent(ScoreHolderComponent.ScoreGainType.Destroy, baseScoreWorth));
 		
 		AnimationComponent ac = this.addComponent(new AnimationComponent(_animations, true, false));
-		ac.setPivot(new Vector2(0.5f,0f), false);
+		ac.setPivot(0.5f, 0f, false);
 		ac.setSortingLayer(1);
 		ac.setSortOnY(true);
 		
@@ -155,24 +157,6 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	@Override
 	protected void updated(float dt) 
 	{
-		// Death Effect
-		if(_deathTime != -1)
-		{
-			_deathTime += dt;
-			if(_deathTime > 2f)
-			{
-				float alpha = this.getComponent(AnimationComponent.class).getAlpha();
-				if(alpha > 0.1f)
-				{
-					this.getComponent(AnimationComponent.class).setAlpha(alpha - (dt * 2));
-				}
-				else
-				{
-					this.destroy();
-				}
-			}
-		}
-		
 		// Hit Effect
 		if(_hitEffectTimeTracker != -1)
 		{
@@ -181,11 +165,11 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			{
 				// Red flash effect
 				_hitEffectTimeTracker = 0.2f;
-				this.getComponent(AnimationComponent.class).setColor(new Color(1,1,1,1));
+				this.getComponent(AnimationComponent.class).setColor(1,1,1,1);
 			}
 			
 			// Hit back effect
-			this.getTransformComponent().translatePosition(new Vector2(0, 1f));
+			this.getTransformComponent().translatePosition(0, 1f);
 			
 			if(_hitEffectTimeTracker > 0.3f)
 			{
@@ -211,7 +195,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 				dif.setLength(realDif);
 			}
 			
-			getTransformComponent().translatePosition(dif);
+			getTransformComponent().translatePosition(dif.x, dif.y);
 			
 			if(this.getTransformComponent().getPositionX() == _targetLocation.x 
 			&& this.getTransformComponent().getPositionY() == _targetLocation.y)
@@ -232,7 +216,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	private void onDamagedEvent(HealthEvent event) 
 	{
-		this.getComponent(AnimationComponent.class).setColor(new Color(0.9f,0,0,1));
+		this.getComponent(AnimationComponent.class).setColor(0.9f, 0, 0, 1);
 		_hitEffectTimeTracker = 0;
 		
 		spawnHitEffect((event.getNewHealth() == 0) ? 1.35f : 1f);
@@ -256,9 +240,18 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		if(event.getAnimationName() == "death")
 		{
-			this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
-			this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f, 1f), true);
-			_deathTime = 0;
+			AnimationComponent ac = this.getComponent(AnimationComponent.class);
+			ac.removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
+			ac.setPivot(0.5f, 1f, true);
+			ac.doAlpha(0, 0.5f, TweenStartType.GameTime).delay(2f).setCallbackMethod(new IEngineTweenMethod()
+			{
+				@Override
+				public void onMethod(int tweenEventType, EngineTween tween) 
+				{
+					destroy();
+				}
+			});
+			
 		}
 	}
 

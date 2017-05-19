@@ -101,12 +101,14 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 		Animations anims = new Animations("activate", Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_TRAP_ACTIVATOR_TURN), false, true);
 		anims.setAnimation("trigger", Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_TRAP_ACTIVATOR_TURN), false, false);
 		
-		this.addComponent(new AnimationComponent(anims, true, false)).setAnimationSpeed(0.35f);
-		
-		this.getComponent(AnimationComponent.class).setSortingLayer(1);
-		this.getComponent(AnimationComponent.class).setSortOnY(true);
-		this.addComponent(new CollisionComponent()).addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f, 0), false);
+		CollisionComponent cc = this.addComponent(new CollisionComponent());
+		cc.addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
+		AnimationComponent ac = this.addComponent(new AnimationComponent(anims, true, false));
+		ac.setAnimationSpeed(0.35f);
+		ac.setSortingLayer(1);
+		ac.setSortOnY(true);
+		ac.addEventListener(EngineGlobals.COLLISION_EVENT_COLLISION_ENTER, this);
+		ac.setPivot(0.5f, 0, false);
 		
 		FixtureDef _fixDef = new FixtureDef();
 		_fixDef.filter.maskBits = CollisionResources.BIT_ARROW;
@@ -114,8 +116,8 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(CollisionResources.convertToPPM(25f), CollisionResources.convertToPPM(25f), new Vector2(CollisionResources.convertToPPM(getLocalTargetLocation().x), CollisionResources.convertToPPM(getLocalTargetLocation().y)), 0);
 		_fixDef.shape = shape;
-		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_TRAP_ACTIVATOR);
-		this.getComponent(CollisionComponent.class).setActiveState(false);
+		cc.createFixture(_fixDef, CollisionResources.BIT_TRAP_ACTIVATOR);
+		cc.setActiveState(false);
 	}
 	
 	@Override

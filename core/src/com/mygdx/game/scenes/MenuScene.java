@@ -1,6 +1,5 @@
 package com.mygdx.game.scenes;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
@@ -66,7 +65,7 @@ public class MenuScene extends BaseScene implements IEventReceiver
 	{	
 		MyGdxGame.getInputHandler().addEventListener(InputGlobals.TOUCH_EVENT, this);
 		Engine.getAudioResources().getMusic(GameAudioResources.MUSIC_MENU_SOUNDTRACK).play();
-		_playBtn.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, Engine.getHeight() / 2));
+		_playBtn.getTransformComponent().setPosition(Engine.getWidth() / 2, Engine.getHeight() / 2);
 		_playBtn.addEventListener(ButtonGlobals.BUTTON_EVENT, this);
 	}
 	

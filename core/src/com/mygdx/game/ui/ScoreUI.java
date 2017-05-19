@@ -38,24 +38,14 @@ public class ScoreUI extends BaseEntity
 		
 		_scoreText = new TextEntity(true);
 		_scoreText.getTransformComponent().setParent(_scoreIndicatorUI.getTransformComponent());
-		_scoreText.getTransformComponent().setPosition(
-			new Vector2(
-				(- (0.17f * _scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth())), 
-				5
-			)
-		);
-		_scoreText.getRenderComponent().setPivot(new Vector2(0f, 0.5f), false);
+		_scoreText.getTransformComponent().setPosition((- (0.17f * _scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth())), 5);
+		_scoreText.getRenderComponent().setPivot(0f, 0.5f, false);
 		_scoreText.setFontSize(9);
 		_scoreText.setFont(Engine.getFontResources().getFontData(GameFontResources.SCORE_FONT_BANDIDOS));
 		
 		_multiplierText = new TextEntity(true);
 		_multiplierText.getTransformComponent().setParent(_scoreIndicatorUI.getTransformComponent());
-		_multiplierText.getTransformComponent().setPosition(
-			new Vector2(
-				((_scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth() / 2) * 0.65f), 
-				5
-			)
-		);
+		_multiplierText.getTransformComponent().setPosition(((_scoreIndicatorUI.getComponent(RenderComponent.class).getRealWidth() / 2) * 0.65f), 5);
 		_multiplierText.setFontSize(6.5f);
 		_multiplierText.setFont(Engine.getFontResources().getFontData(GameFontResources.MULTIPLIER_FONT_BANDIDOS));
 	}

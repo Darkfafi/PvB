@@ -158,7 +158,6 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 	{
 		if(_heightStage == heightStage || _heightStage == HeightStage.Landed) { return; }
 		_heightStage = heightStage;
-		Vector2 newScale = new Vector2(_startScaleX, _startScaleY);
 		float multi = 1;
 		
 		if(heightStage == HeightStage.Idle)
@@ -174,10 +173,7 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 			multi = 0.9f;
 		}
 		
-		newScale.x *= multi;
-		newScale.y *= multi;
-		
-		this.getTransformComponent().setScale(newScale);
+		this.getTransformComponent().setScale(_startScaleX * multi, _startScaleY * multi);
 		
 		handleStageSpecifics(heightStage);
 		onStageChanged(heightStage);
@@ -216,7 +212,7 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 			this.getComponent(CollisionComponent.class).setActiveState(false);
 			this.getRenderComponent().setCurrentFrameInfo(this.getRenderComponent().getRenderInfo().getFramesLength() - 1);
 			this.getRenderComponent().setSortingLayer(1);
-			this.getRenderComponent().setPivot(new Vector2(0.5f, 0.7f), true);
+			this.getRenderComponent().setPivot(0.5f, 0.7f, true);
 			
 			this.getRenderComponent().doAlpha(0, 0.25f, BaseEntityComponent.TweenStartType.GameTime).delay(_GROUND_LIFE_TIME).setCallbackMethod(new IEngineTweenMethod()
 			{

@@ -120,7 +120,7 @@ public class CollisionComponent extends BaseEntityComponent {
 		
 		if(_velocity.len() > 0)
 		{
-			this.getParentOfComponent().getTransformComponent().setPosition(new Vector2(this.getBody().getPosition().x * CollisionResources.PIXEL_PER_METER, this.getBody().getPosition().y * CollisionResources.PIXEL_PER_METER));
+			this.getParentOfComponent().getTransformComponent().setPosition(this.getBody().getPosition().x * CollisionResources.PIXEL_PER_METER, this.getBody().getPosition().y * CollisionResources.PIXEL_PER_METER);
 			this.getParentOfComponent().getTransformComponent().setRotation((float) -Math.toDegrees(this.getBody().getAngle()));
 		}
 	}

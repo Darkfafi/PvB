@@ -1,7 +1,6 @@
 package com.mygdx.game.factories;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
@@ -45,10 +44,10 @@ public class EffectFactory
 	{
 		Effect hitEffect = new Effect(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_EFFECT_HIT), false);
 		
-		hitEffect.getAnimationComponent().setColor(new Color(color));
+		hitEffect.getAnimationComponent().setColor(color.r, color.g, color.b, color.a);
 		hitEffect.getTransformComponent().setPosition(xPosition, yPosition);
 		
-		hitEffect.getTransformComponent().setScale(new Vector2(scale, scale));
+		hitEffect.getTransformComponent().setScale(scale, scale);
 		hitEffect.getAnimationComponent().setAnimationSpeed(0.4f);
 		
 		return hitEffect;
@@ -66,10 +65,10 @@ public class EffectFactory
 	{
 		final BasicEntity bloodBlood = new BasicEntity();
 		
-		bloodBlood.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SHEET_BLOOD_POOL), false)).setPivot(new Vector2(0.5f, 0.5f), false);
+		bloodBlood.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SHEET_BLOOD_POOL), false)).setPivot(0.5f, 0.5f, false);
 		bloodBlood.getComponent(RenderComponent.class).setCurrentFrameInfo((Math.random() < 0.5f) ? 0 : 1);
 		bloodBlood.getTransformComponent().setPosition(xPosition, yPosition);
-		bloodBlood.getTransformComponent().setScale(new Vector2(0, 0));
+		bloodBlood.getTransformComponent().setScale(0, 0);
 		bloodBlood.getTransformComponent().doScale(size, size, 0.2f, TweenStartType.GameTime).setCallbackMethod(
 		new IEngineTweenMethod() {
 
@@ -123,8 +122,8 @@ public class EffectFactory
 		
 		explosionEffect.getTransformComponent().setPosition(xPosition, yPosition);
 		
-		explosionEffect.getTransformComponent().setScale(new Vector2(scale * scaleMultiplier, scale * scaleMultiplier));
-		explosionEffect.getAnimationComponent().setPivot(new Vector2(0.5f, 0f),  false);
+		explosionEffect.getTransformComponent().setScale(scale * scaleMultiplier, scale * scaleMultiplier);
+		explosionEffect.getAnimationComponent().setPivot(0.5f, 0f,  false);
 		explosionEffect.getAnimationComponent().setAnimationSpeed(0.4f);
 		
 		Engine.getAudioResources().getSound(explosionSoundKey).play(1, 0.95f + (float)Math.random() + 0.10f, 0);
@@ -196,7 +195,7 @@ public class EffectFactory
 		x += offsetX;
 		y += offsetY;
 		
-		te.getTransformComponent().setScale(new Vector2(0,0));
+		te.getTransformComponent().setScale(0,0);
 		te.getTransformComponent().doScale(1, 1, 0.2f, TweenStartType.GameTime);
 		te.getRenderComponent().setSortingLayer(-1);
 		te.getTransformComponent().doPosition(x, y, 0.4f, TweenStartType.GameTime).ease(EaseType.QuadOut).setCallbackMethod(new IEngineTweenMethod()

@@ -1,7 +1,6 @@
 package com.mygdx.game.popUps;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
@@ -15,6 +14,7 @@ import com.mygdx.game.entities.BasicEntity;
 import com.mygdx.game.entities.ButtonEntity;
 import com.mygdx.game.globals.ButtonGlobals;
 import com.mygdx.game.scenes.GameScenesManager;
+
 import aurelienribon.tweenengine.Timeline;
 
 /**
@@ -93,11 +93,11 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		// Button
 		_continueButton = new ButtonEntity(GameTextureResources.UI_INGAME_RETRY_BTN);
 		_continueButton.getTransformComponent().setParent(getTransformComponent());
-		_continueButton.getTransformComponent().translatePosition(new Vector2(-(this.getRenderComponent().getCurrentTexture().getWidth() / 8), -this.getRenderComponent().getRealHeight() * 0.34f));
+		_continueButton.getTransformComponent().translatePosition(-(this.getRenderComponent().getCurrentTexture().getWidth() / 8), -this.getRenderComponent().getRealHeight() * 0.34f);
 		
 		_quitButton = new ButtonEntity(GameTextureResources.UI_INGAME_QUIT_BTN);
 		_quitButton.getTransformComponent().setParent(getTransformComponent());
-		_quitButton.getTransformComponent().translatePosition(new Vector2((this.getRenderComponent().getCurrentTexture().getWidth() / 5.5f), -this.getRenderComponent().getRealHeight() * 0.355f));
+		_quitButton.getTransformComponent().translatePosition((this.getRenderComponent().getCurrentTexture().getWidth() / 5.5f), -this.getRenderComponent().getRealHeight() * 0.355f);
 		_quitButton.addTag("quitButton");
 		
 		_continueButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
@@ -142,9 +142,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		highscoreTitle.getRenderComponent().setColor(titleColor);
 		_highscoreValueText.getRenderComponent().setColor(titleColor);
 		
-		scoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
-		waveTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
-		highscoreTitle.getRenderComponent().setPivot(new Vector2(1, 0.5f), true);
+		scoreTitle.getRenderComponent().setPivot(1, 0.5f, true);
+		waveTitle.getRenderComponent().setPivot(1, 0.5f, true);
+		highscoreTitle.getRenderComponent().setPivot(1, 0.5f, true);
 		
 		scoreTitle.setFontSize(titleFontSize);
 		waveTitle.setFontSize(titleFontSize);
@@ -154,15 +154,15 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		_wavesValueText.setFontSize(fontSize);
 		_highscoreValueText.setFontSize(fontSize);
 		
-		_scoreValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
-		_wavesValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
-		_highscoreValueText.getRenderComponent().setPivot(new Vector2(0,0.5f), false);
+		_scoreValueText.getRenderComponent().setPivot(0,0.5f, false);
+		_wavesValueText.getRenderComponent().setPivot(0,0.5f, false);
+		_highscoreValueText.getRenderComponent().setPivot(0,0.5f, false);
 		
 		float yDeltaScore = this.getRenderComponent().getCurrentTexture().getHeight() * 0.08f; 
 		
-		_scoreValueText.getTransformComponent().translatePosition(new Vector2(-10,yDeltaScore));
-		_wavesValueText.getTransformComponent().translatePosition(new Vector2(-10,yDeltaScore - (_scoreValueText.getTextBounds().y / 2 + 22)));
-		_highscoreValueText.getTransformComponent().setPosition(new Vector2(-10, _wavesValueText.getTransformComponent().getLocalPositionY() - 100));
+		_scoreValueText.getTransformComponent().translatePosition(-10,yDeltaScore);
+		_wavesValueText.getTransformComponent().translatePosition(-10,yDeltaScore - (_scoreValueText.getTextBounds().y / 2 + 22));
+		_highscoreValueText.getTransformComponent().setPosition(-10, _wavesValueText.getTransformComponent().getLocalPositionY() - 100);
 		
 		scoreTitle.getTransformComponent().setPosition(_scoreValueText.getTransformComponent().getLocalPositionX() - 30, _scoreValueText.getTransformComponent().getLocalPositionY());
 		waveTitle.getTransformComponent().setPosition(_wavesValueText.getTransformComponent().getLocalPositionX() - 30, _wavesValueText.getTransformComponent().getLocalPositionY());
