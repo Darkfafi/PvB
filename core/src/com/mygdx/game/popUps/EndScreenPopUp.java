@@ -26,6 +26,7 @@ import aurelienribon.tweenengine.Timeline;
 public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 {
 	private ButtonEntity _continueButton;
+	private ButtonEntity _quitButton;
 	private TextEntity _scoreValueText;
 	private TextEntity _wavesValueText;
 	private TextEntity _highscoreValueText;
@@ -72,8 +73,16 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		if(event.getType() == ButtonGlobals.BUTTON_DOWN_EVENT)
 		{
 			this.closePopUp();
+
+			if( ((ButtonEntity)event.getDispatcher()).hasTag("quitButton") )
+			{
+				Engine.getSceneManager().setScene(GameScenesManager.MENU_SCENE);
+			}
+			else
+			{
+				Engine.getSceneManager().setScene(GameScenesManager.GAME_SCENE);
+			}
 		}
-		
 	}
 	
 	@Override
@@ -84,9 +93,15 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		// Button
 		_continueButton = new ButtonEntity(GameTextureResources.UI_INGAME_RETRY_BTN);
 		_continueButton.getTransformComponent().setParent(getTransformComponent());
-		_continueButton.getTransformComponent().translatePosition(new Vector2(0, -this.getRenderComponent().getRealHeight() * 0.34f));
+		_continueButton.getTransformComponent().translatePosition(new Vector2(-(this.getRenderComponent().getCurrentTexture().getWidth() / 8), -this.getRenderComponent().getRealHeight() * 0.34f));
+		
+		_quitButton = new ButtonEntity(GameTextureResources.UI_INGAME_QUIT_BTN);
+		_quitButton.getTransformComponent().setParent(getTransformComponent());
+		_quitButton.getTransformComponent().translatePosition(new Vector2((this.getRenderComponent().getCurrentTexture().getWidth() / 5.5f), -this.getRenderComponent().getRealHeight() * 0.355f));
+		_quitButton.addTag("quitButton");
 		
 		_continueButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
+		_quitButton.addEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		super.onPopUpAwake();
 	}
 	
@@ -211,6 +226,9 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		_continueButton.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
 		_continueButton = null;
 		
+		_quitButton.removeEventListener(ButtonGlobals.BUTTON_DOWN_EVENT, this);
+		_quitButton = null;
+		
 		_scoreValueText = null;
 		_wavesValueText = null;
 		_highscoreValueText = null;
@@ -218,7 +236,5 @@ public class EndScreenPopUp extends BaseGamePopUp implements IEventReceiver
 		_scoreValue = null;
 		_waveValue = null;
 		_highscoreValue = null;
-		
-		Engine.getSceneManager().setScene(GameScenesManager.GAME_SCENE);
 	}
 }

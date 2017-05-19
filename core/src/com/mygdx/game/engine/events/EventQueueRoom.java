@@ -33,6 +33,7 @@ public class EventQueueRoom
 	{
 		ArrayList<ListenerItem> items = listToLoop;
 		
+		if(items == null) { return; }
 		if(items.size() > 0)
 		{
 			for(int i = 0; i < items.size(); i++)

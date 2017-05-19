@@ -51,6 +51,7 @@ public abstract class EventDispatcher
 	public void removeEventListener(String type, IEventReceiver listener)
 	{
 		ListenerItem currentItem;
+		if(_allListeners == null) { return; }
 		if(_allListeners.size() > 0)
 		{
 			for(int i = 0; i < _allListeners.size(); i++)
