@@ -6,6 +6,7 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BaseEnemyAIComponent;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
+import com.mygdx.game.components.attacking.HeavyBanditAttackComponent;
 import com.mygdx.game.components.attacking.LightBanditAttackComponent;
 import com.mygdx.game.components.attacking.MediumBanditAttackComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
@@ -149,6 +150,8 @@ public class EnemyFactory
 			attackKeys = new String[]{
 					GameTextureResources.ANIMATION_HEAVY_BANDIT_0_ATTACK
 			};
+			
+			animations.setAnimation("charge", getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_HEAVY_BANDIT_0_CHARGE), false);
 			break;
 		case LightBandit:
 			idleKeys = 	new String[]{ 
@@ -216,11 +219,11 @@ public class EnemyFactory
 		switch(enemyType)
 		{
 		case LightBandit:
-			return 3.25f;
+			return 3f;
 		case MediumBandit:
-			return 2f;
+			return 2.25f;
 		case HeavyBandit:
-			return 0.85f;
+			return 1f;
 		default:
 			System.out.println("Type health not set! Please do in the EnemyFactory");
 			return 0f;
@@ -290,7 +293,7 @@ public class EnemyFactory
 		case MediumBandit:
 			return new MediumBanditAttackComponent(1f, 3,0.25f);
 		case HeavyBandit:
-			return new MediumBanditAttackComponent(0.5f, 3,0.05f);
+			return new HeavyBanditAttackComponent(0.5f, 3,0.05f);
 		default:
 			System.out.println("Type has no defined attack component! Please do in the EnemyFactory");
 			return null;

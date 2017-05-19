@@ -191,14 +191,12 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			dif.y *= _movementSpeed * (dt * Engine.getFrameRate());
 			
 			if(dif.len() > realDif)
-			{
-				dif.setLength(realDif);
-			}
+				getTransformComponent().setPosition(_targetLocation.x, _targetLocation.y);
+			else
+				getTransformComponent().translatePosition(dif.x, dif.y);
 			
-			getTransformComponent().translatePosition(dif.x, dif.y);
-			
-			if(this.getTransformComponent().getPositionX() == _targetLocation.x 
-			&& this.getTransformComponent().getPositionY() == _targetLocation.y)
+			if((this.getTransformComponent().getPositionX() == _targetLocation.x 
+			&& this.getTransformComponent().getPositionY() == _targetLocation.y) || dif.len() > realDif)
 			{
 				this.stopAction(_idleAnimationWhenReached);
 			}
