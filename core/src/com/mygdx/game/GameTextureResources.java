@@ -17,6 +17,8 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String UI_INGAME_PAUSE_BTN = "button_pause";
 	public static final String UI_INGAME_RETRY_BTN = "button_retry";
 	public static final String UI_INGAME_RETRY_BTN_PRESSED = "button_retry_pressed";
+	public static final String UI_INGAME_QUIT_BTN = "button_quit";
+	public static final String UI_INGAME_QUIT_BTN_PRESSED = "button_quit_pressed";
 	public static final String UI_INGAME_GAMEOVER_FIELD = "gameover_field";
 	public static final String UI_INGAME_INTERFACE_GRADIENT = "interface_gradient";
 	public static final String UI_INGAME_NEW_HIGHSCORE = "new_highscore_icon";
@@ -99,6 +101,8 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(UI_INGAME_PAUSE_BTN, "ui/button_pause.png");
 		this.loadResource(UI_INGAME_RETRY_BTN, "ui/button_retry.png");
 		this.loadResource(UI_INGAME_RETRY_BTN_PRESSED, "ui/button_retry_onpush.png");
+		this.loadResource(UI_INGAME_QUIT_BTN, "ui/button_quit.png");
+		this.loadResource(UI_INGAME_QUIT_BTN_PRESSED, "ui/button_quit_onpress.png");
 		this.loadResource(UI_INGAME_GAMEOVER_FIELD, "ui/gameover_field.png");
 		this.loadResource(UI_INGAME_INTERFACE_GRADIENT, "ui/interface_gradient.png");
 		this.loadResource(UI_INGAME_NEW_HIGHSCORE, "ui/new_highscore_icon.png");

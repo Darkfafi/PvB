@@ -160,10 +160,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
 				}
 			}
-		).getTween().repeat(6, 0.5f));
+		).getTween().repeat(4, 0.5f));
 		
-//		tl.delay(0.3f);
-//		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
+		tl.delay(0.3f);
+		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		
 		_enemy1.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		
@@ -185,6 +185,9 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		Timeline tl = Timeline.createSequence();
 		tl.beginSequence();
 		
+		//Deactivate Player Input
+		_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(false);
+		
 		tl.push(_enemy2.getTransformComponent().doPosition(enemy2Pos.x, 500, _tutorialSpeed, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
@@ -201,11 +204,15 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				@Override
 				public void onMethod(int tweenEventType, EngineTween tween) {
 					_enemy3.setEnemyState(Enemy.EnemyState.IdleState, true);
+					//Activate Player Input.
+					_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(true);
+					//Reset Traps
+					_playfield.forceResetTraps();
 				}
 			}
 		).getTween());
 		
-		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
+//		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		
 		_enemy2.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy3.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
@@ -273,6 +280,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	@Override
 	protected void updated(float dt) 
 	{
+	/*
 		if(_pulling)
 		{
 			_bowWeapon.inControl((int)getTransformComponent().getPositionX(), (int)getTransformComponent().getPositionY());
@@ -284,6 +292,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				_pulling = false;
 			}
 		}
+	*/
 		
 		if(_enemyCounter == 2)
 		{
@@ -312,8 +321,11 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		_bowWeapon = null;
 		_playfield = null;
 		_enemy1 = null;
+		_enemy1.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy2 = null;
+		_enemy2.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy3 = null;
+		_enemy3.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 	}
 
 	@Override
