@@ -55,6 +55,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	private boolean _release = false;
 
 	private int _enemyCounter = 3;
+	private float _tutorialSpeed = 2;
 	
 	private Enemy _enemy1;
 	private Enemy _enemy2;
@@ -117,7 +118,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		Timeline tl = Timeline.createSequence();
 		tl.beginSequence();
 		//Tween Enemy to specific position.
-		tl.push(_enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, 600, 2, TweenStartType.Timeline).setCallbackMethod(
+		tl.push(_enemy1.getTransformComponent().doPosition(Engine.getWidth() / 2, 600, _tutorialSpeed, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
 				@Override
@@ -128,13 +129,13 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 			}
 		).getTween());
 		
-		//Wait for 1 second.
-		tl.delay(1f);
+		//Wait for half a second.
+		tl.delay(0.5f);
 		
 		//Show Finger Dragging on the Screen.
 		getTransformComponent().setPosition(-100, -100);
 		getComponent(RenderComponent.class).setActiveState(true);
-		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900, 2, TweenStartType.Timeline).setCallbackMethod(
+		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900, _tutorialSpeed / 2, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
 				@Override
@@ -147,10 +148,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				}	
 			}
 		).getTween());
-		//Wait for 2 seconds.
-		tl.delay(2f);
+		//Wait for 1 second.
+		tl.delay(1f);
 		//Tween Hand to yPos - Max Draw Length.
-		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900 - BowWeapon.MAX_DRAW_LENGTH, 4, TweenStartType.Timeline).setCallbackMethod(
+		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900 - BowWeapon.MAX_DRAW_LENGTH, _tutorialSpeed * 0.75f, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
 				@Override
@@ -159,10 +160,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
 				}
 			}
-		).getTween().repeat(3, 1f));
+		).getTween().repeat(6, 0.5f));
 		
-		tl.delay(1f);
-		tl.push(this.getTransformComponent().doPosition(-100, -100, 2, TweenStartType.Timeline).getTween());
+//		tl.delay(0.3f);
+//		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		
 		_enemy1.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		
@@ -184,7 +185,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		Timeline tl = Timeline.createSequence();
 		tl.beginSequence();
 		
-		tl.push(_enemy2.getTransformComponent().doPosition(enemy2Pos.x, 500, 2, TweenStartType.Timeline).setCallbackMethod(
+		tl.push(_enemy2.getTransformComponent().doPosition(enemy2Pos.x, 500, _tutorialSpeed, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
 				@Override
@@ -194,7 +195,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 			}
 		).getTween());
 		
-		tl.push(_enemy3.getTransformComponent().doPosition(enemy3Pos.x, 450, 2, TweenStartType.Timeline).setCallbackMethod(
+		tl.push(_enemy3.getTransformComponent().doPosition(enemy3Pos.x, 450, _tutorialSpeed, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
 				@Override
@@ -203,6 +204,8 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				}
 			}
 		).getTween());
+		
+		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		
 		_enemy2.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy3.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
