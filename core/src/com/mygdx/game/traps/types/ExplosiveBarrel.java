@@ -75,7 +75,7 @@ public class ExplosiveBarrel extends BaseEntity
 		this.getComponent(RenderComponent.class).setSortOnY(true);
 		this.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
 		
-		this.addComponent(new ExplosiveComponent(Tags.TAG_ENEMY));
+		this.addComponent(new ExplosiveComponent(Tags.TAG_ENEMY, false));
 	}
 
 	@Override

@@ -60,7 +60,7 @@ public class WaveUI extends BaseEntity implements IEventReceiver
 		_waveIndicatorUI.addComponent(new RenderComponent( Engine.getTextureResources().getRenderInfo(GameTextureResources.UI_INGAME_WAVE_FIELD), true));
 		_waveIndicatorUI.getTransformComponent().setParent(this.getTransformComponent());
 		
-		_waveText = new TextEntity(true);
+		_waveText = new TextEntity("-", true);
 		_waveText.getTransformComponent().setParent(_waveIndicatorUI.getTransformComponent());
 		_waveText.getRenderComponent().setPivot(new Vector2(0.5f, 0.5f), false);
 		_waveText.getTransformComponent().setPosition(

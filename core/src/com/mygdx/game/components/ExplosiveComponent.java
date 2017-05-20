@@ -19,15 +19,23 @@ import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 public class ExplosiveComponent extends BaseEntityComponent 
 {
 	private String[] _tagsToEffect;
+	private boolean _endsHitStreakOnMiss;
 	
-	public ExplosiveComponent(String[] tagsToEffect)
+	public ExplosiveComponent(String[] tagsToEffect, boolean endHitStreakOnMiss)
 	{
 		_tagsToEffect = tagsToEffect;
+		setEndHitStreakOnMiss(endHitStreakOnMiss);
 	}
 	
-	public ExplosiveComponent(String tagToEffect)
+	public ExplosiveComponent(String tagToEffect, boolean endHitStreakOnMiss)
 	{
 		_tagsToEffect = new String[]{ tagToEffect };
+		setEndHitStreakOnMiss(endHitStreakOnMiss);
+	}
+	
+	public void setEndHitStreakOnMiss(boolean value)
+	{
+		_endsHitStreakOnMiss = value;
 	}
 	
 	/**
@@ -81,10 +89,11 @@ public class ExplosiveComponent extends BaseEntityComponent
 	 * @param radius in which to damage entities
 	 * @param dmg is the damage to inflict to the HealthComponent of the affected entities.
 	 */
-	private void damageEffect(float radius, float dmg, int toolType)
+	private int damageEffect(float radius, float dmg, int toolType)
 	{
 		ArrayList<BaseEntity> allEntities = EntitySystem.getInstance().getAllEntities();
 		BaseEntity current;
+		int amountHit = 0;
 		for(int i = 0; i < allEntities.size(); i++)
 		{
 			current = allEntities.get(i);
@@ -100,10 +109,17 @@ public class ExplosiveComponent extends BaseEntityComponent
 				if(hc != null && hc.isAlive())
 				{
 					hc.damage(dmg);
+					amountHit++;
 					HitRegistrationPoint.getInstance().register(current.getTransformComponent().getPositionX(), current.getTransformComponent().getPositionY(), hc.getParentOfComponent(), toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT });
 				}
 			}
 		}
+		if(amountHit == 0 && _endsHitStreakOnMiss)
+		{
+			HitRegistrationPoint.getInstance().register(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY(), null, toolType, new int[]{ HitGlobals.TYPE_EXPLOSION_HIT, HitGlobals.TYPE_CONSECUTIVE_HIT_TRACKING });
+		}
+		
+		return amountHit;
 	}
 	
 	/**

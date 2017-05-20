@@ -22,6 +22,11 @@ public interface IWeapon
 	}
 	
 	/**
+	 * This activates the special ability of the weapon
+	 */
+	public void activateSpecial();
+	
+	/**
 	 * Returns the weapon type of this weapon instance.
 	 * @return WeaponType of this weapon.
 	 */

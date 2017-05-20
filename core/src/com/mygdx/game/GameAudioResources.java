@@ -42,7 +42,7 @@ public class GameAudioResources extends BaseAudioResources
 		
 		this.loadResourceSound(SOUND_SMALL_EXPLOSION_EFFECT, "audio/effects/AUD_SG_Explosion_Small.wav");
 		
-		this.loadResourceSound(SOUND_BOMBER_SCREAM, "audio/effects/screams/bombPlaceholderScreem.mp3");
+		this.loadResourceSound(SOUND_BOMBER_SCREAM, "audio/effects/screams/lightBanditAttackScream.mp3");
 	}
 
 }

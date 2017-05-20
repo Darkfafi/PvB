@@ -34,7 +34,7 @@ public class Player extends BaseEntity
 	
 	public void giveSpecial()
 	{
-		System.out.println("TODO: Make current projectile special projectile");
+		_currentWeapon.activateSpecial();
 	}
 	
 	@Override

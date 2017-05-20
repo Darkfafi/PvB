@@ -3,6 +3,8 @@ package com.mygdx.game.entities.weapons;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
+import com.mygdx.game.entities.weapons.projectiles.BaseProjectile;
+import com.mygdx.game.entities.weapons.projectiles.ExplosiveProjectile;
 
 /**
  * This is the base class for all the Bow like weapons.
@@ -122,6 +124,16 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	{
 		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
 	}
+	
+	public void activateSpecial() 
+	{
+		if(_currentProjectile != null)
+			this._currentProjectile.destroy();
+		
+		_currentProjectile = this.createRandomSpecialProjectile();
+	}
+	
+	protected abstract BaseProjectile createRandomSpecialProjectile();
 	
 	/**
 	 * Called when a target location is selected to start the aim at

@@ -15,6 +15,9 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.entities.BasicEntity;
+import com.mygdx.game.entities.weapons.projectiles.BaseProjectile;
+import com.mygdx.game.entities.weapons.projectiles.ExplosiveProjectile;
+import com.mygdx.game.entities.weapons.projectiles.NormalProjectile;
 import com.mygdx.game.globals.Tags;
 
 import aurelienribon.tweenengine.Tween;
@@ -136,7 +139,7 @@ public class BowWeapon extends BaseBowWeapon
 	protected void selectedTarget(int x, int y)
 	{
 		_aimTarget.getComponent(RenderComponent.class).setActiveState(true);
-		
+		stopBowLoopSound();
 		_bowDrawSoundInstance = Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).play();
 		Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).setLooping(_bowDrawSoundInstance, true);
 	}
@@ -157,10 +160,7 @@ public class BowWeapon extends BaseBowWeapon
 	{
 		if(stage == BowStage.Idle)
 		{
-			if(_bowDrawSoundInstance != -1)
-				Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
-			
-			_bowDrawSoundInstance = -1;
+			stopBowLoopSound();
 			_aimTarget.getComponent(RenderComponent.class).setActiveState(false);
 		}
 	}
@@ -214,7 +214,21 @@ public class BowWeapon extends BaseBowWeapon
 	@Override
 	protected BaseProjectile getProjectileInstance() 
 	{
-		NormalProjectile ap = new NormalProjectile(); // TODO: Return other projectile type depending on the streak
+		BaseProjectile ap = new NormalProjectile();
 		return ap;
+	}
+	
+	@Override
+	protected BaseProjectile createRandomSpecialProjectile()
+	{
+		return new ExplosiveProjectile();
+	}
+	
+	private void stopBowLoopSound()
+	{
+		if(_bowDrawSoundInstance != -1)
+			Engine.getAudioResources().getSound(GameAudioResources.SOUND_BOW_DRAW).stop(_bowDrawSoundInstance);
+		
+		_bowDrawSoundInstance = -1;
 	}
 }

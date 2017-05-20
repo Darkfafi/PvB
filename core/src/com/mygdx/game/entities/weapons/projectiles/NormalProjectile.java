@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.weapons;
+package com.mygdx.game.entities.weapons.projectiles;
 
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
@@ -13,7 +13,7 @@ public class NormalProjectile extends BaseProjectile
 {
 	private final float _DAMAGE = 25f; 								// The arrow its damage on full potential
 	private final float _FULL_DAMAGE_DRAW_POWER_POTENTIAL = 15f; 	// On what draw power does this arrow do its full damage?
-		
+	
 	public NormalProjectile() {
 		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), 1.3f);
 	}

@@ -1,4 +1,4 @@
-package com.mygdx.game.entities.weapons;
+package com.mygdx.game.entities.weapons.projectiles;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -17,16 +17,35 @@ import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.globals.Tags;
 
+/**
+ * This is the base class for all the projectiles of weapons in the game. This calculates the speed, sorting, collision and landing position of the arrow.
+ * @author Ramses Di Perna
+ *
+ */
 public abstract class BaseProjectile extends BaseEntity implements IEventReceiver
 {
+	/**
+	 * The different stages the projectile can be in.
+	 * @author Ramses Di Perna
+	 *
+	 */
 	public enum HeightStage
 	{
+		/**
+		 * Has yet to be fired from the weapon
+		 */
 		Idle,			// When it has not been fired yes
+		/**
+		 * Has been fired and is now flying through the air.
+		 */
 		Air,			// When it is in the air
+		/**
+		 * Has landed by simply hitting the ground or an enemy.
+		 */
 		Landed			// When it has landed
 	}
 
-	private final float _GROUND_LIFE_TIME = 3f; 					// The duration the arrow is alive on the ground
+	private final float _GROUND_LIFE_TIME = 3f;  // The duration the arrow is alive on the ground
 	
 	private HeightStage _heightStage = null;
 	
@@ -63,23 +82,19 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		this.setHeightStage(HeightStage.Idle);
 	}
 	
-	protected float getDrawPower()
-	{
-		return _drawPower;
-	}
-	
-	protected void awake()
-	{
-		this.addTag(Tags.TAG_PROJECTILE);
-		_startScaleX = this.getTransformComponent().getScaleX();
-		_startScaleY = this.getTransformComponent().getScaleY();
-	}
-	
+	/**
+	 * Returns the RenderComponent attached to this Entity
+	 * @return RenderComponent attached on the Entity
+	 */
 	public RenderComponent getRenderComponent()
 	{
 		return _renderComponent;
 	}
 	
+	/**
+	 * Returns the current HeightStage this projectile is in. 
+	 * @return The current HeightStage of the projectile
+	 */
 	public HeightStage getHeightStage()
 	{
 		return _heightStage;
@@ -95,8 +110,11 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		}
 	}
 	
-	protected abstract void onCollisionEvent(CollisionEvent event);
-
+	/**
+	 * Returns the landing position in world space calculated with the current drawing weight this projectile would be fired with
+	 * @param drawWeight of the weapon
+	 * @return The position it would land with that amount of draw-weight
+	 */
 	public Vector2 getLandingPositionWithDrawWeight(float drawWeight)
 	{
 		if(getTransformComponent() == null) {return new Vector2(0,0); }
@@ -110,10 +128,15 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		return v;
 	}
 	
-	protected void fire(float strength, float drawPower)
+	/**
+	 * Fires the projectile into the direction its currently facing.
+	 * @param drawWeight is the strength the projectile is fired with, this determines its distance.
+	 * @param drawPower is the power the projectile is fired with, this determines its speed and is affected by the projectile's weight
+	 */
+	public void fire(float drawWeight, float drawPower)
 	{
 		if(this.getTransformComponent() == null) { return ;}
-		_landSpot = getLandingPositionWithDrawWeight(strength);
+		_landSpot = getLandingPositionWithDrawWeight(drawWeight);
 		drawPower = (drawPower - getWeight());
 		drawPower = (drawPower <= 5f) ? 5f : drawPower;
 		_drawPower = drawPower;
@@ -142,8 +165,41 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 			this.destroy();
 	}
 	
+	/**
+	 * Gets the draw power this projectile has been fired with.
+	 * @return Draw power which the projectile has been fired with as float.
+	 */
+	protected float getDrawPower()
+	{
+		return _drawPower;
+	}
+	
+	protected void awake()
+	{
+		this.addTag(Tags.TAG_PROJECTILE);
+		_startScaleX = this.getTransformComponent().getScaleX();
+		_startScaleY = this.getTransformComponent().getScaleY();
+	}
+
+	/**
+	 * This will be triggered when the bow collides with an object.
+	 * @param event which holds all the collision data
+	 */
+	protected abstract void onCollisionEvent(CollisionEvent event);
+	/**
+	 * Returns the weight of the projectile.
+	 * @return The arrow it's weight as float.
+	 */
 	protected abstract float getWeight();
+	/**
+	 * This will be triggered every time the projectile's height stage has been changed.
+	 * @param newHeightStage It has been changed to.
+	 */
 	protected abstract void onStageChanged(HeightStage newHeightStage);
+	/**
+	 * This will be triggered when the projectile lands on the ground withot hitting anything.
+	 */
+	protected abstract void onLandedOnGround();
 	
 	@Override
 	protected void destroyed()
@@ -154,6 +210,10 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		_startPos = null;
 	}
 
+	/**
+	 * This sets the height stage of the projectile and changes its scale depending on it.
+	 * @param heightStage
+	 */
 	protected void setHeightStage(HeightStage heightStage)
 	{
 		if(_heightStage == heightStage || _heightStage == HeightStage.Landed) { return; }
@@ -178,9 +238,9 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		newScale.y *= multi;
 		
 		this.getTransformComponent().setScale(newScale);
-		
-		handleStageSpecifics(heightStage);
+
 		onStageChanged(heightStage);
+		handleStageSpecifics(heightStage);
 	}
 
 	@Override
@@ -205,8 +265,6 @@ public abstract class BaseProjectile extends BaseEntity implements IEventReceive
 		}
 	}
 	
-	protected abstract void onLandedOnGround();
-
 	private void handleStageSpecifics(HeightStage heightStage) 
 	{
 		if(heightStage == HeightStage.Landed)
