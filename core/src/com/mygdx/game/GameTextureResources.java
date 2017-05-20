@@ -39,6 +39,7 @@ public class GameTextureResources extends BaseTextureResources
 	
 	public static final String ANIMATION_BOW_DRAW = "bowDraw";
 	public static final String ANIMATION_BOW_ARROW = "arrowFly";
+	public static final String ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE = "explosiveSpecialArrowFly";
 	
 	public static final String ANIMATION_TRAP_ACTIVATOR_TURN = "TrapActivatorTrunAnim";
 	
@@ -82,7 +83,6 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_SMALL = "ExplosionEffectSmall_Animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_BIG = "ExplosionEffectBig_Animation";
-//	public static final String ANIMATION_EFFECT_EXPLOSION = "ExplosionEffect_Animation";
 	
 	public static final String SHEET_BLOOD_POOL = "bloodPoolSheet";
 	public static final String SHEET_EXPLOSIVE_BARREL_TRAP = "ExplosiveBarrelSheetTrap";
@@ -130,6 +130,7 @@ public class GameTextureResources extends BaseTextureResources
 		// Bow
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
 		this.loadResource(ANIMATION_BOW_ARROW, "weapon/arrowFly.png", "weapon/arrowFly.xml");
+		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE, "weapon/explosiveArrow.png", "weapon/explosiveArrow.xml");
 		
 		// Enemies
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_IDLE, "enemies/lightBanditA/lightBanditAIdle.png", "enemies/lightBanditA/lightBanditAIdle.xml");

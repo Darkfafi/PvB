@@ -9,8 +9,8 @@ import com.mygdx.game.engine.scenes.RenderComponents;
  * It contains the scenes which are able to be switched to and will set the first scene.
  * @author Ramses Di Perna
  */
-public class GameScenesManager extends BaseScenesManager {
-
+public class GameScenesManager extends BaseScenesManager 
+{
 	public static final int MENU_SCENE = 0;
 	public static final int GAME_SCENE = 1;
 	

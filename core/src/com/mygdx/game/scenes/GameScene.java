@@ -201,6 +201,13 @@ public class GameScene extends BaseScene implements IEventReceiver
 	
 	private void startGame()
 	{
+		if(_bdt != null)
+		{
+			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+			_bdt.destroy();
+		}
+		_bdt = null;
+		
 		_playfield.forceResetTraps();
 		_consecutiveHitTracker.resetConsecutiveHitCounter();
 		

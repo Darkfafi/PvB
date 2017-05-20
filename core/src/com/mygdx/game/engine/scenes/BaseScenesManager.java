@@ -29,6 +29,8 @@ public abstract class BaseScenesManager
 	 */
 	private Stack<BaseScene> _gameScenes = new Stack<BaseScene>();
 	
+	private int _sceneToLoad = -1337; 
+	
 	/**
 	 * The Render Components available to the current scene to render its assets with. 
 	 */
@@ -51,6 +53,14 @@ public abstract class BaseScenesManager
 	 */
 	public void update(float dt)
 	{
+		if(_sceneToLoad != -1337)
+		{
+			System.gc();
+			pushScene(_sceneToLoad);
+			_sceneToLoad = -1337;
+		}
+
+		if(_gameScenes.isEmpty()) { return; }
 		_gameScenes.peek().update((dt * Engine.TimeScale));
 		EngineTweener.updateTweenEngine(dt, Engine.TimeScale);
 		EntitySystem.getInstance().updateEntities((dt * Engine.TimeScale));
@@ -61,6 +71,7 @@ public abstract class BaseScenesManager
 	 */
 	public void render()
 	{
+		if(_gameScenes.isEmpty()) { return; }
 		_gameScenes.peek().render();
 		EntitySystem.getInstance().renderEntities(this.getRenderComponents());
 	}
@@ -72,10 +83,10 @@ public abstract class BaseScenesManager
 	public void setScene(int sceneId)
 	{
 		popScene();
-		EntitySystem.getInstance().destroyAllEntitiesImmediately();
+		EntitySystem.getInstance().destroyAllEntities();
 		_renderComponents.resetCams();
-		System.gc();
-		pushScene(sceneId);
+		_sceneToLoad = sceneId;
+		
 	}
 	
 	/**

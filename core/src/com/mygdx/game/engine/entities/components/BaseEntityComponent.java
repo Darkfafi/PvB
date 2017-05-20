@@ -15,6 +15,7 @@ import aurelienribon.tweenengine.Tween;
 
 /**
  * This class must be inherited by a class for it to be able to be added to Entities as component.
+ * It also cleans all its listeners when it is destroyed.
  * @author Ramses Di Perna
  *
  */
@@ -168,6 +169,7 @@ public abstract class BaseEntityComponent extends EventDispatcher
 			_tweenTracker.clean();
 			_tweenTracker = null;
 			_parentOfComponent = null;
+			this.clean();
 		}
 	}
 	

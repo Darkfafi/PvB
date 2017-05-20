@@ -20,7 +20,7 @@ public class ExplosiveProjectile extends BaseProjectile
 	
 	public ExplosiveProjectile() 
 	{
-		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_ARROW), 1.3f);
+		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE), 1.3f);
 		_explosiveComponent = this.addComponent(new ExplosiveComponent(Tags.TAG_ENEMY, true));
 	}
 

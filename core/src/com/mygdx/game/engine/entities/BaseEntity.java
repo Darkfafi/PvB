@@ -67,7 +67,7 @@ public abstract class BaseEntity extends EventDispatcher
 	@SuppressWarnings("unchecked")
 	public <T extends BaseEntityComponent> T getComponent(Class<T> classType)
 	{
-		if(_components == null) {System.out.println("WARNING: Can't get component "+ classType +" on destroyed entity"); return null; }
+		if(_components == null) { System.out.println("WARNING: Can't get component "+ classType +" on destroyed entity"); return null; }
 		for(int i = 0; i < _components.size(); i++)
 		{
 			if(_components.get(i).getClass() == classType)

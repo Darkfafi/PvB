@@ -320,12 +320,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		_player = null;
 		_bowWeapon = null;
 		_playfield = null;
+		
 		_enemy1 = null;
-		_enemy1.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy2 = null;
-		_enemy2.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy3 = null;
-		_enemy3.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 	}
 
 	@Override
