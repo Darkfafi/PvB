@@ -105,12 +105,12 @@ public class PhysicsWorld implements IEventReceiver
 		
 		for(int i = 0; i < entities.size(); i++)
 		{
-			if(entities.get(i).getComponent(CollisionComponent.class) != null)
+			c = entities.get(i).getComponent(CollisionComponent.class);
+			if(c != null)
 			{
-				if(entities.get(i).getComponent(CollisionComponent.class).getBody() != null) { return; }
+				if(c.getBody() != null) { return; }
 				else
 				{
-					c = entities.get(i).getComponent(CollisionComponent.class);
 					createBodyForComponent(c);
 				}
 			}

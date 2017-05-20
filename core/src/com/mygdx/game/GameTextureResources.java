@@ -150,9 +150,9 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_ATTACK, "enemies/lightBanditA/lightBanditAAttack.png", "enemies/lightBanditA/lightBanditAAttack.xml");
 		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_ATTACK,"enemies/mediumBanditA/banditAAttack.png", "enemies/mediumBanditA/banditAAttack.xml");
 		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_ATTACK,"enemies/mediumBanditB/banditBAttack.png", "enemies/mediumBanditB/banditBAttack.xml");
-		this.loadResource(ANIMATION_HEAVY_BANDIT_0_ATTACK, "enemies/heavyBanditA/heavyBanditAAttack.png", "enemies/heavyBanditA/heavyBanditAAttack.xml").setInnerOffset(0f, -0.26f);
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_ATTACK, "enemies/heavyBanditA/heavyBanditAAttack.png", "enemies/heavyBanditA/heavyBanditAAttack.xml").setInnerOffset(0f, -0.38f);
 
-		this.loadResource(ANIMATION_HEAVY_BANDIT_0_CHARGE, "enemies/heavyBanditA/heavyBanditACharge.png", "enemies/heavyBanditA/heavyBanditACharge.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_CHARGE, "enemies/heavyBanditA/heavyBanditACharge.png", "enemies/heavyBanditA/heavyBanditACharge.xml").setInnerOffset(0f, -0.26f);
 		
 		// Traps
 		this.loadResource(ANIMATION_TRAP_ACTIVATOR_TURN, "traps/targetTurn.png", "traps/targetTurn.xml");

@@ -1,6 +1,5 @@
 package com.mygdx.game.waves;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BasicEnemyAIComponent;
@@ -177,7 +176,7 @@ public class WaveSystem extends EventDispatcher
 		int spawnX = this.getSpawnPointX();
 		e.getComponent(BasicEnemyAIComponent.class).placeSelfOnLocation(spawnX, -1);
 		GridTile tile = _playfield.getGrid().getTile(spawnX, -1);
-		e.getTransformComponent().setPosition(new Vector2(tile.getWorldPositionX() + tile.getTileWidth() / 2, tile.getWorldPositionY() + tile.getTileHeight() / 2));
+		e.getTransformComponent().setPosition(tile.getWorldPositionX() + tile.getTileWidth() / 2, tile.getWorldPositionY() + tile.getTileHeight() / 2);
 		
 		return e;
 	}

@@ -53,7 +53,7 @@ public class BowWeapon extends BaseBowWeapon
 	{
 		_aimTarget = new BasicEntity();
 		_aimTarget.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_BOW_AIM_TARGET), true)).setActiveState(false);
-		_aimTarget.getComponent(RenderComponent.class).setPivot(new Vector2(0.5f, 0), false);
+		_aimTarget.getComponent(RenderComponent.class).setPivot(0.5f, 0, false);
 		_aimTarget.getTransformComponent().doScale(0.8f, 1.2f, 0.8f, TweenStartType.GameTime).getTween().repeatYoyo(Tween.INFINITY, 0.1f);
 		
 		_bowDrawSoundInstance = -1;

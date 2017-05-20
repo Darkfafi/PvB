@@ -244,7 +244,7 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	{
 		_currentBowStage = BowStage.Idle;
 		_drawStrength = 0;
-		this.getComponent(RenderComponent.class).setCurrentFrameInfo(0);; // Reset bow
+		this.getComponent(RenderComponent.class).setCurrentFrameInfo(0); // Reset bow
 		_currentProjectile = getProjectileInstance();
 		bowSetToStage(_currentBowStage);
 	}
@@ -257,8 +257,8 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	private void handleProjectilePlacement() 
 	{
 		if(_currentProjectile == null || _currentProjectile.getTransformComponent() == null) { return; }
-		_currentProjectile.getTransformComponent().setPosition(new Vector2(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY()));
+		_currentProjectile.getTransformComponent().setPosition(this.getTransformComponent().getPositionX(), this.getTransformComponent().getPositionY());
 		_currentProjectile.getTransformComponent().setRotation(this.getTransformComponent().getRotation());
-		_currentProjectile.getTransformComponent().translatePosition(projectilePullDistance());
+		_currentProjectile.getTransformComponent().translatePosition(projectilePullDistance().x, projectilePullDistance().y);
 	}
 }

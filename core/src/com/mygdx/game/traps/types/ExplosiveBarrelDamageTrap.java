@@ -46,7 +46,7 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 	public int place(int x, int y)
 	{
 		int value = super.place(x, y);
-		this.getTransformComponent().translatePosition(new Vector2(this.getGrid().getTileWidth() / 2, this.getGrid().getTileHeight() / 2));
+		this.getTransformComponent().translatePosition(this.getGrid().getTileWidth() / 2, this.getGrid().getTileHeight() / 2);
 		return value;
 	}
 	
@@ -176,7 +176,7 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 			deltaBarrel.y += fallHeight;
 			deltaBarrel.y -= _explosiveBarrels[i].getComponent(RenderComponent.class).getRealHeight() / 2;
 			
-			_explosiveBarrels[i].getTransformComponent().translatePosition(deltaBarrel);
+			_explosiveBarrels[i].getTransformComponent().translatePosition(deltaBarrel.x, deltaBarrel.y);
 
 			_explosiveBarrels[i].getComponent(RenderComponent.class).setAlpha(0);
 			_explosiveBarrels[i].getComponent(RenderComponent.class).doAlpha(1, 0.75f, TweenStartType.GameTime);

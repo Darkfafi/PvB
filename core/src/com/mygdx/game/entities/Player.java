@@ -1,6 +1,5 @@
 package com.mygdx.game.entities;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -23,7 +22,7 @@ public class Player extends BaseEntity
 		
 		_currentWeapon = weapon;
 		
-		_currentWeapon.getTransformComponent().setPosition(new Vector2(Engine.getWidth() / 2, _currentWeapon.getComponent(RenderComponent.class).getRealHeight() / 2 + 20));
+		_currentWeapon.getTransformComponent().setPosition(Engine.getWidth() / 2, _currentWeapon.getComponent(RenderComponent.class).getRealHeight() / 2 + 20);
 
 	}
 	

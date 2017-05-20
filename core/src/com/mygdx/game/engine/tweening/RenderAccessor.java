@@ -45,7 +45,7 @@ public class RenderAccessor implements TweenAccessor<RenderComponent>
 		switch(tweenType)
 		{
 		case COLOR:
-			target.setColor(new Color(newValues[0], newValues[1], newValues[2], newValues[3]));
+			target.setColor(newValues[0], newValues[1], newValues[2], newValues[3]);
 			break;
 		case ALPHA:
 			target.setAlpha(newValues[0]);

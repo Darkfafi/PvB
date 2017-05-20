@@ -35,10 +35,11 @@ public class Train extends BaseEntity
 		_cartAmount = (_cartAmount < 0) ? 0 : _cartAmount;
 		
 		Animations anims = new Animations("drive" ,Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_TRAIN_WHEELS), true);
-		this.addComponent(new AnimationComponent(anims, true, false)).setFlipX(flipX);
-		this.getComponent(AnimationComponent.class).setSortingLayer(1);
-		this.getComponent(AnimationComponent.class).setPivot(new Vector2(0.5f, 0), false);
-		this.getComponent(AnimationComponent.class).setSortOnY(true);
+		AnimationComponent ac = this.addComponent(new AnimationComponent(anims, true, false));
+		ac.setFlipX(flipX);
+		ac.setSortingLayer(1);
+		ac.setPivot(0.5f, 0, false);
+		ac.setSortOnY(true);
 		
 		_trainBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TRAIN_BASE).getTextureToDraw();
 		_cartBaseTexture = Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_CART_BASE).getTextureToDraw();

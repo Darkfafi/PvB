@@ -1,6 +1,5 @@
 package com.mygdx.game.popUps;
 
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.engine.tweening.EngineTween;
@@ -39,7 +38,7 @@ public abstract class BaseGamePopUp extends BasePopUp
 	@Override
 	protected void onPopUpAwake() 
 	{
-		this.getTransformComponent().setScale(new Vector2(0, 0));
+		this.getTransformComponent().setScale(0, 0);
 		this.getTransformComponent().doScale(1, 1, 0.4f, TweenStartType.RealTime).ease(EaseType.BackOut);
 	}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.EntitySystem;
-import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.TransformAccessor;
 
@@ -216,14 +215,14 @@ public class TransformComponent extends BaseEntityComponent
 	
 	/**
 	 * Moves the entity with the given delta amount
-	 * @param delta to add to the current position
+	 * @param xDelta to add to the current x position
+	 * @param yDelta to add to the current y position
 	 */
-	public void translatePosition(Vector2 delta)
+	public void translatePosition(float xDelta, float yDelta)
 	{
-		Vector2 deltaToPosition = new Vector2(delta.x, delta.y);
-		deltaToPosition.x += this.getLocalPositionX();
-		deltaToPosition.y += this.getLocalPositionY();
-		setPosition(deltaToPosition);
+		xDelta += this.getLocalPositionX();
+		yDelta += this.getLocalPositionY();
+		setPosition(xDelta, yDelta);
 	}
 	
 	/**
@@ -235,12 +234,11 @@ public class TransformComponent extends BaseEntityComponent
 		setRotation(this.getLocalRotation() + deltaRotation);
 	}
 	
-	public void translateScale(Vector2 delta)
+	public void translateScale(float deltaX, float deltaY)
 	{
-		Vector2 deltaToScale = new Vector2(delta.x, delta.y);
-		deltaToScale.x += this.getLocalScaleX();
-		deltaToScale.y += this.getLocalScaleY();
-		this.setScale(deltaToScale);	
+		deltaX += this.getLocalScaleX();
+		deltaY += this.getLocalScaleY();
+		this.setScale(deltaX, deltaY);	
 	}
 	
 	/**
@@ -338,10 +336,10 @@ public class TransformComponent extends BaseEntityComponent
 	 * Sets the scale to a new value
 	 * @param newScaleValue overwriting the x and y scale of the entity
 	 */
-	public void setScale(Vector2 newScaleValue)
+	public void setScale(float scaleX, float scaleY)
 	{
-		_scale.x = newScaleValue.x;
-		_scale.y = newScaleValue.y;
+		_scale.x = scaleX;
+		_scale.y = scaleY;
 	}
 	
 	@Override

@@ -69,7 +69,7 @@ public class AnimationComponent extends RenderComponent
 	public void setCurrentAnimation(String animationName, boolean playOnSet)
 	{
 		if(animationName == getCurrentAnimation()) { return; }
-		stop();
+		
 		this.setRenderInfo(_animations.getAnimation(animationName));
 		
 		_currentAnimation = animationName;

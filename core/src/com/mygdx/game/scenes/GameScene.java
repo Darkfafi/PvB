@@ -2,7 +2,6 @@ package com.mygdx.game.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
@@ -230,12 +229,12 @@ public class GameScene extends BaseScene implements IEventReceiver
 		ScoreUI scoreUI = new ScoreUI();
 		HealthUI healthUI = new HealthUI(_playfield.getPlayerBase().getComponent(HealthComponent.class));
 		
-		waveUI.getTransformComponent().translatePosition(new Vector2(waveUI.getBackgroundSize().x / 2 + 10, Engine.getHeight() - (waveUI.getBackgroundSize().y / 2) - 10));
-		scoreUI.getTransformComponent().translatePosition(new Vector2(Engine.getWidth() / 1.85f, Engine.getHeight() - scoreUI.getBackgroundSize().y / 2 - 10));
+		waveUI.getTransformComponent().translatePosition(waveUI.getBackgroundSize().x / 2 + 10, Engine.getHeight() - (waveUI.getBackgroundSize().y / 2) - 10);
+		scoreUI.getTransformComponent().translatePosition(Engine.getWidth() / 1.85f, Engine.getHeight() - scoreUI.getBackgroundSize().y / 2 - 10);
 		
 		
-		waveUI.getTransformComponent().setScale(new Vector2(0, 0));
-		scoreUI.getTransformComponent().setScale(new Vector2(0, 0));
+		waveUI.getTransformComponent().setScale(0, 0);
+		scoreUI.getTransformComponent().setScale(0, 0);
 		
 		waveUI.getTransformComponent().doScale(1, 1, 0.8f, TweenStartType.GameTime).ease(EaseType.BackOut);
 		scoreUI.getTransformComponent().doScale(1, 1, 0.8f, TweenStartType.GameTime).ease(EaseType.BackOut);
