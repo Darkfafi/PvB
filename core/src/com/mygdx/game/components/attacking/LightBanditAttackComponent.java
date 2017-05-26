@@ -55,9 +55,9 @@ public class LightBanditAttackComponent extends BaseEnemyAttackComponent impleme
 	}
 
 	@Override
-	protected void activeStateChanged() {
-		// TODO Auto-generated method stub
-
+	protected void activeStateChanged() 
+	{
+		
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class LightBanditAttackComponent extends BaseEnemyAttackComponent impleme
 
 	private void onAnimationStoppedEvent(AnimationEvent event) 
 	{
-		if(event.getAnimationName() == "attack")
+		if(event.getAnimationName() == "attack" && _healthComponentTarget != null)
 		{
 			HealthComponent ownHc = this.getParentOfComponent().getComponent(HealthComponent.class);
 			if(ownHc == null || !ownHc.isAlive()) { return; }

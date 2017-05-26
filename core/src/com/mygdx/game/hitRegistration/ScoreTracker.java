@@ -85,7 +85,9 @@ public class ScoreTracker implements IEventReceiver
 
 	private void doScore(int score, int hitTool, int[] hitTypes, float x, float y, float width, float height) {
 		ArrayList<BonusScoreToGainInfo> scoresToGain = getBonusScoresToGain(hitTool, hitTypes);
-		normalScoreEffects(GameScoreSystem.getInstance().addScore(score), x + width / 2, y + height / 2, x + width * 0.8f, y + height * 0.75f); 
+		
+		if(!HitGlobals.isHitType(hitTypes, HitGlobals.TYPE_ONLY_BONUS_SCORE))
+			normalScoreEffects(GameScoreSystem.getInstance().addScore(score), x + width / 2, y + height / 2, x + width * 0.8f, y + height * 0.75f); 
 
 		for (int i = 0; i < scoresToGain.size(); i++) {
 			int s = GameScoreSystem.getInstance().addScore(scoresToGain.get(i).Score);

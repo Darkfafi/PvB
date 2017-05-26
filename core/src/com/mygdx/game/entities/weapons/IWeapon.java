@@ -23,8 +23,9 @@ public interface IWeapon
 	
 	/**
 	 * This activates the special ability of the weapon
+	 * @param specialType is a user defines special type
 	 */
-	public void activateSpecial();
+	public void activateSpecial(int specialType);
 	
 	/**
 	 * Returns the weapon type of this weapon instance.

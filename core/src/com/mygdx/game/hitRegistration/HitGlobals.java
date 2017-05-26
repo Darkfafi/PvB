@@ -13,9 +13,11 @@ public class HitGlobals
 	public static final int TOOL_SPECIAL_ARROW = 2;
 	
 	// Hit Types
+	public static final int TYPE_ONLY_BONUS_SCORE = -2;
 	public static final int TYPE_CONSECUTIVE_HIT_TRACKING = -1; // Means this hit wants to be checked for consecutive hit tracking
 	public static final int TYPE_DIRECT_HIT = 0;
 	public static final int TYPE_EXPLOSION_HIT = 1;
+	public static final int TYPE_COLD_HIT = 2;
 	
 	public static boolean isHitType(int[] hitTypes, int hitType)
 	{

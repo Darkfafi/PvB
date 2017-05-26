@@ -24,12 +24,14 @@ public abstract class BaseEnemyAttackComponent extends BaseEntityComponent
 	
 	public void attack(HealthComponent hc)
 	{
+		if(this.isAttacking()) { return; }
 		attackCall(hc);
 		this.dispatchEvent(new Event(STARTED_ATTACKING_EVENT));
 	}
 	
 	public void stopAttacking()
 	{
+		if(!this.isAttacking()) { return; }
 		stopAttackingCall();
 		this.dispatchEvent(new Event(STOPPED_ATTACKING_EVENT));
 	}

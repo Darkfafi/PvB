@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.Engine;
+import com.mygdx.game.components.BaseEnemyAIComponent;
 import com.mygdx.game.components.BasicEnemyAIComponent;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.attacking.BaseEnemyAttackComponent;
@@ -36,7 +37,8 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	{
 		IdleState,
 		WalkState,
-		DeathState
+		DeathState,
+		ShockedState
 	}
 	
 	private Animations _animations;
@@ -46,14 +48,15 @@ public class Enemy extends BaseEntity implements IEventReceiver
 	
 	private Vector2 _targetLocation = new Vector2();
 	private BaseEnemyAttackComponent _attackComponent;
-	
+	private BaseEnemyAIComponent _aiComponent;
 	private boolean _idleAnimationWhenReached = false;
 	private float _movementSpeed = 0;
 	
-	public Enemy(Animations animations, float health, int baseScoreWorth, BaseEnemyAttackComponent attackComponentAdded)
+	public Enemy(Animations animations, float health, int baseScoreWorth, BaseEnemyAttackComponent attackComponentAdded, BaseEnemyAIComponent aiComponent)
 	{
 		_animations = animations;
 		_attackComponent = attackComponentAdded;
+		_aiComponent = aiComponent;
 		this.addComponent(new ScoreHolderComponent(ScoreHolderComponent.ScoreGainType.Destroy, baseScoreWorth));
 		
 		AnimationComponent ac = this.addComponent(new AnimationComponent(_animations, true, false));
@@ -108,6 +111,12 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		
 		if(this.getComponent(AnimationComponent.class) == null) { return; }
 		
+		if(_currentEnemyState == EnemyState.ShockedState && state != EnemyState.ShockedState)
+		{
+			if(_aiComponent != null)
+				_aiComponent.setActiveState(true);
+		}
+		
 		_currentEnemyState = state;
 		if(!setAnimation) { return; }
 		
@@ -120,8 +129,16 @@ public class Enemy extends BaseEntity implements IEventReceiver
 			this.getComponent(AnimationComponent.class).setCurrentAnimation("run", true);
 			break;
 		case DeathState:
-			this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true);
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("death", true, true);
 			break;
+		case ShockedState:
+			this.getComponent(AnimationComponent.class).setCurrentAnimation("death", false);
+			this.getComponent(AnimationComponent.class).setCurrentFrameInfo(1);
+			if(_aiComponent != null)
+				_aiComponent.setActiveState(false);
+			if(_attackComponent != null)
+				_attackComponent.stopAttacking();
+			
 		default:
 			break;
 		}
@@ -209,7 +226,7 @@ public class Enemy extends BaseEntity implements IEventReceiver
 		this.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 		this.getComponent(AnimationComponent.class).removeEventListener(AnimationComponent.EVENT_ANIMATION_STOPPED, this);
 		_attackComponent = null;
-		
+		_aiComponent = null;
 	}
 	
 	private void onDamagedEvent(HealthEvent event) 

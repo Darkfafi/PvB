@@ -45,6 +45,7 @@ public class MediumBanditAttackComponent extends BaseEnemyAttackComponent
 	@Override
 	protected void updated(float deltaTime) 
 	{
+		if(!this.isActive()) { return; }
 		if(_healthHitting != null)
 		{
 			_timePassedUntilDmg += deltaTime;

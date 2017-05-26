@@ -51,6 +51,7 @@ public class HeavyBanditAttackComponent extends BaseEnemyAttackComponent impleme
 	@Override
 	protected void updated(float deltaTime) 
 	{
+		if(!this.isActive()) { return; }
 		if(this.getAnimationComponent().getCurrentAnimation() == "attack" && _healthHitting != null)
 		{
 			_timePassedUntilDmg += deltaTime;
@@ -77,8 +78,8 @@ public class HeavyBanditAttackComponent extends BaseEnemyAttackComponent impleme
 	}
 
 	@Override
-	protected void activeStateChanged() {
-		// TODO Auto-generated method stub
+	protected void activeStateChanged() 
+	{
 		
 	}
 	

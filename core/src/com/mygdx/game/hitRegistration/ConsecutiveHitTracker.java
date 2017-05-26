@@ -96,7 +96,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 					{
 						EffectFactory.createHitEffect(e.getTransformComponent().getPositionX(), e.getTransformComponent().getPositionY() + 30, 1.2f, Color.YELLOW).getAnimationComponent().setSortingLayer(10);
 						e.destroy();
-						_player.giveSpecial();
+						_player.giveSpecial(Player.ALL_SPECIAL_ARROWS[(int)Math.round((Player.ALL_SPECIAL_ARROWS.length - 1) * Math.random())]);
 					}
 				}
 				);

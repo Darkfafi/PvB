@@ -15,8 +15,10 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.resources.CollisionResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.entities.BasicEntity;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.weapons.projectiles.BaseProjectile;
 import com.mygdx.game.entities.weapons.projectiles.ExplosiveProjectile;
+import com.mygdx.game.entities.weapons.projectiles.FreezeProjectile;
 import com.mygdx.game.entities.weapons.projectiles.NormalProjectile;
 import com.mygdx.game.globals.Tags;
 
@@ -214,14 +216,22 @@ public class BowWeapon extends BaseBowWeapon
 	@Override
 	protected BaseProjectile getProjectileInstance() 
 	{
-		BaseProjectile ap = new NormalProjectile();
-		return ap;
+		return new NormalProjectile(25f, 15f);
 	}
 	
 	@Override
-	protected BaseProjectile createRandomSpecialProjectile()
+	protected BaseProjectile createRandomSpecialProjectile(int specialType)
 	{
-		return new ExplosiveProjectile();
+		switch(specialType)
+		{
+		case Player.SPECIAL_ARROW_EXPLOSIVE:
+			return new ExplosiveProjectile();
+		case Player.SPECIAL_ARROW_FREEZE:
+			return new FreezeProjectile();
+		default:
+			System.out.println("Warning: No Projectile type found for specialType: " + specialType);
+			return null;
+		}
 	}
 	
 	private void stopBowLoopSound()

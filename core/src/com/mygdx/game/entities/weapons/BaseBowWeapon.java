@@ -125,15 +125,15 @@ public abstract class BaseBowWeapon extends BaseWeapon
 		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
 	}
 	
-	public void activateSpecial() 
+	public void activateSpecial(int specialType) 
 	{
 		if(_currentProjectile != null)
 			this._currentProjectile.destroy();
 		
-		_currentProjectile = this.createRandomSpecialProjectile();
+		_currentProjectile = this.createRandomSpecialProjectile(specialType);
 	}
 	
-	protected abstract BaseProjectile createRandomSpecialProjectile();
+	protected abstract BaseProjectile createRandomSpecialProjectile(int specialType);
 	
 	/**
 	 * Called when a target location is selected to start the aim at

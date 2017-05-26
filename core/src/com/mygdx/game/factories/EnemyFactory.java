@@ -10,6 +10,7 @@ import com.mygdx.game.components.attacking.HeavyBanditAttackComponent;
 import com.mygdx.game.components.attacking.LightBanditAttackComponent;
 import com.mygdx.game.components.attacking.MediumBanditAttackComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
+import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Playfield;
@@ -43,17 +44,7 @@ public class EnemyFactory
 	 */
 	public static Enemy createEnemyOfType(EnemyType enemyType)
 	{
-		BaseEnemyAttackComponent attackComponent = getAttackComponentForType(enemyType);
-		Enemy enemy = new Enemy(
-				getRandomSkinForType(enemyType), 
-				getHealthAmountForType(enemyType),
-				getScoreAmountForType(enemyType),
-				attackComponent
-		);
-		
-		enemy.addComponent(attackComponent);
-		
-		return enemy;
+		return createEnemyOfType(enemyType, null);
 	}
 	
 	/**
@@ -64,8 +55,24 @@ public class EnemyFactory
 	 */
 	public static Enemy createEnemyOfTypeWithAI(EnemyType enemyType, Playfield playfield)
 	{
-		Enemy enemy = createEnemyOfType(enemyType);
-		enemy.addComponent(createEnemyAIInstance(enemyType, playfield));
+		return createEnemyOfType(enemyType, createEnemyAIInstance(enemyType, playfield));
+	}
+	
+	private static Enemy createEnemyOfType(EnemyType enemyType, BaseEnemyAIComponent ai)
+	{
+		BaseEnemyAttackComponent attackComponent = getAttackComponentForType(enemyType);
+		Enemy enemy = new Enemy(
+				getRandomSkinForType(enemyType), 
+				getHealthAmountForType(enemyType),
+				getScoreAmountForType(enemyType),
+				attackComponent,
+				ai
+		);
+		
+		enemy.addComponent(attackComponent);
+		if(ai != null)
+			enemy.addComponent(ai);
+		
 		return enemy;
 	}
 	
@@ -99,7 +106,6 @@ public class EnemyFactory
 		default:
 			System.out.println("Type AI Component not set! Please do in the EnemyFactory");
 			return null;
-		
 		}
 	}
 

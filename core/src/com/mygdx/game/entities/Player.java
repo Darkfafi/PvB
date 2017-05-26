@@ -8,6 +8,11 @@ import com.mygdx.game.entities.weapons.BaseWeapon;
 
 public class Player extends BaseEntity 
 {	
+	public static final int SPECIAL_ARROW_EXPLOSIVE = 0;
+	public static final int SPECIAL_ARROW_FREEZE = 1;
+	
+	public static final int[] ALL_SPECIAL_ARROWS = { SPECIAL_ARROW_EXPLOSIVE, SPECIAL_ARROW_FREEZE };
+	
 	private BaseWeapon _currentWeapon;
 	
 	public Player(BaseWeapon startWeapon)
@@ -23,7 +28,6 @@ public class Player extends BaseEntity
 		_currentWeapon = weapon;
 		
 		_currentWeapon.getTransformComponent().setPosition(Engine.getWidth() / 2, _currentWeapon.getComponent(RenderComponent.class).getRealHeight() / 2 + 20);
-
 	}
 	
 	public BaseWeapon getCurrentWeapon()
@@ -31,9 +35,9 @@ public class Player extends BaseEntity
 		return _currentWeapon;
 	}
 	
-	public void giveSpecial()
+	public void giveSpecial(int specialType)
 	{
-		_currentWeapon.activateSpecial();
+		_currentWeapon.activateSpecial(specialType);
 	}
 	
 	@Override

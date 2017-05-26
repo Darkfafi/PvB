@@ -65,11 +65,12 @@ public class AnimationComponent extends RenderComponent
 	 * The animations are defined in the Animations class given in the constructor.
 	 * @param animationName of the animation which should be set as current animation
 	 * @param playOnSet if 'true', the animation will play after it is set, else it will not
+	 * @param canBeSameAnimation indicates whether the animation can be the same. If not and the animation given is already the current animation, this method will not be executed, else it will always.
 	 */
-	public void setCurrentAnimation(String animationName, boolean playOnSet)
+	public void setCurrentAnimation(String animationName, boolean playOnSet, boolean canBeSameAnimation)
 	{
-		if(animationName == getCurrentAnimation()) { return; }
-		
+		if(animationName == getCurrentAnimation() && !canBeSameAnimation) { return; }
+		_isRunning = false;
 		this.setRenderInfo(_animations.getAnimation(animationName));
 		
 		_currentAnimation = animationName;
@@ -80,6 +81,18 @@ public class AnimationComponent extends RenderComponent
 		
 		if(playOnSet)
 			play();
+	}
+	
+	/**
+	 * Sets the current animation to the animation with the given name. 
+	 * The animations are defined in the Animations class given in the constructor.
+	 * This wont play the animation if its already playing
+	 * @param animationName of the animation which should be set as current animation
+	 * @param playOnSet if 'true', the animation will play after it is set, else it will not
+	 */
+	public void setCurrentAnimation(String animationName, boolean playOnSet)
+	{
+		setCurrentAnimation(animationName, playOnSet, false);
 	}
 	
 	/**

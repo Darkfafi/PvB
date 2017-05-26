@@ -40,6 +40,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_BOW_DRAW = "bowDraw";
 	public static final String ANIMATION_BOW_ARROW = "arrowFly";
 	public static final String ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE = "explosiveSpecialArrowFly";
+	public static final String ANIMATION_BOW_SPECIAL_ARROW_FREEZE = "freezeSpecialArrowFly";
 	
 	public static final String ANIMATION_TRAP_ACTIVATOR_TURN = "TrapActivatorTrunAnim";
 	
@@ -79,7 +80,8 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String SPRITE_TOUCH_UP = "Touch_Up";
 	public static final String SPRITE_TOUCH_DOWN = "Touch_Down";
 
-
+	public static final String SPRITE_ICE_CUBE_EFFECT = "IceCubeEffect";
+	
 	public static final String ANIMATION_EFFECT_HIT = "hitEffect_animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_SMALL = "ExplosionEffectSmall_Animation";
 	public static final String ANIMATION_EFFECT_EXPLOSION_BIG = "ExplosionEffectBig_Animation";
@@ -131,6 +133,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_BOW_DRAW,"weapon/bowDraw.png", "weapon/bowDraw.xml");
 		this.loadResource(ANIMATION_BOW_ARROW, "weapon/arrowFly.png", "weapon/arrowFly.xml");
 		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE, "weapon/explosiveArrow.png", "weapon/explosiveArrow.xml");
+		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_FREEZE, "weapon/freezeArrow.png", "weapon/freezeArrow.xml");
 		
 		// Enemies
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_IDLE, "enemies/lightBanditA/lightBanditAIdle.png", "enemies/lightBanditA/lightBanditAIdle.xml");
@@ -169,6 +172,8 @@ public class GameTextureResources extends BaseTextureResources
 
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_BIG, "effects/bigExplosion.png", "effects/bigExplosion.xml");
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_SMALL, "effects/smallExplosion.png", "effects/smallExplosion.xml");
+		
+		this.loadResource(SPRITE_ICE_CUBE_EFFECT, "effects/iceblock.png");
 		
 		// Pop Ups
 		this.loadResource(UI_POP_UP_PAUSE, "popups/paused_field.png");

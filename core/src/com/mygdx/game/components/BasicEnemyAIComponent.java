@@ -18,6 +18,7 @@ public class BasicEnemyAIComponent extends BaseEnemyAIComponent
 	@Override
 	protected void updated(float dt)
 	{
+		if(!this.isActive()) { return; }
 		super.updated(dt);
 		basicAILogics();
 	}
@@ -28,7 +29,6 @@ public class BasicEnemyAIComponent extends BaseEnemyAIComponent
 	private void basicAILogics() 
 	{
 		int yLine = this.getGrid().getTileAmountY() - this.getAffectedEnemy().getAttackRange();
-		
 		moveToPlayerBase(yLine);
 		
 		if(this.getLocationY() >= yLine)

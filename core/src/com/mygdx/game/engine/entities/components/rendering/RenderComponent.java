@@ -172,6 +172,12 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 			newDelta.x += this.getParentOfComponent().getTransformComponent().getUpwards().x * (-this.getRealHeight() * differents.y);
 			newDelta.y += this.getParentOfComponent().getTransformComponent().getUpwards().y * (-this.getRealHeight() * differents.y);
 			this.getParentOfComponent().getTransformComponent().translatePosition(newDelta.x, newDelta.y);
+			
+			TransformComponent[] childeren = this.getParentOfComponent().getTransformComponent().getChilderen();
+			for(int i = 0; i < childeren.length; i++)
+			{
+				childeren[i].translatePosition(-newDelta.x, -newDelta.y);
+			}
 		}
 		_pivot.x = pivotX;
 		_pivot.y = pivotY;
