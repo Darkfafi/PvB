@@ -10,7 +10,6 @@ import com.mygdx.game.components.attacking.HeavyBanditAttackComponent;
 import com.mygdx.game.components.attacking.LightBanditAttackComponent;
 import com.mygdx.game.components.attacking.MediumBanditAttackComponent;
 import com.mygdx.game.engine.entities.components.rendering.Animations;
-import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.globals.GridTags;
 import com.mygdx.game.level.Playfield;

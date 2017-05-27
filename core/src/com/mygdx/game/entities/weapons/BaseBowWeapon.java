@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.entities.weapons.projectiles.BaseProjectile;
-import com.mygdx.game.entities.weapons.projectiles.ExplosiveProjectile;
 
 /**
  * This is the base class for all the Bow like weapons.

@@ -1,7 +1,8 @@
-package com.mygdx.game.components;
+package com.mygdx.game.components.enemyEffects;
 
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
@@ -53,9 +54,11 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 		if(_iceBlockEntity == null)
 		{
 			_iceBlockEntity = new BasicEntity();
-			_iceBlockEntity.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_ICE_CUBE_EFFECT), false));
+			RenderComponent rc = _iceBlockEntity.addComponent(new RenderComponent(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_ICE_CUBE_EFFECT), false));
+			rc.setSortOnY(true);
+			rc.setPivot(0.5f, 0, false);
 			_iceBlockEntity.getTransformComponent().setParent(_enemy.getTransformComponent());
-			_iceBlockEntity.getTransformComponent().translatePosition(0, _enemy.getComponent(AnimationComponent.class).getRealHeight() / 2);
+			_iceBlockEntity.getTransformComponent().translatePosition(0, -1);
 			_iceBlockEntity.getTransformComponent().setScale(0, 0);
 			_iceBlockEntity.getTransformComponent().doScale(1.3f, 1.3f, 0.25f, TweenStartType.GameTime).ease(EaseType.BackOut);
 			_enemy.getTransformComponent().doScale(0.65f, 0.7f, 0.4f, TweenStartType.GameTime).ease(EaseType.BackOut);

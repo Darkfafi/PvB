@@ -41,6 +41,7 @@ public class GameTextureResources extends BaseTextureResources
 	public static final String ANIMATION_BOW_ARROW = "arrowFly";
 	public static final String ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE = "explosiveSpecialArrowFly";
 	public static final String ANIMATION_BOW_SPECIAL_ARROW_FREEZE = "freezeSpecialArrowFly";
+	public static final String ANIMATION_BOW_SPECIAL_ARROW_POISON = "poisonSpecialArrowFly";
 	
 	public static final String ANIMATION_TRAP_ACTIVATOR_TURN = "TrapActivatorTrunAnim";
 	
@@ -134,6 +135,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_BOW_ARROW, "weapon/arrowFly.png", "weapon/arrowFly.xml");
 		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_EXPLOSIVE, "weapon/explosiveArrow.png", "weapon/explosiveArrow.xml");
 		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_FREEZE, "weapon/freezeArrow.png", "weapon/freezeArrow.xml");
+		this.loadResource(ANIMATION_BOW_SPECIAL_ARROW_POISON, "weapon/poisonArrow.png", "weapon/poisonArrow.xml");
 		
 		// Enemies
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_IDLE, "enemies/lightBanditA/lightBanditAIdle.png", "enemies/lightBanditA/lightBanditAIdle.xml");
@@ -173,7 +175,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_BIG, "effects/bigExplosion.png", "effects/bigExplosion.xml");
 		this.loadResource(ANIMATION_EFFECT_EXPLOSION_SMALL, "effects/smallExplosion.png", "effects/smallExplosion.xml");
 		
-		this.loadResource(SPRITE_ICE_CUBE_EFFECT, "effects/iceblock.png");
+		this.loadResource(SPRITE_ICE_CUBE_EFFECT, "effects/iceblock.png").setInnerOffset(0f, -0.1f);
 		
 		// Pop Ups
 		this.loadResource(UI_POP_UP_PAUSE, "popups/paused_field.png");

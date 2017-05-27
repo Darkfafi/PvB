@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;

@@ -11,4 +11,9 @@ public class TutorialEvent extends Event
 		super(type);
 		_tutorialCompleted = tutorialCompleted;
 	}
+	
+	public boolean wasTutorialCompleted()
+	{
+		return _tutorialCompleted;
+	}
 }

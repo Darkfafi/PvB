@@ -20,6 +20,7 @@ import com.mygdx.game.entities.weapons.projectiles.BaseProjectile;
 import com.mygdx.game.entities.weapons.projectiles.ExplosiveProjectile;
 import com.mygdx.game.entities.weapons.projectiles.FreezeProjectile;
 import com.mygdx.game.entities.weapons.projectiles.NormalProjectile;
+import com.mygdx.game.entities.weapons.projectiles.PoisonProjectile;
 import com.mygdx.game.globals.Tags;
 
 import aurelienribon.tweenengine.Tween;
@@ -228,6 +229,8 @@ public class BowWeapon extends BaseBowWeapon
 			return new ExplosiveProjectile();
 		case Player.SPECIAL_ARROW_FREEZE:
 			return new FreezeProjectile();
+		case Player.SPECIAL_ARROW_POISON:
+			return new PoisonProjectile();
 		default:
 			System.out.println("Warning: No Projectile type found for specialType: " + specialType);
 			return null;

@@ -10,8 +10,9 @@ public class Player extends BaseEntity
 {	
 	public static final int SPECIAL_ARROW_EXPLOSIVE = 0;
 	public static final int SPECIAL_ARROW_FREEZE = 1;
+	public static final int SPECIAL_ARROW_POISON = 2;
 	
-	public static final int[] ALL_SPECIAL_ARROWS = { SPECIAL_ARROW_EXPLOSIVE, SPECIAL_ARROW_FREEZE };
+	public static final int[] ALL_SPECIAL_ARROWS = { SPECIAL_ARROW_EXPLOSIVE, SPECIAL_ARROW_FREEZE, SPECIAL_ARROW_POISON };
 	
 	private BaseWeapon _currentWeapon;
 	

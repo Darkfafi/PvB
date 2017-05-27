@@ -18,6 +18,7 @@ public class HitGlobals
 	public static final int TYPE_DIRECT_HIT = 0;
 	public static final int TYPE_EXPLOSION_HIT = 1;
 	public static final int TYPE_COLD_HIT = 2;
+	public static final int TYPE_POISON_HIT = 3;
 	
 	public static boolean isHitType(int[] hitTypes, int hitType)
 	{

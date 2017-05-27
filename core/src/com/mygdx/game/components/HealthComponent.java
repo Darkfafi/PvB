@@ -50,15 +50,16 @@ public class HealthComponent extends BaseEntityComponent
 	 * This will also trigger the EVENT_HEALTH_DAMAHED and, when the component has no health left, EVENT_HEALTH_DIED
 	 * The component can not be damaged when it is already dead. 
 	 * @param amount to take off of the health
+	 * @return new current health
 	 */
-	public void damage(float amount)
+	public float damage(float amount)
 	{
 		if(amount > _currentHealth)
 		{
 			amount = _currentHealth;
 		}
 		
-		if(amount <= 0 || !isAlive()) { return; }
+		if(amount <= 0 || !isAlive()) { return _currentHealth; }
 		_currentHealth -= amount;
 		
 		this.dispatchEvent(new HealthEvent(EVENT_HEALTH_DAMAGED, amount, _currentHealth));
@@ -67,6 +68,8 @@ public class HealthComponent extends BaseEntityComponent
 		{
 			this.dispatchEvent(new HealthEvent(EVENT_HEALTH_DIED, amount, _currentHealth));
 		}
+		
+		return _currentHealth;
 	}
 	
 	/**
@@ -74,19 +77,22 @@ public class HealthComponent extends BaseEntityComponent
 	 * This will also trigger the EVENT_HEALTH_HEALED.
 	 * The component can not be healed when it is dead or when it has full health. 
 	 * @param amount to add to the current health
+	 * @return new current health
 	 */
-	public void heal(float amount)
+	public float heal(float amount)
 	{
 		if(amount + _currentHealth > _maxHealth)
 		{
 			amount = _maxHealth - _currentHealth;
 		}
 
-		if(amount <= 0 || !isAlive()) {return;}
+		if(amount <= 0 || !isAlive()) {return _currentHealth;}
 		
 		this.dispatchEvent(new HealthEvent(EVENT_HEALTH_HEALED, amount, _currentHealth));
 		
 		_currentHealth += amount;
+		
+		return _currentHealth;
 	}
 	
 	/**

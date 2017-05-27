@@ -366,7 +366,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public int compare(RenderComponent d, RenderComponent d1)
 	{
 		if(d.isDestroyed()) { return -1; }
-		int value = compare(d.getCompareValue(), d1.getCompareValue());
+		double cv1 	= d.getCompareValue();
+		double cv2	= d1.getCompareValue();
+		
+		int value = compare(cv1, cv2);
 		return value;
 	}
 	
@@ -376,7 +379,10 @@ public class RenderComponent extends BaseEntityComponent implements Comparable<R
 	public int compareTo(RenderComponent comp) 
 	{
 		if(this.isDestroyed() || comp == null) { return 0; }
-		int value = compare(getCompareValue(), comp.getCompareValue());
+		double cv1 	= getCompareValue();
+		double cv2	= comp.getCompareValue();
+		
+		int value = compare(cv1, cv2);
 		return value;
 	}
 	
