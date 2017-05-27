@@ -10,12 +10,18 @@ import com.mygdx.game.events.HealthEvent;
 import com.mygdx.game.hitRegistration.HitGlobals;
 import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 
+/**
+ * This component start a poison effect (including the green overlay) on the Enemy entity it is attached to when the 'poison' method is called.
+ * This effect will stop when the effect duration has ended or when the 'cure' method is called
+ * @author Ramses Di Perna
+ *
+ */
 public class EnemyPoisonComponent extends BaseEntityComponent implements IEventReceiver
 {
 	private Enemy _enemy;
 	private HealthComponent _hc;
 	private float _duration = -1;
-	private int _damageTikAmount = 0;
+	private int _damageTickAmount = 0;
 	private boolean _removeComponentOnCure = true;
 	private int _tool;
 	
@@ -27,6 +33,11 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	
 	private float _currentDamageTikWait = 0;
 	
+	/**
+	 * The constructor of the poison component requires the following info
+	 * @param removeComponentOnCure causes, when is set to true, that the component will be destroyed after the poison effect has been done, else it will stay on the entity
+	 * @param killTool means when the enemy is killed by the poison, what KillTool it should represent to the HitRegistrationPoint
+	 */
 	public EnemyPoisonComponent(boolean removeComponentOnCure, int killTool)
 	{
 		_removeComponentOnCure = removeComponentOnCure;
@@ -53,18 +64,34 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 		_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 	}
 	
-	public void poison(float duration, float totalDamage, int damageTikAmount)
+	/**
+	 * Causes the poison to do its damaging effect over time until the duration has ended or when the 'cure' method is called
+	 * The Damage for each tick is the 	(totalDamage / damageTikAmount)
+	 * The tick will occurs each 		(duration / damageTikAmount)
+	 * @param duration  is the duration in game time seconds on how long the poison effect will affect the Enemy Entity this component is attached to
+	 * @param totalDamage is the total damage this poison effect will do when it has done its full effect over the given duration
+	 * @param damageTikAmount Is the amount of hurt ticks which will be done in the duration
+	 */
+	public void poison(float duration, float totalDamage, int damageTickAmount)
 	{
 		_currentDamageTikWait = 0;
 		_duration = duration;
-		_damageTikAmount = damageTikAmount;
+		_damageTickAmount = damageTickAmount;
 		
-		_tikDuration = _duration / (float)_damageTikAmount;
-		_tikDamage = totalDamage / (float)_damageTikAmount;
+		_tikDuration = _duration / (float)_damageTickAmount;
+		_tikDamage = totalDamage / (float)_damageTickAmount;
 	}
 	
+	/**
+	 * This cures the Enemy from the poison effect which was caused by this component. This method will do nothing if the poison effect caused by this component is not active
+	 */
 	public void cure()
 	{
+		if(_duration <= 0)
+		{
+			if(_duration != -1) { return; }
+		}
+		
 		_duration = -1;
 		
 		_enemy.getComponent(AnimationComponent.class).setColor(1, 1, 1, 1);
@@ -76,23 +103,22 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	@Override
 	protected void updated(float deltaTime) 
 	{	
-		if(_duration != -1)
+		if(_duration <= 0) { return; }
+		
+		_enemy.getComponent(AnimationComponent.class).setColor(0.482f, 0.839f, 0.549f, 1);
+		_currentDamageTikWait += deltaTime;
+		_duration -= deltaTime;
+		if(_currentDamageTikWait >= _tikDuration)
 		{
-			
-			_enemy.getComponent(AnimationComponent.class).setColor(0.482f, 0.839f, 0.549f, 1);
-			_currentDamageTikWait += deltaTime;
-			_duration -= deltaTime;
-			if(_currentDamageTikWait >= _tikDuration)
-			{
-				_currentDamageTikWait = 0;
-				_hc.damage(_tikDamage);
-				HitRegistrationPoint.getInstance().register(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY(), _enemy, _tool, HitGlobals.TYPE_POISON_HIT);
-			}
-			
-			if(_duration <= 0)
-			{
-				cure();
-			}
+			_currentDamageTikWait = 0;
+			_hc.damage(_tikDamage);
+			HitRegistrationPoint.getInstance().register(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY(), _enemy, _tool, HitGlobals.TYPE_POISON_HIT);
+		}
+		
+		if(_duration <= 0)
+		{
+			_duration = -1;
+			cure();
 		}
 	}
 

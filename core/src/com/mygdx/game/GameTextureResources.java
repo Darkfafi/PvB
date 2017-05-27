@@ -151,7 +151,7 @@ public class GameTextureResources extends BaseTextureResources
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_DEATH, "enemies/lightBanditA/lightBanditADeath.png", "enemies/lightBanditA/lightBanditADeath.xml");
 		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_DEATH,"enemies/mediumBanditA/banditADeath.png", "enemies/mediumBanditA/banditADeath.xml");
 		this.loadResource(ANIMATION_MEDIUM_BANDIT_1_DEATH,"enemies/mediumBanditB/banditBDeath.png", "enemies/mediumBanditB/banditBDeath.xml");
-		this.loadResource(ANIMATION_HEAVY_BANDIT_0_DEATH, "enemies/heavyBanditA/heavyBanditADeath.png", "enemies/heavyBanditA/heavyBanditADeath.xml");
+		this.loadResource(ANIMATION_HEAVY_BANDIT_0_DEATH, "enemies/heavyBanditA/heavyBanditADeath.png", "enemies/heavyBanditA/heavyBanditADeath.xml").setInnerOffset(0f, -0.23f);
 
 		this.loadResource(ANIMATION_LIGHT_BANDIT_0_ATTACK, "enemies/lightBanditA/lightBanditAAttack.png", "enemies/lightBanditA/lightBanditAAttack.xml");
 		this.loadResource(ANIMATION_MEDIUM_BANDIT_0_ATTACK,"enemies/mediumBanditA/banditAAttack.png", "enemies/mediumBanditA/banditAAttack.xml");

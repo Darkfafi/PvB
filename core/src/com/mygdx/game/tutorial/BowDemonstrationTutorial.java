@@ -183,7 +183,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		_enemy3.getTransformComponent().setPosition(enemy3Pos);
 		
 		Timeline tl = Timeline.createSequence();
-		tl.beginSequence();
+		tl.beginParallel();
 		
 		//Deactivate Player Input
 		_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(false);
@@ -210,7 +210,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 					_playfield.forceResetTraps();
 				}
 			}
-		).getTween());
+		).delay(0.4f).getTween());
 		
 //		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		

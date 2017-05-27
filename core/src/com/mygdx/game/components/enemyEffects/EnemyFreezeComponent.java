@@ -4,7 +4,6 @@ import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
-import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
@@ -18,16 +17,27 @@ import com.mygdx.game.events.HealthEvent;
 import com.mygdx.game.hitRegistration.HitGlobals;
 import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 
+/**
+ * This component start a freeze effect (including the ice cube) on the Enemy entity it is attached to when the 'freeze' method is called.
+ * This effect will stop when the effect duration has ended or when the 'unfreeze' method is called
+ * @author Ramses Di Perna
+ *
+ */
 public class EnemyFreezeComponent extends BaseEntityComponent implements IEventReceiver
 {
 	private Enemy _enemy;
-	private float _duration = 0;;
+	private float _duration = 0;
 	private EnemyState _preEnemyState;
 	private boolean _removeComponentOnUnfreeze = true;
 	private BasicEntity _iceBlockEntity;
 	private HealthComponent _hc;
 	private int _tool;
 	
+	/**
+	 * The constructor of the freeze component requires the following info
+	 * @param removeComponentOnUnfreeze causes, when is set to true, that the component will be destroyed after the freeze effect has been done, else it will stay on the entity
+	 * @param killTool means when the enemy is killed while frozen, what KillTool it should represent to the HitRegistrationPoint
+	 */
 	public EnemyFreezeComponent(boolean removeComponentOnUnfreeze, int killTool)
 	{
 		_removeComponentOnUnfreeze = removeComponentOnUnfreeze;
@@ -42,6 +52,10 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 		_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 	}
 	
+	/**
+	 * Freezes the Enemy Entity this component is attached to for the given duration or until the 'unfreeze' method is called
+	 * @param duration to freeze the Enemy in game time
+	 */
 	public void freeze(float duration)
 	{
 		if(_duration == 0)
@@ -60,8 +74,8 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 			_iceBlockEntity.getTransformComponent().setParent(_enemy.getTransformComponent());
 			_iceBlockEntity.getTransformComponent().translatePosition(0, -1);
 			_iceBlockEntity.getTransformComponent().setScale(0, 0);
-			_iceBlockEntity.getTransformComponent().doScale(1.3f, 1.3f, 0.25f, TweenStartType.GameTime).ease(EaseType.BackOut);
-			_enemy.getTransformComponent().doScale(0.65f, 0.7f, 0.4f, TweenStartType.GameTime).ease(EaseType.BackOut);
+			_iceBlockEntity.getTransformComponent().doScale(1.4f, 1.3f, 0.25f, TweenStartType.GameTime).ease(EaseType.BackOut);
+			_enemy.getTransformComponent().doScale(0.60f, 0.7f, 0.4f, TweenStartType.GameTime).ease(EaseType.BackOut);
 		}
 		else
 		{
@@ -79,6 +93,9 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 		}).delay(_duration - 0.5f);
 	}
 	
+	/**
+	 * Unfreezes the Enemy Entity this component is attached to and has called the freeze effect on. If this Enemy instance is not frozen by this component, this method does nothing
+	 */
 	public void unFreeze()
 	{
 		if(_duration <= 0)
@@ -94,6 +111,9 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 			this.destroy();
 	}
 	
+	/**
+	 * Unfreezes the component and destroys the iceBlock effect with a quick effect instead of a melting effect.
+	 */
 	public void destroyIceBlock()
 	{
 		if(_iceBlockEntity == null || _iceBlockEntity.isDestroyed()) { return; }
