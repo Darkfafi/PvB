@@ -11,16 +11,19 @@ import com.mygdx.game.engine.scenes.RenderComponents;
  */
 public class GameScenesManager extends BaseScenesManager 
 {
-	public static final int MENU_SCENE = 0;
-	public static final int GAME_SCENE = 1;
+	public static final int MENU_SCENE = 1;
+	public static final int GAME_SCENE = 2;
+	private static final int LOAD_SCENE = 0;
 	
 	public GameScenesManager(RenderComponents renderComponents) {
 		super(renderComponents);
-		setScene(MENU_SCENE);
+		setScene(LOAD_SCENE);
 	}
 
 	@Override
 	protected BaseScene getScene(int sceneId) {
+
+		if(sceneId == LOAD_SCENE){return new LoadScene();}
 		if(sceneId == MENU_SCENE){return new MenuScene();}
 		if(sceneId == GAME_SCENE){return new GameScene();}
 		

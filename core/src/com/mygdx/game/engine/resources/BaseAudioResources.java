@@ -100,6 +100,7 @@ public abstract class BaseAudioResources extends BaseResource
 		Music m = Gdx.audio.newMusic(Gdx.files.internal(path));
 		m.setLooping(true);
 		_loadedMusic.put(key, m);
+		this.getAssetManager().load(path, Music.class);
 	}
 	
 	/**
@@ -110,5 +111,6 @@ public abstract class BaseAudioResources extends BaseResource
 	protected void loadResourceSound(String key, String path)
 	{
 		_loadedSounds.put(key, Gdx.audio.newSound(Gdx.files.internal(path)));
+		this.getAssetManager().load(path, Sound.class);
 	}
 }

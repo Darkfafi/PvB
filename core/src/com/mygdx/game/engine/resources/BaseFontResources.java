@@ -2,6 +2,7 @@ package com.mygdx.game.engine.resources;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.audio.Music;
 import com.mygdx.game.engine.entities.FontData;
 
 /**
@@ -39,7 +40,7 @@ public abstract class BaseFontResources extends BaseResource
 	 * @param fontLocation is the location of the .fnt file for the font
 	 * @param fontPngLocation is the location of the .png file for the font
 	 */
-	protected void loadResource(String fontName,String fontLocation, String fontPngLocation)
+	protected void loadResource(String fontName, String fontLocation, String fontPngLocation)
 	{
 		_fonts.put(fontName, new FontData(fontLocation, fontPngLocation));
 	}

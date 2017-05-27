@@ -93,7 +93,6 @@ public class GameTextureResources extends BaseTextureResources
 	@Override
 	public void load() 
 	{
-		
 		// UI
 		this.loadResource(SPRITE_GAME_BACKGROUND_01, "background_01.png");
 		this.loadResource(UI_GAME_MENU_BACKGROUND, "menu_bg.png");

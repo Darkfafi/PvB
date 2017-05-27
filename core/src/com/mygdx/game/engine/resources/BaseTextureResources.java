@@ -70,6 +70,7 @@ public abstract class BaseTextureResources extends BaseResource
 		Texture texture = new Texture(Gdx.files.internal(path));
 		RenderInfo ri = new RenderInfo(texture);
 		_texturesUnderKeys.put(key, ri);
+		this.getAssetManager().load(path, Texture.class);
 		return ri;
 	}
 	
@@ -103,6 +104,7 @@ public abstract class BaseTextureResources extends BaseResource
 			
 			renderInfo = new RenderInfo(texture, frameInfos);
 			_texturesUnderKeys.put(key, renderInfo);
+			this.getAssetManager().load(pathSheet, Texture.class);
 			return renderInfo;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

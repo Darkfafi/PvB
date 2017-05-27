@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.engine.resources.BaseAudioResources;
 import com.mygdx.game.engine.resources.BaseFontResources;
@@ -22,6 +23,7 @@ public class Engine
 	// Rendering
 	private RenderComponents _renderComponents;
 	
+	private static AssetManager _assetManager;
 	private static BaseTextureResources _textureResources;
 	private static BaseAudioResources _audioResources;
 	private static BaseFontResources _fontResources;
@@ -38,9 +40,11 @@ public class Engine
 		_audioResources = audioResources;
 		_fontResources = fontResources;
 		
-		_textureResources.load();
-		_audioResources.load();
-		_fontResources.load();
+		_assetManager = new AssetManager();
+		
+		_textureResources.loadRequest(_assetManager);
+		_audioResources.loadRequest(_assetManager);
+		_fontResources.loadRequest(_assetManager);
 		
 		_title = title;
 		_scale = scale;
@@ -53,6 +57,11 @@ public class Engine
 	{
 		_scenesManager = manager;
 		_renderComponents = manager.getRenderComponents();
+	}
+	
+	public static AssetManager getAssetManager()
+	{
+		return _assetManager;
 	}
 	
 	public static BaseScenesManager getSceneManager() 
