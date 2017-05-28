@@ -103,6 +103,14 @@ public class Playfield extends EventDispatcher implements IEventReceiver
 		}
 	}
 	
+	public void forceDisableTraps()
+	{
+		for(int i = _trapSpawns.size() - 1; i >= 0; i--)
+		{
+			_trapSpawns.get(i).getTrapActivator().deactivateTrap();
+		}
+	}
+	
 	public void update(float dt)
 	{
 		if(_blueprint == null) { return; }

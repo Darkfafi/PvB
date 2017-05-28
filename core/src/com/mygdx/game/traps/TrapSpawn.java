@@ -68,7 +68,7 @@ public class TrapSpawn extends BaseEntity
 	
 	public void countForResetTrap()
 	{
-		if(this._trapSpawned == null || this._activator.isActivatorActive()) { return; }
+		if(this._trapSpawned == null || this._activator.isActivatorActive() || this._activator.isProcessingActivationRequest()) { return; }
 		_countsSinceReset++;
 		if(_countsSinceReset >= _countsNeededToReset)
 		{

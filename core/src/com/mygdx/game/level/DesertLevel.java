@@ -48,9 +48,9 @@ public class DesertLevel implements ILevelBlueprint
 		if(trainSwitchedWave)
 		{
 			// Train Switched Extra Hard Wave
-			if(_trainSwitchedCounter % 2 == 0)
+			if(_trainSwitchedCounter % 2 == 0 && currentWave % 5 != 0)
 			{
-				wave.addSection(EnemyType.LightBandit, countForEach(4, currentWave, 4, 6), 1 +countForEach(2, currentWave, 3, 6));
+				wave.addSection(EnemyType.LightBandit, countForEach(4, currentWave, 2, 6), 1 +countForEach(2, currentWave, 3, 6));
 			}
 			if(_trainSwitchedCounter % 4 == 0)
 			{

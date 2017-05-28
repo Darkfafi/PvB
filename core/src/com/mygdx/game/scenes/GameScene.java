@@ -119,7 +119,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		if(!_preferences.getBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, false))
 		{
 			_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
-			_bdt = new BowDemonstrationTutorial(_player, _player.getCurrentWeapon(), _playfield);
+			_bdt = new BowDemonstrationTutorial(_player, _playfield);
 			_bdt.addEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
 			_bdt.startTutorial();
 
