@@ -57,7 +57,7 @@ public class DesertLevel implements ILevelBlueprint
 				wave.addSection(EnemyType.HeavyBandit, countForEach(4, currentWave, 2, 10), 3 + countForEach(2, currentWave, 3, 7));
 			}
 		}
-		else
+		else if(_trainSwitchedCounter > 0)
 		{
 			// Train Switched Extra Hard Wave
 			if(_trainSwitchedCounter > 2 && _trainSwitchedCounter % 2 == 0)

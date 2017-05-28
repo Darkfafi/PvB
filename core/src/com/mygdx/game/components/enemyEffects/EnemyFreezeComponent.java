@@ -49,7 +49,8 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 	{
 		_enemy = (Enemy)this.getParentOfComponent();
 		_hc = _enemy.getComponent(HealthComponent.class);
-		_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		if(_hc != null)
+			_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 	}
 	
 	/**
@@ -170,7 +171,9 @@ public class EnemyFreezeComponent extends BaseEntityComponent implements IEventR
 	@Override
 	protected void destroyed() 
 	{
-		_hc.removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		if(_hc != null)
+			_hc.removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		
 		_enemy = null;
 		_iceBlockEntity = null;
 		_hc = null;

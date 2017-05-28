@@ -33,6 +33,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 	
 	private Player _player;
 	private int _consecutiveHits = 0;
+	private int _newMultiplier = 1;
 	
 	public ConsecutiveHitTracker(Player player) 
 	{
@@ -83,7 +84,18 @@ public class ConsecutiveHitTracker implements IEventReceiver
 				font = GameFontResources.WAVE_FONT_BANDIDOS;
 				size = 8;
 				wait = 10;
-				GameScoreSystem.getInstance().setMultiplier(GameScoreSystem.getInstance().getMultiplier() + 1);
+				final TextEntity me = EffectFactory.createTextEffect(Engine.getFontResources().getFontData(GameFontResources.WHITE_BANDIDOS), " x" + (GameScoreSystem.getInstance().getMultiplier()), size, x - 30, y + 50, x - 70, y + 110, 20, 15, 0.2f);
+				_newMultiplier = GameScoreSystem.getInstance().getMultiplier() + 1;
+				me.getRenderComponent().setColor(0.6f, 0.6f, 0.6f, 0.7f);
+				me.getRenderComponent().doColor(new Color(57f / 255f, 160f / 255f, 69f / 255f, 1), 0.5f, TweenStartType.GameTime).setCallbackMethod(new IEngineTweenMethod(){
+
+					@Override
+					public void onMethod(int tweenEventType, EngineTween tween) 
+					{
+						me.setText(" x" + (GameScoreSystem.getInstance().getMultiplier() + 1));
+						GameScoreSystem.getInstance().setMultiplier(_newMultiplier);
+					}
+				});
 			}
 			
 			final TextEntity e = EffectFactory.createTextEffect(Engine.getFontResources().getFontData(font),  _consecutiveHits + " Hits", size, x - 30, y + 50, x - 60, y + 80, 0, 0, wait);
@@ -106,6 +118,7 @@ public class ConsecutiveHitTracker implements IEventReceiver
 		{
 			resetConsecutiveHitCounter();
 			GameScoreSystem.getInstance().setMultiplier(1);
+			_newMultiplier = 1;
 		}
 	}
 }

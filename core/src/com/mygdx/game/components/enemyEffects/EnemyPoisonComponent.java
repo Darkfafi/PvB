@@ -68,7 +68,8 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	{
 		_enemy = (Enemy)this.getParentOfComponent();
 		_hc = _enemy.getComponent(HealthComponent.class);
-		_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		if(_hc != null)
+			_hc.addEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 	}
 	
 	/**
@@ -85,6 +86,12 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 		_duration = duration;
 		_damageTickAmount = damageTickAmount;
 		
+		if(totalDamage == 0)
+			totalDamage = 1f;
+		
+		if(_duration == 0)
+			_duration = 1;
+		
 		_tikDuration = _duration / (float)_damageTickAmount;
 		_tikDamage = totalDamage / (float)_damageTickAmount;
 	}
@@ -100,8 +107,9 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 		}
 		
 		_duration = -1;
-		
-		_enemy.getComponent(AnimationComponent.class).setColor(1, 1, 1, 1);
+
+		if(_enemy.getComponent(AnimationComponent.class) != null)
+			_enemy.getComponent(AnimationComponent.class).setColor(1, 1, 1, 1);
 		
 		if(_removeComponentOnCure)
 			this.destroy();
@@ -111,8 +119,10 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	protected void updated(float deltaTime) 
 	{	
 		if(_duration <= 0) { return; }
+		if(_hc == null) {cure(); return; }
 		
-		_enemy.getComponent(AnimationComponent.class).setColor(0.482f, 0.839f, 0.549f, 1);
+		if(_enemy.getComponent(AnimationComponent.class) != null)
+			_enemy.getComponent(AnimationComponent.class).setColor(0.482f, 0.839f, 0.549f, 1);
 		_currentDamageTikWait += deltaTime;
 		_duration -= deltaTime;
 		if(_currentDamageTikWait >= _tikDuration)
@@ -135,7 +145,8 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	protected void destroyed() 
 	{
 		_enemy = null;
-		_hc.removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
+		if(_hc != null)
+			_hc.removeEventListener(HealthComponent.EVENT_HEALTH_DAMAGED, this);
 		_hc = null;
 	}
 
