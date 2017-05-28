@@ -22,6 +22,7 @@ import com.mygdx.game.factories.EnemyFactory;
 import com.mygdx.game.level.Playfield;
 
 import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
 
 /**
  * This entity will handle the full course of a bow demonstration animation
@@ -130,7 +131,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		).getTween());
 		
 		//Wait for half a second.
-		tl.delay(0.5f);
+		tl.delay(0.3f);
 		
 		//Show Finger Dragging on the Screen.
 		getTransformComponent().setPosition(-100, -100);
@@ -148,9 +149,11 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				}	
 			}
 		).getTween());
+		
 		//Wait for 1 second.
-		tl.delay(1f);
-		//Tween Hand to yPos - Max Draw Length.
+		tl.delay(0.5f);
+		
+		//Tween Hand to yPos - Max Draw Length infinitely.
 		tl.push(this.getTransformComponent().doPosition(Engine.getWidth() / 2, 900 - BowWeapon.MAX_DRAW_LENGTH, _tutorialSpeed * 0.75f, TweenStartType.Timeline).setCallbackMethod(
 			new IEngineTweenMethod()
 			{
@@ -160,7 +163,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 					getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
 				}
 			}
-		).getTween().repeat(4, 0.5f));
+		).getTween().repeat(2, 0.2f));
 		
 		tl.delay(0.3f);
 		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
@@ -212,7 +215,38 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 			}
 		).delay(0.4f).getTween());
 		
-//		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
+		tl.push(this.getTransformComponent().doPosition((Engine.getWidth() / 4) * 3, 700, _tutorialSpeed / 2, TweenStartType.Timeline).setCallbackMethod(
+				new IEngineTweenMethod()
+				{
+					@Override
+					public void onMethod(int tweenEventType, EngineTween tween) 
+					{
+						//Activate Player Bow Input
+						_player.getComponent(PlayerWeaponControlComponent.class).setActiveState(true);
+						//Change Hand Sprite to Dragging Hand Sprite.
+						getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_DOWN));
+					}	
+				}
+			).getTween());
+			
+			//Wait for 1 second.
+			tl.delay(0.5f);
+			
+			//Tween Hand to yPos - Max Draw Length infinitely.
+			tl.push(this.getTransformComponent().doPosition((Engine.getWidth() / 4) * 3, 700 - BowWeapon.MAX_DRAW_LENGTH, _tutorialSpeed * 0.75f, TweenStartType.Timeline).setCallbackMethod(
+				new IEngineTweenMethod()
+				{
+					@Override
+					public void onMethod(int tweenEventType, EngineTween tween)
+					{
+						getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
+					}
+				}
+			).getTween().repeat(1, 0.2f));
+			
+			tl.delay(0.3f);
+		
+		tl.push(this.getTransformComponent().doPosition(-100, -100, _tutorialSpeed / 2, TweenStartType.Timeline).getTween());
 		
 		_enemy2.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 		_enemy3.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
@@ -317,6 +351,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	@Override
 	protected void destroyed() 
 	{
+//		_enemy1.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+//		_enemy2.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+//		_enemy3.getComponent(HealthComponent.class).removeEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
+		
 		_player = null;
 		_bowWeapon = null;
 		_playfield = null;
