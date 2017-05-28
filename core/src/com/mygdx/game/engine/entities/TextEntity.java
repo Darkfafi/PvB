@@ -129,18 +129,16 @@ public class TextEntity extends BaseEntity
 		float scaleX = this.getTransformComponent().getScaleX() * (_fontSize / DEFAULT_FONT_SIZE);
 		float scaleY = this.getTransformComponent().getScaleY() * (_fontSize / DEFAULT_FONT_SIZE);
 		
-		if(scaleX <= 0)
-			scaleX = 0.1f;
-		
-		if(scaleY <= 0)
-			scaleY = 0.1f;
-		
-		_bitMapFontData.setScale(scaleX, scaleY);
-		
-		_bitMapFontData.draw(renderComponents.getSpriteBatch(), 
-				_currentText,
-				+ (1 -_bitMapFontData.getBounds(_currentText).width * this.getRenderComponent().getPivotX()), 
-				+ _bitMapFontData.getBounds(_currentText).height * this.getRenderComponent().getPivotY());
+		if(scaleX > 0 && scaleY > 0)
+		{
+			_bitMapFontData.setScale(scaleX, scaleY);
+			
+			_bitMapFontData.draw(renderComponents.getSpriteBatch(), 
+					_currentText,
+					+ (1 -_bitMapFontData.getBounds(_currentText).width * this.getRenderComponent().getPivotX()), 
+					+ _bitMapFontData.getBounds(_currentText).height * this.getRenderComponent().getPivotY());
+			
+		}
 		
 		renderComponents.getSpriteBatch().setTransformMatrix(new Matrix4());
 	}
