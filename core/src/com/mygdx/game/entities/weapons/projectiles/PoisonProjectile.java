@@ -2,6 +2,7 @@ package com.mygdx.game.entities.weapons.projectiles;
 
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.components.HealthComponent;
 import com.mygdx.game.components.enemyEffects.EnemyPoisonComponent;
 import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
 import com.mygdx.game.engine.scenes.RenderComponents;
@@ -12,12 +13,19 @@ public class PoisonProjectile extends BaseHitProjectile
 {
 	public PoisonProjectile() 
 	{
-		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_SPECIAL_ARROW_POISON), 1.3f, 5f, 15f);
+		super(Engine.getTextureResources().getRenderInfo(GameTextureResources.ANIMATION_BOW_SPECIAL_ARROW_POISON), 1.3f, 0, 15f);
 	}
 	
 	@Override
 	protected void onCollisionEvent(CollisionEvent event) 
 	{
+		HealthComponent hc = event.getOtherCollisionComponent().getParentOfComponent().getComponent(HealthComponent.class);
+		if(hc != null)
+		{
+			float dmg = (this.getDrawPower() / 15f) * (hc.getHealth() / 2);
+			hc.damage(dmg);
+		}
+		
 		if(event.getOtherCollisionComponent().getParentOfComponent().getClass() == Enemy.class)
 		{
 			Enemy e = (Enemy)event.getOtherCollisionComponent().getParentOfComponent();
@@ -26,7 +34,7 @@ public class PoisonProjectile extends BaseHitProjectile
 			{
 				fc = e.addComponent(new EnemyPoisonComponent(true, this.getHitTool()));
 			}
-			fc.poison(6f, 55f, 8);
+			fc.poison(2f, hc.getHealth(), 3);
 		}
 		super.onCollisionEvent(event);
 	}

@@ -32,6 +32,7 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 	// trackers
 	
 	private float _currentDamageTikWait = 0;
+	private boolean _poisonDamageCause = false;
 	
 	/**
 	 * The constructor of the poison component requires the following info
@@ -52,6 +53,12 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 			if(((HealthEvent)event).getNewHealth() == 0)
 			{
 				this.cure();
+				if(!_poisonDamageCause)
+				{
+					HitRegistrationPoint.getInstance().register(
+							_enemy.getTransformComponent().getPositionX()
+							, _enemy.getTransformComponent().getPositionY(), _enemy, _tool, new int[]{ HitGlobals.TYPE_ONLY_BONUS_SCORE, HitGlobals.TYPE_POISON_HIT });
+				}
 			}
 		}
 	}
@@ -111,7 +118,9 @@ public class EnemyPoisonComponent extends BaseEntityComponent implements IEventR
 		if(_currentDamageTikWait >= _tikDuration)
 		{
 			_currentDamageTikWait = 0;
+			_poisonDamageCause = true;
 			_hc.damage(_tikDamage);
+			_poisonDamageCause = false;
 			HitRegistrationPoint.getInstance().register(this.getParentOfComponent().getTransformComponent().getPositionX(), this.getParentOfComponent().getTransformComponent().getPositionY(), _enemy, _tool, HitGlobals.TYPE_POISON_HIT);
 		}
 		

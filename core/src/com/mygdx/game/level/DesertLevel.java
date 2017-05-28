@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
-import com.mygdx.game.factories.EnemyFactory;
+import com.mygdx.game.factories.EnemyFactory.EnemyType;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.traps.TrapSpawnInfo;
 import com.mygdx.game.waves.Wave;
@@ -13,31 +13,70 @@ import com.mygdx.game.waves.WaveSystem;
 
 public class DesertLevel implements ILevelBlueprint
 {
+	private int _trainSwitchedCounter = 0;
+	
 	@Override
 	public Wave getWaveDesign(WaveSystem waveSystem, int currentWave, int waveType) 
 	{
-		boolean isKillTillEndWave = waveType != 2;
+		boolean trainSwitchedWave = waveType == 2;
 		
-		Wave wave = new Wave(waveSystem, isKillTillEndWave);
-
-		if(currentWave % 10 == 0)
+		if(trainSwitchedWave)
 		{
-			wave.addSection(EnemyFactory.EnemyType.HeavyBandit, countForEachOnWave(10, currentWave), 5.5f);
+			_trainSwitchedCounter++;
 		}
 		
-		wave.addSection(EnemyFactory.EnemyType.HeavyBandit, 2 + countForEachOnWave(4, currentWave), 4 + countForEachOnWave(4, currentWave) * 1.5f);
+		Wave wave = new Wave(waveSystem, true);
 		
-		if(waveType > 0)
-		{	
-			wave.addSection(EnemyFactory.EnemyType.MediumBandit, 2 + countForEachOnWave(3, currentWave), 4 + countForEachOnWave(3, currentWave) * 1.5f);
-			
-			if(currentWave % 5 == 0)
+		if(trainSwitchedWave)
+		{
+			// Train Switched Extra Hard Wave
+			if(_trainSwitchedCounter % 2 == 0)
 			{
-				wave.addSection(EnemyFactory.EnemyType.MediumBandit, 5, 0);			
-				wave.addSection(EnemyFactory.EnemyType.HeavyBandit, countForEachOnWave(5, currentWave), 4f);
+				// Bombers running in between the wave
+				wave.addSection(EnemyType.LightBandit, countForEach(4, _trainSwitchedCounter, 1, 4) * 2, 0.5f + (1 * countForEach(2, _trainSwitchedCounter, 1, 8) / 8));
+			}
+			else
+			{
+				// Big guys
+				wave.addSection(EnemyType.HeavyBandit, countForEach(3, _trainSwitchedCounter, 1, 6), 0.5f + (1 * countForEach(4, _trainSwitchedCounter, 1, 8) / 8));
+			}
+		}
+		
+		// Normal Routine
+		wave.addSection(EnemyType.MediumBandit, countForEach(2, currentWave, 3, 15), 4 + countForEach(2, currentWave, 2, 6));
+		
+		if(trainSwitchedWave)
+		{
+			// Train Switched Extra Hard Wave
+			if(_trainSwitchedCounter % 2 == 0)
+			{
+				wave.addSection(EnemyType.LightBandit, countForEach(4, currentWave, 4, 6), 1 +countForEach(2, currentWave, 3, 6));
+			}
+			if(_trainSwitchedCounter % 4 == 0)
+			{
+				wave.addSection(EnemyType.HeavyBandit, countForEach(4, currentWave, 2, 10), 3 + countForEach(2, currentWave, 3, 7));
+			}
+		}
+		else
+		{
+			// Train Switched Extra Hard Wave
+			if(_trainSwitchedCounter > 2 && _trainSwitchedCounter % 2 == 0)
+			{
+				if(currentWave % 3 == 0)
+					wave.addSection(EnemyType.LightBandit, countForEach(4, _trainSwitchedCounter, 1, 8), 1 + countForEach(4, _trainSwitchedCounter, 3, 7));
 			}
 			
-			wave.addSection(EnemyFactory.EnemyType.MediumBandit, 1 + countForEachOnWave(2, currentWave), 4 + countForEachOnWave(2, currentWave) * 1.5f);			
+			if(currentWave % 2 == 0)
+				wave.addSection(EnemyType.HeavyBandit, countForEach(2, _trainSwitchedCounter, 1, 10), 3 + countForEach(2, _trainSwitchedCounter, 3, 7));
+			
+		}
+		
+		// Normal Routine
+		wave.addSection(EnemyType.MediumBandit, countForEach(4, currentWave, 4, 20), 4 + countForEach(4, currentWave, 2, 5));
+		
+		if(_trainSwitchedCounter % 2 == 0 && currentWave % 2 == 0)
+		{
+			wave.addSection(EnemyType.MediumBandit, countForEach(4, currentWave, 4, 20), 3 + countForEach(4, currentWave, 2, 5));
 		}
 		
 		return wave;
@@ -83,8 +122,20 @@ public class DesertLevel implements ILevelBlueprint
 		};
 	}
 	
-	private int countForEachOnWave(int value, int wave)
+	protected int countForEach(int value, int wave)
 	{
-		return (int)Math.floor((float)wave / (float)value);
+		return countForEach(value, wave, 0, 1337);
+	}
+
+	protected int countForEach(int each, int total, int minValue, int maxValue)
+	{
+		int v = (int)Math.floor((float)total / (float)each);
+		
+		if(v < minValue)
+			v = minValue;
+		else if(v > maxValue)
+			v = maxValue;
+		
+		return v;
 	}
 }

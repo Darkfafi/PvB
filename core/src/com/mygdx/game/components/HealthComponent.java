@@ -54,6 +54,7 @@ public class HealthComponent extends BaseEntityComponent
 	 */
 	public float damage(float amount)
 	{
+		amount = (float)Math.ceil(amount);
 		if(amount > _currentHealth)
 		{
 			amount = _currentHealth;
@@ -81,6 +82,7 @@ public class HealthComponent extends BaseEntityComponent
 	 */
 	public float heal(float amount)
 	{
+		amount = (float)Math.ceil(amount);
 		if(amount + _currentHealth > _maxHealth)
 		{
 			amount = _maxHealth - _currentHealth;
