@@ -80,7 +80,6 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	 */
 	public void activateTrap()
 	{
-		//if(isActivatorActive()) { return; }
 		_requestedActivateTrap = true;
 	}
 	
@@ -89,7 +88,6 @@ public class TrapActivator extends BaseEntity implements IEventReceiver
 	 */
 	public void deactivateTrap()
 	{
-		//if(!isActivatorActive()) { return;}
 		this.getComponent(AnimationComponent.class).setCurrentAnimation("trigger", true);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
 		_requestedActivateTrap = false;
