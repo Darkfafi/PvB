@@ -193,7 +193,8 @@ public class ExplosiveBarrelDamageTrap extends BaseTrap
 	{
 		for(int i = 0; i < _explosiveBarrels.length; i++)
 		{
-			_explosiveBarrels[i].destroy();
+			if(_explosiveBarrels[i] != null)
+				_explosiveBarrels[i].destroy();
 			_explosiveBarrels[i] = null;
 		}
 	}

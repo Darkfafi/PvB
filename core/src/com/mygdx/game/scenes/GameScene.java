@@ -120,7 +120,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		{
 			_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
 			_bdt = new BowDemonstrationTutorial(_player, _playfield);
-			_bdt.addEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+			_bdt.addEventListener(BowDemonstrationTutorial.TUTORIAL_DONE_EVENT, this);
 			_bdt.startTutorial();
 
 			_preferences.putBoolean(PreferencesGlobals.PREF_KEY_BOOLEAN_TUTORIAL_DONE, true);
@@ -163,7 +163,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		_pauseBtn = null;
 		
 		if(_bdt != null)
-			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE_EVENT, this);
 		_bdt = null;
 
 		_scoreTracker.clean();
@@ -176,7 +176,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	@Override
 	public void onReceiveEvent(Event event)
 	{
-		if(event.getType() == BowDemonstrationTutorial.TUTORIAL_DONE)
+		if(event.getType() == BowDemonstrationTutorial.TUTORIAL_DONE_EVENT)
 		{
 			startGame();
 		}
@@ -203,7 +203,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 	{
 		if(_bdt != null)
 		{
-			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE, this);
+			_bdt.removeEventListener(BowDemonstrationTutorial.TUTORIAL_DONE_EVENT, this);
 			_bdt.destroy();
 		}
 		_bdt = null;

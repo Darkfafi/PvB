@@ -11,12 +11,10 @@ import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.engine.scenes.RenderComponents;
-import com.mygdx.game.engine.tweening.EaseType;
 import com.mygdx.game.engine.tweening.EngineTween;
 import com.mygdx.game.engine.tweening.IEngineTweenMethod;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.entities.Player;
-import com.mygdx.game.entities.weapons.BaseWeapon;
 import com.mygdx.game.entities.weapons.BowWeapon;
 import com.mygdx.game.events.TutorialEvent;
 import com.mygdx.game.factories.EnemyFactory;
@@ -26,8 +24,8 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 
 /**
- * This entity will handle the full course of a bow demonstration animation
- * @author Djamali Jones
+ * This entity will handle the full course of the interactive tutorial
+ * @author Djamali Jones & Ramses Di Perna
  *
  */
 public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiver
@@ -35,7 +33,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	/*
 	 * This Event is Fired by the Tutorial when it is done.
 	 * */
-	public static final String TUTORIAL_DONE = "TutorialDone";
+	public static final String TUTORIAL_DONE_EVENT = "TutorialDoneEvent";
 	
 	private enum TutorialStates
 	{
@@ -107,7 +105,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 				public void onMethod(int tweenEventType, EngineTween tween) 
 				{
 					_tutorialOver = true;
-					dispatchEvent(new TutorialEvent(TUTORIAL_DONE, _tutorialOver));
+					dispatchEvent(new TutorialEvent(TUTORIAL_DONE_EVENT, _tutorialOver));
 				}}
 			);
 			break;
@@ -116,6 +114,9 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		}
 	}
 	
+	/**
+	 * Handles the state where the player is asked to shoot the enemy
+	 */
 	private void shootEnemyState()
 	{
 		_playfield.forceDisableTraps();
@@ -134,10 +135,9 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 			}
 		);
 		
-		//Show Finger Dragging on the Screen.
 		getTransformComponent().setPosition(-100, -100);
 		getComponent(RenderComponent.class).setActiveState(true);
-		pointShoot(Engine.getWidth() / 2, 900, _tutorialSpeed / 2, 2f, new IEngineTweenMethod()
+		bowDrawingMotion(Engine.getWidth() / 2, 900, _tutorialSpeed / 2, 2f, new IEngineTweenMethod()
 		{
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) 
@@ -150,6 +150,9 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		_enemy1.getComponent(HealthComponent.class).addEventListener(HealthComponent.EVENT_HEALTH_DIED, this);
 	}
 	
+	/**
+	 * Handles the state where the player is asked to shoot the trap
+	 */
 	private void shootTrapState()
 	{		
 		this.getTransformComponent().stopAllComponentTweens();
@@ -157,7 +160,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		getComponent(RenderComponent.class).setRenderInfo(Engine.getTextureResources().getRenderInfo(GameTextureResources.SPRITE_TOUCH_UP));
 		getTransformComponent().doPosition(Engine.getWidth() * 0.4f, Engine.getHeight() * 0.4f, 1f, TweenStartType.GameTime);
 		
-		pointShoot(Engine.getWidth() * 0.8f, Engine.getHeight() * 0.8f, 0.5f, 2f, new IEngineTweenMethod()
+		bowDrawingMotion(Engine.getWidth() * 0.8f, Engine.getHeight() * 0.8f, 0.5f, 2f, new IEngineTweenMethod()
 		{
 			@Override
 			public void onMethod(int tweenEventType, EngineTween tween) {
@@ -211,7 +214,15 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 		this.getTransformComponent().startTimelineOnComponent(tl, true);
 	}
 	
-	private void pointShoot(float x, float y, float travelDuration,float delay, IEngineTweenMethod method)
+	/**
+	 * Makes the demonstration hand go to the requested position and do a bow drawing motion
+	 * @param x on where to perform the motion
+	 * @param y on where to perform the motion
+	 * @param travelDuration on how long it takes to travel to the position
+	 * @param delay is how long to wait to start moving to the given location
+	 * @param method to invoke when reached the given location. (can be used to turn on player controls etc)
+	 */
+	private void bowDrawingMotion(float x, float y, float travelDuration,float delay, IEngineTweenMethod method)
 	{
 		this.getTransformComponent().doPosition(x, y, travelDuration, TweenStartType.GameTime).setCallbackMethod(
 				new IEngineTweenMethod()
@@ -272,7 +283,6 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	{
 		_player = null;
 		_playfield = null;
-		
 		_enemy1 = null;
 		_enemy2 = null;
 		_enemy3 = null;
