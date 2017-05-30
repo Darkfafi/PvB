@@ -57,7 +57,7 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		this.getComponent(CollisionComponent.class).createFixture(_fixDef, CollisionResources.BIT_ARROW);
 		this.getComponent(CollisionComponent.class).setActiveState(false);
 	}
-
+	
 	@Override
 	public int getSizeX() 
 	{
@@ -143,13 +143,11 @@ public class TrainBlockTrap extends BaseBlockTrap implements IEventReceiver
 		_train.getTransformComponent().doPosition(endX, _train.getTransformComponent().getPositionY(), DURATION, TweenStartType.GameTime).ease(EaseType.Linear)
 			.setCallbackMethod(new IEngineTweenMethod()
 			{
-
 				@Override
 				public void onMethod(int tweenEventType, EngineTween tween) 
 				{
 					endOfEffect();
 				}
-			
 			}
 		);
 		

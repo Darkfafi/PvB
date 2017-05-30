@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * All resources for Collision handling. This contains how any Pixel Per Meters there are for the playfield. 
  * And constant bits for collision usage.
- * @author Djamali
+ * @author Djamali Jones
  *
  */
 public class CollisionResources {

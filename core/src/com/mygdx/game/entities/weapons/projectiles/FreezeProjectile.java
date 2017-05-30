@@ -8,6 +8,11 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.hitRegistration.HitGlobals;
 
+/**
+ * This projectile is the special Freeze Projectile which freezes an enemy on impact. 
+ * @author Ramses Di Perna
+ *
+ */
 public class FreezeProjectile extends BaseHitProjectile {
 
 	public FreezeProjectile() 

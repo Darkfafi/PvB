@@ -190,6 +190,10 @@ public class WaveSystem extends EventDispatcher
 		return (int) Math.round(Math.random() * (float)(_playfield.getGrid().getTileAmountX() - 1));
 	}
 	
+	/**
+	 * Creates a new wave and puts it as current wave
+	 * @param waveType to create
+	 */
 	private void createNewWave(int waveType)
 	{
 		if(_wave != null)
@@ -201,21 +205,35 @@ public class WaveSystem extends EventDispatcher
 		
 	}
 	
+	/**
+	 * Starts the wave which was created with the 'createNewWave' method
+	 */
 	private void startWave()
 	{
 		_wave.startWave();
 	}
 	
+	/**
+	 * Resets the train position to its starting position (left, top. Out of screen)
+	 */
 	private void resetTrainPosition()
 	{
 		_train.getTransformComponent().setPosition(-_train.getTrainSize(), Engine.getHeight() *  0.95f);
 	}
 	
+	/**
+	 * Does the tween animation which makes the train drive into the playfield and stop in the middle top
+	 * @return The EngineTween which controls the train tween which was created with this method
+	 */
 	private EngineTween trainDriveIn()
 	{
 		return _train.getTransformComponent().doPosition(Engine.getWidth() + _train.getTrainSize(), _train.getTransformComponent().getPositionY(), 2f, TweenStartType.GameTime);
 	}
 	
+	/**
+	 * Does the tween animation which makes the train drive out of the playfield and stop at the right top corner out of the screen
+	 * @return The EngineTween which controls the train tween which was created with this method
+	 */
 	private EngineTween trainDriveOut()
 	{
 		return _train.getTransformComponent().doPosition(Engine.getWidth() + _train.getFullTrainSize(), _train.getTransformComponent().getPositionY(), 2f, TweenStartType.GameTime);

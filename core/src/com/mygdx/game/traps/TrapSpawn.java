@@ -66,6 +66,9 @@ public class TrapSpawn extends BaseEntity
 		_activator.getTransformComponent().setPosition(_activatorXPos, -45);
 	}
 	
+	/**
+	 * Counts a tick which is set for this TrapSpawn to wait until it can reset the trap. (Tick amount gotten from the TrapFactory)
+	 */
 	public void countForResetTrap()
 	{
 		if(this._trapSpawned == null || this._activator.isActivatorActive() || this._activator.isProcessingActivationRequest()) { return; }
@@ -76,11 +79,18 @@ public class TrapSpawn extends BaseEntity
 		}
 	}
 	
+	/**
+	 * Resets the Trap spawned by this TrapSpawn
+	 */
 	public void forceResetTrap()
 	{
 		resetTrap();
 	}
 	
+	/**
+	 * Returns the TrapActivator spawned by this TrapSpawn and which is linked to the Trap of this TrapSpawn
+	 * @return TrapActivator spawned by this TrapSpawn
+	 */
 	public TrapActivator getTrapActivator()
 	{
 		return _activator;
@@ -121,6 +131,9 @@ public class TrapSpawn extends BaseEntity
 		_trapSpawned = null;
 	}
 	
+	/**
+	 * Resets the trap linked in the activator spawned by this TrapSpawn
+	 */
 	private void resetTrap()
 	{
 		_countsSinceReset = 0;

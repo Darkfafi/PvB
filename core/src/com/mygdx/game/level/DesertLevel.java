@@ -122,11 +122,25 @@ public class DesertLevel implements ILevelBlueprint
 		};
 	}
 	
+	/**
+	 * Counts 1 for every (each) which fits in the total given.
+	 * @param each to check which fits in the total
+	 * @param total to check the each with
+	 * @return The amount of times the 'each' integer given fits into total
+	 */
 	protected int countForEach(int value, int wave)
 	{
 		return countForEach(value, wave, 0, 1337);
 	}
 
+	/**
+	 * Counts 1 for every (each) which fits in the total given.
+	 * @param each to check which fits in the total
+	 * @param total to check the each with
+	 * @param minValue which should be returned
+	 * @param maxValue which should be returned
+	 * @return The amount of times the 'each' integer given fits into total clamped between the minValue and the maxValue
+	 */
 	protected int countForEach(int each, int total, int minValue, int maxValue)
 	{
 		int v = (int)Math.floor((float)total / (float)each);

@@ -2,7 +2,7 @@ package com.mygdx.game.globals;
 
 /**
  * Contains the Button Events that can be called by the button event handler.
- * @author Djamali
+ * @author Djamali Jones
  *
  */
 public final class ButtonGlobals 

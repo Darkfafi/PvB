@@ -13,7 +13,7 @@ import com.mygdx.game.score.GameScoreSystem;
 
 /**
  * UI for the Player's Score. This Class handles the Score UI.
- * @author Djamali
+ * @author Djamali Jones & Ramses Di Perna
  *
  */
 public class ScoreUI extends BaseEntity
@@ -100,6 +100,7 @@ public class ScoreUI extends BaseEntity
 	protected void destroyed() 
 	{
 		_scoreText = null;
+		_multiplierText = null;
 		_scoreIndicatorUI = null;
 	}
 }

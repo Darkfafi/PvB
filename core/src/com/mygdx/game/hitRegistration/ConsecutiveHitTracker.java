@@ -18,6 +18,7 @@ import com.mygdx.game.score.GameScoreSystem;
 /**
  * This class tracks all the consecutive hits.
  * It will call the upgrade weapon method on the player when it hits the consecutive hits mark
+ * This system will only register hits which had the hit type 'HitGlobals.TYPE_CONSECUTIVE_HIT_TRACKING' in them
  * @author Ramses Di Perna
  *
  */
@@ -56,11 +57,18 @@ public class ConsecutiveHitTracker implements IEventReceiver
 		}
 	}
 
+	/**
+	 * Resets the consecutive hits counter to 0
+	 */
 	public void resetConsecutiveHitCounter()
 	{
 		_consecutiveHits = 0;
 	}
 	
+	/**
+	 * Listens to hits and if it contains a hit type 'TYPE_CONSECUTIVE_HIT_TRACKING', it will register it as as consecutive hit data.
+	 * @param event
+	 */
 	private void onHitRegistrationEvent(HitRegistrationEvent event) 
 	{	
 		if(!HitGlobals.isHitType(event.getHitTypes(), HitGlobals.TYPE_CONSECUTIVE_HIT_TRACKING)){ return; }
@@ -71,6 +79,13 @@ public class ConsecutiveHitTracker implements IEventReceiver
 			consecutiveHitRegistration(ConsecutiveHitType.Exit, event.getRegistrationX(), event.getRegistrationY(), event.getHitEntity());
 	}
 	
+	/**
+	 * Registers a consecutive hit. 
+	 * @param type == Consecutive Hit type. Whether the hit was a streak or an ending streak
+	 * @param x is the position on where it happened in the x axis
+	 * @param y is the position on where it happened in the y axis
+	 * @param entity which was hit
+	 */
 	private void consecutiveHitRegistration(ConsecutiveHitType type, float x, float y, BaseEntity entity)
 	{
 		String font = GameFontResources.MULTIPLIER_FONT_BANDIDOS;

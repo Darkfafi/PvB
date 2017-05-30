@@ -15,11 +15,11 @@ import com.mygdx.game.traps.types.TrainBlockTrap;
 public class TrapFactory 
 {
 	// Block 	== Blocking trap. (Things blocking the path of enemies)
-	// Harm 	== Damaging trap. (Things that Damage enemies)
+	// Damage 	== Damaging trap. (Things that Damage enemies)
 	/**
 	 * This represents a trap type. Each kind of trap is a trap type and has an effect specified to it
 	 * Block 	== Blocking trap. (Things blocking the path of enemies)
-	 * Harm 	== Damaging trap. (Things that Damage enemies)
+	 * Damage 	== Damaging trap. (Things that Damage enemies)
 	 * @author Ramses Di Perna
 	 *
 	 */

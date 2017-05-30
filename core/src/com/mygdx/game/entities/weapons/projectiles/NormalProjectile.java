@@ -6,6 +6,11 @@ import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.hitRegistration.HitGlobals;
 
+/**
+ * This projectile is the Projectile which damages an enemy on impact. (The basic arrow the bow in the game shoots)
+ * @author Ramses Di Perna
+ *
+ */
 public class NormalProjectile extends BaseHitProjectile 
 {
 	private float _drawStrengthPotentialDamage;

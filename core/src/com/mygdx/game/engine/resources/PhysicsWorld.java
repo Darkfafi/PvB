@@ -25,7 +25,7 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 /**
  * This class handles the Physics of the 'world'. Right now it will only handle Collision. 
  * It will create the bodies needed for the entities for collision to work.
- * @author Djamali
+ * @author Djamali Jones
  *
  */
 public class PhysicsWorld implements IEventReceiver

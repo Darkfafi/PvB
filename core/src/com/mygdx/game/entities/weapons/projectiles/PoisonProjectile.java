@@ -9,6 +9,12 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.entities.Enemy;
 import com.mygdx.game.hitRegistration.HitGlobals;
 
+/**
+ * This projectile is the special Poison Projectile which causes a poison effect on impact on an enemy. 
+ * It takes half the enemy health impact and will take the other half in the 3 seconds of poison damage
+ * @author Ramses Di Perna
+ *
+ */
 public class PoisonProjectile extends BaseHitProjectile 
 {
 	public PoisonProjectile() 

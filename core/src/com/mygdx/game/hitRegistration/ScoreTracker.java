@@ -15,6 +15,7 @@ import com.mygdx.game.score.ScoreHolderComponent;
 
 /**
  * This class tracks the score using the HiRegistrationPoint and spawns the text effects which represents them.
+ * If the hit contains the hit type 'HitGlobals.TYPE_ONLY_BONUS_SCORE', it will only register the bonus score, not the core score.
  * @author Ramses Di Perna
  *
  */

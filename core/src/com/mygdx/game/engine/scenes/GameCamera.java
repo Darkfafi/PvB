@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
  * Camera for the Game. Also has a shake function for an added effect to big moments, like explosions or a train going by.
- * @author Djamali
+ * @author Djamali Jones & Ramses Di Perna
  *
  */
 public class GameCamera extends OrthographicCamera 

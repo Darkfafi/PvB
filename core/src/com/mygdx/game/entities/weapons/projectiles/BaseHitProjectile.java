@@ -7,18 +7,25 @@ import com.mygdx.game.engine.entities.components.collision.CollisionEvent;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.hitRegistration.HitRegistrationPoint;
 
+/**
+ * This is the base class for projectiles which can hit and damage entities with HealthComponents
+ * @author Ramses Di Perna
+ *
+ */
 public abstract class BaseHitProjectile extends BaseProjectile 
 {
 	private float _damage;
 	private float _fullDamageDrawPotential;
 	
-	//private int _tool;
-	//private int[] _groundHitTypes;
-	//private int[] _healthHitTypes;
-	//private int[] _nonHealthHitTypes;
-	
 	private boolean _onHitLandAndDestroy = true;
 	
+	/**
+	 * The base information needed for a Hit projectile
+	 * @param renderSheetProjectile is what to render the projectile as
+	 * @param speed the max speed the projectile travels
+	 * @param damage the max damage the projectile inflicts on impact with an enemy
+	 * @param fullDamageDrawPotential the draw strength it should be fired with to meet its full potential in damage and speed
+	 */
 	public BaseHitProjectile(RenderInfo renderSheetProjectile, float speed, final float damage , final float fullDamageDrawPotential) 
 	{
 		super(renderSheetProjectile, speed);
@@ -52,9 +59,25 @@ public abstract class BaseHitProjectile extends BaseProjectile
 		_onHitLandAndDestroy = value;
 	}
 	
+	/**
+	 * Returns the hit tool which this projectile represents to the HitRegistrationPoint
+	 * @return The hit tool which this projectile represents to the HitRegistrationPoint
+	 */
 	protected abstract int 	 getHitTool();
+	/**
+	 * Returns The hit types which should be registered to the HitRegistrationPoint when this projectile hits the ground
+	 * @return The hit types which should be registered to the HitRegistrationPoint when this projectile hits the ground
+	 */
 	protected abstract int[] getGroundHitTypes();
+	/**
+	 * Returns The hit types which should be registered to the HitRegistrationPoint when this projectile hits an entity with a HealthComponent
+	 * @return The hit types which should be registered to the HitRegistrationPoint when this projectile hits an entity with a HealthComponent
+	 */
 	protected abstract int[] getHealthHitTypes();
+	/**
+	 * Returns The hit types which should be registered to the HitRegistrationPoint when this projectile hits an entity without a HealthComponent
+	 * @return The hit types which should be registered to the HitRegistrationPoint when this projectile hits an entity without a HealthComponent
+	 */
 	protected abstract int[] getNonHealthHitTypes();
 
 	@Override

@@ -10,6 +10,12 @@ import com.mygdx.game.factories.EffectFactory;
 import com.mygdx.game.globals.Tags;
 import com.mygdx.game.hitRegistration.HitGlobals;
 
+/**
+ * This projectile is the special Explosive Projectile which explodes on impact. 
+ * This will not stop the consecutive hits when you do not land a direct hit but do hit an enemy with the explosion
+ * @author Ramses Di Perna
+ *
+ */
 public class ExplosiveProjectile extends BaseHitProjectile
 {
 	private ExplosiveComponent _explosiveComponent;

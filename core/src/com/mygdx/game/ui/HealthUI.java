@@ -14,7 +14,7 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 
 /**
  * UI for the Player's Health. This Class is for handling the health of the given entity's HealthComponent.
- * @author Djamali
+ * @author Djamali Jones
  *
  */
 public class HealthUI extends BaseEntity 
