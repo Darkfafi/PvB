@@ -57,6 +57,10 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	private Enemy _enemy2;
 	private Enemy _enemy3;
 	
+	/**
+	 * Returns whether the tutorial is over or not.
+	 * @return true if the tutorial is over, else false
+	 */
 	public boolean isTutorialOver()
 	{
 		return _tutorialOver;
@@ -222,7 +226,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	 * @param delay is how long to wait to start moving to the given location
 	 * @param method to invoke when reached the given location. (can be used to turn on player controls etc)
 	 */
-	private void bowDrawingMotion(float x, float y, float travelDuration,float delay, IEngineTweenMethod method)
+	private void bowDrawingMotion(final float x, final float y, float travelDuration,float delay, final IEngineTweenMethod method)
 	{
 		this.getTransformComponent().doPosition(x, y, travelDuration, TweenStartType.GameTime).setCallbackMethod(
 				new IEngineTweenMethod()
@@ -240,7 +244,7 @@ public class BowDemonstrationTutorial extends BaseEntity implements IEventReceiv
 	
 	/**
 	 * Changes the State of the Tutorial to the one given in the parameter.
-	 * @param ts
+	 * @param ts is the state to change it to.
 	 */
 	private void changeState(TutorialStates ts)
 	{

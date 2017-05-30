@@ -63,17 +63,6 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		_physicsWorld.update(dt);
 		_playfield.update(dt);
-		
-//		if(_waitForTutorial != -1)
-//		{
-//			_waitForTutorial += dt;
-//			
-//			if(_waitForTutorial >= TUTORIAL_DURATION + 2f)
-//			{
-//				_waitForTutorial = -1;
-//				startGame();
-//			}
-//		}
 	}
 
 	@Override
@@ -213,7 +202,7 @@ public class GameScene extends BaseScene implements IEventReceiver
 		
 		long s = _playfield.getLevelBlueprint().getLevelMusic().play();
 		_playfield.getLevelBlueprint().getLevelMusic().setLooping(s, true);
-		_playfield.getLevelBlueprint().getLevelMusic().setVolume(s, 0.3f);
+		_playfield.getLevelBlueprint().getLevelMusic().setVolume(s, 0.05f);
 		
 		_player.addComponent(new PlayerWeaponControlComponent(_player.getCurrentWeapon()));
 

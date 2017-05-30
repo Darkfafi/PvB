@@ -1,7 +1,7 @@
 package com.mygdx.game.score;
 
 /**
- * This class is a singleton which handles game specific score handling and score effects.
+ * This class is a singleton which handles game specific score handling.
  * @author Ramses Di Perna
  *
  */

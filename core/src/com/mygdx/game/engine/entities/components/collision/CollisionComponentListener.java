@@ -7,6 +7,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.mygdx.game.engine.globals.EngineGlobals;
 
+/**
+ * Listener which listens to the collisions in Box2D space which occur in its own dimension and triggers the Collision Events on the CollisionComponent entities which collided.
+ * @author Ramses Di Perna
+ *
+ */
 public class CollisionComponentListener implements ContactListener {
 	
 	/**

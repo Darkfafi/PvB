@@ -2,6 +2,11 @@ package com.mygdx.game.components.attacking;
 
 import com.mygdx.game.components.HealthComponent;
 
+/**
+ * The attack logics of the Medium bandit (Dual Revolver attacking bandit)
+ * @author Ramses Di Perna
+ *
+ */
 public class MediumBanditAttackComponent extends BaseEnemyAttackComponent 
 {
 	private float _dmgDelayTime;

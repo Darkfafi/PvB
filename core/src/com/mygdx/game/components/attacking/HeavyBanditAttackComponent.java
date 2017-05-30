@@ -6,6 +6,11 @@ import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 
+/**
+ * The attack logics of the Heavy Bandit (Minigun enemy)
+ * @author Ramses Di Perna
+ *
+ */
 public class HeavyBanditAttackComponent extends BaseEnemyAttackComponent implements IEventReceiver
 {
 

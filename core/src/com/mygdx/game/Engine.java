@@ -9,6 +9,15 @@ import com.mygdx.game.engine.resources.BaseTextureResources;
 import com.mygdx.game.engine.scenes.BaseScenesManager;
 import com.mygdx.game.engine.scenes.RenderComponents;
 
+/**
+ * This class should be instantiated at the core of the workspace.
+ * It will be the holder and handler for all the core Game Systems and should be updated for it to run.
+ * It will handle its own Update loop and will keep it at the given FrameRate.
+ * Create a window with the given width, height and title and will hold all the Resources
+ * If you want to load a resource, know the size of the screen, get access to scene management or rendering. They are all available as static fields which can be accessed by any class.
+ * @author Ramses Di Perna
+ *
+ */
 public class Engine 
 {
 	/**
@@ -84,31 +93,54 @@ public class Engine
 		return _audioResources;
 	}
 	
+	/**
+	 * Returns the Title of the application given to the Engine
+	 * @return The title of the application as String
+	 */
 	public static String getTitle()
 	{
 		return _title;
 	}
 	
+	/**
+	 * Returns the real width of the screen
+	 * @return The width of the screen in pixels
+	 */
 	public static int getWidth()
 	{
 		return _width * _scale;
 	}
 	
+	/**
+	 * Returns the real height of the screen
+	 * @return The height of the screen in pixels
+	 */
 	public static int getHeight()
 	{
 		return _height * _scale;
 	}
 	
+	/**
+	 * Returns the given Frame Rate of the game
+	 * @return Returns the set frame rate as integer.
+	 */
 	public static int getFrameRate()
 	{
 		return _frameRate;
 	}
 	
+	/**
+	 * Gets the Time it would take to complete a single frame.
+	 * @return Time in seconds for a single frame
+	 */
 	public static float getFrameStep()
 	{
 		return 1f / (float)_frameRate;
 	}
 	
+	/**
+	 * Updates the entire Engine with all the rendering and scene managing
+	 */
 	public void update () 
 	{
 		_timeAfterLastRender += Gdx.graphics.getDeltaTime();

@@ -10,6 +10,11 @@ import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.entities.Effect;
 import com.mygdx.game.factories.EffectFactory;
 
+/**
+ * The attack logics for the light bandits (Suicide attack)
+ * @author Ramses Di Perna
+ *
+ */
 public class LightBanditAttackComponent extends BaseEnemyAttackComponent implements IEventReceiver
 {
 	private HealthComponent _healthComponentTarget = null;

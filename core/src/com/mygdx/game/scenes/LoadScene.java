@@ -9,6 +9,12 @@ import com.mygdx.game.engine.entities.components.rendering.Animations;
 import com.mygdx.game.engine.scenes.BaseScene;
 import com.mygdx.game.entities.BasicEntity;
 
+/**
+ * This scene is the loading scene
+ * In this scene the progress of loading assets will be shown and the scene will switch to the Menu Scene when it has loaded all the assets.
+ * @author Ramses Di Perna
+ *
+ */
 public class LoadScene extends BaseScene 
 {
 	private TextEntity _textEntity;
