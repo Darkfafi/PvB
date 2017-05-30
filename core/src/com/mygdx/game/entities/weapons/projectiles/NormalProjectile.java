@@ -1,8 +1,8 @@
 package com.mygdx.game.entities.weapons.projectiles;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.hitRegistration.HitGlobals;
 

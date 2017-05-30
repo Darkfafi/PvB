@@ -1,8 +1,8 @@
 package com.mygdx.game.components.enemyEffects;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;

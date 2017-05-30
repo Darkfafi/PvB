@@ -1,9 +1,9 @@
 package com.mygdx.game.factories;
 
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.FontData;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;

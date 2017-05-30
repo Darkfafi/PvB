@@ -1,9 +1,9 @@
 package com.mygdx.game.ui;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;

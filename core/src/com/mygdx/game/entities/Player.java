@@ -1,6 +1,6 @@
 package com.mygdx.game.entities;
 
-import com.mygdx.game.Engine;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.scenes.RenderComponents;

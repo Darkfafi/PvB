@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.scenes.GameCamera;
 import com.mygdx.game.engine.scenes.RenderComponents;
 import com.mygdx.game.scenes.GameScenesManager;

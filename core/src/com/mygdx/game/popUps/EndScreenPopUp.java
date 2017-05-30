@@ -1,9 +1,9 @@
 package com.mygdx.game.popUps;
 
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;

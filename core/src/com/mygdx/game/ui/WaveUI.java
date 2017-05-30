@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
@@ -132,7 +132,9 @@ public class WaveUI extends BaseEntity implements IEventReceiver
 		_waveMidScreenDisplayText.getTransformComponent().setPosition(-_waveMidScreenDisplayText.getTextBounds().x, (Engine.getHeight() * 0.55f) + 50);
 	}
 
-
+	/**
+	 * Does the effect where the (Wave x) texts tweens in the middle of the screen and tweens out of the screen after a delay (with the dark background)
+	 */
 	private void showWaveStartedEffect() 
 	{
 		Timeline tl = Timeline.createSequence();

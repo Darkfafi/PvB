@@ -2,9 +2,9 @@ package com.mygdx.game.hitRegistration;
 
 import java.util.ArrayList;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;

@@ -1,9 +1,9 @@
 package com.mygdx.game.scenes;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.components.rendering.RenderInfo;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;

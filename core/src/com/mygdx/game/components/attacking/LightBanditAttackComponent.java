@@ -1,8 +1,8 @@
 package com.mygdx.game.components.attacking;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.components.rendering.AnimationComponent;
 import com.mygdx.game.engine.entities.components.rendering.AnimationEvent;
 import com.mygdx.game.engine.events.Event;

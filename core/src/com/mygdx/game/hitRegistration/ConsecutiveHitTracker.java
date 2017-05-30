@@ -1,8 +1,8 @@
 package com.mygdx.game.hitRegistration;
 
 import com.badlogic.gdx.graphics.Color;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameFontResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.BaseEntity;
 import com.mygdx.game.engine.entities.TextEntity;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;

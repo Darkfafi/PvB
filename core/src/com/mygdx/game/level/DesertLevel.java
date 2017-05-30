@@ -2,9 +2,9 @@ package com.mygdx.game.level;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameAudioResources;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.factories.EnemyFactory.EnemyType;
 import com.mygdx.game.factories.TrapFactory;
 import com.mygdx.game.traps.TrapSpawnInfo;

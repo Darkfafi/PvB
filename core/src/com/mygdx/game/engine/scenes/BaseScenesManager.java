@@ -3,7 +3,7 @@ package com.mygdx.game.engine.scenes;
 import java.util.Stack;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Engine;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.EntitySystem;
 import com.mygdx.game.engine.entities.components.TransformComponent;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;

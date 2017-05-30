@@ -1,7 +1,7 @@
 package com.mygdx.game.popUps;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.IEventReceiver;
 import com.mygdx.game.entities.ButtonEntity;

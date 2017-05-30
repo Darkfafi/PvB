@@ -3,8 +3,8 @@ package com.mygdx.game.level;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.mygdx.game.Engine;
 import com.mygdx.game.components.HealthComponent;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.events.Event;
 import com.mygdx.game.engine.events.EventDispatcher;
 import com.mygdx.game.engine.events.IEventReceiver;

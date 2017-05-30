@@ -1,6 +1,6 @@
 package com.mygdx.game.engine.entities.components.rendering;
 
-import com.mygdx.game.Engine;
+import com.mygdx.game.engine.Engine;
 
 /**
  * This component is an extension on the RenderComponent and allows for animations to be played.

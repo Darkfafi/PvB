@@ -1,6 +1,6 @@
 package com.mygdx.game.factories;
 
-import static com.mygdx.game.Engine.getTextureResources;
+import static com.mygdx.game.engine.Engine.getTextureResources;
 
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BaseEnemyAIComponent;

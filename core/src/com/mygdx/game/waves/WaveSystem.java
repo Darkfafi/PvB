@@ -1,8 +1,8 @@
 package com.mygdx.game.waves;
 
-import com.mygdx.game.Engine;
 import com.mygdx.game.GameTextureResources;
 import com.mygdx.game.components.BasicEnemyAIComponent;
+import com.mygdx.game.engine.Engine;
 import com.mygdx.game.engine.entities.components.BaseEntityComponent.TweenStartType;
 import com.mygdx.game.engine.entities.components.rendering.RenderComponent;
 import com.mygdx.game.engine.events.Event;
