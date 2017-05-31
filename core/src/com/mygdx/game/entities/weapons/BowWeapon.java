@@ -221,7 +221,7 @@ public class BowWeapon extends BaseBowWeapon
 	}
 	
 	@Override
-	protected BaseProjectile createRandomSpecialProjectile(int specialType)
+	protected BaseProjectile getSpecialProjectile(int specialType)
 	{
 		switch(specialType)
 		{
