@@ -21,7 +21,7 @@ import com.mygdx.game.engine.scenes.RenderComponents;
 public class Engine 
 {
 	/**
-	 * The scale on which the game is running. (This will effect all game Delta Time)
+	 * The scale on which the game is running. (This will effect all game Delta Time) [DEFAULT VALUE: 1f]
 	 */
 	public static float TimeScale = 1f;
 	
@@ -43,6 +43,18 @@ public class Engine
 	private static int _frameRate;
 	private static String _title;
 	
+	/**
+	 * This creates the core of the game system. The Engine should be updated in a loop by calling the 'update' method
+	 * Do not forget to call the 'setScenesManager' method to set the scene manager.
+	 * @param title to give the game window
+	 * @param width is the width to make the game window in pixels
+	 * @param height is the height to make the game window in pixels
+	 * @param scale is how much to scale the window size (width and height)
+	 * @param frameRate is the frame rate the game should run on (60 fps recommended)
+	 * @param textureResources is the texture resources instance which has the loadResource calls for all the game textures
+	 * @param audioResources is the audio resources instance which has the loadResource calls for all the game audio
+	 * @param fontResources is the font resources instance which has the loadResource calls for all the game fonts
+	 */
 	public Engine(String title, int width, int height, int scale, int frameRate, BaseTextureResources textureResources, BaseAudioResources audioResources, BaseFontResources fontResources)
 	{
 		_textureResources = textureResources;
@@ -62,32 +74,54 @@ public class Engine
 		_frameRate = frameRate;
 	}
 	
+	/**
+	 * Sets the scene manager of the Engine.
+	 * @param manager is the Scene Manager which should be put as static scene manager.
+	 */
 	public void setScenesManager(BaseScenesManager manager)
 	{
 		_scenesManager = manager;
 		_renderComponents = manager.getRenderComponents();
 	}
 	
+	/**
+	 * Returns the AssetManager which is keeps track on how much is loaded of all the resources
+	 * @return The AssetManager of the Engine (Can be used for loading screens)
+	 */
 	public static AssetManager getAssetManager()
 	{
 		return _assetManager;
 	}
 	
+	/**
+	 * Gets the SceneManager set with the 'setScenesManager' method
+	 * @return The SceneManager set with the 'setScenesManager' method
+	 */
 	public static BaseScenesManager getSceneManager() 
 	{
 		return _scenesManager; 
 	}
 	
+	/**
+	 * Returns the FontResources instance given in the Engine Constructor
+	 * @return FontResources instance given in the Engine Constructor
+	 */
 	public static BaseFontResources getFontResources()
 	{
 		return _fontResources;
 	}
-	
+	/**
+	 * Returns the TextureResources instance given in the Engine Constructor
+	 * @return TextureResources instance given in the Engine Constructor
+	 */
 	public static BaseTextureResources getTextureResources()
 	{
 		return _textureResources;
 	}
-	
+	/**
+	 * Returns the AudioResources instance given in the Engine Constructor
+	 * @return AudioResources instance given in the Engine Constructor
+	 */
 	public static BaseAudioResources getAudioResources()
 	{
 		return _audioResources;
