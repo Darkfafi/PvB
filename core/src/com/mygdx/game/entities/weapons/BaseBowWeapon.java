@@ -124,15 +124,23 @@ public abstract class BaseBowWeapon extends BaseWeapon
 		return (float) Math.pow(MAX_DRAW_STRENGTH, 2);
 	}
 	
+	/**
+	 * Activates the special ability of this weapon
+	 */
 	public void activateSpecial(int specialType) 
 	{
 		if(_currentProjectile != null)
 			this._currentProjectile.destroy();
 		
-		_currentProjectile = this.createRandomSpecialProjectile(specialType);
+		_currentProjectile = this.getSpecialProjectile(specialType);
 	}
 	
-	protected abstract BaseProjectile createRandomSpecialProjectile(int specialType);
+	/**
+	 * Called when the bow needs a new Special BaseProjectile.
+	 * @param specialType is used to determine which special projectile instance to create and return.
+	 * @return BaseProjectile to load on the bow as new current projectile
+	 */
+	protected abstract BaseProjectile getSpecialProjectile(int specialType);
 	
 	/**
 	 * Called when a target location is selected to start the aim at
@@ -147,7 +155,7 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	 */
 	protected abstract void drawingBow(int x, int y);
 	/**
-	 * Called when the bow has shot an ArrowProjectile
+	 * Called when the bow has shot an Projectile
 	 * @param strengthPercentage is the normalized strength used to fire the projectile
 	 * @param minimum is the minimum percentage which the strengthPercentage should be clamped to
 	 */
@@ -164,8 +172,8 @@ public abstract class BaseBowWeapon extends BaseWeapon
 	 */
 	protected abstract Vector2 projectilePullDistance();
 	/**
-	 * Called when the bow needs a new ArrowProjectile.
-	 * @return ArrowProjectile to load on the bow as new current projectile
+	 * Called when the bow needs a new Projectile.
+	 * @return BaseProjectile to load on the bow as new current projectile
 	 */
 	protected abstract BaseProjectile getProjectileInstance();
 	
