@@ -7,3 +7,4 @@ The code for the project starts at this folder [Core Project Folder](https://git
 
 The documentation can be found here [Link To Documentation](http://ramsesdiperna.com/Websites/School/PvB/Documentation/html/annotated.html).
 
+![Class Diagram](http://ramsesdiperna.com/Websites/School/PvB/ClassDiagram.jpg)
